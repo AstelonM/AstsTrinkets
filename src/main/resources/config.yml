@@ -1,0 +1,35 @@
+# Trinkets
+
+# Allows whoever equips it to become invisible from players. Cannot be repaired or enchanted, and probably shouldn't be
+# used in crafting.
+# The invisibility is bypassed by the "aststrinkets.trinket.seeinvisible" permission.
+invisibilityTunic:
+  enabled: true
+
+# The same as the invisibility tunic, except it has 10 durability left. Added just to have a less op version to give to
+# players if you feel full durability is too much.
+fragileInvisibilityTunic:
+  enabled: true
+
+# Note that this item's invisibility cannot be bypassed. It has to be unequipped to be able to see that player again.
+# If you don't want that, it's better to either disable it or make sure it doesn't get to people who shouldn't have it.
+# This trinket requires "aststrinkets.op" permission to give.
+trueInvisibilityTunic:
+  enabled: true
+
+# An item that turns into another when not observed. Pretty safe to give around, the items it turns into aren't
+# particularly dangerous.
+shapeShifter:
+  enabled: true
+
+# A cake that gives a random effect of 30 seconds duration when a piece is eaten.
+# This trinket is experimental, so it requires "aststrinkets.op" permission to give. It might not function properly.
+mysteryCake:
+  enabled: true
+  # By default, the plugin checks the hunger of the player when determining if the cake is going to be eaten or not.
+  # Set this to true if your server uses a plugin that makes food heal directly instead of through hunger.
+  checkHealth: false
+
+# The organ a spider uses to spin webs. Keep it in offhand while placing string, to place cobwebs instead.
+spinneret:
+  enabled: true

@@ -1,0 +1,20 @@
+name: AstsTrinkets
+main: com.astelon.aststrinkets.AstsTrinkets
+version: '1.0.0-beta.1'
+author: Astelon
+api-version: '1.16'
+commands:
+  trinkets:
+    description: Base command for Ast's Trinkets plugin.
+    permission: aststrinkets.admin
+permissions:
+  aststrinkets.op:
+    description: Special permission for giving trinkets that don't obey to normal limitations.
+    default: op
+  aststrinkets.admin:
+    description: Gives access to the regular commands as well as other admin features of the plugin.
+    default: op
+    children:
+      aststrinkets.trinket.seeinvisible: true
+  aststrinkets.trinket.seeinvisible:
+    description: Allows seeing players invisible from some trinkets.
