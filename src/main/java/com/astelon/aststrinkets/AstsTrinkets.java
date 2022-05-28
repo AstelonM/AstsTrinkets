@@ -1,10 +1,7 @@
 package com.astelon.aststrinkets;
 
 import com.astelon.aststrinkets.commands.TrinketCommand;
-import com.astelon.aststrinkets.listeners.CakeListener;
-import com.astelon.aststrinkets.listeners.InvisibilityListener;
-import com.astelon.aststrinkets.listeners.ShapeShifterListener;
-import com.astelon.aststrinkets.listeners.SpinneretListener;
+import com.astelon.aststrinkets.listeners.*;
 import com.astelon.aststrinkets.managers.CakeManager;
 import com.astelon.aststrinkets.managers.InvisibilityManager;
 import com.astelon.aststrinkets.managers.TrinketManager;
@@ -33,6 +30,7 @@ public class AstsTrinkets extends JavaPlugin {
         pluginManager.registerEvents(new ShapeShifterListener(this, trinketManager), this);
         pluginManager.registerEvents(new CakeListener(this, trinketManager, cakeManager), this);
         pluginManager.registerEvents(new SpinneretListener(this, trinketManager), this);
+        pluginManager.registerEvents(new MendingListener(this, trinketManager), this);
         loadConfig();
         Objects.requireNonNull(getCommand("trinkets")).setExecutor(new TrinketCommand(trinketManager));
     }

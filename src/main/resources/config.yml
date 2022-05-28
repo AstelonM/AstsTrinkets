@@ -33,3 +33,8 @@ mysteryCake:
 # The organ a spider uses to spin webs. Keep it in offhand while placing string, to place cobwebs instead.
 spinneret:
   enabled: true
+
+# Shift right click in your inventory while holding this item on any damaged item to bring it back to full durability.
+# One time use.
+mendingPowder:
+  enabled: true

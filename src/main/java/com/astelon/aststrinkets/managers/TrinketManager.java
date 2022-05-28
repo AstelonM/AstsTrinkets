@@ -42,6 +42,7 @@ public class TrinketManager {
         addTrinket(new ShapeShifter(plugin, nameKey, powerKey));
         addTrinket(new MysteryCake(plugin, nameKey, powerKey));
         addTrinket(new Spinneret(plugin, nameKey, powerKey));
+        addTrinket(new MendingPowder(plugin, nameKey, powerKey));
     }
 
     private void addTrinket(Trinket trinket) {
@@ -121,5 +122,9 @@ public class TrinketManager {
 
     public Spinneret getSpinneret() {
         return (Spinneret) getTrinketExact("spinneret");
+    }
+
+    public MendingPowder getMendingPowder() {
+        return (MendingPowder) getTrinketExact("mendingPowder");
     }
 }

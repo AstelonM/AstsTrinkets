@@ -6,7 +6,8 @@ public enum Power {
     TRUE_INVISIBILITY("trueInvisibility"),
     SHAPE_SHIFTING("shapeShifting"),
     RANDOM_POTION_EFFECT("randomPotionEffect"),
-    PLACE_WEBS("placeWebs");
+    PLACE_WEBS("placeWebs"),
+    MENDING("mending");
 
     private final String powerName;
 
