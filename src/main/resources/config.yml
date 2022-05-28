@@ -36,5 +36,6 @@ spinneret:
 
 # Shift right click in your inventory while holding this item on any damaged item to bring it back to full durability.
 # One time use.
+# This trinket is experimental currently.
 mendingPowder:
   enabled: true
