@@ -49,10 +49,6 @@ public class TrinketManager {
         trinketMap.put(trinket.getName(), trinket);
     }
 
-    public void init() {
-
-    }
-
     public ArrayList<Trinket> getTrinkets() {
         return trinkets;
     }

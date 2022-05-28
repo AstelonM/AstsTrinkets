@@ -28,7 +28,6 @@ public class AstsTrinkets extends JavaPlugin {
         CakeManager cakeManager = new CakeManager(this);
         cakeManager.init();
         trinketManager = new TrinketManager(this, invisibilityManager);
-        trinketManager.init();
         PluginManager pluginManager = getServer().getPluginManager();
         pluginManager.registerEvents(new InvisibilityListener(this, trinketManager, invisibilityManager), this);
         pluginManager.registerEvents(new ShapeShifterListener(this, trinketManager), this);
