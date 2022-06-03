@@ -127,6 +127,9 @@ public class TrinketManager {
     }
 
     public boolean isOwnedBy(ItemStack itemStack, String playerName) {
+        String owner = getOwner(itemStack);
+        if (owner == null)
+            return true;
         return playerName.equals(getOwner(itemStack));
     }
 
