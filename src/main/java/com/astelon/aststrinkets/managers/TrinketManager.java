@@ -45,6 +45,7 @@ public class TrinketManager {
         addTrinket(new MysteryCake(plugin, nameKey, powerKey));
         addTrinket(new Spinneret(plugin, nameKey, powerKey));
         addTrinket(new MendingPowder(plugin, nameKey, powerKey));
+        addTrinket(new BindingPowder(plugin, nameKey, powerKey, ownerKey));
     }
 
     private void addTrinket(Trinket trinket) {
@@ -85,6 +86,16 @@ public class TrinketManager {
             return null;
         String name = container.get(nameKey, PersistentDataType.STRING);
         return trinketMap.get(name);
+    }
+
+    public boolean isTrinket(ItemStack itemStack) {
+        if (itemStack == null)
+            return false;
+        ItemMeta meta = itemStack.getItemMeta();
+        if (meta == null)
+            return false;
+        PersistentDataContainer container = meta.getPersistentDataContainer();
+        return container.has(nameKey, PersistentDataType.STRING);
     }
 
     public void removePlayerTrinkets(Player player) {
@@ -145,5 +156,9 @@ public class TrinketManager {
 
     public MendingPowder getMendingPowder() {
         return (MendingPowder) getTrinketExact("mendingPowder");
+    }
+
+    public BindingPowder getBindingPowder() {
+        return (BindingPowder) getTrinketExact("bindingPowder");
     }
 }

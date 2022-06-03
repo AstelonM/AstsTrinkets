@@ -30,7 +30,7 @@ public class AstsTrinkets extends JavaPlugin {
         pluginManager.registerEvents(new ShapeShifterListener(this, trinketManager), this);
         pluginManager.registerEvents(new CakeListener(this, trinketManager, cakeManager), this);
         pluginManager.registerEvents(new SpinneretListener(this, trinketManager), this);
-        pluginManager.registerEvents(new MendingListener(this, trinketManager), this);
+        pluginManager.registerEvents(new InventoryUseListener(this, trinketManager), this);
         loadConfig();
         Objects.requireNonNull(getCommand("trinkets")).setExecutor(new TrinketCommand(trinketManager));
     }

@@ -39,3 +39,10 @@ spinneret:
 # This trinket is experimental currently.
 mendingPowder:
   enabled: true
+
+# Shift right click in your inventory while holding this item on other trinkets to bind them to you. This makes you the
+# owner of that trinket, and no one else will be able to use it. Has no effect on the Shapeshifter or the Binding Powder
+# itself. One time use.
+# This trinket is experimental.
+bindingPowder:
+  enabled: true
