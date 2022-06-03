@@ -14,24 +14,29 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.*;
 import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.inventory.ItemStack;
 
 import java.util.Objects;
 
 public class CakeListener implements Listener {
 
     private final AstsTrinkets plugin;
+    private final TrinketManager trinketManager;
     private final CakeManager cakeManager;
     private final MysteryCake mysteryCake;
 
     public CakeListener(AstsTrinkets plugin, TrinketManager trinketManager, CakeManager cakeManager) {
         this.plugin = plugin;
+        this.trinketManager = trinketManager;
         this.cakeManager = cakeManager;
         mysteryCake = trinketManager.getMysteryCake();
     }
 
     @EventHandler(ignoreCancelled = true)
     public void onBlockPlace(BlockPlaceEvent event) {
-        if (mysteryCake.isTrinket(event.getItemInHand())) {
+        ItemStack item = event.getItemInHand();
+        String playerName = event.getPlayer().getName();
+        if (mysteryCake.isTrinket(item) && trinketManager.isOwnedBy(item, playerName)) {
             if (mysteryCake.isEnabled())
                 cakeManager.addCake(event.getBlock().getLocation());
         } else if (cakeManager.isCakeLocation(event.getBlock().getLocation())) {

@@ -14,10 +14,12 @@ import org.bukkit.inventory.ItemStack;
 public class SpinneretListener implements Listener {
 
     private final AstsTrinkets plugin;
+    private final TrinketManager trinketManager;
     private final Spinneret spinneret;
 
     public SpinneretListener(AstsTrinkets plugin, TrinketManager trinketManager) {
         this.plugin = plugin;
+        this.trinketManager = trinketManager;
         spinneret = trinketManager.getSpinneret();
     }
 
@@ -31,7 +33,8 @@ public class SpinneretListener implements Listener {
                 otherItem = player.getInventory().getItemInOffHand();
             else
                 otherItem = player.getInventory().getItemInMainHand();
-            if (spinneret.isTrinket(otherItem) && event.getItemInHand().getType() == Material.STRING)
+            if (spinneret.isTrinket(otherItem) && trinketManager.isOwnedBy(otherItem, player.getName()) &&
+                    event.getItemInHand().getType() == Material.STRING)
                 event.getBlock().setType(Material.COBWEB);
         }
     }

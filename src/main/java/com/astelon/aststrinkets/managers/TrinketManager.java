@@ -115,6 +115,10 @@ public class TrinketManager {
         return container.get(ownerKey, PersistentDataType.STRING);
     }
 
+    public boolean isOwnedBy(ItemStack itemStack, String playerName) {
+        return playerName.equals(getOwner(itemStack));
+    }
+
     public FragileInvisibilityTunic getFragileInvisibilityTunic() {
         return (FragileInvisibilityTunic) getTrinketExact("fragileInvisibilityTunic");
     }

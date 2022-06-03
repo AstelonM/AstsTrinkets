@@ -50,7 +50,7 @@ public class InvisibilityListener implements Listener {
         }
         ItemStack itemStack = player.getInventory().getChestplate();
         Trinket trinket = trinketManager.getTrinket(itemStack);
-        if (trinket != null && trinket.isEnabled()) {
+        if (trinket != null && trinket.isEnabled() && trinketManager.isOwnedBy(itemStack, player.getName())) {
             if (trinket.getPower() == Power.INVISIBILITY)
                 invisibilityManager.addInvisiblePlayer(player);
             if (trinket.getPower() == Power.TRUE_INVISIBILITY)
@@ -85,20 +85,23 @@ public class InvisibilityListener implements Listener {
             if (oldTrinket == newTrinket)
                 return;
             Player player = event.getPlayer();
-            if (oldTrinket != null && oldTrinket.isEnabled()) {
+            String playerName = player.getName();
+            if (oldTrinket != null && oldTrinket.isEnabled() && trinketManager.isOwnedBy(oldItem, playerName)) {
                 if (oldTrinket.getPower() == Power.INVISIBILITY) {
-                    if (newTrinket == null || !newTrinket.isEnabled() || newTrinket.getPower() != Power.INVISIBILITY)
+                    if (newTrinket == null || !newTrinket.isEnabled() || newTrinket.getPower() != Power.INVISIBILITY ||
+                            !trinketManager.isOwnedBy(newItem, playerName))
                         invisibilityManager.removeInvisiblePlayer(player);
                     else
                         return;
                 } else if (oldTrinket.getPower() == Power.TRUE_INVISIBILITY) {
-                    if (newTrinket == null || !newTrinket.isEnabled() || newTrinket.getPower() != Power.TRUE_INVISIBILITY)
+                    if (newTrinket == null || !newTrinket.isEnabled() || newTrinket.getPower() != Power.TRUE_INVISIBILITY ||
+                            !trinketManager.isOwnedBy(newItem, playerName))
                         invisibilityManager.removeTrulyInvisiblePlayer(player);
                     else
                         return;
                 }
             }
-            if (newTrinket != null && newTrinket.isEnabled()) {
+            if (newTrinket != null && newTrinket.isEnabled() && trinketManager.isOwnedBy(newItem, playerName)) {
                 if (newTrinket.getPower() == Power.INVISIBILITY)
                     invisibilityManager.addInvisiblePlayer(player);
                 else if (newTrinket.getPower() == Power.TRUE_INVISIBILITY)

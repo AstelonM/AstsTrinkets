@@ -16,17 +16,20 @@ import java.util.Objects;
 public class MendingListener implements Listener {
 
     private final AstsTrinkets plugin;
+    private final TrinketManager trinketManager;
     private final MendingPowder mendingPowder;
 
     public MendingListener(AstsTrinkets plugin, TrinketManager manager) {
         this.plugin = plugin;
+        this.trinketManager = manager;
         this.mendingPowder = manager.getMendingPowder();
     }
 
     @EventHandler
     public void onInventoryClick(InventoryClickEvent event) {
         if (mendingPowder.isEnabled() && mendingPowder.isTrinket(event.getCursor()) &&
-                event.getClick() == ClickType.SHIFT_RIGHT) {
+                event.getClick() == ClickType.SHIFT_RIGHT &&
+                trinketManager.isOwnedBy(event.getCursor(), event.getView().getPlayer().getName())) {
             ItemStack item = event.getCurrentItem();
             if (item == null)
                 return;
