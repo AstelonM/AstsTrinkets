@@ -21,6 +21,7 @@ public class TrinketManager {
 
     private final NamespacedKey nameKey;
     private final NamespacedKey powerKey;
+    private final NamespacedKey ownerKey;
 
     private final ArrayList<Trinket> trinkets;
     private final HashMap<String, Trinket> trinketMap;
@@ -30,6 +31,7 @@ public class TrinketManager {
         this.invisibilityManager = invisibilityManager;
         nameKey = new NamespacedKey(plugin, "trinketName");
         powerKey = new NamespacedKey(plugin, "trinketPower");
+        ownerKey = new NamespacedKey(plugin, "trinketOwner");
         trinkets = new ArrayList<>();
         trinketMap = new HashMap<>();
         initTrinkets();
@@ -98,6 +100,19 @@ public class TrinketManager {
             inventory.setItem(slot, null);
         invisibilityManager.removeInvisiblePlayer(player);
         invisibilityManager.removeTrulyInvisiblePlayer(player);
+    }
+
+    @Nullable
+    public String getOwner(ItemStack itemStack) {
+        if (itemStack == null)
+            return null;
+        ItemMeta meta = itemStack.getItemMeta();
+        if (meta == null)
+            return null;
+        PersistentDataContainer container = meta.getPersistentDataContainer();
+        if (!container.has(ownerKey, PersistentDataType.STRING))
+            return null;
+        return container.get(ownerKey, PersistentDataType.STRING);
     }
 
     public FragileInvisibilityTunic getFragileInvisibilityTunic() {
