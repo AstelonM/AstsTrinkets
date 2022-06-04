@@ -46,3 +46,8 @@ mendingPowder:
 # This trinket is experimental.
 bindingPowder:
   enabled: true
+
+# The wearer can see players who wear invisibility tunics. Cannot be repaired or enchanted, and probably shouldn't be
+# used in crafting.
+trueSightCap:
+  enabled: true

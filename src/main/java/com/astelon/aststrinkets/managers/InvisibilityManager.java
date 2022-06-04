@@ -14,11 +14,13 @@ public class InvisibilityManager {
 
     private final HashSet<String> invisiblePlayers;
     private final HashSet<String> trulyInvisiblePlayers;
+    private final HashSet<String> trueSightPlayers;
 
     public InvisibilityManager(AstsTrinkets plugin) {
         this.plugin = plugin;
         invisiblePlayers = new HashSet<>();
         trulyInvisiblePlayers = new HashSet<>();
+        trueSightPlayers = new HashSet<>();
     }
 
     public HashSet<String> getInvisiblePlayers() {
@@ -29,12 +31,17 @@ public class InvisibilityManager {
         return trulyInvisiblePlayers;
     }
 
+    public HashSet<String> getTrueSightPlayers() {
+        return trueSightPlayers;
+    }
+
     public void addInvisiblePlayer(Player player) {
         invisiblePlayers.add(player.getName());
         for (Player otherPlayer: Bukkit.getOnlinePlayers()) {
             if (otherPlayer.equals(player))
                 continue;
-            if (!otherPlayer.hasPermission("aststrinkets.trinket.seeinvisible"))
+            if (!otherPlayer.hasPermission("aststrinkets.trinket.seeinvisible") &&
+                    !trueSightPlayers.contains(otherPlayer.getName()))
                 otherPlayer.hidePlayer(plugin, player);
         }
         player.sendMessage(Component.text("You are now invisible.", NamedTextColor.GOLD));
@@ -72,5 +79,35 @@ public class InvisibilityManager {
             }
             player.sendMessage(Component.text("You are no longer truly invisible.", NamedTextColor.GOLD));
         }
+    }
+
+    public void addTrueSightPlayer(Player player) {
+        trueSightPlayers.add(player.getName());
+        for (Player otherPlayer: Bukkit.getOnlinePlayers()) {
+            if (otherPlayer.equals(player))
+                continue;
+            if (invisiblePlayers.contains(otherPlayer.getName()))
+                player.showPlayer(plugin, otherPlayer);
+        }
+        player.sendMessage(Component.text("You can now see players wearing tunics of invisibility.",
+                NamedTextColor.GOLD));
+    }
+
+    public void removeTrueSightPlayer(Player player, boolean online) {
+        boolean contained = trueSightPlayers.remove(player.getName());
+        if (contained && online) {
+            for (Player otherPlayer: Bukkit.getOnlinePlayers()) {
+                if (otherPlayer.equals(player))
+                    continue;
+                if (invisiblePlayers.contains(otherPlayer.getName()))
+                    player.hidePlayer(plugin, otherPlayer);
+            }
+            player.sendMessage(Component.text("You can no longer see players wearing tunics of invisibility.",
+                    NamedTextColor.GOLD));
+        }
+    }
+
+    public boolean isTrueSightPlayer(Player player) {
+        return trueSightPlayers.contains(player.getName());
     }
 }

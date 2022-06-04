@@ -5,6 +5,7 @@ import com.astelon.aststrinkets.Power;
 import com.astelon.aststrinkets.managers.InvisibilityManager;
 import com.astelon.aststrinkets.managers.TrinketManager;
 import com.astelon.aststrinkets.trinkets.Trinket;
+import com.astelon.aststrinkets.trinkets.TrueSightCap;
 import com.destroystokyo.paper.event.player.PlayerArmorChangeEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -30,7 +31,11 @@ public class InvisibilityListener implements Listener {
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
-        if (!player.hasPermission("aststrinkets.trinket.seeinvisible")) {
+        ItemStack helmet = player.getInventory().getHelmet();
+        TrueSightCap trueSightCap = trinketManager.getTrueSightCap();
+        if (trueSightCap.isTrinket(helmet))
+            invisibilityManager.addTrueSightPlayer(player);
+        if (!player.hasPermission("aststrinkets.trinket.seeinvisible") && !invisibilityManager.isTrueSightPlayer(player)) {
             for (String inviPlayerName: invisibilityManager.getInvisiblePlayers()) {
                 Player inviPlayer = Bukkit.getPlayer(inviPlayerName);
                 if (inviPlayer == null) {
@@ -48,9 +53,9 @@ public class InvisibilityListener implements Listener {
             }
             player.hidePlayer(plugin, inviPlayer);
         }
-        ItemStack itemStack = player.getInventory().getChestplate();
-        Trinket trinket = trinketManager.getTrinket(itemStack);
-        if (trinket != null && trinket.isEnabled() && trinketManager.isOwnedBy(itemStack, player.getName())) {
+        ItemStack chestplate = player.getInventory().getChestplate();
+        Trinket trinket = trinketManager.getTrinket(chestplate);
+        if (trinket != null && trinket.isEnabled() && trinketManager.isOwnedBy(chestplate, player.getName())) {
             if (trinket.getPower() == Power.INVISIBILITY)
                 invisibilityManager.addInvisiblePlayer(player);
             if (trinket.getPower() == Power.TRUE_INVISIBILITY)
@@ -63,6 +68,7 @@ public class InvisibilityListener implements Listener {
         Player player = event.getPlayer();
         invisibilityManager.removeInvisiblePlayer(player);
         invisibilityManager.removeTrulyInvisiblePlayer(player);
+        invisibilityManager.removeTrueSightPlayer(player, false);
     }
 
     //TODO sa pastrez invizibilitatea daca tunica ramane?
@@ -72,6 +78,7 @@ public class InvisibilityListener implements Listener {
             Player player = event.getEntity();
             invisibilityManager.removeInvisiblePlayer(player);
             invisibilityManager.removeTrulyInvisiblePlayer(player);
+            invisibilityManager.removeTrueSightPlayer(player, true);
         }
     }
 
@@ -107,6 +114,18 @@ public class InvisibilityListener implements Listener {
                 else if (newTrinket.getPower() == Power.TRUE_INVISIBILITY)
                     invisibilityManager.addTrulyInvisiblePlayer(player);
             }
+        } else if (event.getSlotType() == PlayerArmorChangeEvent.SlotType.HEAD) {
+            ItemStack oldItem = event.getOldItem();
+            ItemStack newItem = event.getNewItem();
+            TrueSightCap trueSightCap = trinketManager.getTrueSightCap();
+            if (trueSightCap.isTrinket(oldItem) && trueSightCap.isTrinket(newItem) ||
+                    !trueSightCap.isTrinket(oldItem) && !trueSightCap.isTrinket(newItem))
+                return;
+            Player player = event.getPlayer();
+            if (trueSightCap.isTrinket(oldItem) && !trueSightCap.isTrinket(newItem))
+                invisibilityManager.removeTrueSightPlayer(player, true);
+            else
+                invisibilityManager.addTrueSightPlayer(player);
         }
     }
 }

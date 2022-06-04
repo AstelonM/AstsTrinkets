@@ -8,7 +8,8 @@ public enum Power {
     RANDOM_POTION_EFFECT("randomPotionEffect"),
     PLACE_WEBS("placeWebs"),
     MENDING("mending"),
-    BINDING("binding");
+    BINDING("binding"),
+    TRUE_SIGHT("trueSight");
 
     private final String powerName;
 

@@ -46,6 +46,7 @@ public class TrinketManager {
         addTrinket(new Spinneret(plugin, nameKey, powerKey));
         addTrinket(new MendingPowder(plugin, nameKey, powerKey));
         addTrinket(new BindingPowder(plugin, nameKey, powerKey, ownerKey));
+        addTrinket(new TrueSightCap(plugin, nameKey, powerKey));
     }
 
     private void addTrinket(Trinket trinket) {
@@ -163,5 +164,9 @@ public class TrinketManager {
 
     public BindingPowder getBindingPowder() {
         return (BindingPowder) getTrinketExact("bindingPowder");
+    }
+
+    public TrueSightCap getTrueSightCap() {
+        return (TrueSightCap) getTrinketExact("trueSightCap");
     }
 }
