@@ -35,15 +35,16 @@ public class BindingPowder extends Trinket {
         return itemStack;
     }
 
-    public boolean bindTrinket(ItemStack itemStack, Player player) {
-        ItemMeta meta = itemStack.getItemMeta();
+    public ItemStack bindTrinket(ItemStack itemStack, Player player) {
+        ItemStack result = itemStack.asOne();
+        ItemMeta meta = result.getItemMeta();
         if (meta == null)
-            return false;
+            return null;
         PersistentDataContainer container = meta.getPersistentDataContainer();
         if (!container.has(nameKey, PersistentDataType.STRING))
-            return false;
+            return null;
         if (container.has(ownerKey, PersistentDataType.STRING))
-            return false;
+            return null;
         String name = player.getName();
         container.set(ownerKey, PersistentDataType.STRING, name);
         List<Component> lore = meta.lore();
@@ -55,7 +56,7 @@ public class BindingPowder extends Trinket {
             newLore.addAll(lore);
             meta.lore(newLore);
         }
-        itemStack.setItemMeta(meta);
-        return true;
+        result.setItemMeta(meta);
+        return result;
     }
 }

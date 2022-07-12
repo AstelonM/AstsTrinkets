@@ -47,6 +47,8 @@ public class TrinketManager {
         addTrinket(new MendingPowder(plugin, nameKey, powerKey));
         addTrinket(new BindingPowder(plugin, nameKey, powerKey, ownerKey));
         addTrinket(new TrueSightCap(plugin, nameKey, powerKey));
+        addTrinket(new Homendirt(plugin, nameKey, powerKey));
+        addTrinket(new Homendingdirt(plugin, nameKey, powerKey, ownerKey));
     }
 
     private void addTrinket(Trinket trinket) {
@@ -168,5 +170,13 @@ public class TrinketManager {
 
     public TrueSightCap getTrueSightCap() {
         return (TrueSightCap) getTrinketExact("trueSightCap");
+    }
+
+    public Homendirt getHomendirt() {
+        return (Homendirt) getTrinketExact("homendirt");
+    }
+
+    public Homendingdirt getHomendingdirt() {
+        return (Homendingdirt) getTrinketExact("homendingdirt");
     }
 }

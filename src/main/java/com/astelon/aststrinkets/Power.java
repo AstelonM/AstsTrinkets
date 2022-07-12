@@ -9,7 +9,9 @@ public enum Power {
     PLACE_WEBS("placeWebs"),
     MENDING("mending"),
     BINDING("binding"),
-    TRUE_SIGHT("trueSight");
+    TRUE_SIGHT("trueSight"),
+    ABSORB_MENDING("absorbMending"),
+    APPLY_MENDING("applyMending");
 
     private final String powerName;
 

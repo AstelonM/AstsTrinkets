@@ -51,3 +51,11 @@ bindingPowder:
 # used in crafting.
 trueSightCap:
   enabled: true
+
+# Inspired by Homen06. It removes mending from another item and becomes a Homendingdirt. This trinket is experimental.
+homendirt:
+  enabled: true
+
+# Inspired by Homen06. It applies mending to another item and is consumed after. This trinket is experimental.
+homendingdirt:
+  enabled: true
