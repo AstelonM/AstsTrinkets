@@ -33,7 +33,7 @@ public class InvisibilityListener implements Listener {
         Player player = event.getPlayer();
         ItemStack helmet = player.getInventory().getHelmet();
         TrueSightCap trueSightCap = trinketManager.getTrueSightCap();
-        if (trueSightCap.isTrinket(helmet))
+        if (trueSightCap.isTrinket(helmet) && trinketManager.isOwnedBy(helmet, player.getName()))
             invisibilityManager.addTrueSightPlayer(player);
         if (!player.hasPermission("aststrinkets.trinket.seeinvisible") && !invisibilityManager.isTrueSightPlayer(player)) {
             for (String inviPlayerName: invisibilityManager.getInvisiblePlayers()) {
@@ -89,10 +89,10 @@ public class InvisibilityListener implements Listener {
             ItemStack newItem = event.getNewItem();
             Trinket oldTrinket = trinketManager.getTrinket(oldItem);
             Trinket newTrinket = trinketManager.getTrinket(newItem);
-            if (oldTrinket == newTrinket)
-                return;
             Player player = event.getPlayer();
             String playerName = player.getName();
+            if (oldTrinket == newTrinket && trinketManager.isOwnedBy(oldItem, playerName) && trinketManager.isOwnedBy(newItem, playerName))
+                return;
             if (oldTrinket != null && oldTrinket.isEnabled() && trinketManager.isOwnedBy(oldItem, playerName)) {
                 if (oldTrinket.getPower() == Power.INVISIBILITY) {
                     if (newTrinket == null || !newTrinket.isEnabled() || newTrinket.getPower() != Power.INVISIBILITY ||
@@ -115,17 +115,20 @@ public class InvisibilityListener implements Listener {
                     invisibilityManager.addTrulyInvisiblePlayer(player);
             }
         } else if (event.getSlotType() == PlayerArmorChangeEvent.SlotType.HEAD) {
+            TrueSightCap trueSightCap = trinketManager.getTrueSightCap();
+            if (!trueSightCap.isEnabled())
+                return;
             ItemStack oldItem = event.getOldItem();
             ItemStack newItem = event.getNewItem();
-            TrueSightCap trueSightCap = trinketManager.getTrueSightCap();
-            if (trueSightCap.isTrinket(oldItem) && trueSightCap.isTrinket(newItem) ||
-                    !trueSightCap.isTrinket(oldItem) && !trueSightCap.isTrinket(newItem))
-                return;
             Player player = event.getPlayer();
-            if (trueSightCap.isTrinket(oldItem) && !trueSightCap.isTrinket(newItem))
-                invisibilityManager.removeTrueSightPlayer(player, true);
-            else
+            String playerName = player.getName();
+            if (trueSightCap.isTrinket(oldItem) && trinketManager.isOwnedBy(oldItem, playerName)) {
+                if (!trueSightCap.isTrinket(newItem) || !trinketManager.isOwnedBy(newItem, playerName)) {
+                    invisibilityManager.removeTrueSightPlayer(player, true);
+                }
+            } else if (trueSightCap.isTrinket(newItem) && trinketManager.isOwnedBy(newItem, playerName)) {
                 invisibilityManager.addTrueSightPlayer(player);
+            }
         }
     }
 }
