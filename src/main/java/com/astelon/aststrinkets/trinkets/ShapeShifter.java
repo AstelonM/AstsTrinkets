@@ -51,7 +51,8 @@ public class ShapeShifter extends Trinket {
         String name = material.name();
         return !name.startsWith("LEGACY") && !name.contains("COMMAND") && !name.contains("SPAWN") &&
                 !name.contains("PORTAL") && !name.contains("INFESTED")  && !name.contains("STRUCTURE") &&
-                !name.contains("BUCKET") && !name.contains("MINECART") && !name.contains("BOAT");
+                !name.contains("BUCKET") && !name.contains("MINECART") && !name.contains("BOAT") &&
+                !name.contains("FRAME");
     }
 
     public void removeItems(List<String> itemBlacklist) {
