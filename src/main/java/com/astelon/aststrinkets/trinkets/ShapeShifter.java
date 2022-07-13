@@ -44,14 +44,14 @@ public class ShapeShifter extends Trinket {
     private boolean filterMaterials(Material material) {
         return material != Material.BEDROCK && material != Material.BARRIER &&
                 material != Material.DEBUG_STICK && material != Material.END_GATEWAY && material != Material.JIGSAW &&
-                material != Material.KNOWLEDGE_BOOK && material != Material.TOTEM_OF_UNDYING && material != Material.HOPPER_MINECART;
+                material != Material.KNOWLEDGE_BOOK && material != Material.TOTEM_OF_UNDYING;
     }
 
     private boolean filterMaterialNames(Material material) {
         String name = material.name();
         return !name.startsWith("LEGACY") && !name.contains("COMMAND") && !name.contains("SPAWN") &&
                 !name.contains("PORTAL") && !name.contains("INFESTED")  && !name.contains("STRUCTURE") &&
-                !name.contains("BUCKET");
+                !name.contains("BUCKET") && !name.contains("MINECART") && !name.contains("BOAT");
     }
 
     private void setMeta(ItemStack itemStack) {
