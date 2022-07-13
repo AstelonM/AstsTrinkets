@@ -54,6 +54,12 @@ public class ShapeShifter extends Trinket {
                 !name.contains("BUCKET") && !name.contains("MINECART") && !name.contains("BOAT");
     }
 
+    public void removeItems(List<String> itemBlacklist) {
+        for (String item: itemBlacklist) {
+            materials.remove(Material.getMaterial(item));
+        }
+    }
+
     private void setMeta(ItemStack itemStack) {
         Material material = itemStack.getType();
         String materialName = material.name().toLowerCase().replace('_', ' ');

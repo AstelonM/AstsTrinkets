@@ -6,6 +6,7 @@ import com.astelon.aststrinkets.managers.CakeManager;
 import com.astelon.aststrinkets.managers.InvisibilityManager;
 import com.astelon.aststrinkets.managers.TrinketManager;
 import com.astelon.aststrinkets.trinkets.MysteryCake;
+import com.astelon.aststrinkets.trinkets.ShapeShifter;
 import com.astelon.aststrinkets.trinkets.Trinket;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.PluginManager;
@@ -40,6 +41,8 @@ public class AstsTrinkets extends JavaPlugin {
         for (Trinket trinket: trinketManager.getTrinkets()) {
             trinket.setEnabled(configuration.getBoolean(trinket.getName() + ".enabled"));
         }
+        ShapeShifter shapeShifter = trinketManager.getShapeShifter();
+        shapeShifter.removeItems(configuration.getStringList(shapeShifter.getName() + ".itemBlacklist"));
         MysteryCake mysteryCake = trinketManager.getMysteryCake();
         mysteryCake.setCheckHealth(configuration.getBoolean(mysteryCake.getName() + ".checkHealth"));
     }

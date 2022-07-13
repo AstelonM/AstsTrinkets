@@ -19,8 +19,14 @@ trueInvisibilityTunic:
 
 # An item that turns into another when not observed. Pretty safe to give around, the items it turns into aren't
 # particularly dangerous.
+# These items are forbidden from being used by default: items obtainable through commands only, unbreakable items,
+# items that spawn entities (spawn eggs, infested blocks, minecarts etc.), buckets and totems of undying.
 shapeShifter:
   enabled: true
+  # This list allows you to add more items to the blacklist.
+  # You can find them here https://jd.papermc.io/paper/1.16/org/bukkit/Material.html (or at the page corresponding to
+  # the version you use).
+  itemBlacklist: []
 
 # A cake that gives a random effect of 30 seconds duration when a piece is eaten.
 # This trinket is experimental, so it requires "aststrinkets.op" permission to give. It might not function properly.
