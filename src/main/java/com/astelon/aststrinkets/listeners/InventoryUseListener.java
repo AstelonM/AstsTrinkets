@@ -60,7 +60,8 @@ public class InventoryUseListener implements Listener {
                     event.setCancelled(true);
                     damageable.setDamage(0);
                     item.setItemMeta(meta);
-                    consumeCursorItem(heldItem, player);
+                    heldItem.subtract();
+                    player.updateInventory();
                 }
             } else if (bindingPowder.isEnabled() && bindingPowder.isTrinket(heldItem)) {
                 ItemStack item = event.getCurrentItem();
@@ -70,9 +71,10 @@ public class InventoryUseListener implements Listener {
                     event.setCancelled(true);
                     ItemStack result = bindingPowder.bindTrinket(item, player);
                     if (result != null) {
-                        consumeCursorItem(heldItem, player);
+                        heldItem.subtract();
                         transformItem(item, result, event.getSlot(), event.getClickedInventory(), player);
                         player.sendMessage(Component.text("This trinket is bound to you now.", NamedTextColor.GOLD));
+                        player.updateInventory();
                     } else {
                         player.sendMessage(Component.text("Could not bind this trinket to you.", NamedTextColor.RED));
                     }
@@ -96,6 +98,7 @@ public class InventoryUseListener implements Listener {
                 transformItem(item, result, slot, inventory, player);
                 ItemStack homendingdirtItem = homendingdirt.createHomendingdirt(heldItem, mending);
                 transformCursorItem(heldItem, homendingdirtItem, inventory, player);
+                player.updateInventory();
             } else if (homendingdirt.isEnabled() && homendingdirt.isTrinket(heldItem)) {
                 ItemStack item = event.getCurrentItem();
                 if (item == null)
@@ -108,7 +111,8 @@ public class InventoryUseListener implements Listener {
                 Inventory inventory = event.getClickedInventory();
                 ItemStack result = homendingdirt.addMending(item, heldItem);
                 transformItem(item, result, slot, inventory, player);
-                consumeCursorItem(heldItem, player);
+                heldItem.subtract();
+                player.updateInventory();
             }
         }
     }
@@ -128,22 +132,13 @@ public class InventoryUseListener implements Listener {
         if (amount == 1) {
             inventory.setItem(slot, target);
         } else {
-            source.setAmount(amount - 1);
+            source.subtract();
             HashMap<Integer, ItemStack> failed = inventory.addItem(target);
             if (!failed.isEmpty()) {
                 player.getWorld().dropItemNaturally(player.getLocation(), target);
                 player.sendMessage(Component.text("Your inventory was full. The resulting item was dropped near you.",
                         NamedTextColor.YELLOW));
             }
-        }
-    }
-
-    private void consumeItem(ItemStack item, int slot, Inventory inventory) {
-        int amount = item.getAmount();
-        if (amount == 1) {
-            inventory.setItem(slot, null);
-        } else {
-            item.setAmount(amount - 1);
         }
     }
 
@@ -160,24 +155,13 @@ public class InventoryUseListener implements Listener {
         if (amount == 1) {
             player.setItemOnCursor(target);
         } else {
-            source.setAmount(amount - 1);
-            player.setItemOnCursor(source);
+            source.subtract();
             HashMap<Integer, ItemStack> failed = inventory.addItem(target);
             if (!failed.isEmpty()) {
                 player.getWorld().dropItemNaturally(player.getLocation(), target);
                 player.sendMessage(Component.text("Your inventory was full. The resulting item was dropped near you.",
                         NamedTextColor.YELLOW));
             }
-        }
-    }
-    
-    private void consumeCursorItem(ItemStack item, Player player) {
-        int amount = item.getAmount();
-        if (amount > 1) {
-            item.setAmount(amount - 1);
-            player.setItemOnCursor(item);
-        } else {
-            player.setItemOnCursor(null);
         }
     }
 }
