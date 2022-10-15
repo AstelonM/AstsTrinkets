@@ -86,11 +86,11 @@ public class InventoryUseListener implements Listener {
                 int mending;
                 if (item.getType() == Material.ENCHANTED_BOOK) {
                     EnchantmentStorageMeta meta = (EnchantmentStorageMeta) item.getItemMeta();
-                    mending = meta.getStoredEnchants().getOrDefault(Enchantment.MENDING, -1);
+                    mending = meta.getStoredEnchantLevel(Enchantment.MENDING);
                 } else {
-                    mending = item.getEnchantments().getOrDefault(Enchantment.MENDING, -1);
+                    mending = item.getEnchantmentLevel(Enchantment.MENDING);
                 }
-                if (mending == -1)
+                if (mending == 0)
                     return;
                 int slot = event.getSlot();
                 Inventory inventory = event.getClickedInventory();
@@ -104,8 +104,8 @@ public class InventoryUseListener implements Listener {
                 if (item == null)
                     return;
                 //TODO Mending 2+?
-                int mending = item.getEnchantments().getOrDefault(Enchantment.MENDING, -1);
-                if (mending != -1)
+                int mending = item.getEnchantmentLevel(Enchantment.MENDING);
+                if (mending != 0)
                     return;
                 int slot = event.getSlot();
                 Inventory inventory = event.getClickedInventory();
