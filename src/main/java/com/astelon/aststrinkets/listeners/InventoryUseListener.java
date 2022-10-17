@@ -83,6 +83,17 @@ public class InventoryUseListener implements Listener {
                 ItemStack item = event.getCurrentItem();
                 if (item == null)
                     return;
+                int slot = event.getSlot();
+                Inventory inventory = event.getClickedInventory();
+                if (homendingdirt.isTrinket(item)) {
+                    int mending = item.getEnchantmentLevel(Enchantment.MENDING);
+                    item.subtract();
+                    ItemStack newHomendingdirt = homendingdirt.createHomendingdirt(heldItem, mending);
+                    transformCursorItem(heldItem, newHomendingdirt, inventory, player);
+                    player.sendMessage(Component.text("The Homendingdirt is consumed.", NamedTextColor.GOLD));
+                    player.updateInventory();
+                    return;
+                }
                 int mending;
                 if (item.getType() == Material.ENCHANTED_BOOK) {
                     EnchantmentStorageMeta meta = (EnchantmentStorageMeta) item.getItemMeta();
@@ -92,8 +103,6 @@ public class InventoryUseListener implements Listener {
                 }
                 if (mending == 0)
                     return;
-                int slot = event.getSlot();
-                Inventory inventory = event.getClickedInventory();
                 ItemStack result = homendirt.removeMending(item);
                 transformItem(item, result, slot, inventory, player);
                 ItemStack homendingdirtItem = homendingdirt.createHomendingdirt(heldItem, mending);
@@ -103,12 +112,21 @@ public class InventoryUseListener implements Listener {
                 ItemStack item = event.getCurrentItem();
                 if (item == null)
                     return;
+                int slot = event.getSlot();
+                Inventory inventory = event.getClickedInventory();
+                if (homendirt.isTrinket(item)) {
+                    int mending = heldItem.getEnchantmentLevel(Enchantment.MENDING);
+                    heldItem.subtract();
+                    ItemStack newHomendingdirt = homendingdirt.createHomendingdirt(item, mending);
+                    transformItem(item, newHomendingdirt, slot, inventory, player);
+                    player.updateInventory();
+                    player.sendMessage(Component.text("The Homendirt becomes a Homendingdirt.", NamedTextColor.GOLD));
+                    return;
+                }
                 //TODO Mending 2+?
                 int mending = item.getEnchantmentLevel(Enchantment.MENDING);
                 if (mending != 0)
                     return;
-                int slot = event.getSlot();
-                Inventory inventory = event.getClickedInventory();
                 ItemStack result = homendingdirt.addMending(item, heldItem);
                 transformItem(item, result, slot, inventory, player);
                 heldItem.subtract();
