@@ -23,6 +23,9 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.HashMap;
 
+import static com.astelon.aststrinkets.utils.Utils.transformCursorItem;
+import static com.astelon.aststrinkets.utils.Utils.transformItem;
+
 public class InventoryUseListener implements Listener {
 
     private final AstsTrinkets plugin;
@@ -131,54 +134,6 @@ public class InventoryUseListener implements Listener {
                 transformItem(item, result, slot, inventory, player);
                 heldItem.subtract();
                 player.updateInventory();
-            }
-        }
-    }
-
-    /**
-     * Transforms an item into another. If the source stack has only 1 item, it is removed and replaced with the target.
-     * Otherwise, the stack size is decremented, and the target item is added to the inventory of the source if there
-     * is space, or dropped at the player's location if there isn't.
-     * @param source the source ItemStack that is transformed
-     * @param target the target ItemStack that the source is transformed to
-     * @param slot the inventory slot of the source item
-     * @param inventory the inventory where the transformation happens
-     * @param player the player who triggered the transformation
-     */
-    private void transformItem(ItemStack source, ItemStack target, int slot, Inventory inventory, Player player) {
-        int amount = source.getAmount();
-        if (amount == 1) {
-            inventory.setItem(slot, target);
-        } else {
-            source.subtract();
-            HashMap<Integer, ItemStack> failed = inventory.addItem(target);
-            if (!failed.isEmpty()) {
-                player.getWorld().dropItemNaturally(player.getLocation(), target);
-                player.sendMessage(Component.text("Your inventory was full. The resulting item was dropped near you.",
-                        NamedTextColor.YELLOW));
-            }
-        }
-    }
-
-    /**
-     * Transforms the item held by the player on the cursor.
-     * See {@link InventoryUseListener#transformItem(ItemStack, ItemStack, int, Inventory, Player)}.
-     * @param source the source ItemStack that is held by the player
-     * @param target the target ItemStack that the source is transformed to
-     * @param inventory the inventory where the transformation happens
-     * @param player the player who triggered the transformation
-     */
-    private void transformCursorItem(ItemStack source, ItemStack target, Inventory inventory, Player player) {
-        int amount = source.getAmount();
-        if (amount == 1) {
-            player.setItemOnCursor(target);
-        } else {
-            source.subtract();
-            HashMap<Integer, ItemStack> failed = inventory.addItem(target);
-            if (!failed.isEmpty()) {
-                player.getWorld().dropItemNaturally(player.getLocation(), target);
-                player.sendMessage(Component.text("Your inventory was full. The resulting item was dropped near you.",
-                        NamedTextColor.YELLOW));
             }
         }
     }

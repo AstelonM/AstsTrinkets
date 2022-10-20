@@ -11,7 +11,8 @@ public enum Power {
     BINDING("binding"),
     TRUE_SIGHT("trueSight"),
     ABSORB_MENDING("absorbMending"),
-    APPLY_MENDING("applyMending");
+    APPLY_MENDING("applyMending"),
+    YOUTH("youth");
 
     private final String powerName;
 

@@ -65,3 +65,7 @@ homendirt:
 # Inspired by Homen06. It applies mending to another item and is consumed after. This trinket is experimental.
 homendingdirt:
   enabled: true
+
+# Right click an entity that has a baby form (and that isn't already a baby) to turn it into a baby.
+youthMilk:
+  enabled: true

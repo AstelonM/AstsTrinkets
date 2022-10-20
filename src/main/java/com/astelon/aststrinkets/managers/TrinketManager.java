@@ -49,6 +49,7 @@ public class TrinketManager {
         addTrinket(new TrueSightCap(plugin, nameKey, powerKey));
         addTrinket(new Homendirt(plugin, nameKey, powerKey));
         addTrinket(new Homendingdirt(plugin, nameKey, powerKey, ownerKey));
+        addTrinket(new YouthMilk(plugin, nameKey, powerKey));
     }
 
     private void addTrinket(Trinket trinket) {
@@ -178,5 +179,9 @@ public class TrinketManager {
 
     public Homendingdirt getHomendingdirt() {
         return (Homendingdirt) getTrinketExact("homendingdirt");
+    }
+
+    public YouthMilk getYouthMilk() {
+        return (YouthMilk) getTrinketExact("youthMilk");
     }
 }
