@@ -49,23 +49,24 @@ public class PlayerInteractListener implements Listener {
         Entity entity = event.getRightClicked();
         // Offhand slot is 40, might replace with a non-hardcoded method later
         int slot = hand == EquipmentSlot.HAND ? inventory.getHeldItemSlot() : 40;
-        //TODO ownership
-        if (youthMilk.isEnabled() && youthMilk.isTrinket(item) && event.getRightClicked() instanceof Ageable ageable) {
-            if (!ageable.isAdult())
-                return;
-            if (youthMilk.isTrinket(item)) {
-                event.setCancelled(true);
-                //TODO check ageLock?
-                ageable.setBaby();
-                Utils.transformItem(item, new ItemStack(Material.BUCKET), slot, inventory, player);
-                player.updateInventory();
+        if (trinketManager.isOwnedBy(item, player.getName())) {
+            if (youthMilk.isEnabled() && youthMilk.isTrinket(item) && event.getRightClicked() instanceof Ageable ageable) {
+                if (!ageable.isAdult())
+                    return;
+                if (youthMilk.isTrinket(item)) {
+                    event.setCancelled(true);
+                    //TODO check ageLock?
+                    ageable.setBaby();
+                    Utils.transformItem(item, new ItemStack(Material.BUCKET), slot, inventory, player);
+                    player.updateInventory();
+                }
+            } else if (diamondTrap.isEnabled() && diamondTrap.isTrinket(item) && diamondTrap.isAllowedMob(entity)) {
+                trapEntity(diamondTrap, item, entity, slot, inventory, player);
+            } else if (emeraldTrap.isEnabled() && emeraldTrap.isTrinket(item) && emeraldTrap.isAllowedMob(entity)) {
+                trapEntity(emeraldTrap, item, entity, slot, inventory, player);
+            } else if (amethystTrap.isEnabled() && amethystTrap.isTrinket(item) && amethystTrap.isAllowedMob(entity)) {
+                trapEntity(amethystTrap, item, entity, slot, inventory, player);
             }
-        } else if (diamondTrap.isEnabled() && diamondTrap.isTrinket(item) && diamondTrap.isAllowedMob(entity)) {
-            trapEntity(diamondTrap, item, entity, slot, inventory, player);
-        } else if (emeraldTrap.isEnabled() && emeraldTrap.isTrinket(item) && emeraldTrap.isAllowedMob(entity)) {
-            trapEntity(emeraldTrap, item, entity, slot, inventory, player);
-        } else if (amethystTrap.isEnabled() && amethystTrap.isTrinket(item) && amethystTrap.isAllowedMob(entity)) {
-            trapEntity(amethystTrap, item, entity, slot, inventory, player);
         }
     }
 
