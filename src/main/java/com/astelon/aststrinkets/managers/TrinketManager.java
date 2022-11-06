@@ -22,6 +22,7 @@ public class TrinketManager {
     private final NamespacedKey nameKey;
     private final NamespacedKey powerKey;
     private final NamespacedKey ownerKey;
+    private final NamespacedKey trapKey;
 
     private final ArrayList<Trinket> trinkets;
     private final HashMap<String, Trinket> trinketMap;
@@ -32,6 +33,7 @@ public class TrinketManager {
         nameKey = new NamespacedKey(plugin, "trinketName");
         powerKey = new NamespacedKey(plugin, "trinketPower");
         ownerKey = new NamespacedKey(plugin, "trinketOwner");
+        trapKey = new NamespacedKey(plugin, "trinketTrappedEntity");
         trinkets = new ArrayList<>();
         trinketMap = new HashMap<>();
         initTrinkets();
@@ -50,6 +52,9 @@ public class TrinketManager {
         addTrinket(new Homendirt(plugin, nameKey, powerKey));
         addTrinket(new Homendingdirt(plugin, nameKey, powerKey, ownerKey));
         addTrinket(new YouthMilk(plugin, nameKey, powerKey));
+        addTrinket(new DiamondTrap(plugin, nameKey, powerKey, trapKey));
+        addTrinket(new EmeraldTrap(plugin, nameKey, powerKey, trapKey));
+        addTrinket(new AmethystTrap(plugin, nameKey, powerKey, trapKey));
     }
 
     private void addTrinket(Trinket trinket) {
@@ -183,5 +188,17 @@ public class TrinketManager {
 
     public YouthMilk getYouthMilk() {
         return (YouthMilk) getTrinketExact("youthMilk");
+    }
+
+    public DiamondTrap getDiamondTrap() {
+        return (DiamondTrap) getTrinketExact("diamondTrap");
+    }
+
+    public EmeraldTrap getEmeraldTrap() {
+        return (EmeraldTrap) getTrinketExact("emeraldTrap");
+    }
+
+    public AmethystTrap getAmethystTrap() {
+        return (AmethystTrap) getTrinketExact("amethystTrap");
     }
 }

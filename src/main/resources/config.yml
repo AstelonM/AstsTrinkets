@@ -69,3 +69,20 @@ homendingdirt:
 # Right click an entity that has a baby form (and that isn't already a baby) to turn it into a baby.
 youthMilk:
   enabled: true
+
+# Right click a mob to trap it within the diamond. Able to trap any mob excluding withers and ender dragons.
+# This is experimental.
+diamondTrap:
+  enabled: true
+
+# Right click an animal to trap it within the emerald. Able to trap any animal, even the aggressive ones, but not
+# undead animals.
+# This is experimental.
+emeraldTrap:
+  enabled: true
+
+# Right click a monster to trap it within the amethyst. Able to trap any monster excluding those with implied or obvious
+# sentience (eg. illagers, endermen) and boss monsters (wither, ender dragon).
+# This is experimental.
+amethystTrap:
+  enabled: true

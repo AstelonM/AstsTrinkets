@@ -12,7 +12,10 @@ public enum Power {
     TRUE_SIGHT("trueSight"),
     ABSORB_MENDING("absorbMending"),
     APPLY_MENDING("applyMending"),
-    YOUTH("youth");
+    YOUTH("youth"),
+    CAPTURE_ENTITIES("captureEntities"),
+    CAPTURE_ANIMALS("captureAnimals"),
+    CAPTURE_MONSTERS("captureMonsters");
 
     private final String powerName;
 

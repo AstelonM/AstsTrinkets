@@ -1,16 +1,20 @@
 package com.astelon.aststrinkets.utils;
 
-import com.astelon.aststrinkets.listeners.InventoryUseListener;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.stream.Collectors;
 
 public class Utils {
 
@@ -88,5 +92,30 @@ public class Utils {
                         NamedTextColor.YELLOW));
             }
         }
+    }
+
+    public static String getMobNameOrType(Entity entity) {
+        Component name = entity.customName();
+        if (name != null)
+            return PlainTextComponentSerializer.plainText().serialize(name);
+        EntityType type = entity.getType();
+        return getMobType(type);
+    }
+
+    public static String getMobType(EntityType type) {
+        return switch (type) {
+            case MUSHROOM_COW -> "Mooshroom";
+            case SNOWMAN -> "Snow Golem";
+            default -> Arrays.stream(type.name().split("_"))
+                    .map(text -> text.charAt(0) + text.substring(1).toLowerCase()).collect(Collectors.joining(" "));
+        };
+    }
+
+    public static String getMobTypeAndName(Entity entity) {
+        String type = getMobType(entity.getType());
+        Component name = entity.customName();
+        if (name != null)
+            return type + "named " + PlainTextComponentSerializer.plainText().serialize(name);
+        return type;
     }
 }
