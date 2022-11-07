@@ -3,16 +3,16 @@ package com.astelon.aststrinkets.listeners;
 import com.astelon.aststrinkets.AstsTrinkets;
 import com.astelon.aststrinkets.managers.TrinketManager;
 import com.astelon.aststrinkets.trinkets.ShapeShifter;
+import com.astelon.aststrinkets.utils.Utils;
 import com.destroystokyo.paper.event.inventory.PrepareResultEvent;
+import org.bukkit.Location;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.inventory.CraftItemEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
-import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.InventoryView;
-import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.*;
 
 public class ShapeShifterListener implements Listener {
 
@@ -36,8 +36,14 @@ public class ShapeShifterListener implements Listener {
     private void searchAndShift(Inventory inventory) {
         if (inventory.getViewers().size() == 1) {
             for (ItemStack itemStack: inventory) {
-                if (shapeShifter.isTrinket(itemStack))
+                if (shapeShifter.isTrinket(itemStack)) {
                     shapeShifter.shapeShift(itemStack);
+                    Location location = inventory.getLocation();
+                    if (inventory.getHolder() instanceof BlockInventoryHolder && location != null) {
+                        plugin.getLogger().info("Shape shifter shifted shape in a block inventory at " +
+                                Utils.locationToString(location) + ".");
+                    }
+                }
             }
         }
     }

@@ -21,8 +21,6 @@ import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.EnchantmentStorageMeta;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import java.util.HashMap;
-
 import static com.astelon.aststrinkets.utils.Utils.transformCursorItem;
 import static com.astelon.aststrinkets.utils.Utils.transformItem;
 

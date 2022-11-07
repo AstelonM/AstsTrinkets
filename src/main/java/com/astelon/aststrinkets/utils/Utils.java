@@ -118,4 +118,8 @@ public class Utils {
             return type + "named " + PlainTextComponentSerializer.plainText().serialize(name);
         return type;
     }
+
+    public static String locationToString(Location location) {
+        return location.getWorld() + " " + location.getBlockX() + " " + location.getBlockY() + " " + location.getBlockZ();
+    }
 }

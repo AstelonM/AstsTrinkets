@@ -61,6 +61,8 @@ public class PlayerInteractListener implements Listener {
                     ageable.setBaby();
                     Utils.transformItem(item, new ItemStack(Material.BUCKET), slot, inventory, player);
                     player.updateInventory();
+                    plugin.getLogger().info("Youth milk used on " + Utils.getMobTypeAndName(ageable) + " at " +
+                            Utils.locationToString(ageable.getLocation()) + " by player " + player.getName() + ".");
                 }
             } else if (diamondTrap.isEnabled() && diamondTrap.isTrinket(item)) {
                 trapEntity(diamondTrap, item, entity, slot, inventory, player);
@@ -91,6 +93,8 @@ public class PlayerInteractListener implements Listener {
         player.updateInventory();
         player.sendMessage(Component.text("You caught the " + Utils.getMobTypeAndName(entity) + " in a crystal " +
                 "trap.", NamedTextColor.GOLD));
+        plugin.getLogger().info(Utils.getMobTypeAndName(entity) + " trapped in a crystal trap at " +
+                Utils.locationToString(entity.getLocation()) + " by player " + player.getName() + ".");
     }
 
     @EventHandler
@@ -140,6 +144,8 @@ public class PlayerInteractListener implements Listener {
         player.updateInventory();
         player.sendMessage(Component.text("Successfully released the " + Utils.getMobTypeAndName(entity) + ".",
                 NamedTextColor.GOLD));
+        plugin.getLogger().info(Utils.getMobTypeAndName(entity) + " released from a crystal trap at " +
+                Utils.locationToString(entity.getLocation()) + " by player " + player.getName() + ".");
     }
 
     private boolean hasEnoughSpace(Location location) {
