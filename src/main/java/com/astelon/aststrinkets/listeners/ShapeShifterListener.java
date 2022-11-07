@@ -3,10 +3,12 @@ package com.astelon.aststrinkets.listeners;
 import com.astelon.aststrinkets.AstsTrinkets;
 import com.astelon.aststrinkets.managers.TrinketManager;
 import com.astelon.aststrinkets.trinkets.ShapeShifter;
+import com.destroystokyo.paper.event.inventory.PrepareResultEvent;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.inventory.CraftItemEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryView;
@@ -45,6 +47,32 @@ public class ShapeShifterListener implements Listener {
         if (shapeShifter.isEnabled() && shapeShifter.isTrinket(event.getItemInHand())) {
             event.setCancelled(true);
             shapeShifter.shapeShift(event.getItemInHand());
+        }
+    }
+
+    @EventHandler
+    public void onCraftItem(CraftItemEvent event) {
+        if (shapeShifter.isEnabled()) {
+            ItemStack[] items = event.getInventory().getMatrix();
+            for (ItemStack item: items) {
+                if (shapeShifter.isTrinket(item)) {
+                    event.setCancelled(true);
+                    shapeShifter.shapeShift(item);
+                }
+            }
+        }
+    }
+
+    @EventHandler
+    public void onPrepareResult(PrepareResultEvent event) {
+        if (shapeShifter.isEnabled()) {
+            Inventory inventory = event.getInventory();
+            for (ItemStack item: inventory.getContents()) {
+                if (item != null && shapeShifter.isTrinket(item)) {
+                    shapeShifter.shapeShift(item);
+                    event.setResult(null);
+                }
+            }
         }
     }
 }
