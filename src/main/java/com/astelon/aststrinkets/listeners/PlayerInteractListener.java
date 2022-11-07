@@ -30,6 +30,7 @@ public class PlayerInteractListener implements Listener {
     private final DiamondTrap diamondTrap;
     private final EmeraldTrap emeraldTrap;
     private final AmethystTrap amethystTrap;
+    private final NetherStarTrap netherStarTrap;
 
     public PlayerInteractListener(AstsTrinkets plugin, TrinketManager trinketManager) {
         this.plugin = plugin;
@@ -38,6 +39,7 @@ public class PlayerInteractListener implements Listener {
         diamondTrap = trinketManager.getDiamondTrap();
         emeraldTrap = trinketManager.getEmeraldTrap();
         amethystTrap = trinketManager.getAmethystTrap();
+        netherStarTrap = trinketManager.getNetherStarTrap();
     }
 
     @EventHandler
@@ -65,6 +67,8 @@ public class PlayerInteractListener implements Listener {
             } else if (emeraldTrap.isEnabled() && emeraldTrap.isTrinket(item)) {
                 trapEntity(emeraldTrap, item, entity, slot, inventory, player);
             } else if (amethystTrap.isEnabled() && amethystTrap.isTrinket(item)) {
+                trapEntity(amethystTrap, item, entity, slot, inventory, player);
+            } else if (netherStarTrap.isEnabled() && netherStarTrap.isTrinket(item)) {
                 trapEntity(amethystTrap, item, entity, slot, inventory, player);
             }
         }
@@ -96,18 +100,22 @@ public class PlayerInteractListener implements Listener {
         Block block = event.getClickedBlock();
         ItemStack itemStack = event.getItem();
         Player player = event.getPlayer();
+        // Offhand slot is 40, might replace with a non-hardcoded method later
+        int slot = event.getHand() == EquipmentSlot.HAND ? player.getInventory().getHeldItemSlot() : 40;
         if (block != null && itemStack != null && trinketManager.isOwnedBy(itemStack, player.getName())) {
             if (diamondTrap.isEnabled() && diamondTrap.isTrinket(itemStack)) {
-                releaseEntity(diamondTrap, itemStack, block, player);
+                releaseEntity(diamondTrap, itemStack, block, player, slot);
             } else if (emeraldTrap.isEnabled() && emeraldTrap.isTrinket(itemStack)) {
-                releaseEntity(emeraldTrap, itemStack, block, player);
+                releaseEntity(emeraldTrap, itemStack, block, player, slot);
             } else if (amethystTrap.isEnabled() && amethystTrap.isTrinket(itemStack)) {
-                releaseEntity(amethystTrap, itemStack, block, player);
+                releaseEntity(amethystTrap, itemStack, block, player, slot);
+            } else if (netherStarTrap.isEnabled() && netherStarTrap.isTrinket(itemStack)) {
+                releaseEntity(netherStarTrap, itemStack, block, player, slot);
             }
         }
     }
 
-    private void releaseEntity(CrystalTrap trap, ItemStack itemStack, Block block, Player player) {
+    private void releaseEntity(CrystalTrap trap, ItemStack itemStack, Block block, Player player, int slot) {
         if (!trap.hasTrappedCreature(itemStack))
             return;
         Location originalLocation = block.getLocation();
@@ -125,7 +133,10 @@ public class PlayerInteractListener implements Listener {
             return;
         }
         entity.spawnAt(spawnLocation);
-        itemStack.subtract();
+        if (trap instanceof NetherStarTrap)
+            Utils.transformItem(itemStack, netherStarTrap.emptyTrap(itemStack), slot, player.getInventory(), player);
+        else
+            itemStack.subtract();
         player.updateInventory();
         player.sendMessage(Component.text("Successfully released the " + Utils.getMobTypeAndName(entity) + ".",
                 NamedTextColor.GOLD));

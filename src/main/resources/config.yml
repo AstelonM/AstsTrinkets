@@ -86,3 +86,9 @@ emeraldTrap:
 # This is experimental.
 amethystTrap:
   enabled: true
+
+# Right click a mob to trap it within the nether star. Able to trap any mob apart from the ender dragons. Unlike the
+# others, it is not destroyed when the trapped creature is released.
+# This is experimental.
+netherStarTrap:
+  enabled: true

@@ -15,7 +15,8 @@ public enum Power {
     YOUTH("youth"),
     CAPTURE_ENTITIES("captureEntities"),
     CAPTURE_ANIMALS("captureAnimals"),
-    CAPTURE_MONSTERS("captureMonsters");
+    CAPTURE_MONSTERS("captureMonsters"),
+    STRONGER_CAPTURE_ENTITIES("strongerCaptureEntities");
 
     private final String powerName;
 

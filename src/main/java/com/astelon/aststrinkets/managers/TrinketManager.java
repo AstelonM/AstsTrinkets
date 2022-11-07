@@ -55,6 +55,7 @@ public class TrinketManager {
         addTrinket(new DiamondTrap(plugin, nameKey, powerKey, trapKey));
         addTrinket(new EmeraldTrap(plugin, nameKey, powerKey, trapKey));
         addTrinket(new AmethystTrap(plugin, nameKey, powerKey, trapKey));
+        addTrinket(new NetherStarTrap(plugin, nameKey, powerKey, trapKey));
     }
 
     private void addTrinket(Trinket trinket) {
@@ -200,5 +201,9 @@ public class TrinketManager {
 
     public AmethystTrap getAmethystTrap() {
         return (AmethystTrap) getTrinketExact("amethystTrap");
+    }
+
+    public NetherStarTrap getNetherStarTrap() {
+        return (NetherStarTrap) getTrinketExact("netherStarTrap");
     }
 }
