@@ -39,6 +39,9 @@ public abstract class CrystalTrap extends Trinket {
     protected abstract void setMobs();
 
     public boolean isAllowedMob(Entity entity) {
+        for (Class<? extends LivingEntity> entityClass: untrappableMobs)
+            if (entityClass.isInstance(entity))
+                return false;
         for (Class<? extends LivingEntity> entityClass: trappableMobs)
             if (entityClass.isInstance(entity))
                 return true;
