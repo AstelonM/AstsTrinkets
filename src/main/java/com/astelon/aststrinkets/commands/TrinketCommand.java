@@ -43,7 +43,7 @@ public class TrinketCommand implements TabExecutor {
             String trinketName = args[1];
             Trinket trinket = trinketManager.getTrinket(trinketName);
             if (trinket == null) {
-                sender.sendMessage(Component.text("There is no enabled trinket with the name " + trinketName + ".",
+                sender.sendMessage(Component.text("There is no trinket with the name " + trinketName + ".",
                         NamedTextColor.RED));
                 return true;
             }
@@ -112,7 +112,6 @@ public class TrinketCommand implements TabExecutor {
             } else if (subcommand.equalsIgnoreCase("give")) {
                 String text = args[1];
                 return trinketManager.getTrinkets().stream()
-                        .filter(Trinket::isEnabled)
                         .filter(trinket -> sender.hasPermission("aststrinkets.op") || !trinket.isOp())
                         .map(Trinket::getName)
                         .filter(trinketName -> trinketName.startsWith(text))
