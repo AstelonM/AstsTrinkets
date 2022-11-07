@@ -60,11 +60,11 @@ public class PlayerInteractListener implements Listener {
                     Utils.transformItem(item, new ItemStack(Material.BUCKET), slot, inventory, player);
                     player.updateInventory();
                 }
-            } else if (diamondTrap.isEnabled() && diamondTrap.isTrinket(item) && diamondTrap.isAllowedMob(entity)) {
+            } else if (diamondTrap.isEnabled() && diamondTrap.isTrinket(item)) {
                 trapEntity(diamondTrap, item, entity, slot, inventory, player);
-            } else if (emeraldTrap.isEnabled() && emeraldTrap.isTrinket(item) && emeraldTrap.isAllowedMob(entity)) {
+            } else if (emeraldTrap.isEnabled() && emeraldTrap.isTrinket(item)) {
                 trapEntity(emeraldTrap, item, entity, slot, inventory, player);
-            } else if (amethystTrap.isEnabled() && amethystTrap.isTrinket(item) && amethystTrap.isAllowedMob(entity)) {
+            } else if (amethystTrap.isEnabled() && amethystTrap.isTrinket(item)) {
                 trapEntity(amethystTrap, item, entity, slot, inventory, player);
             }
         }
@@ -73,6 +73,10 @@ public class PlayerInteractListener implements Listener {
     private void trapEntity(CrystalTrap trap, ItemStack item, Entity entity, int slot, Inventory inventory, Player player) {
         if (trap.hasTrappedCreature(item)) {
             player.sendMessage(Component.text("This crystal trap already has a creature inside.", NamedTextColor.YELLOW));
+            return;
+        }
+        if (!trap.isAllowedMob(entity)) {
+            player.sendMessage(Component.text("It cannot be contained within this crystal.", NamedTextColor.RED));
             return;
         }
         ItemStack result = trap.trapCreature(item, entity);
