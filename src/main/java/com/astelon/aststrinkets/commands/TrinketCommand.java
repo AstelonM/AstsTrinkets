@@ -1,5 +1,6 @@
 package com.astelon.aststrinkets.commands;
 
+import com.astelon.aststrinkets.AstsTrinkets;
 import com.astelon.aststrinkets.trinkets.Trinket;
 import com.astelon.aststrinkets.managers.TrinketManager;
 import net.kyori.adventure.text.Component;
@@ -19,18 +20,20 @@ import java.util.stream.Collectors;
 
 public class TrinketCommand implements TabExecutor {
 
+    private final AstsTrinkets plugin;
     private final TrinketManager trinketManager;
     private final List<String> subcommands;
 
-    public TrinketCommand(TrinketManager trinketManager) {
+    public TrinketCommand(AstsTrinkets plugin, TrinketManager trinketManager) {
+        this.plugin = plugin;
         this.trinketManager = trinketManager;
-        subcommands = List.of("give", "clear");
+        subcommands = List.of("give", "clear", "reload");
     }
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if (args.length == 0) {
-            sender.sendMessage(Component.text("Available subcommands: give, clear."));
+            sender.sendMessage(Component.text("Available subcommands: give, clear, reload."));
             return true;
         }
         String subcommand = args[0];
@@ -94,6 +97,9 @@ public class TrinketCommand implements TabExecutor {
             } else {
                 sender.sendMessage("You removed " + player.getName() + "'s trinkets.");
             }
+        } else if (subcommand.equalsIgnoreCase("reload")) {
+            plugin.reload();
+            sender.sendMessage(Component.text("Ast's Trinkets reloaded!", NamedTextColor.GOLD));
         }
         return true;
     }
