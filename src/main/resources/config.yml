@@ -92,3 +92,14 @@ amethystTrap:
 # This is experimental.
 netherStarTrap:
   enabled: true
+
+# Shift right click in your inventory on a block to turn this trinket into an infinite source of that block for placing.
+# Basically creative mode, but only for a single block.
+# Players with permission aststrinkets.trinket.unboundinfinityitem are able to use this trinket on any block.
+# This trinket is, too, experimental.
+infinityItem:
+  enabled: true
+  # List of blocks you can add can be found here https://jd.papermc.io/paper/1.18/org/bukkit/Material.html
+  # The trinket can only be used on the blocks specified here.
+  allowedBlocks: [DIRT, STONE, COBBLESTONE, OAK_LOG, BIRCH_LOG, SPRUCE_LOG, JUNGLE_LOG, ACACIA_LOG, DARK_OAK_LOG,
+                  CRIMSON_STEM, WARPED_STEM, DEEPSLATE, COBBLED_DEEPSLATE]

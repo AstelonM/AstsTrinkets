@@ -5,13 +5,16 @@ import com.astelon.aststrinkets.listeners.*;
 import com.astelon.aststrinkets.managers.CakeManager;
 import com.astelon.aststrinkets.managers.InvisibilityManager;
 import com.astelon.aststrinkets.managers.TrinketManager;
+import com.astelon.aststrinkets.trinkets.InfinityItem;
 import com.astelon.aststrinkets.trinkets.MysteryCake;
 import com.astelon.aststrinkets.trinkets.ShapeShifter;
 import com.astelon.aststrinkets.trinkets.Trinket;
+import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.util.List;
 import java.util.Objects;
 
 public class AstsTrinkets extends JavaPlugin {
@@ -30,7 +33,7 @@ public class AstsTrinkets extends JavaPlugin {
         pluginManager.registerEvents(new InvisibilityListener(this, trinketManager, invisibilityManager), this);
         pluginManager.registerEvents(new ShapeShifterListener(this, trinketManager), this);
         pluginManager.registerEvents(new CakeListener(this, trinketManager, cakeManager), this);
-        pluginManager.registerEvents(new SpinneretListener(this, trinketManager), this);
+        pluginManager.registerEvents(new BlockListener(this, trinketManager), this);
         pluginManager.registerEvents(new InventoryUseListener(this, trinketManager), this);
         pluginManager.registerEvents(new PlayerInteractListener(this, trinketManager), this);
         loadConfig();
@@ -51,5 +54,9 @@ public class AstsTrinkets extends JavaPlugin {
         shapeShifter.removeItems(configuration.getStringList(shapeShifter.getName() + ".itemBlacklist"));
         MysteryCake mysteryCake = trinketManager.getMysteryCake();
         mysteryCake.setCheckHealth(configuration.getBoolean(mysteryCake.getName() + ".checkHealth"));
+        InfinityItem infinityItem = trinketManager.getInfinityItem();
+        List<Material> allowedBlocks = configuration.getStringList(infinityItem.getName() + ".allowedBlocks")
+                .stream().map(Material::valueOf).filter(Material::isBlock).filter(Material::isItem).toList();
+        infinityItem.setAllowedBlocks(allowedBlocks);
     }
 }

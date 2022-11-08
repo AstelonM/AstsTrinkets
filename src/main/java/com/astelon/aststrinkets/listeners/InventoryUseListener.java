@@ -2,10 +2,7 @@ package com.astelon.aststrinkets.listeners;
 
 import com.astelon.aststrinkets.AstsTrinkets;
 import com.astelon.aststrinkets.managers.TrinketManager;
-import com.astelon.aststrinkets.trinkets.BindingPowder;
-import com.astelon.aststrinkets.trinkets.Homendingdirt;
-import com.astelon.aststrinkets.trinkets.Homendirt;
-import com.astelon.aststrinkets.trinkets.MendingPowder;
+import com.astelon.aststrinkets.trinkets.*;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Material;
@@ -32,6 +29,7 @@ public class InventoryUseListener implements Listener {
     private final BindingPowder bindingPowder;
     private final Homendirt homendirt;
     private final Homendingdirt homendingdirt;
+    private final InfinityItem infinityItem;
 
     public InventoryUseListener(AstsTrinkets plugin, TrinketManager manager) {
         this.plugin = plugin;
@@ -40,6 +38,7 @@ public class InventoryUseListener implements Listener {
         this.bindingPowder = manager.getBindingPowder();
         this.homendirt = manager.getHomendirt();
         this.homendingdirt = manager.getHomendingdirt();
+        this.infinityItem = manager.getInfinityItem();
     }
 
     @EventHandler
@@ -131,6 +130,21 @@ public class InventoryUseListener implements Listener {
                 ItemStack result = homendingdirt.addMending(item, heldItem);
                 transformItem(item, result, slot, inventory, player);
                 heldItem.subtract();
+                player.updateInventory();
+            } else if (infinityItem.isEnabled() && infinityItem.isTrinket(heldItem)) {
+                if (infinityItem.hasBlock(heldItem))
+                    return;
+                ItemStack item = event.getCurrentItem();
+                if (item == null)
+                    return;
+                Material block = item.getType();
+                if (!infinityItem.isAllowedBlock(block, player)) {
+                    player.sendMessage(Component.text("This block cannot be replicated.", NamedTextColor.RED));
+                    return;
+                }
+                event.setCancelled(true);
+                ItemStack result = infinityItem.replicateBlock(heldItem, block);
+                transformCursorItem(heldItem, result, player.getInventory(), player);
                 player.updateInventory();
             }
         }
