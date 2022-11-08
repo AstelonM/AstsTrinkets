@@ -86,6 +86,7 @@ public class InventoryUseListener implements Listener {
                 int slot = event.getSlot();
                 Inventory inventory = event.getClickedInventory();
                 if (homendingdirt.isTrinket(item)) {
+                    event.setCancelled(true);
                     int mending = item.getEnchantmentLevel(Enchantment.MENDING);
                     item.subtract();
                     ItemStack newHomendingdirt = homendingdirt.createHomendingdirt(heldItem, mending);
@@ -103,6 +104,7 @@ public class InventoryUseListener implements Listener {
                 }
                 if (mending == 0)
                     return;
+                event.setCancelled(true);
                 ItemStack result = homendirt.removeMending(item);
                 transformItem(item, result, slot, inventory, player);
                 ItemStack homendingdirtItem = homendingdirt.createHomendingdirt(heldItem, mending);
@@ -115,6 +117,7 @@ public class InventoryUseListener implements Listener {
                 int slot = event.getSlot();
                 Inventory inventory = event.getClickedInventory();
                 if (homendirt.isTrinket(item)) {
+                    event.setCancelled(true);
                     int mending = heldItem.getEnchantmentLevel(Enchantment.MENDING);
                     heldItem.subtract();
                     ItemStack newHomendingdirt = homendingdirt.createHomendingdirt(item, mending);
@@ -127,6 +130,7 @@ public class InventoryUseListener implements Listener {
                 int mending = item.getEnchantmentLevel(Enchantment.MENDING);
                 if (mending != 0)
                     return;
+                event.setCancelled(true);
                 ItemStack result = homendingdirt.addMending(item, heldItem);
                 transformItem(item, result, slot, inventory, player);
                 heldItem.subtract();
