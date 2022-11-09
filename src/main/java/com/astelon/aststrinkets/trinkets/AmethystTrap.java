@@ -36,6 +36,8 @@ public class AmethystTrap extends CrystalTrap {
         trappableMobs.add(Golem.class);
         trappableMobs.add(Slime.class);
         trappableMobs.add(Phantom.class);
+        trappableMobs.add(SkeletonHorse.class);
+        trappableMobs.add(ZombieHorse.class);
         untrappableMobs.add(Enderman.class);
         untrappableMobs.add(Endermite.class);
         untrappableMobs.add(Illager.class);

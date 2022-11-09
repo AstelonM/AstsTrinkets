@@ -41,7 +41,7 @@ public class NetherStarTrap extends CrystalTrap {
     @Override
     protected void setMobs() {
         trappableMobs.add(Mob.class);
-        untrappableMobs.add(Wither.class);
+        untrappableMobs.add(EnderDragon.class);
     }
 
     public ItemStack emptyTrap(ItemStack itemStack) {
