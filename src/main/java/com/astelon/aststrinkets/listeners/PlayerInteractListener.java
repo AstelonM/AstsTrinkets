@@ -17,15 +17,19 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 
+import java.util.HashMap;
+
 public class PlayerInteractListener implements Listener {
 
     private final AstsTrinkets plugin;
     private final TrinketManager trinketManager;
+    private final HashMap<Player, Long> cooldowns;
     private final YouthMilk youthMilk;
     private final DiamondTrap diamondTrap;
     private final EmeraldTrap emeraldTrap;
@@ -35,6 +39,7 @@ public class PlayerInteractListener implements Listener {
     public PlayerInteractListener(AstsTrinkets plugin, TrinketManager trinketManager) {
         this.plugin = plugin;
         this.trinketManager = trinketManager;
+        cooldowns = new HashMap<>();
         youthMilk = trinketManager.getYouthMilk();
         diamondTrap = trinketManager.getDiamondTrap();
         emeraldTrap = trinketManager.getEmeraldTrap();
@@ -77,6 +82,9 @@ public class PlayerInteractListener implements Listener {
     }
 
     private void trapEntity(CrystalTrap trap, ItemStack item, Entity entity, int slot, Inventory inventory, Player player) {
+        long now = System.currentTimeMillis();
+        if (now - cooldowns.getOrDefault(player, 0L) <= 1000)
+            return;
         if (trap.hasTrappedCreature(item)) {
             player.sendMessage(Component.text("This crystal trap already has a creature inside.", NamedTextColor.YELLOW));
             return;
@@ -95,6 +103,7 @@ public class PlayerInteractListener implements Listener {
                 "trap.", NamedTextColor.GOLD));
         plugin.getLogger().info(Utils.getMobTypeAndName(entity) + " trapped in a crystal trap at " +
                 Utils.locationToString(entity.getLocation()) + " by player " + player.getName() + ".");
+        cooldowns.put(player, now);
     }
 
     @EventHandler
@@ -120,6 +129,9 @@ public class PlayerInteractListener implements Listener {
     }
 
     private void releaseEntity(CrystalTrap trap, ItemStack itemStack, Block block, Player player, int slot) {
+        long now = System.currentTimeMillis();
+        if (now - cooldowns.getOrDefault(player, 0L) <= 1000)
+            return;
         if (!trap.hasTrappedCreature(itemStack))
             return;
         Location originalLocation = block.getLocation();
@@ -146,6 +158,7 @@ public class PlayerInteractListener implements Listener {
                 NamedTextColor.GOLD));
         plugin.getLogger().info(Utils.getMobTypeAndName(entity) + " released from a crystal trap at " +
                 Utils.locationToString(entity.getLocation()) + " by player " + player.getName() + ".");
+        cooldowns.put(player, now);
     }
 
     private boolean hasEnoughSpace(Location location) {
@@ -153,5 +166,10 @@ public class PlayerInteractListener implements Listener {
             return false;
         Location above = new Location(location.getWorld(), location.getBlockX(), location.getBlockY() + 1, location.getBlockZ());
         return above.getBlock().isPassable();
+    }
+
+    @EventHandler
+    public void onPlayerQuit(PlayerQuitEvent event) {
+        cooldowns.remove(event.getPlayer());
     }
 }
