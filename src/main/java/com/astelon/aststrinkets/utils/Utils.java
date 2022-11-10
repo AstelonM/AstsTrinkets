@@ -116,7 +116,7 @@ public class Utils {
         String type = getMobType(entity.getType());
         Component name = entity.customName();
         if (name != null)
-            return type + "named " + PlainTextComponentSerializer.plainText().serialize(name);
+            return type + " named " + PlainTextComponentSerializer.plainText().serialize(name);
         return type;
     }
 
