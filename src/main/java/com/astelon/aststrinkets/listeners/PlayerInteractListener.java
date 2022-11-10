@@ -54,8 +54,7 @@ public class PlayerInteractListener implements Listener {
         PlayerInventory inventory = player.getInventory();
         ItemStack item = hand == EquipmentSlot.HAND ? inventory.getItemInMainHand() : inventory.getItemInOffHand();
         Entity entity = event.getRightClicked();
-        // Offhand slot is 40, might replace with a non-hardcoded method later
-        int slot = hand == EquipmentSlot.HAND ? inventory.getHeldItemSlot() : 40;
+        int slot = hand == EquipmentSlot.HAND ? inventory.getHeldItemSlot() : Utils.OFF_HAND_SLOT;
         if (trinketManager.isOwnedBy(item, player.getName())) {
             if (youthMilk.isEnabled() && youthMilk.isTrinket(item) && event.getRightClicked() instanceof Ageable ageable) {
                 if (!ageable.isAdult())
@@ -121,7 +120,7 @@ public class PlayerInteractListener implements Listener {
             if (trinketManager.isTrinket(mainHandItem)) {
                 useTrinkets(mainHandItem, player, block, inventory.getHeldItemSlot());
             } else if (trinketManager.isTrinket(offHandItem)) { //TODO use both hands at the same time?
-                useTrinkets(mainHandItem, player, block, 40);
+                useTrinkets(mainHandItem, player, block, Utils.OFF_HAND_SLOT);
             }
         }
     }

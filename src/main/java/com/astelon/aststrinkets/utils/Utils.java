@@ -19,6 +19,9 @@ import java.util.stream.Collectors;
 
 public class Utils {
 
+    // For some reasons no way to get this through the API
+    public static int OFF_HAND_SLOT = 40;
+
     public static String serializeCoords(Location location) {
         return location.getWorld().getName() + ";" + location.getBlockX() + ";" + location.getBlockY() + ";" +
                 location.getBlockZ();
