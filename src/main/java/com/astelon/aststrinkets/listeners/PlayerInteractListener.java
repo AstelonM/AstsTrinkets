@@ -76,7 +76,7 @@ public class PlayerInteractListener implements Listener {
             } else if (amethystTrap.isEnabled() && amethystTrap.isTrinket(item)) {
                 trapEntity(amethystTrap, item, entity, slot, inventory, player);
             } else if (netherStarTrap.isEnabled() && netherStarTrap.isTrinket(item)) {
-                trapEntity(amethystTrap, item, entity, slot, inventory, player);
+                trapEntity(netherStarTrap, item, entity, slot, inventory, player);
             }
         }
     }
