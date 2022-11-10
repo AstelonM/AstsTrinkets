@@ -111,11 +111,23 @@ public class PlayerInteractListener implements Listener {
         if (event.getAction() != Action.RIGHT_CLICK_BLOCK)
             return;
         Block block = event.getClickedBlock();
-        ItemStack itemStack = event.getItem();
-        Player player = event.getPlayer();
-        // Offhand slot is 40, might replace with a non-hardcoded method later
-        int slot = event.getHand() == EquipmentSlot.HAND ? player.getInventory().getHeldItemSlot() : 40;
-        if (block != null && itemStack != null && trinketManager.isOwnedBy(itemStack, player.getName())) {
+        // Only checking for OFF_HAND because it is never used for specific interactions (open chests etc.), and it
+        // is always called otherwise. It is used for placing blocks from offhand, though, so checking for that as well
+        if (block != null && event.getHand() == EquipmentSlot.OFF_HAND && !event.isBlockInHand()) {
+            Player player = event.getPlayer();
+            PlayerInventory inventory = player.getInventory();
+            ItemStack mainHandItem = inventory.getItemInMainHand();
+            ItemStack offHandItem = inventory.getItemInOffHand();
+            if (trinketManager.isTrinket(mainHandItem)) {
+                useTrinkets(mainHandItem, player, block, inventory.getHeldItemSlot());
+            } else if (trinketManager.isTrinket(offHandItem)) { //TODO use both hands at the same time?
+                useTrinkets(mainHandItem, player, block, 40);
+            }
+        }
+    }
+
+    private void useTrinkets(ItemStack itemStack, Player player, Block block, int slot) {
+        if (itemStack != null && trinketManager.isOwnedBy(itemStack, player.getName())) {
             if (diamondTrap.isEnabled() && diamondTrap.isTrinket(itemStack)) {
                 releaseEntity(diamondTrap, itemStack, block, player, slot);
             } else if (emeraldTrap.isEnabled() && emeraldTrap.isTrinket(itemStack)) {
