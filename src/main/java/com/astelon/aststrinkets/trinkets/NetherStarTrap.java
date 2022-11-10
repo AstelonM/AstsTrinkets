@@ -49,7 +49,7 @@ public class NetherStarTrap extends CrystalTrap {
             throw new IllegalArgumentException("Not a Nether Star Trap.");
         ItemStack result = itemStack.asOne();
         ItemMeta meta = result.getItemMeta();
-        meta.displayName(this.itemStack.displayName());
+        meta.displayName(Component.text("Nether Star Trap", NamedTextColor.GOLD));
         List<Component> lore = meta.lore();
         ArrayList<Component> newLore = new ArrayList<>();
         if (lore != null) {
