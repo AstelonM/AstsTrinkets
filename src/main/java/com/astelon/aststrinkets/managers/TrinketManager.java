@@ -124,6 +124,13 @@ public class TrinketManager {
         invisibilityManager.removeTrulyInvisiblePlayer(player);
     }
 
+    /**
+     * Gets the owner of an ItemStack. A null return value means that either the itemStack is null, or it has no ItemMeta,
+     * or there was no owner set in the first place. This method is meant to check the owner of a trinket, but it makes
+     * no check if the given ItemStack is actually a trinket.
+     * @param itemStack the ItemStack whose owner is being checked
+     * @return the name of the owner, if set, or null otherwise
+     */
     @Nullable
     public String getOwner(ItemStack itemStack) {
         if (itemStack == null)
@@ -137,6 +144,16 @@ public class TrinketManager {
         return container.get(ownerKey, PersistentDataType.STRING);
     }
 
+    /**
+     * Checks if an ItemStack is owned by a player with the given name. An ItemStack is owned by a given player if
+     * the trinketOwner field was set to the name of the player, or if the trinketOwner field was not set at all. This
+     * means that an ItemStack with no set owner is effectively owned by everyone. While the method is aimed at checking
+     * ownership of a trinket, no check is made to make sure that the given ItemStack is actually a trinket.
+     * @param itemStack the ItemStack being checked
+     * @param playerName the name of the player
+     * @return true if the ItemStack is owned by a player with the given name or if the ItemStack has no owner;
+     * false if an owner was set, and has a different name than the given one
+     */
     public boolean isOwnedBy(ItemStack itemStack, String playerName) {
         String owner = getOwner(itemStack);
         if (owner == null)
