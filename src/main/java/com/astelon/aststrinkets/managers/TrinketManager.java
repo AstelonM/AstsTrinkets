@@ -141,7 +141,7 @@ public class TrinketManager {
         String owner = getOwner(itemStack);
         if (owner == null)
             return true;
-        return playerName.equals(getOwner(itemStack));
+        return playerName.equals(owner);
     }
 
     public FragileInvisibilityTunic getFragileInvisibilityTunic() {
