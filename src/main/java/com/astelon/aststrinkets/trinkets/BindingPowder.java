@@ -4,6 +4,7 @@ import com.astelon.aststrinkets.AstsTrinkets;
 import com.astelon.aststrinkets.Power;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
@@ -49,19 +50,19 @@ public class BindingPowder extends Trinket {
         container.set(ownerKey, PersistentDataType.STRING, name);
         List<Component> lore = meta.lore();
         if (lore == null)
-            meta.lore(List.of(
-                    Component.text()
-                            .append(Component.text("Owner: ", NamedTextColor.GOLD))
-                            .append(Component.text(name, NamedTextColor.YELLOW))
-                    .build()
-            ));
+            meta.lore(List.of(getOwnerLoreLine(name)));
         else {
             ArrayList<Component> newLore = new ArrayList<>(lore.size() + 1);
-            newLore.add(Component.text("Owner: " + name));
+            newLore.add(getOwnerLoreLine(name));
             newLore.addAll(lore);
             meta.lore(newLore);
         }
         result.setItemMeta(meta);
         return result;
+    }
+
+    public static Component getOwnerLoreLine(String name) {
+        return Component.text("Owner: ", NamedTextColor.GOLD).decoration(TextDecoration.ITALIC, false)
+                .append(Component.text(name, NamedTextColor.YELLOW));
     }
 }
