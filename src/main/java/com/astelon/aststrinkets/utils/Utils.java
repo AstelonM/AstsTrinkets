@@ -7,9 +7,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.EntityType;
-import org.bukkit.entity.Player;
+import org.bukkit.entity.*;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
@@ -130,5 +128,21 @@ public class Utils {
     public static String getBlockName(Material material) {
         return Arrays.stream(material.name().split("_"))
                 .map(text -> text.charAt(0) + text.substring(1).toLowerCase()).collect(Collectors.joining(" "));
+    }
+
+    public static boolean isPetOwner(Entity entity, Player player) {
+        if (!(entity instanceof Tameable) && !(entity instanceof Fox))
+            return true;
+        if (entity instanceof Tameable tameable) {
+            if (!tameable.isTamed())
+                return true;
+            return player.getUniqueId().equals(tameable.getOwnerUniqueId());
+        }
+        Fox fox = (Fox) entity;
+        AnimalTamer firstTamer = fox.getFirstTrustedPlayer();
+        AnimalTamer secondTamer = fox.getSecondTrustedPlayer();
+        return firstTamer == null && secondTamer == null ||
+                firstTamer != null && firstTamer.getUniqueId().equals(player.getUniqueId()) ||
+                secondTamer != null && secondTamer.getUniqueId().equals(player.getUniqueId());
     }
 }

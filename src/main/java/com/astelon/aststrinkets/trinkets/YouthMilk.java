@@ -11,7 +11,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.List;
 
-public class YouthMilk extends Trinket {
+public class YouthMilk extends PetCheckingTrinket {
 
     public YouthMilk(AstsTrinkets plugin, NamespacedKey nameKey, NamespacedKey powerKey) {
         super(plugin, nameKey, powerKey, "youthMilk", Power.YOUTH, false);

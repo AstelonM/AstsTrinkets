@@ -5,10 +5,7 @@ import com.astelon.aststrinkets.listeners.*;
 import com.astelon.aststrinkets.managers.CakeManager;
 import com.astelon.aststrinkets.managers.InvisibilityManager;
 import com.astelon.aststrinkets.managers.TrinketManager;
-import com.astelon.aststrinkets.trinkets.InfinityItem;
-import com.astelon.aststrinkets.trinkets.MysteryCake;
-import com.astelon.aststrinkets.trinkets.ShapeShifter;
-import com.astelon.aststrinkets.trinkets.Trinket;
+import com.astelon.aststrinkets.trinkets.*;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.PluginManager;
@@ -58,5 +55,15 @@ public class AstsTrinkets extends JavaPlugin {
         List<Material> allowedBlocks = configuration.getStringList(infinityItem.getName() + ".allowedBlocks")
                 .stream().map(Material::valueOf).filter(Material::isBlock).filter(Material::isItem).toList();
         infinityItem.setAllowedBlocks(allowedBlocks);
+        YouthMilk youthMilk = trinketManager.getYouthMilk();
+        youthMilk.setPetOwnerOnly(configuration.getBoolean(youthMilk.getName() + ".petOwnerOnly"));
+        DiamondTrap diamondTrap = trinketManager.getDiamondTrap();
+        diamondTrap.setPetOwnerOnly(configuration.getBoolean(diamondTrap.getName() + ".petOwnerOnly"));
+        EmeraldTrap emeraldTrap = trinketManager.getEmeraldTrap();
+        emeraldTrap.setPetOwnerOnly(configuration.getBoolean(emeraldTrap.getName() + ".petOwnerOnly"));
+        AmethystTrap amethystTrap = trinketManager.getAmethystTrap();
+        amethystTrap.setPetOwnerOnly(configuration.getBoolean(amethystTrap.getName() + ".petOwnerOnly"));
+        NetherStarTrap netherStarTrap = trinketManager.getNetherStarTrap();
+        netherStarTrap.setPetOwnerOnly(configuration.getBoolean(netherStarTrap.getName() + ".petOwnerOnly"));
     }
 }

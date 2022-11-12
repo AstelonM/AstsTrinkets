@@ -60,6 +60,10 @@ public class PlayerInteractListener implements Listener {
                 if (!ageable.isAdult())
                     return;
                 if (youthMilk.isTrinket(item)) {
+                    if (!youthMilk.canUseOnPet(ageable, player)) {
+                        player.sendMessage(Component.text("You can't use this on someone else's pet.", NamedTextColor.RED));
+                        return;
+                    }
                     event.setCancelled(true);
                     //TODO check ageLock?
                     ageable.setBaby();
@@ -90,6 +94,10 @@ public class PlayerInteractListener implements Listener {
         }
         if (!trap.isAllowedMob(entity)) {
             player.sendMessage(Component.text("It cannot be contained within this crystal.", NamedTextColor.RED));
+            return;
+        }
+        if (!trap.canUseOnPet(entity, player)) {
+            player.sendMessage(Component.text("You can't trap someone else's pet.", NamedTextColor.RED));
             return;
         }
         ItemStack result = trap.trapCreature(item, entity);
