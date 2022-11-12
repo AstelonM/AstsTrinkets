@@ -112,23 +112,23 @@ public class TrinketCommand implements TabExecutor {
         } else if (args.length == 2) {
             String subcommand = args[0];
             if (subcommand.equalsIgnoreCase("clear")) {
-                String text = args[1];
+                String text = args[1].toLowerCase();
                 return Bukkit.getOnlinePlayers().stream().map(HumanEntity::getName)
-                        .filter(playerName -> playerName.startsWith(text)).collect(Collectors.toList());
+                        .filter(playerName -> playerName.toLowerCase().startsWith(text)).collect(Collectors.toList());
             } else if (subcommand.equalsIgnoreCase("give")) {
-                String text = args[1];
+                String text = args[1].toLowerCase();
                 return trinketManager.getTrinkets().stream()
                         .filter(trinket -> sender.hasPermission("aststrinkets.op") || !trinket.isOp())
                         .map(Trinket::getName)
-                        .filter(trinketName -> trinketName.startsWith(text))
+                        .filter(trinketName -> trinketName.toLowerCase().startsWith(text))
                         .collect(Collectors.toList());
             }
         } else if (args.length == 3) {
             String subcommand = args[0];
             if (subcommand.equalsIgnoreCase("give")) {
-                String text = args[2];
+                String text = args[2].toLowerCase();
                 return Bukkit.getOnlinePlayers().stream().map(HumanEntity::getName)
-                        .filter(playerName -> playerName.startsWith(text)).collect(Collectors.toList());
+                        .filter(playerName -> playerName.toLowerCase().startsWith(text)).collect(Collectors.toList());
             }
         }
         return null;
