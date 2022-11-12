@@ -4,6 +4,7 @@ import com.astelon.aststrinkets.AstsTrinkets;
 import com.astelon.aststrinkets.Power;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemFactory;
@@ -69,7 +70,8 @@ public class ShapeShifter extends Trinket {
             ItemFactory factory = plugin.getServer().getItemFactory();
             meta = factory.getItemMeta(material);
         }
-        meta.displayName(Component.text("Not " + materialName, NamedTextColor.GREEN));
+        meta.displayName(Component.text("Not " + materialName, NamedTextColor.GREEN)
+                .decoration(TextDecoration.ITALIC, false));
         meta.lore(List.of(Component.text("Or is it?")));
         itemStack.setItemMeta(meta);
     }

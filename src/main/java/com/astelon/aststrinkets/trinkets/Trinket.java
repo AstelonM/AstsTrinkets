@@ -2,6 +2,8 @@ package com.astelon.aststrinkets.trinkets;
 
 import com.astelon.aststrinkets.AstsTrinkets;
 import com.astelon.aststrinkets.Power;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -28,6 +30,9 @@ public abstract class Trinket {
         this.itemStack = createItemStack();
         this.isOp = isOp;
         ItemMeta meta = itemStack.getItemMeta();
+        Component displayName = meta.displayName();
+        if (displayName != null)
+            meta.displayName(displayName.decoration(TextDecoration.ITALIC, false));
         PersistentDataContainer container = meta.getPersistentDataContainer();
         container.set(this.nameKey, PersistentDataType.STRING, name);
         container.set(this.powerKey, PersistentDataType.STRING, power.powerName());

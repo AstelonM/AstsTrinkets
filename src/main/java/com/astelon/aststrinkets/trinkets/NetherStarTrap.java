@@ -4,6 +4,7 @@ import com.astelon.aststrinkets.AstsTrinkets;
 import com.astelon.aststrinkets.Power;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.format.TextDecoration;
 import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -49,7 +50,8 @@ public class NetherStarTrap extends CrystalTrap {
             throw new IllegalArgumentException("Not a Nether Star Trap.");
         ItemStack result = itemStack.asOne();
         ItemMeta meta = result.getItemMeta();
-        meta.displayName(Component.text("Nether Star Trap", NamedTextColor.GOLD));
+        meta.displayName(Component.text("Nether Star Trap", NamedTextColor.GOLD)
+                .decoration(TextDecoration.ITALIC, false));
         List<Component> lore = meta.lore();
         ArrayList<Component> newLore = new ArrayList<>();
         if (lore != null) {

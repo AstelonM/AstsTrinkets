@@ -5,6 +5,7 @@ import com.astelon.aststrinkets.Power;
 import com.astelon.aststrinkets.utils.Utils;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextColor;
+import net.kyori.adventure.text.format.TextDecoration;
 import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
@@ -57,7 +58,8 @@ public abstract class CrystalTrap extends PetCheckingTrinket {
         if (container.has(trapKey, PersistentDataType.BYTE_ARRAY))
             return null;
         String name = Utils.getMobNameOrType(entity);
-        meta.displayName(Component.text("Crystal Trap with " + name, nameColour));
+        meta.displayName(Component.text("Crystal Trap with " + name, nameColour)
+                .decoration(TextDecoration.ITALIC, false));
 
         ArrayList<Component> newLore = new ArrayList<>();
         if (meta.lore() != null)

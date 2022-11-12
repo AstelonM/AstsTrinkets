@@ -5,6 +5,7 @@ import com.astelon.aststrinkets.Power;
 import com.astelon.aststrinkets.utils.Utils;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
@@ -50,7 +51,8 @@ public class InfinityItem extends Trinket {
         ItemStack result = infinityItem.asOne();
         result.setType(block);
         ItemMeta meta = result.getItemMeta();
-        meta.displayName(Component.text("Infinite " + Utils.getBlockName(block), NamedTextColor.GRAY));
+        meta.displayName(Component.text("Infinite " + Utils.getBlockName(block), NamedTextColor.GRAY)
+                .decoration(TextDecoration.ITALIC, false));
         ArrayList<Component> newLore = new ArrayList<>();
         PersistentDataContainer container = meta.getPersistentDataContainer();
         if (container.has(ownerKey, PersistentDataType.STRING)) {
