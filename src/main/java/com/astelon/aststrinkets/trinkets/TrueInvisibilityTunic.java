@@ -15,7 +15,8 @@ import java.util.List;
 public class TrueInvisibilityTunic extends Trinket {
 
     public TrueInvisibilityTunic(AstsTrinkets plugin, NamespacedKey nameKey, NamespacedKey powerKey) {
-        super(plugin, nameKey, powerKey, "trueInvisibilityTunic", Power.TRUE_INVISIBILITY, true);
+        super(plugin, nameKey, powerKey, "trueInvisibilityTunic", NamedTextColor.GOLD, Power.TRUE_INVISIBILITY,
+                true);
     }
 
     @Override

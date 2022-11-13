@@ -27,13 +27,18 @@ public abstract class CrystalTrap extends PetCheckingTrinket {
     protected final ArrayList<Class<? extends LivingEntity>> untrappableMobs;
 
     public CrystalTrap(AstsTrinkets plugin, NamespacedKey nameKey, NamespacedKey powerKey, NamespacedKey trapKey,
-                       String name, Power power, boolean isOp, TextColor nameColour) {
-        super(plugin, nameKey, powerKey, name, power, isOp);
+                       String name, Power power, boolean isOp, TextColor nameColour, TextColor infoColour) {
+        super(plugin, nameKey, powerKey, name, infoColour, power, isOp);
         this.trapKey = trapKey;
         this.nameColour = nameColour;
         trappableMobs = new ArrayList<>();
         untrappableMobs = new ArrayList<>();
         setMobs();
+    }
+
+    public CrystalTrap(AstsTrinkets plugin, NamespacedKey nameKey, NamespacedKey powerKey, NamespacedKey trapKey,
+                       String name, Power power, boolean isOp, TextColor nameColour) {
+        this(plugin, nameKey, powerKey, trapKey, name, power, isOp, nameColour, null);
     }
 
     protected abstract void setMobs();

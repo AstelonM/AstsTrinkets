@@ -16,7 +16,7 @@ public class EmeraldTrap extends CrystalTrap {
 
     public EmeraldTrap(AstsTrinkets plugin, NamespacedKey nameKey, NamespacedKey powerKey, NamespacedKey trapKey) {
         super(plugin, nameKey, powerKey, trapKey, "emeraldTrap", Power.CAPTURE_ANIMALS, true,
-                NamedTextColor.GREEN);
+                NamedTextColor.GREEN, NamedTextColor.AQUA);
     }
 
     @Override

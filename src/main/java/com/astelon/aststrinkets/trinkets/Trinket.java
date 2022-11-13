@@ -3,6 +3,7 @@ package com.astelon.aststrinkets.trinkets;
 import com.astelon.aststrinkets.AstsTrinkets;
 import com.astelon.aststrinkets.Power;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.TextColor;
 import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
@@ -16,16 +17,22 @@ public abstract class Trinket {
     protected final NamespacedKey nameKey;
     protected final NamespacedKey powerKey;
     protected final String name;
+    protected final TextColor infoColour;
     protected final ItemStack itemStack;
     protected Power power;
     protected boolean enabled;
     protected final boolean isOp;
 
-    public Trinket(AstsTrinkets plugin, NamespacedKey nameKey, NamespacedKey powerKey, String name, Power power, boolean isOp) {
+    public Trinket(AstsTrinkets plugin, NamespacedKey nameKey, NamespacedKey powerKey, String name, TextColor infoColour,
+                   Power power, boolean isOp) {
         this.plugin = plugin;
         this.nameKey = nameKey;
         this.powerKey = powerKey;
         this.name = name;
+        if (infoColour == null)
+            this.infoColour = TextColor.fromHexString("#4AF626");
+        else
+            this.infoColour = infoColour;
         this.power = power;
         this.itemStack = createItemStack();
         this.isOp = isOp;
@@ -37,6 +44,10 @@ public abstract class Trinket {
         container.set(this.nameKey, PersistentDataType.STRING, name);
         container.set(this.powerKey, PersistentDataType.STRING, power.powerName());
         itemStack.setItemMeta(meta);
+    }
+
+    public Trinket(AstsTrinkets plugin, NamespacedKey nameKey, NamespacedKey powerKey, String name, Power power, boolean isOp) {
+        this(plugin, nameKey, powerKey, name, null, power, isOp);
     }
 
     protected abstract ItemStack createItemStack();
@@ -63,6 +74,10 @@ public abstract class Trinket {
 
     public String getName() {
         return name;
+    }
+
+    public TextColor getInfoColour() {
+        return infoColour;
     }
 
     public ItemStack getItemStack() {

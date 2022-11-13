@@ -3,6 +3,7 @@ package com.astelon.aststrinkets.trinkets;
 import com.astelon.aststrinkets.AstsTrinkets;
 import com.astelon.aststrinkets.Power;
 import com.astelon.aststrinkets.utils.Utils;
+import net.kyori.adventure.text.format.TextColor;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -11,6 +12,11 @@ import org.bukkit.entity.Player;
 public abstract class PetCheckingTrinket extends Trinket {
 
     protected boolean petOwnerOnly;
+
+    public PetCheckingTrinket(AstsTrinkets plugin, NamespacedKey nameKey, NamespacedKey powerKey, String name,
+                              TextColor infoColour, Power power, boolean isOp) {
+        super(plugin, nameKey, powerKey, name, infoColour, power, isOp);
+    }
 
     public PetCheckingTrinket(AstsTrinkets plugin, NamespacedKey nameKey, NamespacedKey powerKey, String name, Power power,
                               boolean isOp) {
