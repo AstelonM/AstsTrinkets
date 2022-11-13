@@ -4,6 +4,7 @@ import com.astelon.aststrinkets.AstsTrinkets;
 import com.astelon.aststrinkets.Power;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.format.TextColor;
 import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -36,7 +37,7 @@ public class BindingPowder extends Trinket {
         return itemStack;
     }
 
-    public ItemStack bindTrinket(ItemStack itemStack, Player player) {
+    public ItemStack bindTrinket(ItemStack itemStack, Trinket trinket, Player player) {
         ItemStack result = itemStack.asOne();
         ItemMeta meta = result.getItemMeta();
         if (meta == null)
@@ -50,10 +51,10 @@ public class BindingPowder extends Trinket {
         container.set(ownerKey, PersistentDataType.STRING, name);
         List<Component> lore = meta.lore();
         if (lore == null)
-            meta.lore(List.of(getOwnerLoreLine(name)));
+            meta.lore(List.of(getOwnerLoreLine(name, trinket.infoColour)));
         else {
             ArrayList<Component> newLore = new ArrayList<>(lore.size() + 1);
-            newLore.add(getOwnerLoreLine(name));
+            newLore.add(getOwnerLoreLine(name, trinket.infoColour));
             newLore.addAll(lore);
             meta.lore(newLore);
         }
@@ -61,8 +62,8 @@ public class BindingPowder extends Trinket {
         return result;
     }
 
-    public static Component getOwnerLoreLine(String name) {
-        return Component.text("Owner: ", NamedTextColor.GOLD).decoration(TextDecoration.ITALIC, false)
-                .append(Component.text(name, NamedTextColor.YELLOW));
+    public static Component getOwnerLoreLine(String name, TextColor colour) {
+        return Component.text("Owner: ", colour).decoration(TextDecoration.ITALIC, false)
+                .append(Component.text(name, colour));
     }
 }

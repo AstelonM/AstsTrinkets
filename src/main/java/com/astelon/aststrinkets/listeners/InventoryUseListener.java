@@ -67,9 +67,10 @@ public class InventoryUseListener implements Listener {
                 ItemStack item = event.getCurrentItem();
                 if (item == null)
                     return;
-                if (trinketManager.isTrinket(item)) {
+                Trinket trinket = trinketManager.getTrinket(item);
+                if (trinket != null) {
                     event.setCancelled(true);
-                    ItemStack result = bindingPowder.bindTrinket(item, player);
+                    ItemStack result = bindingPowder.bindTrinket(item, trinket, player);
                     if (result != null) {
                         heldItem.subtract();
                         transformItem(item, result, event.getSlot(), event.getClickedInventory(), player);
