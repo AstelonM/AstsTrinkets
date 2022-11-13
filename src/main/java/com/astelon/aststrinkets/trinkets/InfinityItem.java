@@ -5,6 +5,7 @@ import com.astelon.aststrinkets.Power;
 import com.astelon.aststrinkets.utils.Utils;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.format.TextColor;
 import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -23,7 +24,8 @@ public class InfinityItem extends Trinket {
     private final ArrayList<Material> allowedBlocks;
 
     public InfinityItem(AstsTrinkets plugin, NamespacedKey nameKey, NamespacedKey powerKey, NamespacedKey ownerKey) {
-        super(plugin, nameKey, powerKey, "infinityItem", Power.INFINITE_PLACED_BLOCKS, true);
+        super(plugin, nameKey, powerKey, "infinityItem", TextColor.fromHexString("#C8C8C8"), Power.INFINITE_PLACED_BLOCKS,
+                true);
         this.ownerKey = ownerKey;
         allowedBlocks = new ArrayList<>();
     }

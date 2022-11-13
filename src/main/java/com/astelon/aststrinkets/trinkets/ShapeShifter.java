@@ -24,7 +24,7 @@ public class ShapeShifter extends Trinket {
     private final Random random;
 
     public ShapeShifter(AstsTrinkets plugin, NamespacedKey nameKey, NamespacedKey powerKey) {
-        super(plugin, nameKey, powerKey, "shapeShifter", Power.SHAPE_SHIFTING, false);
+        super(plugin, nameKey, powerKey, "shapeShifter", NamedTextColor.AQUA, Power.SHAPE_SHIFTING, false);
         materials = Arrays.stream(Material.values())
                 .filter(Material::isItem)
                 .filter(material -> !material.isAir() && !material.isEmpty())

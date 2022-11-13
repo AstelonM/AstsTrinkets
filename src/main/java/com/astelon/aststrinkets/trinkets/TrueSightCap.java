@@ -16,7 +16,7 @@ import java.util.List;
 public class TrueSightCap extends Trinket {
 
     public TrueSightCap(AstsTrinkets plugin, NamespacedKey nameKey, NamespacedKey powerKey) {
-        super(plugin, nameKey, powerKey, "trueSightCap", Power.TRUE_SIGHT, false);
+        super(plugin, nameKey, powerKey, "trueSightCap", NamedTextColor.GRAY, Power.TRUE_SIGHT, false);
     }
 
     @Override

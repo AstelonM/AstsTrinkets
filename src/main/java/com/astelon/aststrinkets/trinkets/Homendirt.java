@@ -4,6 +4,7 @@ import com.astelon.aststrinkets.AstsTrinkets;
 import com.astelon.aststrinkets.Power;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.format.TextColor;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.enchantments.Enchantment;
@@ -16,7 +17,7 @@ import java.util.List;
 public class Homendirt extends Trinket {
 
     public Homendirt(AstsTrinkets plugin, NamespacedKey nameKey, NamespacedKey powerKey) {
-        super(plugin, nameKey, powerKey, "homendirt", Power.ABSORB_MENDING, true);
+        super(plugin, nameKey, powerKey, "homendirt", TextColor.fromHexString("#3AFC3A"), Power.ABSORB_MENDING, true);
     }
 
     @Override

@@ -4,6 +4,7 @@ import com.astelon.aststrinkets.AstsTrinkets;
 import com.astelon.aststrinkets.Power;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.format.TextColor;
 import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -16,7 +17,8 @@ import java.util.List;
 public class InvisibilityTunic extends Trinket {
 
     public InvisibilityTunic(AstsTrinkets plugin, NamespacedKey nameKey, NamespacedKey powerKey) {
-        super(plugin, nameKey, powerKey, "invisibilityTunic", Power.INVISIBILITY, false);
+        super(plugin, nameKey, powerKey, "invisibilityTunic", TextColor.fromHexString("#C8C8C8"), Power.INVISIBILITY,
+                false);
     }
 
     @Override

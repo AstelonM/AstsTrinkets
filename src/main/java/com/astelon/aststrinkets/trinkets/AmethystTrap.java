@@ -4,6 +4,7 @@ import com.astelon.aststrinkets.AstsTrinkets;
 import com.astelon.aststrinkets.Power;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.format.TextColor;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.*;
@@ -16,7 +17,7 @@ public class AmethystTrap extends CrystalTrap {
 
     public AmethystTrap(AstsTrinkets plugin, NamespacedKey nameKey, NamespacedKey powerKey, NamespacedKey trapKey) {
         super(plugin, nameKey, powerKey, trapKey, "amethystTrap", Power.CAPTURE_MONSTERS, true,
-                NamedTextColor.LIGHT_PURPLE);
+                NamedTextColor.LIGHT_PURPLE, TextColor.fromHexString("#FC3A3A"));
     }
 
     @Override

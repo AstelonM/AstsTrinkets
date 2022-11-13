@@ -16,7 +16,7 @@ public class DiamondTrap extends CrystalTrap {
 
     public DiamondTrap(AstsTrinkets plugin, NamespacedKey nameKey, NamespacedKey powerKey, NamespacedKey trapKey) {
         super(plugin, nameKey, powerKey, trapKey, "diamondTrap", Power.CAPTURE_ENTITIES, true,
-                NamedTextColor.BLUE);
+                NamedTextColor.BLUE, NamedTextColor.GOLD);
     }
 
     @Override
