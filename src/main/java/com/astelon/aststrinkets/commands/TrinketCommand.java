@@ -39,7 +39,8 @@ public class TrinketCommand implements TabExecutor {
         String subcommand = args[0];
         if (subcommand.equalsIgnoreCase("give")) {
             if (args.length == 1) {
-                sender.sendMessage(Component.text("Correct usage: /trinkets give <trinket name> (optional player name)",
+                sender.sendMessage(Component.text("Correct usage: /trinkets give <trinket name> (optional player name) " +
+                                "(optional amount)",
                         NamedTextColor.RED));
                 return true;
             }
@@ -65,11 +66,37 @@ public class TrinketCommand implements TabExecutor {
                 else
                     player = Bukkit.getPlayer(args[2]);
             }
+            int amount = 1;
             if (player == null) {
-                sender.sendMessage(Component.text("There is no online player with that name.", NamedTextColor.RED));
+                try {
+                    amount = Integer.parseInt(args[2]);
+                    if (!(sender instanceof Player)) {
+                        sender.sendMessage(Component.text("There is no online player with that name.", NamedTextColor.RED));
+                        return true;
+                    }
+                    player = (Player) sender;
+                } catch (NumberFormatException e) {
+                    sender.sendMessage(Component.text("There is no online player with that name.", NamedTextColor.RED));
+                    return true;
+                }
+            } else if (args.length == 4) {
+                try {
+                    amount = Integer.parseInt(args[3]);
+                } catch (NumberFormatException e) {
+                    sender.sendMessage(Component.text("Invalid amount.", NamedTextColor.RED));
+                    return true;
+                }
+            }
+            if (amount <= 0) {
+                sender.sendMessage(Component.text("Invalid amount.", NamedTextColor.RED));
                 return true;
             }
-            giveTrinket(sender, player, trinket);
+            // Maybe I should allow this
+            if (amount > trinket.getItemStack().getType().getMaxStackSize()) {
+                sender.sendMessage(Component.text("You can't give more than a full stack.", NamedTextColor.RED));
+                return true;
+            }
+            giveTrinket(sender, player, trinket, amount);
             if (sender.equals(player)) {
                 sender.sendMessage(Component.text("You have received a trinket.", NamedTextColor.GOLD));
             } else {
@@ -104,6 +131,22 @@ public class TrinketCommand implements TabExecutor {
         return true;
     }
 
+    private void giveTrinket(CommandSender sender, Player target, Trinket trinket, int amount) {
+        ItemStack itemStack = trinket.getItemStack();
+        itemStack.setAmount(amount);
+        if (target.getInventory().firstEmpty() != -1) {
+            target.getInventory().addItem(itemStack);
+            target.updateInventory();
+        } else {
+            target.getWorld().dropItem(target.getLocation(), itemStack);
+            if (!sender.equals(target))
+                sender.sendMessage(Component.text(target.getName() + " has full inventory, the trinket was dropped " +
+                        "at their location.", NamedTextColor.RED));
+            target.sendMessage(Component.text("Your inventory is full, the trinket was dropped at your location.",
+                    NamedTextColor.RED));
+        }
+    }
+
     @Override
     public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, @NotNull String[] args) {
         if (args.length == 1) {
@@ -132,19 +175,5 @@ public class TrinketCommand implements TabExecutor {
             }
         }
         return null;
-    }
-
-    private void giveTrinket(CommandSender sender, Player target, Trinket trinket) {
-        ItemStack itemStack = trinket.getItemStack();
-        if (target.getInventory().firstEmpty() != -1) {
-            target.getInventory().addItem(itemStack);
-            target.updateInventory();
-        } else {
-            target.getWorld().dropItem(target.getLocation(), itemStack);
-            sender.sendMessage(Component.text(target.getName() + " has full inventory, the trinket was dropped " +
-                    "at their location.", NamedTextColor.RED));
-            target.sendMessage(Component.text(" your inventory is full, the trinket was dropped at your location.",
-                    NamedTextColor.RED));
-        }
     }
 }
