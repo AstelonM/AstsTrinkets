@@ -2,11 +2,10 @@ package com.astelon.aststrinkets.trinkets;
 
 import com.astelon.aststrinkets.AstsTrinkets;
 import com.astelon.aststrinkets.Power;
-import com.astelon.aststrinkets.utils.Utils;
+import com.astelon.aststrinkets.managers.MobInfoManager;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextColor;
 import net.kyori.adventure.text.format.TextDecoration;
-import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
 import org.bukkit.World;
@@ -21,24 +20,29 @@ import java.util.ArrayList;
 
 public abstract class CrystalTrap extends PetCheckingTrinket {
 
+    protected final MobInfoManager mobInfoManager;
     protected final NamespacedKey trapKey;
+    protected final NamespacedKey ownerKey;
     protected final TextColor nameColour;
     protected final ArrayList<Class<? extends LivingEntity>> trappableMobs;
     protected final ArrayList<Class<? extends LivingEntity>> untrappableMobs;
 
-    public CrystalTrap(AstsTrinkets plugin, NamespacedKey nameKey, NamespacedKey powerKey, NamespacedKey trapKey,
-                       String name, Power power, boolean isOp, TextColor nameColour, TextColor infoColour) {
+    public CrystalTrap(AstsTrinkets plugin, MobInfoManager mobInfoManager, NamespacedKey nameKey, NamespacedKey powerKey,
+                       NamespacedKey trapKey, NamespacedKey ownerKey, String name, Power power, boolean isOp,
+                       TextColor nameColour, TextColor infoColour) {
         super(plugin, nameKey, powerKey, name, infoColour, power, isOp);
+        this.mobInfoManager = mobInfoManager;
         this.trapKey = trapKey;
+        this.ownerKey = ownerKey;
         this.nameColour = nameColour;
         trappableMobs = new ArrayList<>();
         untrappableMobs = new ArrayList<>();
         setMobs();
     }
 
-    public CrystalTrap(AstsTrinkets plugin, NamespacedKey nameKey, NamespacedKey powerKey, NamespacedKey trapKey,
-                       String name, Power power, boolean isOp, TextColor nameColour) {
-        this(plugin, nameKey, powerKey, trapKey, name, power, isOp, nameColour, null);
+    public CrystalTrap(AstsTrinkets plugin, MobInfoManager mobInfoManager, NamespacedKey nameKey, NamespacedKey powerKey,
+                       NamespacedKey trapKey, NamespacedKey ownerKey, String name, Power power, boolean isOp, TextColor nameColour) {
+        this(plugin, mobInfoManager, nameKey, powerKey, trapKey, ownerKey, name, power, isOp, nameColour, null);
     }
 
     protected abstract void setMobs();
@@ -62,18 +66,19 @@ public abstract class CrystalTrap extends PetCheckingTrinket {
         PersistentDataContainer container = meta.getPersistentDataContainer();
         if (container.has(trapKey, PersistentDataType.BYTE_ARRAY))
             return null;
-        String name = Utils.getMobNameOrType(entity);
+        String name = mobInfoManager.getTypeAndName(entity);
         meta.displayName(Component.text("Crystal Trap with " + name, nameColour)
                 .decoration(TextDecoration.ITALIC, false));
-
         ArrayList<Component> newLore = new ArrayList<>();
-        if (meta.lore() != null)
-            newLore.addAll(meta.lore());
-        String loreText = "This one contains: " + Utils.getMobType(entity.getType());
-        Component entityName = entity.customName();
-        if (entityName != null)
-            loreText += " named " + PlainTextComponentSerializer.plainText().serialize(entityName);
-        newLore.add(Component.text(loreText));
+        if (container.has(ownerKey, PersistentDataType.STRING)) {
+            String ownerName = container.get(ownerKey, PersistentDataType.STRING);
+            newLore.add(BindingPowder.getOwnerLoreLine(ownerName, infoColour));
+        }
+        ArrayList<String> mobText = new ArrayList<>();
+        mobText.add(mobInfoManager.getMobType(entity) + " info:");
+        mobText.addAll(mobInfoManager.getExtraInfo(entity));
+        newLore.addAll(mobText.stream().map(line -> Component.text(line, infoColour).decoration(TextDecoration.ITALIC, false)).toList());
+        newLore.addAll(this.itemStack.lore());
         meta.lore(newLore);
 
         @SuppressWarnings("deprecation") // No better way to do it yet
@@ -90,7 +95,7 @@ public abstract class CrystalTrap extends PetCheckingTrinket {
         return container.has(trapKey, PersistentDataType.BYTE_ARRAY);
     }
 
-    public Entity freeCreature(ItemStack trap, World world) {
+    public Entity getTrappedCreature(ItemStack trap, World world) {
         if (!isTrinket(trap))
             throw new IllegalArgumentException("Not a trinket");
         PersistentDataContainer container = trap.getItemMeta().getPersistentDataContainer();

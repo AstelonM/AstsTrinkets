@@ -2,6 +2,7 @@ package com.astelon.aststrinkets.trinkets;
 
 import com.astelon.aststrinkets.AstsTrinkets;
 import com.astelon.aststrinkets.Power;
+import com.astelon.aststrinkets.managers.MobInfoManager;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Material;
@@ -14,9 +15,10 @@ import java.util.List;
 
 public class DiamondTrap extends CrystalTrap {
 
-    public DiamondTrap(AstsTrinkets plugin, NamespacedKey nameKey, NamespacedKey powerKey, NamespacedKey trapKey) {
-        super(plugin, nameKey, powerKey, trapKey, "diamondTrap", Power.CAPTURE_ENTITIES, true,
-                NamedTextColor.BLUE, NamedTextColor.GOLD);
+    public DiamondTrap(AstsTrinkets plugin, MobInfoManager mobInfoManager, NamespacedKey nameKey, NamespacedKey powerKey,
+                       NamespacedKey trapKey, NamespacedKey ownerKey) {
+        super(plugin, mobInfoManager, nameKey, powerKey, trapKey, ownerKey, "diamondTrap", Power.CAPTURE_ENTITIES,
+                true, NamedTextColor.BLUE, NamedTextColor.GOLD);
     }
 
     @Override

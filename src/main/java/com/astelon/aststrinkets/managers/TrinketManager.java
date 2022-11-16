@@ -17,6 +17,7 @@ import java.util.*;
 public class TrinketManager {
 
     private final AstsTrinkets plugin;
+    private final MobInfoManager mobInfoManager;
     private final InvisibilityManager invisibilityManager;
 
     private final NamespacedKey nameKey;
@@ -27,8 +28,9 @@ public class TrinketManager {
     private final ArrayList<Trinket> trinkets;
     private final HashMap<String, Trinket> trinketMap;
 
-    public TrinketManager(AstsTrinkets plugin, InvisibilityManager invisibilityManager) {
+    public TrinketManager(AstsTrinkets plugin, MobInfoManager mobInfoManager, InvisibilityManager invisibilityManager) {
         this.plugin = plugin;
+        this.mobInfoManager = mobInfoManager;
         this.invisibilityManager = invisibilityManager;
         nameKey = new NamespacedKey(plugin, "trinketName");
         powerKey = new NamespacedKey(plugin, "trinketPower");
@@ -52,10 +54,10 @@ public class TrinketManager {
         addTrinket(new Homendirt(plugin, nameKey, powerKey));
         addTrinket(new Homendingdirt(plugin, nameKey, powerKey, ownerKey));
         addTrinket(new YouthMilk(plugin, nameKey, powerKey));
-        addTrinket(new DiamondTrap(plugin, nameKey, powerKey, trapKey));
-        addTrinket(new EmeraldTrap(plugin, nameKey, powerKey, trapKey));
-        addTrinket(new AmethystTrap(plugin, nameKey, powerKey, trapKey));
-        addTrinket(new NetherStarTrap(plugin, nameKey, powerKey, trapKey));
+        addTrinket(new DiamondTrap(plugin, mobInfoManager, nameKey, powerKey, trapKey, ownerKey));
+        addTrinket(new EmeraldTrap(plugin, mobInfoManager, nameKey, powerKey, trapKey, ownerKey));
+        addTrinket(new AmethystTrap(plugin, mobInfoManager, nameKey, powerKey, trapKey, ownerKey));
+        addTrinket(new NetherStarTrap(plugin, mobInfoManager, nameKey, powerKey, trapKey, ownerKey));
         addTrinket(new InfinityItem(plugin, nameKey, powerKey, ownerKey));
     }
 

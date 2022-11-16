@@ -1,6 +1,7 @@
 package com.astelon.aststrinkets.listeners;
 
 import com.astelon.aststrinkets.AstsTrinkets;
+import com.astelon.aststrinkets.managers.MobInfoManager;
 import com.astelon.aststrinkets.managers.TrinketManager;
 import com.astelon.aststrinkets.trinkets.*;
 import com.astelon.aststrinkets.utils.Utils;
@@ -28,6 +29,7 @@ import java.util.HashMap;
 public class PlayerInteractListener implements Listener {
 
     private final AstsTrinkets plugin;
+    private final MobInfoManager mobInfoManager;
     private final TrinketManager trinketManager;
     private final HashMap<Player, Long> cooldowns;
     private final YouthMilk youthMilk;
@@ -36,8 +38,9 @@ public class PlayerInteractListener implements Listener {
     private final AmethystTrap amethystTrap;
     private final NetherStarTrap netherStarTrap;
 
-    public PlayerInteractListener(AstsTrinkets plugin, TrinketManager trinketManager) {
+    public PlayerInteractListener(AstsTrinkets plugin, MobInfoManager mobInfoManager, TrinketManager trinketManager) {
         this.plugin = plugin;
+        this.mobInfoManager = mobInfoManager;
         this.trinketManager = trinketManager;
         cooldowns = new HashMap<>();
         youthMilk = trinketManager.getYouthMilk();
@@ -69,7 +72,7 @@ public class PlayerInteractListener implements Listener {
                     ageable.setBaby();
                     Utils.transformItem(item, new ItemStack(Material.BUCKET), slot, inventory, player);
                     player.updateInventory();
-                    plugin.getLogger().info("Youth milk used on " + Utils.getMobTypeAndName(ageable) + " at " +
+                    plugin.getLogger().info("Youth milk used on " + mobInfoManager.getTypeAndName(ageable) + " at " +
                             Utils.locationToString(ageable.getLocation()) + " by player " + player.getName() + ".");
                 }
             } else if (diamondTrap.isEnabled() && diamondTrap.isTrinket(item)) {
@@ -106,9 +109,9 @@ public class PlayerInteractListener implements Listener {
         entity.remove();
         Utils.transformItem(item, result, slot, inventory, player);
         player.updateInventory();
-        player.sendMessage(Component.text("You caught the " + Utils.getMobTypeAndName(entity) + " in a crystal " +
-                "trap.", NamedTextColor.GOLD));
-        plugin.getLogger().info(Utils.getMobTypeAndName(entity) + " trapped in a crystal trap at " +
+        String mobName = mobInfoManager.getTypeAndName(entity);
+        player.sendMessage(Component.text("You caught the " + mobName + " in a crystal trap.", NamedTextColor.GOLD));
+        plugin.getLogger().info(mobName + " trapped in a crystal trap at " +
                 Utils.locationToString(entity.getLocation()) + " by player " + player.getName() + ".");
         cooldowns.put(player, now);
     }
@@ -161,7 +164,7 @@ public class PlayerInteractListener implements Listener {
                     NamedTextColor.RED));
             return;
         }
-        Entity entity = trap.freeCreature(itemStack, spawnLocation.getWorld());
+        Entity entity = trap.getTrappedCreature(itemStack, spawnLocation.getWorld());
         if (entity == null) {
             player.sendMessage(Component.text("The creature could not be released. The trap might be corrupted.",
                     NamedTextColor.RED));
@@ -173,9 +176,9 @@ public class PlayerInteractListener implements Listener {
         else
             itemStack.subtract();
         player.updateInventory();
-        player.sendMessage(Component.text("Successfully released the " + Utils.getMobTypeAndName(entity) + ".",
-                NamedTextColor.GOLD));
-        plugin.getLogger().info(Utils.getMobTypeAndName(entity) + " released from a crystal trap at " +
+        String mobName = mobInfoManager.getTypeAndName(entity);
+        player.sendMessage(Component.text("Successfully released the " + mobName + ".", NamedTextColor.GOLD));
+        plugin.getLogger().info(mobName + " released from a crystal trap at " +
                 Utils.locationToString(entity.getLocation()) + " by player " + player.getName() + ".");
         cooldowns.put(player, now);
     }

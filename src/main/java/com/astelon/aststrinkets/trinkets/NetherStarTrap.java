@@ -2,15 +2,14 @@ package com.astelon.aststrinkets.trinkets;
 
 import com.astelon.aststrinkets.AstsTrinkets;
 import com.astelon.aststrinkets.Power;
+import com.astelon.aststrinkets.managers.MobInfoManager;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
-import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.EnderDragon;
 import org.bukkit.entity.Mob;
-import org.bukkit.entity.Wither;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
@@ -21,9 +20,10 @@ import java.util.List;
 
 public class NetherStarTrap extends CrystalTrap {
 
-    public NetherStarTrap(AstsTrinkets plugin, NamespacedKey nameKey, NamespacedKey powerKey, NamespacedKey trapKey) {
-        super(plugin, nameKey, powerKey, trapKey, "netherStarTrap", Power.STRONGER_CAPTURE_ENTITIES, true,
-                NamedTextColor.GOLD);
+    public NetherStarTrap(AstsTrinkets plugin, MobInfoManager mobInfoManager, NamespacedKey nameKey, NamespacedKey powerKey,
+                          NamespacedKey trapKey, NamespacedKey ownerKey) {
+        super(plugin, mobInfoManager, nameKey, powerKey, trapKey, ownerKey, "netherStarTrap", Power.STRONGER_CAPTURE_ENTITIES,
+                true, NamedTextColor.GOLD);
     }
 
     @Override
@@ -52,21 +52,16 @@ public class NetherStarTrap extends CrystalTrap {
         ItemMeta meta = result.getItemMeta();
         meta.displayName(Component.text("Nether Star Trap", NamedTextColor.GOLD)
                 .decoration(TextDecoration.ITALIC, false));
-        List<Component> lore = meta.lore();
-        ArrayList<Component> newLore = new ArrayList<>();
-        if (lore != null) {
-            PlainTextComponentSerializer serializer = PlainTextComponentSerializer.plainText();
-            for (Component component: lore) {
-                // Not elegant, but should make do for now
-                if (!serializer.serialize(component).startsWith("This one contains:"))
-                    newLore.add(component);
-            }
-        } else
-            newLore.addAll(this.itemStack.lore());
-        meta.lore(newLore);
         PersistentDataContainer container = meta.getPersistentDataContainer();
+        ArrayList<Component> newLore = new ArrayList<>();
+        if (container.has(ownerKey, PersistentDataType.STRING)) {
+            String ownerName = container.get(ownerKey, PersistentDataType.STRING);
+            newLore.add(BindingPowder.getOwnerLoreLine(ownerName, infoColour));
+        }
         if (container.has(trapKey, PersistentDataType.BYTE_ARRAY))
             container.remove(trapKey);
+        newLore.addAll(this.itemStack.lore());
+        meta.lore(newLore);
         result.setItemMeta(meta);
         return result;
     }

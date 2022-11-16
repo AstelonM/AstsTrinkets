@@ -2,7 +2,6 @@ package com.astelon.aststrinkets.utils;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
-import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -94,31 +93,6 @@ public class Utils {
                         NamedTextColor.YELLOW));
             }
         }
-    }
-
-    public static String getMobNameOrType(Entity entity) {
-        Component name = entity.customName();
-        if (name != null)
-            return PlainTextComponentSerializer.plainText().serialize(name);
-        EntityType type = entity.getType();
-        return getMobType(type);
-    }
-
-    public static String getMobType(EntityType type) {
-        return switch (type) {
-            case MUSHROOM_COW -> "Mooshroom";
-            case SNOWMAN -> "Snow Golem";
-            default -> Arrays.stream(type.name().split("_"))
-                    .map(text -> text.charAt(0) + text.substring(1).toLowerCase()).collect(Collectors.joining(" "));
-        };
-    }
-
-    public static String getMobTypeAndName(Entity entity) {
-        String type = getMobType(entity.getType());
-        Component name = entity.customName();
-        if (name != null)
-            return type + " named " + PlainTextComponentSerializer.plainText().serialize(name);
-        return type;
     }
 
     public static String locationToString(Location location) {

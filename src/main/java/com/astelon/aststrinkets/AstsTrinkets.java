@@ -4,6 +4,7 @@ import com.astelon.aststrinkets.commands.TrinketCommand;
 import com.astelon.aststrinkets.listeners.*;
 import com.astelon.aststrinkets.managers.CakeManager;
 import com.astelon.aststrinkets.managers.InvisibilityManager;
+import com.astelon.aststrinkets.managers.MobInfoManager;
 import com.astelon.aststrinkets.managers.TrinketManager;
 import com.astelon.aststrinkets.trinkets.*;
 import org.bukkit.Material;
@@ -22,17 +23,18 @@ public class AstsTrinkets extends JavaPlugin {
     public void onEnable() {
         saveDefaultConfig();
         reloadConfig();
+        MobInfoManager mobInfoManager = new MobInfoManager();
         InvisibilityManager invisibilityManager = new InvisibilityManager(this);
         CakeManager cakeManager = new CakeManager(this);
         cakeManager.init();
-        trinketManager = new TrinketManager(this, invisibilityManager);
+        trinketManager = new TrinketManager(this, mobInfoManager, invisibilityManager);
         PluginManager pluginManager = getServer().getPluginManager();
         pluginManager.registerEvents(new InvisibilityListener(this, trinketManager, invisibilityManager), this);
         pluginManager.registerEvents(new ShapeShifterListener(this, trinketManager), this);
         pluginManager.registerEvents(new CakeListener(this, trinketManager, cakeManager), this);
         pluginManager.registerEvents(new BlockListener(this, trinketManager), this);
         pluginManager.registerEvents(new InventoryUseListener(this, trinketManager), this);
-        pluginManager.registerEvents(new PlayerInteractListener(this, trinketManager), this);
+        pluginManager.registerEvents(new PlayerInteractListener(this, mobInfoManager, trinketManager), this);
         loadConfig();
         Objects.requireNonNull(getCommand("trinkets")).setExecutor(new TrinketCommand(this, trinketManager));
     }
