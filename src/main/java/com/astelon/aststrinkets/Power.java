@@ -17,7 +17,8 @@ public enum Power {
     CAPTURE_ANIMALS("captureAnimals"),
     CAPTURE_MONSTERS("captureMonsters"),
     STRONGER_CAPTURE_ENTITIES("strongerCaptureEntities"),
-    INFINITE_PLACED_BLOCKS("infinitePlacedBlocks");
+    INFINITE_PLACED_BLOCKS("infinitePlacedBlocks"),
+    UNBINDING("unbinding");
 
     private final String powerName;
 

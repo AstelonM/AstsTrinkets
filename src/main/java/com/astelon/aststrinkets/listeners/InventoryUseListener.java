@@ -27,6 +27,7 @@ public class InventoryUseListener implements Listener {
     private final TrinketManager trinketManager;
     private final MendingPowder mendingPowder;
     private final BindingPowder bindingPowder;
+    private final UnbindingPowder unbindingPowder;
     private final Homendirt homendirt;
     private final Homendingdirt homendingdirt;
     private final InfinityItem infinityItem;
@@ -36,6 +37,7 @@ public class InventoryUseListener implements Listener {
         this.trinketManager = manager;
         this.mendingPowder = manager.getMendingPowder();
         this.bindingPowder = manager.getBindingPowder();
+        this.unbindingPowder = manager.getUnbindingPowder();
         this.homendirt = manager.getHomendirt();
         this.homendingdirt = manager.getHomendingdirt();
         this.infinityItem = manager.getInfinityItem();
@@ -78,6 +80,23 @@ public class InventoryUseListener implements Listener {
                         player.updateInventory();
                     } else {
                         player.sendMessage(Component.text("Could not bind this trinket to you.", NamedTextColor.RED));
+                    }
+                }
+            } else if (unbindingPowder.isEnabled() && unbindingPowder.isTrinket(heldItem)) {
+                ItemStack item = event.getCurrentItem();
+                if (item == null)
+                    return;
+                Trinket trinket = trinketManager.getTrinket(item);
+                if (trinket != null) {
+                    event.setCancelled(true);
+                    ItemStack result = unbindingPowder.unbindTrinket(item, trinket);
+                    if (result != null) {
+                        heldItem.subtract();
+                        transformItem(item, result, event.getSlot(), event.getClickedInventory(), player);
+                        player.sendMessage(Component.text("This trinket is now unbound.", NamedTextColor.GOLD));
+                        player.updateInventory();
+                    } else {
+                        player.sendMessage(Component.text("Could not unbind this trinket.", NamedTextColor.RED));
                     }
                 }
             } else if (homendirt.isEnabled() && homendirt.isTrinket(heldItem)) {

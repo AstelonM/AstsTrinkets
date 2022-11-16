@@ -53,6 +53,11 @@ mendingPowder:
 bindingPowder:
   enabled: true
 
+# Works the same way as the Binding Powder, except it removes the owner, if there's one. For obvious reasons, this
+# requires "aststrinkets.op" permission to give.
+unbindingPowder:
+  enabled: true
+
 # The wearer can see players who wear invisibility tunics. Cannot be repaired or enchanted, and probably shouldn't be
 # used in crafting.
 trueSightCap:

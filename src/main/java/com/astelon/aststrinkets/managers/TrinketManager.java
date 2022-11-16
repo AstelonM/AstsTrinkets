@@ -59,6 +59,7 @@ public class TrinketManager {
         addTrinket(new AmethystTrap(plugin, mobInfoManager, nameKey, powerKey, trapKey, ownerKey));
         addTrinket(new NetherStarTrap(plugin, mobInfoManager, nameKey, powerKey, trapKey, ownerKey));
         addTrinket(new InfinityItem(plugin, nameKey, powerKey, ownerKey));
+        addTrinket(new UnbindingPowder(plugin, nameKey, powerKey, ownerKey));
     }
 
     private void addTrinket(Trinket trinket) {
@@ -229,5 +230,9 @@ public class TrinketManager {
 
     public InfinityItem getInfinityItem() {
         return (InfinityItem) getTrinketExact("infinityItem");
+    }
+
+    public UnbindingPowder getUnbindingPowder() {
+        return (UnbindingPowder) getTrinketExact("unbindingPowder");
     }
 }
