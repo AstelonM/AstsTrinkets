@@ -24,6 +24,8 @@ public class TrinketManager {
     private final NamespacedKey powerKey;
     private final NamespacedKey ownerKey;
     private final NamespacedKey trapKey;
+    private final NamespacedKey failureChanceKey;
+    private final NamespacedKey criticalFailureChanceKey;
 
     private final ArrayList<Trinket> trinkets;
     private final HashMap<String, Trinket> trinketMap;
@@ -36,6 +38,8 @@ public class TrinketManager {
         powerKey = new NamespacedKey(plugin, "trinketPower");
         ownerKey = new NamespacedKey(plugin, "trinketOwner");
         trapKey = new NamespacedKey(plugin, "trinketTrappedEntity");
+        failureChanceKey = new NamespacedKey(plugin, "failureChance");
+        criticalFailureChanceKey = new NamespacedKey(plugin, "criticalFailureChance");
         trinkets = new ArrayList<>();
         trinketMap = new HashMap<>();
         initTrinkets();
@@ -60,6 +64,9 @@ public class TrinketManager {
         addTrinket(new NetherStarTrap(plugin, mobInfoManager, nameKey, powerKey, trapKey, ownerKey));
         addTrinket(new InfinityItem(plugin, nameKey, powerKey, ownerKey));
         addTrinket(new UnbindingPowder(plugin, nameKey, powerKey, ownerKey));
+        addTrinket(new ReignitableRocketPrototype(plugin, nameKey, powerKey, failureChanceKey, criticalFailureChanceKey));
+        addTrinket(new ReignitableRocket(plugin, nameKey, powerKey, failureChanceKey));
+        addTrinket(new PerfectedReignitableRocket(plugin, nameKey, powerKey));
     }
 
     private void addTrinket(Trinket trinket) {
@@ -234,5 +241,17 @@ public class TrinketManager {
 
     public UnbindingPowder getUnbindingPowder() {
         return (UnbindingPowder) getTrinketExact("unbindingPowder");
+    }
+
+    public ReignitableRocketPrototype getReignitableRocketPrototype() {
+        return (ReignitableRocketPrototype) getTrinketExact("reignitableRocketPrototype");
+    }
+
+    public ReignitableRocket getReignitableRocket() {
+        return (ReignitableRocket) getTrinketExact("reignitableRocket");
+    }
+
+    public PerfectedReignitableRocket getPerfectedReignitableRocket() {
+        return (PerfectedReignitableRocket) getTrinketExact("perfectedReignitableRocket");
     }
 }

@@ -35,6 +35,7 @@ public class AstsTrinkets extends JavaPlugin {
         pluginManager.registerEvents(new BlockListener(this, trinketManager), this);
         pluginManager.registerEvents(new InventoryUseListener(this, trinketManager), this);
         pluginManager.registerEvents(new PlayerInteractListener(this, mobInfoManager, trinketManager), this);
+        pluginManager.registerEvents(new FireworkListener(this, trinketManager), this);
         loadConfig();
         Objects.requireNonNull(getCommand("trinkets")).setExecutor(new TrinketCommand(this, trinketManager));
     }
@@ -67,5 +68,19 @@ public class AstsTrinkets extends JavaPlugin {
         amethystTrap.setPetOwnerOnly(configuration.getBoolean(amethystTrap.getName() + ".petOwnerOnly"));
         NetherStarTrap netherStarTrap = trinketManager.getNetherStarTrap();
         netherStarTrap.setPetOwnerOnly(configuration.getBoolean(netherStarTrap.getName() + ".petOwnerOnly"));
+        ReignitableRocketPrototype reignitableRocketPrototype = trinketManager.getReignitableRocketPrototype();
+        double failureChancePrototype = configuration.getDouble(reignitableRocketPrototype.getName() + ".failureChance", 33.33);
+        double criticalFailureChance = configuration.getDouble(reignitableRocketPrototype.getName() + ".criticalFailureChance", 1.0);
+        reignitableRocketPrototype.setFailures(ensurePercentage(failureChancePrototype, 33.33),
+                ensurePercentage(criticalFailureChance, 1.0));
+        ReignitableRocket reignitableRocket = trinketManager.getReignitableRocket();
+        double failureChance = configuration.getDouble(reignitableRocket.getName() + ".failureChance", 10.0);
+        reignitableRocket.setFailureChance(ensurePercentage(failureChance, 10.0));
+    }
+
+    private double ensurePercentage(double source, double defaultPercentage) {
+        if (source < 0 || source > 100)
+            return defaultPercentage;
+        return source;
     }
 }

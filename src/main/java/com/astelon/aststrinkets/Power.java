@@ -18,7 +18,10 @@ public enum Power {
     CAPTURE_MONSTERS("captureMonsters"),
     STRONGER_CAPTURE_ENTITIES("strongerCaptureEntities"),
     INFINITE_PLACED_BLOCKS("infinitePlacedBlocks"),
-    UNBINDING("unbinding");
+    UNBINDING("unbinding"),
+    REIGNITION_PROTOTYPE("reignitionPrototype"),
+    REIGNITION("reignition"),
+    PERFECTED_REIGNITION("perfectedReignition");
 
     private final String powerName;
 
