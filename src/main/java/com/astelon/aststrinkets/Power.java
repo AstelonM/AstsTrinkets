@@ -21,7 +21,9 @@ public enum Power {
     UNBINDING("unbinding"),
     REIGNITION_PROTOTYPE("reignitionPrototype"),
     REIGNITION("reignition"),
-    PERFECTED_REIGNITION("perfectedReignition");
+    PERFECTED_REIGNITION("perfectedReignition"),
+    DEATH("death"),
+    TRUE_DEATH("trueDeath");
 
     private final String powerName;
 

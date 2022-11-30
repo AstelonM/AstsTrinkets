@@ -139,3 +139,17 @@ reignitableRocket:
 # It needs "aststrinkets.op" permission to give.
 perfectedReignitableRocket:
   enabled: true
+
+# An arrow that will kill anything it manages to damage. If the arrow has no owner, it will work even if shot by a mob.
+# If it has one though, it will only work if it is shot directly by the owner.
+deathArrow:
+  enabled: true
+
+# Like the True Tunic of Invisibility, this is what I would call a completely unbalanced trinket you want to really
+# take care with. Once it's shot and it hits something with health, whatever it hit will die. The only way to stop the
+# arrow from killing something is by stopping the collision altogether, and not the damage as plugins usually do.
+# It does follow the same rules as the Arrow of Death, if it has an owner, only the owner can use it directly, otherwise
+# any entity can use it.
+# Obviously it requires the "aststrinkets.op" permission to give.
+trueDeathArrow:
+  enabled: true

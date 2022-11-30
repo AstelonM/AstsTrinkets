@@ -6,6 +6,7 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextColor;
 import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.NamespacedKey;
+import org.bukkit.entity.Projectile;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
@@ -59,6 +60,17 @@ public abstract class Trinket {
         if (meta == null)
             return false;
         PersistentDataContainer container = meta.getPersistentDataContainer();
+        return isTrinket(container);
+    }
+
+    public boolean isTrinket(Projectile projectile) {
+        if (projectile == null)
+            return false;
+        PersistentDataContainer container = projectile.getPersistentDataContainer();
+        return isTrinket(container);
+    }
+
+    private boolean isTrinket(PersistentDataContainer container) {
         if (container.has(nameKey, PersistentDataType.STRING)) {
             String trinketName = container.get(nameKey, PersistentDataType.STRING);
             return name.equals(trinketName);

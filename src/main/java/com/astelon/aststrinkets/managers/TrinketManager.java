@@ -4,6 +4,7 @@ import com.astelon.aststrinkets.AstsTrinkets;
 import com.astelon.aststrinkets.trinkets.*;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Projectile;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -67,6 +68,8 @@ public class TrinketManager {
         addTrinket(new ReignitableRocketPrototype(plugin, nameKey, powerKey, failureChanceKey, criticalFailureChanceKey));
         addTrinket(new ReignitableRocket(plugin, nameKey, powerKey, failureChanceKey));
         addTrinket(new PerfectedReignitableRocket(plugin, nameKey, powerKey));
+        addTrinket(new DeathArrow(plugin, nameKey, powerKey, ownerKey));
+        addTrinket(new TrueDeathArrow(plugin, nameKey, powerKey, ownerKey));
     }
 
     private void addTrinket(Trinket trinket) {
@@ -119,6 +122,13 @@ public class TrinketManager {
         return container.has(nameKey, PersistentDataType.STRING);
     }
 
+    public boolean isTrinket(Projectile projectile) {
+        if (projectile == null)
+            return false;
+        PersistentDataContainer container = projectile.getPersistentDataContainer();
+        return container.has(nameKey, PersistentDataType.STRING);
+    }
+
     public void removePlayerTrinkets(Player player) {
         Inventory inventory = player.getInventory();
         ArrayList<Integer> slotsToRemove = new ArrayList<>();
@@ -154,6 +164,16 @@ public class TrinketManager {
         return container.get(ownerKey, PersistentDataType.STRING);
     }
 
+    @Nullable
+    public String getOwner(Projectile projectile) {
+        if (projectile == null)
+            return null;
+        PersistentDataContainer container = projectile.getPersistentDataContainer();
+        if (!container.has(ownerKey, PersistentDataType.STRING))
+            return null;
+        return container.get(ownerKey, PersistentDataType.STRING);
+    }
+
     /**
      * Checks if an ItemStack is owned by a player with the given name. An ItemStack is owned by a given player if
      * the trinketOwner field was set to the name of the player, or if the trinketOwner field was not set at all. This
@@ -169,6 +189,17 @@ public class TrinketManager {
         if (owner == null)
             return true;
         return playerName.equals(owner);
+    }
+
+    public boolean isOwnedBy(Projectile projectile, String playerName) {
+        String owner = getOwner(projectile);
+        if (owner == null)
+            return true;
+        return playerName.equals(owner);
+    }
+
+    public MobInfoManager getMobInfoManager() {
+        return mobInfoManager;
     }
 
     public FragileInvisibilityTunic getFragileInvisibilityTunic() {
@@ -253,5 +284,13 @@ public class TrinketManager {
 
     public PerfectedReignitableRocket getPerfectedReignitableRocket() {
         return (PerfectedReignitableRocket) getTrinketExact("perfectedReignitableRocket");
+    }
+
+    public DeathArrow getDeathArrow() {
+        return (DeathArrow) getTrinketExact("deathArrow");
+    }
+
+    public TrueDeathArrow getTrueDeathArrow() {
+        return (TrueDeathArrow) getTrinketExact("trueDeathArrow");
     }
 }

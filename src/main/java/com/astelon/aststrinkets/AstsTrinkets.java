@@ -36,6 +36,7 @@ public class AstsTrinkets extends JavaPlugin {
         pluginManager.registerEvents(new InventoryUseListener(this, trinketManager), this);
         pluginManager.registerEvents(new PlayerInteractListener(this, mobInfoManager, trinketManager), this);
         pluginManager.registerEvents(new FireworkListener(this, trinketManager), this);
+        pluginManager.registerEvents(new ArrowListener(this, trinketManager), this);
         loadConfig();
         Objects.requireNonNull(getCommand("trinkets")).setExecutor(new TrinketCommand(this, trinketManager));
     }
