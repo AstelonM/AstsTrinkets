@@ -110,6 +110,7 @@ public class TrinketCommand implements TabExecutor {
                 } else {
                     sender.sendMessage(Component.text("You gave " + player.getName() + " a trinket."));
                 }
+                return true;
             } else if (subcommand.equalsIgnoreCase("clear")) {
                 Player player;
                 if (args.length == 1 && !(sender instanceof Player)) {
@@ -132,9 +133,11 @@ public class TrinketCommand implements TabExecutor {
                 } else {
                     sender.sendMessage("You removed " + player.getName() + "'s trinkets.");
                 }
+                return true;
             } else if (subcommand.equalsIgnoreCase("reload")) {
                 plugin.reload();
                 sender.sendMessage(Component.text("Ast's Trinkets reloaded!", NamedTextColor.GOLD));
+                return true;
             }
         }
         if (subcommand.equalsIgnoreCase("help")) {
