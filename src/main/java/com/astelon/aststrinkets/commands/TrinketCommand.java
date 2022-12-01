@@ -158,6 +158,7 @@ public class TrinketCommand implements TabExecutor {
                 player.sendMessage(trinket.getUsage());
                 return true;
             }
+            player.sendMessage(Component.text("You are not holding any trinket.", NamedTextColor.RED));
         } else {
             if (isAdmin)
                 sender.sendMessage(Component.text("Invalid command. Available subcommands: give, clear, reload, help.",
