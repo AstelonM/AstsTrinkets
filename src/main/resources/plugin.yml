@@ -11,6 +11,8 @@ permissions:
   aststrinkets.op:
     description: Special permission for giving trinkets that don't obey to normal limitations.
     default: op
+    children:
+      aststrinkets.admin: true
   aststrinkets.admin:
     description: Gives access to the regular commands as well as other admin features of the plugin.
     default: op
