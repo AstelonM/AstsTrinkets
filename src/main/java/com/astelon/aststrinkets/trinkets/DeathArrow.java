@@ -2,6 +2,7 @@ package com.astelon.aststrinkets.trinkets;
 
 import com.astelon.aststrinkets.AstsTrinkets;
 import com.astelon.aststrinkets.Power;
+import com.astelon.aststrinkets.utils.Usages;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextColor;
 import org.bukkit.Color;
@@ -18,7 +19,7 @@ public class DeathArrow extends ProjectileTrinket {
 
     public DeathArrow(AstsTrinkets plugin, NamespacedKey nameKey, NamespacedKey powerKey, NamespacedKey ownerKey) {
         super(plugin, nameKey, powerKey, ownerKey, "deathArrow", TextColor.fromHexString("#AA0055"), Power.DEATH,
-                false);
+                false, Usages.ARROW);
     }
 
     @Override

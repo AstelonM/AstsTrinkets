@@ -2,6 +2,7 @@ package com.astelon.aststrinkets.trinkets;
 
 import com.astelon.aststrinkets.AstsTrinkets;
 import com.astelon.aststrinkets.Power;
+import com.astelon.aststrinkets.utils.Usages;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextColor;
 import org.bukkit.Material;
@@ -15,7 +16,7 @@ public class PerfectedReignitableRocket extends Trinket {
 
     public PerfectedReignitableRocket(AstsTrinkets plugin, NamespacedKey nameKey, NamespacedKey powerKey) {
         super(plugin, nameKey, powerKey, "perfectedReignitableRocket", TextColor.fromHexString("#726780"),
-                Power.PERFECTED_REIGNITION, true);
+                Power.PERFECTED_REIGNITION, true, Usages.FIREWORK_ROCKET);
     }
 
     @Override

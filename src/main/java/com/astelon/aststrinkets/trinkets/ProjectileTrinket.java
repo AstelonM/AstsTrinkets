@@ -14,14 +14,8 @@ public abstract class ProjectileTrinket extends Trinket {
     private final NamespacedKey ownerKey;
 
     public ProjectileTrinket(AstsTrinkets plugin, NamespacedKey nameKey, NamespacedKey powerKey, NamespacedKey ownerKey,
-                             String name, TextColor infoColour, Power power, boolean isOp) {
-        super(plugin, nameKey, powerKey, name, infoColour, power, isOp);
-        this.ownerKey = ownerKey;
-    }
-
-    public ProjectileTrinket(AstsTrinkets plugin, NamespacedKey nameKey, NamespacedKey powerKey, NamespacedKey ownerKey,
-                             String name, Power power, boolean isOp) {
-        super(plugin, nameKey, powerKey, name, power, isOp);
+                             String name, TextColor infoColour, Power power, boolean isOp, String usage) {
+        super(plugin, nameKey, powerKey, name, infoColour, power, isOp, usage);
         this.ownerKey = ownerKey;
     }
 

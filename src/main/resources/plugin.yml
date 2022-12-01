@@ -6,7 +6,6 @@ api-version: '1.18'
 commands:
   trinkets:
     description: Base command for Ast's Trinkets plugin.
-    permission: aststrinkets.admin
 permissions:
   aststrinkets.op:
     description: Special permission for giving trinkets that don't obey to normal limitations.
@@ -14,7 +13,7 @@ permissions:
     children:
       aststrinkets.admin: true
   aststrinkets.admin:
-    description: Gives access to the regular commands as well as other admin features of the plugin.
+    description: Gives access to all commands as well as other admin features of the plugin.
     default: op
     children:
       aststrinkets.trinket.seeinvisible: true

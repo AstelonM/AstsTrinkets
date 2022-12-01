@@ -2,6 +2,7 @@ package com.astelon.aststrinkets.trinkets;
 
 import com.astelon.aststrinkets.AstsTrinkets;
 import com.astelon.aststrinkets.Power;
+import com.astelon.aststrinkets.utils.Usages;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Color;
@@ -17,7 +18,7 @@ import java.util.List;
 public class FragileInvisibilityTunic extends Trinket {
 
     public FragileInvisibilityTunic(AstsTrinkets plugin, NamespacedKey nameKey, NamespacedKey powerKey) {
-        super(plugin, nameKey, powerKey, "fragileInvisibilityTunic", Power.INVISIBILITY, false);
+        super(plugin, nameKey, powerKey, "fragileInvisibilityTunic", Power.INVISIBILITY, false, Usages.WEAR);
     }
 
     @Override

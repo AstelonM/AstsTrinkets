@@ -14,13 +14,13 @@ public abstract class PetCheckingTrinket extends Trinket {
     protected boolean petOwnerOnly;
 
     public PetCheckingTrinket(AstsTrinkets plugin, NamespacedKey nameKey, NamespacedKey powerKey, String name,
-                              TextColor infoColour, Power power, boolean isOp) {
-        super(plugin, nameKey, powerKey, name, infoColour, power, isOp);
+                              TextColor infoColour, Power power, boolean isOp, String usage) {
+        super(plugin, nameKey, powerKey, name, infoColour, power, isOp, usage);
     }
 
     public PetCheckingTrinket(AstsTrinkets plugin, NamespacedKey nameKey, NamespacedKey powerKey, String name, Power power,
-                              boolean isOp) {
-        super(plugin, nameKey, powerKey, name, power, isOp);
+                              boolean isOp, String usage) {
+        super(plugin, nameKey, powerKey, name, power, isOp, usage);
     }
 
     public void setPetOwnerOnly(boolean petOwnerOnly) {

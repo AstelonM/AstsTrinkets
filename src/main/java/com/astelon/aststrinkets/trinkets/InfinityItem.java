@@ -2,6 +2,7 @@ package com.astelon.aststrinkets.trinkets;
 
 import com.astelon.aststrinkets.AstsTrinkets;
 import com.astelon.aststrinkets.Power;
+import com.astelon.aststrinkets.utils.Usages;
 import com.astelon.aststrinkets.utils.Utils;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -25,7 +26,7 @@ public class InfinityItem extends Trinket {
 
     public InfinityItem(AstsTrinkets plugin, NamespacedKey nameKey, NamespacedKey powerKey, NamespacedKey ownerKey) {
         super(plugin, nameKey, powerKey, "infinityItem", TextColor.fromHexString("#C8C8C8"), Power.INFINITE_PLACED_BLOCKS,
-                true);
+                true, Usages.INVENTORY_AND_PLACE);
         this.ownerKey = ownerKey;
         allowedBlocks = new ArrayList<>();
     }

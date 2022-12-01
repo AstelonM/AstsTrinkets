@@ -2,6 +2,7 @@ package com.astelon.aststrinkets.trinkets;
 
 import com.astelon.aststrinkets.AstsTrinkets;
 import com.astelon.aststrinkets.Power;
+import com.astelon.aststrinkets.utils.Usages;
 import com.astelon.aststrinkets.utils.Utils;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -23,7 +24,7 @@ public class ReignitableRocket extends Trinket {
 
     public ReignitableRocket(AstsTrinkets plugin, NamespacedKey nameKey, NamespacedKey powerKey, NamespacedKey failureChanceKey) {
         super(plugin, nameKey, powerKey, "reignitableRocket", TextColor.fromHexString("#5FB036"), Power.REIGNITION,
-                false);
+                false, Usages.FIREWORK_ROCKET);
         this.failureChanceKey = failureChanceKey;
     }
 

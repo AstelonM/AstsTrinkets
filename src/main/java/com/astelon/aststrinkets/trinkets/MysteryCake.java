@@ -2,6 +2,7 @@ package com.astelon.aststrinkets.trinkets;
 
 import com.astelon.aststrinkets.AstsTrinkets;
 import com.astelon.aststrinkets.Power;
+import com.astelon.aststrinkets.utils.Usages;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Material;
@@ -23,7 +24,7 @@ public class MysteryCake extends Trinket {
     private boolean checkHealth;
 
     public MysteryCake(AstsTrinkets plugin, NamespacedKey nameKey, NamespacedKey powerKey) {
-        super(plugin, nameKey, powerKey, "mysteryCake", Power.RANDOM_POTION_EFFECT, true);
+        super(plugin, nameKey, powerKey, "mysteryCake", Power.RANDOM_POTION_EFFECT, true, Usages.PLACE_AND_EAT);
         effects = new ArrayList<>();
         random = new Random();
         initEffects();

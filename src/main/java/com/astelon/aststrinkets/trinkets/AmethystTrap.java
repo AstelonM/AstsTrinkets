@@ -3,6 +3,7 @@ package com.astelon.aststrinkets.trinkets;
 import com.astelon.aststrinkets.AstsTrinkets;
 import com.astelon.aststrinkets.Power;
 import com.astelon.aststrinkets.managers.MobInfoManager;
+import com.astelon.aststrinkets.utils.Usages;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextColor;
@@ -19,7 +20,7 @@ public class AmethystTrap extends CrystalTrap {
     public AmethystTrap(AstsTrinkets plugin, MobInfoManager mobInfoManager, NamespacedKey nameKey, NamespacedKey powerKey,
                         NamespacedKey trapKey, NamespacedKey ownerKey) {
         super(plugin, mobInfoManager, nameKey, powerKey, trapKey, ownerKey, "amethystTrap", Power.CAPTURE_MONSTERS,
-                true, NamedTextColor.LIGHT_PURPLE, TextColor.fromHexString("#FC3A3A"));
+                true, NamedTextColor.LIGHT_PURPLE, TextColor.fromHexString("#FC3A3A"), Usages.TRAP);
     }
 
     @Override

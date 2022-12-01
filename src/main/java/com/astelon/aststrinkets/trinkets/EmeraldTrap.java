@@ -3,6 +3,7 @@ package com.astelon.aststrinkets.trinkets;
 import com.astelon.aststrinkets.AstsTrinkets;
 import com.astelon.aststrinkets.Power;
 import com.astelon.aststrinkets.managers.MobInfoManager;
+import com.astelon.aststrinkets.utils.Usages;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Material;
@@ -18,7 +19,7 @@ public class EmeraldTrap extends CrystalTrap {
     public EmeraldTrap(AstsTrinkets plugin, MobInfoManager mobInfoManager, NamespacedKey nameKey, NamespacedKey powerKey,
                        NamespacedKey trapKey, NamespacedKey ownerKey) {
         super(plugin, mobInfoManager, nameKey, powerKey, trapKey, ownerKey, "emeraldTrap", Power.CAPTURE_ANIMALS,
-                true, NamedTextColor.GREEN, NamedTextColor.AQUA);
+                true, NamedTextColor.GREEN, NamedTextColor.AQUA, Usages.TRAP);
     }
 
     @Override

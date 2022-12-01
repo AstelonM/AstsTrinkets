@@ -2,6 +2,7 @@ package com.astelon.aststrinkets.trinkets;
 
 import com.astelon.aststrinkets.AstsTrinkets;
 import com.astelon.aststrinkets.Power;
+import com.astelon.aststrinkets.utils.Usages;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Material;
@@ -14,7 +15,7 @@ import java.util.List;
 public class MendingPowder extends Trinket {
 
     public MendingPowder(AstsTrinkets plugin, NamespacedKey nameKey, NamespacedKey powerKey) {
-        super(plugin, nameKey, powerKey, "mendingPowder", Power.MENDING, true);
+        super(plugin, nameKey, powerKey, "mendingPowder", Power.MENDING, true, Usages.INVENTORY);
     }
 
     @Override

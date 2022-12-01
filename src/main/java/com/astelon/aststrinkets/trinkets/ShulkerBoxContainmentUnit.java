@@ -2,6 +2,7 @@ package com.astelon.aststrinkets.trinkets;
 
 import com.astelon.aststrinkets.AstsTrinkets;
 import com.astelon.aststrinkets.Power;
+import com.astelon.aststrinkets.utils.Usages;
 import com.astelon.aststrinkets.utils.Utils;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
@@ -27,7 +28,7 @@ public class ShulkerBoxContainmentUnit extends Trinket {
     public ShulkerBoxContainmentUnit(AstsTrinkets plugin, NamespacedKey nameKey, NamespacedKey powerKey, NamespacedKey shulkerBoxKey,
                                      NamespacedKey ownerKey) {
         super(plugin, nameKey, powerKey, "shulkerBoxContainmentUnit", NamedTextColor.YELLOW, Power.STORE_SHULKER_BOXES,
-                false);
+                false, Usages.SHULKER_BOX_UNIT);
         this.shulkerBoxKey = shulkerBoxKey;
         this.ownerKey = ownerKey;
     }

@@ -2,6 +2,7 @@ package com.astelon.aststrinkets.trinkets;
 
 import com.astelon.aststrinkets.AstsTrinkets;
 import com.astelon.aststrinkets.Power;
+import com.astelon.aststrinkets.utils.Usages;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Material;
@@ -20,7 +21,7 @@ public class Homendingdirt extends Trinket {
     private final NamespacedKey ownerKey;
 
     public Homendingdirt(AstsTrinkets plugin, NamespacedKey nameKey, NamespacedKey powerKey, NamespacedKey ownerKey) {
-        super(plugin, nameKey, powerKey, "homendingdirt", Power.APPLY_MENDING, true);
+        super(plugin, nameKey, powerKey, "homendingdirt", Power.APPLY_MENDING, true, Usages.INVENTORY);
         this.ownerKey = ownerKey;
     }
 

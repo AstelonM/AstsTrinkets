@@ -3,6 +3,7 @@ package com.astelon.aststrinkets.trinkets;
 import com.astelon.aststrinkets.AstsTrinkets;
 import com.astelon.aststrinkets.Power;
 import com.astelon.aststrinkets.managers.MobInfoManager;
+import com.astelon.aststrinkets.utils.Usages;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
@@ -23,7 +24,7 @@ public class NetherStarTrap extends CrystalTrap {
     public NetherStarTrap(AstsTrinkets plugin, MobInfoManager mobInfoManager, NamespacedKey nameKey, NamespacedKey powerKey,
                           NamespacedKey trapKey, NamespacedKey ownerKey) {
         super(plugin, mobInfoManager, nameKey, powerKey, trapKey, ownerKey, "netherStarTrap", Power.STRONGER_CAPTURE_ENTITIES,
-                true, NamedTextColor.GOLD);
+                true, NamedTextColor.GOLD, Usages.TRAP);
     }
 
     @Override

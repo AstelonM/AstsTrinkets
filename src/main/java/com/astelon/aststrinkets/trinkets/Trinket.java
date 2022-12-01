@@ -5,6 +5,8 @@ import com.astelon.aststrinkets.Power;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextColor;
 import net.kyori.adventure.text.format.TextDecoration;
+import net.kyori.adventure.text.minimessage.MiniMessage;
+import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Projectile;
 import org.bukkit.inventory.ItemStack;
@@ -23,9 +25,10 @@ public abstract class Trinket {
     protected Power power;
     protected boolean enabled;
     protected final boolean isOp;
+    protected final Component usage;
 
     public Trinket(AstsTrinkets plugin, NamespacedKey nameKey, NamespacedKey powerKey, String name, TextColor infoColour,
-                   Power power, boolean isOp) {
+                   Power power, boolean isOp, String usage) {
         this.plugin = plugin;
         this.nameKey = nameKey;
         this.powerKey = powerKey;
@@ -45,10 +48,14 @@ public abstract class Trinket {
         container.set(this.nameKey, PersistentDataType.STRING, name);
         container.set(this.powerKey, PersistentDataType.STRING, power.powerName());
         itemStack.setItemMeta(meta);
+        this.usage = MiniMessage.miniMessage().deserialize("<gold>How to use: <trinketname></gold><br><trinketusage>",
+                Placeholder.component("trinketname", this.itemStack.displayName().hoverEvent(this.itemStack.asHoverEvent())),
+                Placeholder.parsed("trinketusage", "<green>" + usage));
     }
 
-    public Trinket(AstsTrinkets plugin, NamespacedKey nameKey, NamespacedKey powerKey, String name, Power power, boolean isOp) {
-        this(plugin, nameKey, powerKey, name, null, power, isOp);
+    public Trinket(AstsTrinkets plugin, NamespacedKey nameKey, NamespacedKey powerKey, String name, Power power, boolean isOp,
+                   String usage) {
+        this(plugin, nameKey, powerKey, name, null, power, isOp, usage);
     }
 
     protected abstract ItemStack createItemStack();
@@ -114,5 +121,9 @@ public abstract class Trinket {
 
     public boolean isOp() {
         return isOp;
+    }
+
+    public Component getUsage() {
+        return usage;
     }
 }

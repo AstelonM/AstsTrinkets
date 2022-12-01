@@ -2,6 +2,7 @@ package com.astelon.aststrinkets.trinkets;
 
 import com.astelon.aststrinkets.AstsTrinkets;
 import com.astelon.aststrinkets.Power;
+import com.astelon.aststrinkets.utils.Usages;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextColor;
@@ -18,7 +19,8 @@ import java.util.List;
 public class TrueDeathArrow extends ProjectileTrinket {
 
     public TrueDeathArrow(AstsTrinkets plugin, NamespacedKey nameKey, NamespacedKey powerKey, NamespacedKey ownerKey) {
-        super(plugin, nameKey, powerKey, ownerKey, "trueDeathArrow", NamedTextColor.WHITE, Power.TRUE_DEATH, true);
+        super(plugin, nameKey, powerKey, ownerKey, "trueDeathArrow", NamedTextColor.WHITE, Power.TRUE_DEATH, true,
+                Usages.ARROW);
     }
 
     @Override

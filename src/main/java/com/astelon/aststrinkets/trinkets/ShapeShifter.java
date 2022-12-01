@@ -2,6 +2,7 @@ package com.astelon.aststrinkets.trinkets;
 
 import com.astelon.aststrinkets.AstsTrinkets;
 import com.astelon.aststrinkets.Power;
+import com.astelon.aststrinkets.utils.Usages;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
@@ -24,7 +25,8 @@ public class ShapeShifter extends Trinket {
     private final Random random;
 
     public ShapeShifter(AstsTrinkets plugin, NamespacedKey nameKey, NamespacedKey powerKey) {
-        super(plugin, nameKey, powerKey, "shapeShifter", NamedTextColor.AQUA, Power.SHAPE_SHIFTING, false);
+        super(plugin, nameKey, powerKey, "shapeShifter", NamedTextColor.AQUA, Power.SHAPE_SHIFTING, false,
+                Usages.DONT);
         materials = Arrays.stream(Material.values())
                 .filter(Material::isItem)
                 .filter(material -> !material.isAir() && !material.isEmpty())

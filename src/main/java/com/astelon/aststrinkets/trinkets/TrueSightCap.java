@@ -2,6 +2,7 @@ package com.astelon.aststrinkets.trinkets;
 
 import com.astelon.aststrinkets.AstsTrinkets;
 import com.astelon.aststrinkets.Power;
+import com.astelon.aststrinkets.utils.Usages;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Color;
@@ -16,7 +17,8 @@ import java.util.List;
 public class TrueSightCap extends Trinket {
 
     public TrueSightCap(AstsTrinkets plugin, NamespacedKey nameKey, NamespacedKey powerKey) {
-        super(plugin, nameKey, powerKey, "trueSightCap", NamedTextColor.GRAY, Power.TRUE_SIGHT, false);
+        super(plugin, nameKey, powerKey, "trueSightCap", NamedTextColor.GRAY, Power.TRUE_SIGHT, false,
+                Usages.WEAR);
     }
 
     @Override

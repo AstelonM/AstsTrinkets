@@ -29,8 +29,8 @@ public abstract class CrystalTrap extends PetCheckingTrinket {
 
     public CrystalTrap(AstsTrinkets plugin, MobInfoManager mobInfoManager, NamespacedKey nameKey, NamespacedKey powerKey,
                        NamespacedKey trapKey, NamespacedKey ownerKey, String name, Power power, boolean isOp,
-                       TextColor nameColour, TextColor infoColour) {
-        super(plugin, nameKey, powerKey, name, infoColour, power, isOp);
+                       TextColor nameColour, TextColor infoColour, String usage) {
+        super(plugin, nameKey, powerKey, name, infoColour, power, isOp, usage);
         this.mobInfoManager = mobInfoManager;
         this.trapKey = trapKey;
         this.ownerKey = ownerKey;
@@ -41,8 +41,9 @@ public abstract class CrystalTrap extends PetCheckingTrinket {
     }
 
     public CrystalTrap(AstsTrinkets plugin, MobInfoManager mobInfoManager, NamespacedKey nameKey, NamespacedKey powerKey,
-                       NamespacedKey trapKey, NamespacedKey ownerKey, String name, Power power, boolean isOp, TextColor nameColour) {
-        this(plugin, mobInfoManager, nameKey, powerKey, trapKey, ownerKey, name, power, isOp, nameColour, null);
+                       NamespacedKey trapKey, NamespacedKey ownerKey, String name, Power power, boolean isOp, TextColor nameColour,
+                       String usage) {
+        this(plugin, mobInfoManager, nameKey, powerKey, trapKey, ownerKey, name, power, isOp, nameColour, null, usage);
     }
 
     protected abstract void setMobs();
