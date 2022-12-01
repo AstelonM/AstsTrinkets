@@ -24,7 +24,9 @@ public enum Power {
     PERFECTED_REIGNITION("perfectedReignition"),
     DEATH("death"),
     TRUE_DEATH("trueDeath"),
-    STORE_SHULKER_BOXES("storeShulkerBoxes");
+    STORE_SHULKER_BOXES("storeShulkerBoxes"),
+    PREVENT_SUFFOCATION("preventSuffocation"),
+    PREVENT_FALL_DAMAGE("preventFallDamage");
 
     private final String powerName;
 

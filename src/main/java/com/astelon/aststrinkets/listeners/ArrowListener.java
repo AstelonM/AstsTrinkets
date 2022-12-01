@@ -37,7 +37,7 @@ public class ArrowListener implements Listener {
         Entity projectile = event.getProjectile();
         if (!(projectile instanceof Arrow arrow))
             return;
-        if (itemStack != null && isOwnedWithRestrictions(itemStack, shooter)) {
+        if (itemStack != null && trinketManager.isOwnedWithRestrictions(itemStack, shooter)) {
             if (deathArrow.isEnabled() && deathArrow.isTrinket(itemStack)) {
                 deathArrow.setProjectileTrinket(arrow, itemStack);
             } else if (trueDeathArrow.isEnabled() && trueDeathArrow.isTrinket(itemStack)) {
@@ -54,7 +54,7 @@ public class ArrowListener implements Listener {
             ProjectileSource shooter = arrow.getShooter();
             if (!(shooter instanceof Entity shooterEntity))
                 return;
-            if (isOwnedWithRestrictions(arrow, shooterEntity)) {
+            if (trinketManager.isOwnedWithRestrictions(arrow, shooterEntity)) {
                 if (deathArrow.isEnabled() && deathArrow.isTrinket(arrow)) {
                     livingEntity.damage(1000000, shooterEntity);
                     logDeath(deathArrow, shooterEntity, livingEntity);
@@ -71,7 +71,7 @@ public class ArrowListener implements Listener {
             ProjectileSource shooter = arrow.getShooter();
             if (!(shooter instanceof Entity shooterEntity))
                 return;
-            if (isOwnedWithRestrictions(arrow, shooterEntity)) {
+            if (trinketManager.isOwnedWithRestrictions(arrow, shooterEntity)) {
                 if (trueDeathArrow.isEnabled() && trueDeathArrow.isTrinket(arrow)) {
                     livingEntity.damage(1000000);
                     livingEntity.setHealth(0);
@@ -79,28 +79,6 @@ public class ArrowListener implements Listener {
                 }
             }
         }
-    }
-
-    private boolean isOwnedWithRestrictions(ItemStack itemStack, Entity entity) {
-        String owner = trinketManager.getOwner(itemStack);
-        if (owner != null) {
-            if (entity instanceof Player player && !trinketManager.isOwnedBy(itemStack, player.getName()))
-                return false;
-            else
-                return entity instanceof Player;
-        }
-        return true;
-    }
-
-    private boolean isOwnedWithRestrictions(Arrow arrow, Entity entity) {
-        String owner = trinketManager.getOwner(arrow);
-        if (owner != null) {
-            if (entity instanceof Player player && !trinketManager.isOwnedBy(arrow, player.getName()))
-                return false;
-            else
-                return entity instanceof Player;
-        }
-        return true;
     }
 
     private void logDeath(Trinket trinket, Entity killer, Entity killed) {

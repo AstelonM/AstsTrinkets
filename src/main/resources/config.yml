@@ -160,3 +160,12 @@ trueDeathArrow:
 # sneaking with the unit in either hand. One use only.
 shulkerBoxContainmentUnit:
   enabled: true
+
+# A helmet that prevents you from drowning when equipped. Does not prevent suffocation (when you are inside blocks).
+# Entities can use it too.
+divingHelmet:
+  enabled: true
+
+# Boots that prevent fall damage when equipped. Entities can use them too.
+hydraulicBoots:
+  enabled: true

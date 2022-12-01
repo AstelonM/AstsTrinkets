@@ -3,6 +3,8 @@ package com.astelon.aststrinkets.managers;
 import com.astelon.aststrinkets.AstsTrinkets;
 import com.astelon.aststrinkets.trinkets.*;
 import org.bukkit.NamespacedKey;
+import org.bukkit.entity.Arrow;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
 import org.bukkit.inventory.Inventory;
@@ -73,6 +75,8 @@ public class TrinketManager {
         addTrinket(new DeathArrow(plugin, nameKey, powerKey, ownerKey));
         addTrinket(new TrueDeathArrow(plugin, nameKey, powerKey, ownerKey));
         addTrinket(new ShulkerBoxContainmentUnit(plugin, nameKey, powerKey, shulkerBoxKey, ownerKey));
+        addTrinket(new DivingHelmet(plugin, nameKey, powerKey));
+        addTrinket(new HydraulicBoots(plugin, nameKey, powerKey));
     }
 
     private void addTrinket(Trinket trinket) {
@@ -201,6 +205,28 @@ public class TrinketManager {
         return playerName.equals(owner);
     }
 
+    public boolean isOwnedWithRestrictions(ItemStack itemStack, Entity entity) {
+        String owner = getOwner(itemStack);
+        if (owner != null) {
+            if (entity instanceof Player player && !isOwnedBy(itemStack, player.getName()))
+                return false;
+            else
+                return entity instanceof Player;
+        }
+        return true;
+    }
+
+    public boolean isOwnedWithRestrictions(Arrow arrow, Entity entity) {
+        String owner = getOwner(arrow);
+        if (owner != null) {
+            if (entity instanceof Player player && !isOwnedBy(arrow, player.getName()))
+                return false;
+            else
+                return entity instanceof Player;
+        }
+        return true;
+    }
+
     public MobInfoManager getMobInfoManager() {
         return mobInfoManager;
     }
@@ -299,5 +325,13 @@ public class TrinketManager {
 
     public ShulkerBoxContainmentUnit getShulkerBoxContainmentUnit() {
         return (ShulkerBoxContainmentUnit) getTrinketExact("shulkerBoxContainmentUnit");
+    }
+
+    public DivingHelmet getDivingHelmet() {
+        return (DivingHelmet) getTrinketExact("divingHelmet");
+    }
+
+    public HydraulicBoots getHydraulicBoots() {
+        return (HydraulicBoots) getTrinketExact("hydraulicBoots");
     }
 }
