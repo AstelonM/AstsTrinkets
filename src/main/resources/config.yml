@@ -153,3 +153,10 @@ deathArrow:
 # Obviously it requires the "aststrinkets.op" permission to give.
 trueDeathArrow:
   enabled: true
+
+# An ender chest that lets you contain a shulker box "inside". This in turn allows you to put it in another shulker box.
+# Does not work if the box has another containment unit inside. Contain a shulker box by using shift right click inside
+# the inventory while holding the unit on cursor. Retrieve the box by either placing the unit or right clicking air while
+# sneaking with the unit in either hand. One use only.
+shulkerBoxContainmentUnit:
+  enabled: true

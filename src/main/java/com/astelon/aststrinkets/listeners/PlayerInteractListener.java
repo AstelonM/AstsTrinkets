@@ -37,6 +37,7 @@ public class PlayerInteractListener implements Listener {
     private final EmeraldTrap emeraldTrap;
     private final AmethystTrap amethystTrap;
     private final NetherStarTrap netherStarTrap;
+    private final ShulkerBoxContainmentUnit shulkerBoxContainmentUnit;
 
     public PlayerInteractListener(AstsTrinkets plugin, MobInfoManager mobInfoManager, TrinketManager trinketManager) {
         this.plugin = plugin;
@@ -48,6 +49,7 @@ public class PlayerInteractListener implements Listener {
         emeraldTrap = trinketManager.getEmeraldTrap();
         amethystTrap = trinketManager.getAmethystTrap();
         netherStarTrap = trinketManager.getNetherStarTrap();
+        shulkerBoxContainmentUnit = trinketManager.getShulkerBoxContainmentUnit();
     }
 
     @EventHandler
@@ -118,20 +120,43 @@ public class PlayerInteractListener implements Listener {
 
     @EventHandler
     public void onPlayerInteract(PlayerInteractEvent event) {
-        if (event.getAction() != Action.RIGHT_CLICK_BLOCK)
-            return;
-        Block block = event.getClickedBlock();
-        // Only checking for OFF_HAND because it is never used for specific interactions (open chests etc.), and it
-        // is always called otherwise. It is used for placing blocks from offhand, though, so checking for that as well
-        if (block != null && event.getHand() == EquipmentSlot.OFF_HAND && !event.isBlockInHand()) {
+        if (event.getAction() == Action.RIGHT_CLICK_BLOCK) {
+            Block block = event.getClickedBlock();
+            // Only checking for OFF_HAND because it is never used for specific interactions (open chests etc.), and it
+            // is always called otherwise. It is used for placing blocks from offhand, though, so checking for that as well
+            if (block != null && event.getHand() == EquipmentSlot.OFF_HAND && !event.isBlockInHand()) {
+                Player player = event.getPlayer();
+                PlayerInventory inventory = player.getInventory();
+                ItemStack mainHandItem = inventory.getItemInMainHand();
+                ItemStack offHandItem = inventory.getItemInOffHand();
+                if (trinketManager.isTrinket(mainHandItem)) {
+                    useTrinkets(mainHandItem, player, block, inventory.getHeldItemSlot());
+                } else if (trinketManager.isTrinket(offHandItem)) {
+                    useTrinkets(mainHandItem, player, block, Utils.OFF_HAND_SLOT);
+                }
+            }
+        } else if (event.getAction() == Action.RIGHT_CLICK_AIR) {
             Player player = event.getPlayer();
-            PlayerInventory inventory = player.getInventory();
-            ItemStack mainHandItem = inventory.getItemInMainHand();
-            ItemStack offHandItem = inventory.getItemInOffHand();
-            if (trinketManager.isTrinket(mainHandItem)) {
-                useTrinkets(mainHandItem, player, block, inventory.getHeldItemSlot());
-            } else if (trinketManager.isTrinket(offHandItem)) { //TODO use both hands at the same time?
-                useTrinkets(mainHandItem, player, block, Utils.OFF_HAND_SLOT);
+            if (!player.isSneaking())
+                return;
+            ItemStack itemStack = event.getItem();
+            if (itemStack == null)
+                return;
+            if (trinketManager.isOwnedBy(itemStack, player.getName())) {
+                if (shulkerBoxContainmentUnit.isEnabled() && shulkerBoxContainmentUnit.isTrinket(itemStack)) {
+                    if (!shulkerBoxContainmentUnit.hasShulkerBox(itemStack))
+                        return;
+                    ItemStack result = shulkerBoxContainmentUnit.getContainedShulkerBox(itemStack);
+                    if (result == null) {
+                        player.sendMessage(Component.text("This containment unit has become corrupted. The " +
+                                "shulker box within could not be retrieved.", NamedTextColor.RED));
+                        return;
+                    }
+                    PlayerInventory inventory = player.getInventory();
+                    int slot = event.getHand() == EquipmentSlot.HAND ? inventory.getHeldItemSlot() : Utils.OFF_HAND_SLOT;
+                    Utils.transformItem(itemStack, result, slot, inventory, player);
+                    player.updateInventory();
+                }
             }
         }
     }

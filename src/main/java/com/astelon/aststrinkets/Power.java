@@ -23,7 +23,8 @@ public enum Power {
     REIGNITION("reignition"),
     PERFECTED_REIGNITION("perfectedReignition"),
     DEATH("death"),
-    TRUE_DEATH("trueDeath");
+    TRUE_DEATH("trueDeath"),
+    STORE_SHULKER_BOXES("storeShulkerBoxes");
 
     private final String powerName;
 

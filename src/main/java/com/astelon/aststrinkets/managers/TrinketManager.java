@@ -27,6 +27,7 @@ public class TrinketManager {
     private final NamespacedKey trapKey;
     private final NamespacedKey failureChanceKey;
     private final NamespacedKey criticalFailureChanceKey;
+    private final NamespacedKey shulkerBoxKey;
 
     private final ArrayList<Trinket> trinkets;
     private final HashMap<String, Trinket> trinketMap;
@@ -41,6 +42,7 @@ public class TrinketManager {
         trapKey = new NamespacedKey(plugin, "trinketTrappedEntity");
         failureChanceKey = new NamespacedKey(plugin, "failureChance");
         criticalFailureChanceKey = new NamespacedKey(plugin, "criticalFailureChance");
+        shulkerBoxKey = new NamespacedKey(plugin, "shulkerBoxKey");
         trinkets = new ArrayList<>();
         trinketMap = new HashMap<>();
         initTrinkets();
@@ -70,6 +72,7 @@ public class TrinketManager {
         addTrinket(new PerfectedReignitableRocket(plugin, nameKey, powerKey));
         addTrinket(new DeathArrow(plugin, nameKey, powerKey, ownerKey));
         addTrinket(new TrueDeathArrow(plugin, nameKey, powerKey, ownerKey));
+        addTrinket(new ShulkerBoxContainmentUnit(plugin, nameKey, powerKey, shulkerBoxKey, ownerKey));
     }
 
     private void addTrinket(Trinket trinket) {
@@ -292,5 +295,9 @@ public class TrinketManager {
 
     public TrueDeathArrow getTrueDeathArrow() {
         return (TrueDeathArrow) getTrinketExact("trueDeathArrow");
+    }
+
+    public ShulkerBoxContainmentUnit getShulkerBoxContainmentUnit() {
+        return (ShulkerBoxContainmentUnit) getTrinketExact("shulkerBoxContainmentUnit");
     }
 }

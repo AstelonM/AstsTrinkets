@@ -3,6 +3,7 @@ package com.astelon.aststrinkets.listeners;
 import com.astelon.aststrinkets.AstsTrinkets;
 import com.astelon.aststrinkets.managers.TrinketManager;
 import com.astelon.aststrinkets.trinkets.*;
+import com.astelon.aststrinkets.utils.Utils;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Material;
@@ -31,6 +32,7 @@ public class InventoryUseListener implements Listener {
     private final Homendirt homendirt;
     private final Homendingdirt homendingdirt;
     private final InfinityItem infinityItem;
+    private final ShulkerBoxContainmentUnit shulkerBoxContainmentUnit;
 
     public InventoryUseListener(AstsTrinkets plugin, TrinketManager manager) {
         this.plugin = plugin;
@@ -41,6 +43,7 @@ public class InventoryUseListener implements Listener {
         this.homendirt = manager.getHomendirt();
         this.homendingdirt = manager.getHomendingdirt();
         this.infinityItem = manager.getInfinityItem();
+        this.shulkerBoxContainmentUnit = manager.getShulkerBoxContainmentUnit();
     }
 
     @EventHandler
@@ -170,6 +173,24 @@ public class InventoryUseListener implements Listener {
                 ItemStack result = infinityItem.replicateBlock(heldItem, block);
                 transformCursorItem(heldItem, result, player.getInventory(), player);
                 player.updateInventory();
+            } else if (shulkerBoxContainmentUnit.isEnabled() && shulkerBoxContainmentUnit.isTrinket(heldItem)) {
+                if (shulkerBoxContainmentUnit.hasShulkerBox(heldItem))
+                    return;
+                ItemStack shulker = event.getCurrentItem();
+                if (!Utils.isShulkerBox(shulker))
+                    return;
+                if (!shulkerBoxContainmentUnit.canContainShulkerBox(shulker)) {
+                    player.sendMessage(Component.text("You can't contain this shulker. Make sure it doesn't have " +
+                            "another containment unit inside.", NamedTextColor.RED));
+                    return;
+                }
+                ItemStack result = shulkerBoxContainmentUnit.setContainedShulkerBox(heldItem, shulker);
+                if (result != null) {
+                    event.setCancelled(true);
+                    transformCursorItem(heldItem, result, player.getInventory(), player);
+                    shulker.subtract();
+                    player.updateInventory();
+                }
             }
         }
     }

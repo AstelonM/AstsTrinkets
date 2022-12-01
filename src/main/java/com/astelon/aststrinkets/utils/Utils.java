@@ -128,4 +128,8 @@ public class Utils {
             value = 0;
         return value;
     }
+
+    public static boolean isShulkerBox(ItemStack itemStack) {
+        return itemStack != null && itemStack.getType().name().contains("SHULKER_BOX");
+    }
 }
