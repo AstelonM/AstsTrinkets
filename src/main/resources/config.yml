@@ -1,5 +1,3 @@
-# Trinkets
-
 # Allows whoever equips it to become invisible from players. Cannot be repaired or enchanted, and probably shouldn't be
 # used in crafting.
 # The invisibility is bypassed by the "aststrinkets.trinket.seeinvisible" permission.
