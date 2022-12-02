@@ -48,7 +48,7 @@ public class ShapeShifterListener implements Listener {
         }
     }
 
-    @EventHandler
+    @EventHandler(ignoreCancelled = true)
     public void onBlockPlace(BlockPlaceEvent event) {
         if (shapeShifter.isEnabled() && shapeShifter.isTrinket(event.getItemInHand())) {
             event.setCancelled(true);
@@ -56,7 +56,7 @@ public class ShapeShifterListener implements Listener {
         }
     }
 
-    @EventHandler
+    @EventHandler(ignoreCancelled = true)
     public void onCraftItem(CraftItemEvent event) {
         if (shapeShifter.isEnabled()) {
             ItemStack[] items = event.getInventory().getMatrix();
