@@ -26,7 +26,7 @@ public class InfinityItem extends Trinket {
 
     public InfinityItem(AstsTrinkets plugin, NamespacedKey nameKey, NamespacedKey powerKey, NamespacedKey ownerKey) {
         super(plugin, nameKey, powerKey, "infinityItem", TextColor.fromHexString("#C8C8C8"), Power.INFINITE_PLACED_BLOCKS,
-                true, Usages.INVENTORY_AND_PLACE);
+                false, Usages.INVENTORY_AND_PLACE);
         this.ownerKey = ownerKey;
         allowedBlocks = new ArrayList<>();
     }

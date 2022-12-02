@@ -15,7 +15,7 @@ import java.util.List;
 public class MendingPowder extends Trinket {
 
     public MendingPowder(AstsTrinkets plugin, NamespacedKey nameKey, NamespacedKey powerKey) {
-        super(plugin, nameKey, powerKey, "mendingPowder", Power.MENDING, true, Usages.INVENTORY);
+        super(plugin, nameKey, powerKey, "mendingPowder", Power.MENDING, false, Usages.INVENTORY);
     }
 
     @Override

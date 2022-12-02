@@ -42,14 +42,12 @@ spinneret:
 
 # Shift right click in your inventory while holding this item on any damaged item to bring it back to full durability.
 # One time use.
-# This trinket is experimental currently.
 mendingPowder:
   enabled: true
 
 # Shift right click in your inventory while holding this item on other trinkets to bind them to you. This makes you the
 # owner of that trinket, and no one else will be able to use it. Has no effect on the Shapeshifter or the Binding Powder
 # itself. One time use.
-# This trinket is experimental.
 bindingPowder:
   enabled: true
 
@@ -63,11 +61,11 @@ unbindingPowder:
 trueSightCap:
   enabled: true
 
-# Inspired by Homen06. It removes mending from another item and becomes a Homendingdirt. This trinket is experimental.
+# Inspired by Homen06. It removes mending from another item and becomes a Homendingdirt.
 homendirt:
   enabled: true
 
-# Inspired by Homen06. It applies mending to another item and is consumed after. This trinket is experimental.
+# Inspired by Homen06. It applies mending to another item and is consumed after.
 homendingdirt:
   enabled: true
 
@@ -111,7 +109,6 @@ netherStarTrap:
 # Shift right click in your inventory on a block to turn this trinket into an infinite source of that block for placing.
 # Basically creative mode, but only for a single block.
 # Players with permission aststrinkets.trinket.unboundinfinityitem are able to use this trinket on any block.
-# This trinket is, too, experimental.
 infinityItem:
   enabled: true
   # List of blocks you can add can be found here https://jd.papermc.io/paper/1.18/org/bukkit/Material.html

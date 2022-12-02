@@ -21,7 +21,7 @@ public class Homendingdirt extends Trinket {
     private final NamespacedKey ownerKey;
 
     public Homendingdirt(AstsTrinkets plugin, NamespacedKey nameKey, NamespacedKey powerKey, NamespacedKey ownerKey) {
-        super(plugin, nameKey, powerKey, "homendingdirt", Power.APPLY_MENDING, true, Usages.INVENTORY);
+        super(plugin, nameKey, powerKey, "homendingdirt", Power.APPLY_MENDING, false, Usages.INVENTORY);
         this.ownerKey = ownerKey;
     }
 

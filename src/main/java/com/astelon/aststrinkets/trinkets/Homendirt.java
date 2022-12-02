@@ -19,7 +19,7 @@ public class Homendirt extends Trinket {
 
     public Homendirt(AstsTrinkets plugin, NamespacedKey nameKey, NamespacedKey powerKey) {
         super(plugin, nameKey, powerKey, "homendirt", TextColor.fromHexString("#3AFC3A"), Power.ABSORB_MENDING,
-                true, Usages.INVENTORY);
+                false, Usages.INVENTORY);
     }
 
     @Override

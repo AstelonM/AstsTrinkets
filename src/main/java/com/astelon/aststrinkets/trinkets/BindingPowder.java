@@ -23,7 +23,7 @@ public class BindingPowder extends Trinket {
     private final NamespacedKey ownerKey;
 
     public BindingPowder(AstsTrinkets plugin, NamespacedKey nameKey, NamespacedKey powerKey, NamespacedKey ownerKey) {
-        super(plugin, nameKey, powerKey, "bindingPowder", Power.BINDING, true, Usages.INVENTORY);
+        super(plugin, nameKey, powerKey, "bindingPowder", Power.BINDING, false, Usages.INVENTORY);
         this.ownerKey = ownerKey;
     }
 
