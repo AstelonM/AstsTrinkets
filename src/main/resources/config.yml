@@ -61,11 +61,11 @@ unbindingPowder:
 trueSightCap:
   enabled: true
 
-# Inspired by Homen06. It removes mending from another item and becomes a Homendingdirt.
+# Inspired by an idea of Homen06. It removes mending from another item and becomes a Homendingdirt.
 homendirt:
   enabled: true
 
-# Inspired by Homen06. It applies mending to another item and is consumed after.
+# Inspired by an idea of Homen06. It applies mending to another item and is consumed after.
 homendingdirt:
   enabled: true
 
