@@ -149,7 +149,6 @@ public class InventoryUseListener implements Listener {
                     player.sendMessage(Component.text("The Homendirt becomes a Homendingdirt.", NamedTextColor.GOLD));
                     return;
                 }
-                //TODO Mending 2+?
                 int mending = item.getEnchantmentLevel(Enchantment.MENDING);
                 if (mending != 0)
                     return;

@@ -71,7 +71,6 @@ public class InvisibilityListener implements Listener {
         invisibilityManager.removeTrueSightPlayer(player, false);
     }
 
-    //TODO sa pastrez invizibilitatea daca tunica ramane?
     @EventHandler
     public void onPlayerDeath(PlayerDeathEvent event) {
         if (!event.getKeepInventory()) {
