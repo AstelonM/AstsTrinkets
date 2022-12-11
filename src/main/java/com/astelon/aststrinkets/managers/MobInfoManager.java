@@ -263,7 +263,7 @@ public class MobInfoManager {
             colourName = capitalize(bodyColour.name());
         else
             colourName = capitalize(bodyColour.name()) + "-" + capitalize(patternColour.name());
-        type += colourName + capitalize(pattern.name());
+        type += colourName + " " + capitalize(pattern.name());
         return List.of(type);
     }
 
