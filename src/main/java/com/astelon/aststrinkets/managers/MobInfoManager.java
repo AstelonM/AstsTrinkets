@@ -14,10 +14,15 @@ import java.util.stream.Collectors;
 public class MobInfoManager {
 
     private final HashMap<TropicalFishType, String> tropicalFishTypes;
+    private final ArrayList<String> noInfoText;
+    private final Random random;
 
     public MobInfoManager() {
         tropicalFishTypes = new HashMap<>();
+        noInfoText = new ArrayList<>();
         initFishTypes();
+        initNoInfoText();
+        random = new Random();
     }
 
     public String getMobType(Entity entity) {
@@ -55,6 +60,11 @@ public class MobInfoManager {
         };
     }
 
+    private String getNoInfoText(EntityType type) {
+        String line = noInfoText.get(random.nextInt(noInfoText.size()));
+        return line.replace("<name>", capitalize(getRawType(type)));
+    }
+
     public List<String> getExtraInfo(Entity entity) {
         EntityType entityType = entity.getType();
         List<String> result = new ArrayList<>(switch (entityType) {
@@ -79,7 +89,7 @@ public class MobInfoManager {
             case VILLAGER -> getVillagerInfo((Villager) entity);
             case WOLF -> getWolfInfo((Wolf) entity);
             case ZOMBIE_VILLAGER -> getZombieVillagerInfo((ZombieVillager) entity);
-            default -> new ArrayList<String>(0);
+            default -> new ArrayList<String>(1);
         });
         if (entity instanceof Tameable tameable && !(entity instanceof Cat)) {
             if (tameable.isTamed())
@@ -93,6 +103,8 @@ public class MobInfoManager {
             else
                 result.add("- Baby");
         }
+        if (result.isEmpty())
+            result.add(getNoInfoText(entityType));
         return result;
     }
 
@@ -319,6 +331,14 @@ public class MobInfoManager {
         tropicalFishTypes.put(new TropicalFishType(DyeColor.GRAY, DyeColor.WHITE, TropicalFish.Pattern.SUNSTREAK), "Triggerfish");
         tropicalFishTypes.put(new TropicalFishType(DyeColor.CYAN, DyeColor.YELLOW, TropicalFish.Pattern.DASHER), "Yellowtail Parrotfish");
         tropicalFishTypes.put(new TropicalFishType(DyeColor.YELLOW, DyeColor.YELLOW, TropicalFish.Pattern.FLOPPER), "Yellow Tang");
+    }
+
+    private void initNoInfoText() {
+        noInfoText.add("- Just an average <name>.");
+        noInfoText.add("- Nothing special about it.");
+        noInfoText.add("- Looks like any other <name>.");
+        noInfoText.add("- Nothing to see here.");
+        noInfoText.add("- If it's different, you can't tell.");
     }
 
     public record TropicalFishType(DyeColor bodyColor, DyeColor patternColor, TropicalFish.Pattern pattern) {}
