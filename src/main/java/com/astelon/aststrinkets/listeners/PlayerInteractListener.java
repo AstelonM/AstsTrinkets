@@ -195,7 +195,11 @@ public class PlayerInteractListener implements Listener {
                     NamedTextColor.RED));
             return;
         }
-        entity.spawnAt(spawnLocation);
+        if (!entity.spawnAt(spawnLocation)) {
+            player.sendMessage(Component.text("You can't release this creature here. Something stopped it from " +
+                    "spawning.", NamedTextColor.RED));
+            return;
+        }
         if (trap instanceof NetherStarTrap)
             Utils.transformItem(itemStack, netherStarTrap.emptyTrap(itemStack), slot, player.getInventory(), player);
         else
