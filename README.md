@@ -1,4 +1,4 @@
-# Asts Trinkets
+# Ast's Trinkets
 AstsTrinkets is a Paper plugin in which I add all sorts of trinkets. 
 
 The trinkets are just regular Minecraft items that have a special function added by the plugin. The trinkets range from 
