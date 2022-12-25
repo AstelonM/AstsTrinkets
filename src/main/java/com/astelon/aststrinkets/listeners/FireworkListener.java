@@ -42,6 +42,8 @@ public class FireworkListener implements Listener {
                 if (roll < reignitableRocketPrototype.getCriticalFailureChance(rocket)) {
                     Location location = player.getLocation();
                     location.createExplosion(player, 8f, true, true);
+                    if (reignitableRocketPrototype.isPluginExplosion())
+                        location.createExplosion(8f, false, false);
                 } else if (roll >= reignitableRocketPrototype.getFailureChance(rocket)) {
                     event.setShouldConsume(false);
                 }

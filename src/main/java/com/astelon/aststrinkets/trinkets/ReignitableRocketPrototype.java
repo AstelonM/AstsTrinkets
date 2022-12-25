@@ -22,6 +22,7 @@ public class ReignitableRocketPrototype extends Trinket {
 
     private final NamespacedKey failureChanceKey;
     private final NamespacedKey criticalFailureChanceKey;
+    private boolean pluginExplosion;
 
     public ReignitableRocketPrototype(AstsTrinkets plugin, NamespacedKey nameKey, NamespacedKey powerKey,
                                       NamespacedKey failureChanceKey, NamespacedKey criticalFailureChanceKey) {
@@ -81,5 +82,13 @@ public class ReignitableRocketPrototype extends Trinket {
                 Component.text("explode on critical failures.")));
         meta.lore(newLore);
         itemStack.setItemMeta(meta);
+    }
+
+    public boolean isPluginExplosion() {
+        return pluginExplosion;
+    }
+
+    public void setPluginExplosion(boolean pluginExplosion) {
+        this.pluginExplosion = pluginExplosion;
     }
 }

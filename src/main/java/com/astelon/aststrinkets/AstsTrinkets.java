@@ -73,8 +73,10 @@ public class AstsTrinkets extends JavaPlugin {
         ReignitableRocketPrototype reignitableRocketPrototype = trinketManager.getReignitableRocketPrototype();
         double failureChancePrototype = configuration.getDouble(reignitableRocketPrototype.getName() + ".failureChance", 33.33);
         double criticalFailureChance = configuration.getDouble(reignitableRocketPrototype.getName() + ".criticalFailureChance", 1.0);
+        boolean pluginExplosion = configuration.getBoolean(reignitableRocketPrototype.getName() + ".pluginExplosion");
         reignitableRocketPrototype.setFailures(ensurePercentage(failureChancePrototype, 33.33),
                 ensurePercentage(criticalFailureChance, 1.0));
+        reignitableRocketPrototype.setPluginExplosion(pluginExplosion);
         ReignitableRocket reignitableRocket = trinketManager.getReignitableRocket();
         double failureChance = configuration.getDouble(reignitableRocket.getName() + ".failureChance", 10.0);
         reignitableRocket.setFailureChance(ensurePercentage(failureChance, 10.0));

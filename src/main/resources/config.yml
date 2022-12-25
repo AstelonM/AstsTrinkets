@@ -123,6 +123,11 @@ reignitableRocketPrototype:
   failureChance: 33.33
   # Percentage of uses that result in the rocket exploding.
   criticalFailureChance: 1.0
+  # An experimental setting that triggers a second explosion without a specific cause, which doesn't damage blocks or set
+  # fire to them. Set this to true if you have something that stops players from taking damage from the original explosion,
+  # and you want them to take damage as intended.
+  # Warning: it can have some undesired side effects to nearby entities that are supposed to be protected from damage.
+  pluginExplosion: false
 
 # Works the same as the prototype, except it no longer causes explosions. On failure, it is simply consumed.
 reignitableRocket:
