@@ -10,10 +10,7 @@ import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
-import org.bukkit.entity.Ageable;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Player;
+import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
@@ -93,18 +90,20 @@ public class PlayerInteractListener implements Listener {
             } else if (netherStarTrap.isEnabled() && netherStarTrap.isTrinket(item)) {
                 trapEntity(netherStarTrap, item, entity, slot, inventory, player);
             } else if (lifeWater.isEnabled() && lifeWater.isTrinket(item)) {
-                if (entity.isInvulnerable())
+                if (!(entity instanceof Mob mob))
                     return;
-                if (lifeWater.petOwnedByOtherPlayer(entity, player)) {
+                if (mob.isInvulnerable())
+                    return;
+                if (lifeWater.petOwnedByOtherPlayer(mob, player)) {
                     player.sendMessage(Component.text("You can't use this on someone else's pet.", NamedTextColor.RED));
                     return;
                 }
                 event.setCancelled(true);
-                lifeWater.makeInvulnerable(entity, player);
+                lifeWater.makeInvulnerable(mob, player);
                 Utils.transformItem(item, new ItemStack(Material.GLASS_BOTTLE), slot, inventory, player);
                 player.updateInventory();
-                plugin.getLogger().info("Life water used on " + mobInfoManager.getTypeAndName(entity) + " at " +
-                        Utils.locationToString(entity.getLocation()) + " by player " + player.getName() + ".");
+                plugin.getLogger().info("Life water used on " + mobInfoManager.getTypeAndName(mob) + " at " +
+                        Utils.locationToString(mob.getLocation()) + " by player " + player.getName() + ".");
             }
         }
     }
