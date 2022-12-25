@@ -34,8 +34,9 @@ public abstract class CreatureAffectingTrinket extends Trinket {
     }
 
     public boolean isImmune(Entity entity, Player player) {
-        if (entity.isInvulnerable() && !player.hasPermission("aststrinkets.trinket.ignoreinvulnerable"))
-            return true;
+        if (entity.isInvulnerable()) {
+            return !player.hasPermission("aststrinkets.trinket.ignoreinvulnerable") && !Utils.isPetOwner(entity, player);
+        }
         return false;
     }
 }
