@@ -23,7 +23,7 @@ public class PerfectedReignitableRocket extends Trinket {
     protected ItemStack createItemStack() {
         ItemStack itemStack = new ItemStack(Material.FIREWORK_ROCKET);
         ItemMeta meta = itemStack.getItemMeta();
-        meta.displayName(Component.text("Perfected Re-ignitable Rocket", TextColor.fromHexString("#677580")));
+        meta.displayName(Component.text("Perfected Reignitable Rocket", TextColor.fromHexString("#677580")));
         meta.lore(List.of(Component.text("The re-ignitable rocket design has"),
                 Component.text("been perfected so that the rocket"),
                 Component.text("can be reused without any chance"),

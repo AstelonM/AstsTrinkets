@@ -36,7 +36,7 @@ public class ReignitableRocketPrototype extends Trinket {
     protected ItemStack createItemStack() {
         ItemStack itemStack = new ItemStack(Material.FIREWORK_ROCKET);
         ItemMeta meta = itemStack.getItemMeta();
-        meta.displayName(Component.text("Re-ignitable Rocket Prototype", TextColor.fromHexString("#5D4833")));
+        meta.displayName(Component.text("Reignitable Rocket Prototype", TextColor.fromHexString("#5D4833")));
         meta.lore(List.of(Component.text("An experimental rocket that can be"),
                 Component.text("reused several times before"),
                 Component.text("exhaustion. It has a chance to"),
