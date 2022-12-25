@@ -69,23 +69,21 @@ public class PlayerInteractListener implements Listener {
             if (youthMilk.isEnabled() && youthMilk.isTrinket(item) && event.getRightClicked() instanceof Ageable ageable) {
                 if (!ageable.isAdult())
                     return;
-                if (youthMilk.isTrinket(item)) {
-                    if (youthMilk.isOwnedByAnother(ageable, player)) {
-                        player.sendMessage(Component.text("You can't use this on someone else's pet.", NamedTextColor.RED));
-                        return;
-                    }
-                    if (youthMilk.isInvulnerableToPlayer(ageable, player)) {
-                        player.sendMessage(Component.text("This creature is too strong to be affected.", NamedTextColor.RED));
-                        return;
-                    }
-                    event.setCancelled(true);
-                    //TODO check ageLock?
-                    ageable.setBaby();
-                    Utils.transformItem(item, new ItemStack(Material.BUCKET), slot, inventory, player);
-                    player.updateInventory();
-                    plugin.getLogger().info("Youth milk used on " + mobInfoManager.getTypeAndName(ageable) + " at " +
-                            Utils.locationToString(ageable.getLocation()) + " by player " + player.getName() + ".");
+                if (youthMilk.isOwnedByAnother(ageable, player)) {
+                    player.sendMessage(Component.text("You can't use this on someone else's pet.", NamedTextColor.RED));
+                    return;
                 }
+                if (youthMilk.isInvulnerableToPlayer(ageable, player)) {
+                    player.sendMessage(Component.text("This creature is too strong to be affected.", NamedTextColor.RED));
+                    return;
+                }
+                event.setCancelled(true);
+                //TODO check ageLock?
+                ageable.setBaby();
+                Utils.transformItem(item, new ItemStack(Material.BUCKET), slot, inventory, player);
+                player.updateInventory();
+                plugin.getLogger().info("Youth milk used on " + mobInfoManager.getTypeAndName(ageable) + " at " +
+                        Utils.locationToString(ageable.getLocation()) + " by player " + player.getName() + ".");
             } else if (diamondTrap.isEnabled() && diamondTrap.isTrinket(item)) {
                 trapEntity(diamondTrap, item, entity, slot, inventory, player);
             } else if (emeraldTrap.isEnabled() && emeraldTrap.isTrinket(item)) {
