@@ -65,8 +65,12 @@ public class PlayerInteractListener implements Listener {
                 if (!ageable.isAdult())
                     return;
                 if (youthMilk.isTrinket(item)) {
-                    if (!youthMilk.canUseOnPet(ageable, player)) {
+                    if (youthMilk.isOwnedByAnother(ageable, player)) {
                         player.sendMessage(Component.text("You can't use this on someone else's pet.", NamedTextColor.RED));
+                        return;
+                    }
+                    if (youthMilk.isImmune(ageable, player)) {
+                        player.sendMessage(Component.text("This creature is too strong to be affected.", NamedTextColor.RED));
                         return;
                     }
                     event.setCancelled(true);
@@ -101,8 +105,12 @@ public class PlayerInteractListener implements Listener {
             player.sendMessage(Component.text("It cannot be contained within this crystal.", NamedTextColor.RED));
             return;
         }
-        if (!trap.canUseOnPet(entity, player)) {
+        if (trap.isOwnedByAnother(entity, player)) {
             player.sendMessage(Component.text("You can't trap someone else's pet.", NamedTextColor.RED));
+            return;
+        }
+        if (trap.isImmune(entity, player)) {
+            player.sendMessage(Component.text("This creature is too strong to be trapped.", NamedTextColor.RED));
             return;
         }
         ItemStack result = trap.trapCreature(item, entity);

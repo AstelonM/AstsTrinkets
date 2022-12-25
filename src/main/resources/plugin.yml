@@ -19,9 +19,12 @@ permissions:
       aststrinkets.trinket.seeinvisible: true
       aststrinkets.trinket.unboundinfinityitem: true
       aststrinkets.trinket.ignorepetowner: true
+      aststrinkets.trinket.ignoreinvulnerable: true
   aststrinkets.trinket.seeinvisible:
     description: Allows seeing players invisible from some trinkets.
   aststrinkets.trinket.unboundinfinityitem:
     description: Allows binding the infinity item to any block.
   aststrinkets.trinket.ignorepetowner:
     description: Allows using state changing trinkets (like the crystal traps or youth milk) on pets of other players.
+  aststrinkets.trinket.ignoreinvulnerable:
+    description: Allows using state changing trinkets on any invulnerable creature. You probably shouldn't though.

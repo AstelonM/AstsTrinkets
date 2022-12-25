@@ -18,7 +18,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 
-public abstract class CrystalTrap extends PetCheckingTrinket {
+public abstract class CrystalTrap extends CreatureAffectingTrinket {
 
     protected final MobInfoManager mobInfoManager;
     protected final NamespacedKey trapKey;
