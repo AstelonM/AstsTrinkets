@@ -21,7 +21,7 @@ import java.util.List;
 public class LifeWater extends CreatureAffectingTrinket {
 
     public LifeWater(AstsTrinkets plugin, NamespacedKey nameKey, NamespacedKey powerKey, NamespacedKey invulnerabilitySourceKey) {
-        super(plugin, nameKey, powerKey, invulnerabilitySourceKey, "lifeWater", Power.INVULNERABILTY, false,
+        super(plugin, nameKey, powerKey, invulnerabilitySourceKey, "lifeWater", Power.INVULNERABILTY, true,
                 Usages.INTERACT_ENTITY);
     }
 
