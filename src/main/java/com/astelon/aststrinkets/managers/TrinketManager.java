@@ -30,6 +30,7 @@ public class TrinketManager {
     private final NamespacedKey failureChanceKey;
     private final NamespacedKey criticalFailureChanceKey;
     private final NamespacedKey shulkerBoxKey;
+    private final NamespacedKey invulnerabilitySourceKey;
 
     private final ArrayList<Trinket> trinkets;
     private final HashMap<String, Trinket> trinketMap;
@@ -38,6 +39,7 @@ public class TrinketManager {
         this.plugin = plugin;
         this.mobInfoManager = mobInfoManager;
         this.invisibilityManager = invisibilityManager;
+        //TODO should make these more uniform eventually + think how to deal with the obsolete versions
         nameKey = new NamespacedKey(plugin, "trinketName");
         powerKey = new NamespacedKey(plugin, "trinketPower");
         ownerKey = new NamespacedKey(plugin, "trinketOwner");
@@ -45,6 +47,7 @@ public class TrinketManager {
         failureChanceKey = new NamespacedKey(plugin, "failureChance");
         criticalFailureChanceKey = new NamespacedKey(plugin, "criticalFailureChance");
         shulkerBoxKey = new NamespacedKey(plugin, "shulkerBoxKey");
+        invulnerabilitySourceKey = new NamespacedKey(plugin, "invulnerabilitySource");
         trinkets = new ArrayList<>();
         trinketMap = new HashMap<>();
         initTrinkets();
@@ -62,11 +65,11 @@ public class TrinketManager {
         addTrinket(new TrueSightCap(plugin, nameKey, powerKey));
         addTrinket(new Homendirt(plugin, nameKey, powerKey));
         addTrinket(new Homendingdirt(plugin, nameKey, powerKey, ownerKey));
-        addTrinket(new YouthMilk(plugin, nameKey, powerKey));
-        addTrinket(new DiamondTrap(plugin, mobInfoManager, nameKey, powerKey, trapKey, ownerKey));
-        addTrinket(new EmeraldTrap(plugin, mobInfoManager, nameKey, powerKey, trapKey, ownerKey));
-        addTrinket(new AmethystTrap(plugin, mobInfoManager, nameKey, powerKey, trapKey, ownerKey));
-        addTrinket(new NetherStarTrap(plugin, mobInfoManager, nameKey, powerKey, trapKey, ownerKey));
+        addTrinket(new YouthMilk(plugin, nameKey, powerKey, invulnerabilitySourceKey));
+        addTrinket(new DiamondTrap(plugin, mobInfoManager, nameKey, powerKey, trapKey, ownerKey, invulnerabilitySourceKey));
+        addTrinket(new EmeraldTrap(plugin, mobInfoManager, nameKey, powerKey, trapKey, ownerKey, invulnerabilitySourceKey));
+        addTrinket(new AmethystTrap(plugin, mobInfoManager, nameKey, powerKey, trapKey, ownerKey, invulnerabilitySourceKey));
+        addTrinket(new NetherStarTrap(plugin, mobInfoManager, nameKey, powerKey, trapKey, ownerKey, invulnerabilitySourceKey));
         addTrinket(new InfinityItem(plugin, nameKey, powerKey, ownerKey));
         addTrinket(new UnbindingPowder(plugin, nameKey, powerKey, ownerKey));
         addTrinket(new ReignitableRocketPrototype(plugin, nameKey, powerKey, failureChanceKey, criticalFailureChanceKey));
@@ -77,6 +80,7 @@ public class TrinketManager {
         addTrinket(new ShulkerBoxContainmentUnit(plugin, nameKey, powerKey, shulkerBoxKey, ownerKey));
         addTrinket(new DivingHelmet(plugin, nameKey, powerKey));
         addTrinket(new HydraulicBoots(plugin, nameKey, powerKey));
+        addTrinket(new LifeWater(plugin, nameKey, powerKey, invulnerabilitySourceKey));
     }
 
     private void addTrinket(Trinket trinket) {
@@ -333,5 +337,9 @@ public class TrinketManager {
 
     public HydraulicBoots getHydraulicBoots() {
         return (HydraulicBoots) getTrinketExact("hydraulicBoots");
+    }
+
+    public LifeWater getLifeWater() {
+        return (LifeWater) getTrinketExact("lifeWater");
     }
 }

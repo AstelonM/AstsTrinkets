@@ -17,9 +17,9 @@ import java.util.List;
 public class DiamondTrap extends CrystalTrap {
 
     public DiamondTrap(AstsTrinkets plugin, MobInfoManager mobInfoManager, NamespacedKey nameKey, NamespacedKey powerKey,
-                       NamespacedKey trapKey, NamespacedKey ownerKey) {
-        super(plugin, mobInfoManager, nameKey, powerKey, trapKey, ownerKey, "diamondTrap", Power.CAPTURE_ENTITIES,
-                true, NamedTextColor.BLUE, NamedTextColor.GOLD, Usages.TRAP);
+                       NamespacedKey trapKey, NamespacedKey ownerKey, NamespacedKey invulnerabilitySourceKey) {
+        super(plugin, mobInfoManager, nameKey, powerKey, trapKey, ownerKey, invulnerabilitySourceKey, "diamondTrap",
+                Power.CAPTURE_ENTITIES, true, NamedTextColor.BLUE, NamedTextColor.GOLD, Usages.TRAP);
     }
 
     @Override

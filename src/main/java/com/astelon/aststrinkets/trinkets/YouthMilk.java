@@ -14,8 +14,8 @@ import java.util.List;
 
 public class YouthMilk extends CreatureAffectingTrinket {
 
-    public YouthMilk(AstsTrinkets plugin, NamespacedKey nameKey, NamespacedKey powerKey) {
-        super(plugin, nameKey, powerKey, "youthMilk", Power.YOUTH, false, Usages.YOUTH_MILK);
+    public YouthMilk(AstsTrinkets plugin, NamespacedKey nameKey, NamespacedKey powerKey, NamespacedKey invulnerabilitySourceKey) {
+        super(plugin, nameKey, powerKey, invulnerabilitySourceKey, "youthMilk", Power.YOUTH, false, Usages.YOUTH_MILK);
     }
 
     @Override

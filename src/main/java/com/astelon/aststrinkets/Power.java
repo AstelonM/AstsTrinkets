@@ -26,7 +26,8 @@ public enum Power {
     TRUE_DEATH("trueDeath"),
     STORE_SHULKER_BOXES("storeShulkerBoxes"),
     PREVENT_SUFFOCATION("preventSuffocation"),
-    PREVENT_FALL_DAMAGE("preventFallDamage");
+    PREVENT_FALL_DAMAGE("preventFallDamage"),
+    INVULNERABILTY("invulnerability");
 
     private final String powerName;
 

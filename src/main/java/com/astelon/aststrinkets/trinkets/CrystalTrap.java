@@ -28,9 +28,9 @@ public abstract class CrystalTrap extends CreatureAffectingTrinket {
     protected final ArrayList<Class<? extends LivingEntity>> untrappableMobs;
 
     public CrystalTrap(AstsTrinkets plugin, MobInfoManager mobInfoManager, NamespacedKey nameKey, NamespacedKey powerKey,
-                       NamespacedKey trapKey, NamespacedKey ownerKey, String name, Power power, boolean isOp,
-                       TextColor nameColour, TextColor infoColour, String usage) {
-        super(plugin, nameKey, powerKey, name, infoColour, power, isOp, usage);
+                       NamespacedKey trapKey, NamespacedKey ownerKey, NamespacedKey invulnerabilitySourceKey, String name,
+                       Power power, boolean isOp, TextColor nameColour, TextColor infoColour, String usage) {
+        super(plugin, nameKey, powerKey, invulnerabilitySourceKey, name, infoColour, power, isOp, usage);
         this.mobInfoManager = mobInfoManager;
         this.trapKey = trapKey;
         this.ownerKey = ownerKey;
@@ -41,9 +41,10 @@ public abstract class CrystalTrap extends CreatureAffectingTrinket {
     }
 
     public CrystalTrap(AstsTrinkets plugin, MobInfoManager mobInfoManager, NamespacedKey nameKey, NamespacedKey powerKey,
-                       NamespacedKey trapKey, NamespacedKey ownerKey, String name, Power power, boolean isOp, TextColor nameColour,
-                       String usage) {
-        this(plugin, mobInfoManager, nameKey, powerKey, trapKey, ownerKey, name, power, isOp, nameColour, null, usage);
+                       NamespacedKey trapKey, NamespacedKey ownerKey, NamespacedKey invulnerabilitySourceKey, String name,
+                       Power power, boolean isOp, TextColor nameColour, String usage) {
+        this(plugin, mobInfoManager, nameKey, powerKey, trapKey, ownerKey, invulnerabilitySourceKey, name, power, isOp,
+                nameColour, null, usage);
     }
 
     protected abstract void setMobs();

@@ -18,9 +18,9 @@ import java.util.List;
 public class AmethystTrap extends CrystalTrap {
 
     public AmethystTrap(AstsTrinkets plugin, MobInfoManager mobInfoManager, NamespacedKey nameKey, NamespacedKey powerKey,
-                        NamespacedKey trapKey, NamespacedKey ownerKey) {
-        super(plugin, mobInfoManager, nameKey, powerKey, trapKey, ownerKey, "amethystTrap", Power.CAPTURE_MONSTERS,
-                true, NamedTextColor.LIGHT_PURPLE, TextColor.fromHexString("#FC3A3A"), Usages.TRAP);
+                        NamespacedKey trapKey, NamespacedKey ownerKey, NamespacedKey invulnerabilitySourceKey) {
+        super(plugin, mobInfoManager, nameKey, powerKey, trapKey, ownerKey, invulnerabilitySourceKey, "amethystTrap",
+                Power.CAPTURE_MONSTERS, true, NamedTextColor.LIGHT_PURPLE, TextColor.fromHexString("#FC3A3A"), Usages.TRAP);
     }
 
     @Override

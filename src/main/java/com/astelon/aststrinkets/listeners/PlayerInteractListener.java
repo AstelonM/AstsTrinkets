@@ -12,6 +12,7 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Ageable;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -38,6 +39,7 @@ public class PlayerInteractListener implements Listener {
     private final AmethystTrap amethystTrap;
     private final NetherStarTrap netherStarTrap;
     private final ShulkerBoxContainmentUnit shulkerBoxContainmentUnit;
+    private final LifeWater lifeWater;
 
     public PlayerInteractListener(AstsTrinkets plugin, MobInfoManager mobInfoManager, TrinketManager trinketManager) {
         this.plugin = plugin;
@@ -50,6 +52,7 @@ public class PlayerInteractListener implements Listener {
         amethystTrap = trinketManager.getAmethystTrap();
         netherStarTrap = trinketManager.getNetherStarTrap();
         shulkerBoxContainmentUnit = trinketManager.getShulkerBoxContainmentUnit();
+        lifeWater = trinketManager.getLifeWater();
     }
 
     @EventHandler
@@ -58,7 +61,9 @@ public class PlayerInteractListener implements Listener {
         EquipmentSlot hand = event.getHand();
         PlayerInventory inventory = player.getInventory();
         ItemStack item = hand == EquipmentSlot.HAND ? inventory.getItemInMainHand() : inventory.getItemInOffHand();
-        Entity entity = event.getRightClicked();
+        Entity rightClicked = event.getRightClicked();
+        if (!(rightClicked instanceof LivingEntity entity))
+            return;
         int slot = hand == EquipmentSlot.HAND ? inventory.getHeldItemSlot() : Utils.OFF_HAND_SLOT;
         if (trinketManager.isOwnedBy(item, player.getName())) {
             if (youthMilk.isEnabled() && youthMilk.isTrinket(item) && event.getRightClicked() instanceof Ageable ageable) {
@@ -69,7 +74,7 @@ public class PlayerInteractListener implements Listener {
                         player.sendMessage(Component.text("You can't use this on someone else's pet.", NamedTextColor.RED));
                         return;
                     }
-                    if (youthMilk.isImmune(ageable, player)) {
+                    if (youthMilk.isInvulnerableToPlayer(ageable, player)) {
                         player.sendMessage(Component.text("This creature is too strong to be affected.", NamedTextColor.RED));
                         return;
                     }
@@ -89,6 +94,19 @@ public class PlayerInteractListener implements Listener {
                 trapEntity(amethystTrap, item, entity, slot, inventory, player);
             } else if (netherStarTrap.isEnabled() && netherStarTrap.isTrinket(item)) {
                 trapEntity(netherStarTrap, item, entity, slot, inventory, player);
+            } else if (lifeWater.isEnabled() && lifeWater.isTrinket(item)) {
+                if (entity.isInvulnerable())
+                    return;
+                if (lifeWater.isOwnedByAnother(entity, player)) {
+                    player.sendMessage(Component.text("You can't use this on someone else's pet.", NamedTextColor.RED));
+                    return;
+                }
+                event.setCancelled(true);
+                lifeWater.makeInvulnerable(entity, player);
+                Utils.transformItem(item, new ItemStack(Material.GLASS_BOTTLE), slot, inventory, player);
+                player.updateInventory();
+                plugin.getLogger().info("Life water used on " + mobInfoManager.getTypeAndName(entity) + " at " +
+                        Utils.locationToString(entity.getLocation()) + " by player " + player.getName() + ".");
             }
         }
     }
@@ -109,7 +127,7 @@ public class PlayerInteractListener implements Listener {
             player.sendMessage(Component.text("You can't trap someone else's pet.", NamedTextColor.RED));
             return;
         }
-        if (trap.isImmune(entity, player)) {
+        if (trap.isInvulnerableToPlayer(entity, player)) {
             player.sendMessage(Component.text("This creature is too strong to be trapped.", NamedTextColor.RED));
             return;
         }

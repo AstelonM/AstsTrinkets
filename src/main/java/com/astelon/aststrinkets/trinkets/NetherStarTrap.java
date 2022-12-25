@@ -22,9 +22,9 @@ import java.util.List;
 public class NetherStarTrap extends CrystalTrap {
 
     public NetherStarTrap(AstsTrinkets plugin, MobInfoManager mobInfoManager, NamespacedKey nameKey, NamespacedKey powerKey,
-                          NamespacedKey trapKey, NamespacedKey ownerKey) {
-        super(plugin, mobInfoManager, nameKey, powerKey, trapKey, ownerKey, "netherStarTrap", Power.STRONGER_CAPTURE_ENTITIES,
-                true, NamedTextColor.GOLD, Usages.TRAP);
+                          NamespacedKey trapKey, NamespacedKey ownerKey, NamespacedKey invulnerabilitySourceKey) {
+        super(plugin, mobInfoManager, nameKey, powerKey, trapKey, ownerKey, invulnerabilitySourceKey, "netherStarTrap",
+                Power.STRONGER_CAPTURE_ENTITIES, true, NamedTextColor.GOLD, Usages.TRAP);
     }
 
     @Override

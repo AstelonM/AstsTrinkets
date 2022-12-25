@@ -17,9 +17,9 @@ import java.util.List;
 public class EmeraldTrap extends CrystalTrap {
 
     public EmeraldTrap(AstsTrinkets plugin, MobInfoManager mobInfoManager, NamespacedKey nameKey, NamespacedKey powerKey,
-                       NamespacedKey trapKey, NamespacedKey ownerKey) {
-        super(plugin, mobInfoManager, nameKey, powerKey, trapKey, ownerKey, "emeraldTrap", Power.CAPTURE_ANIMALS,
-                true, NamedTextColor.GREEN, NamedTextColor.AQUA, Usages.TRAP);
+                       NamespacedKey trapKey, NamespacedKey ownerKey, NamespacedKey invulnerabilitySourceKey) {
+        super(plugin, mobInfoManager, nameKey, powerKey, trapKey, ownerKey, invulnerabilitySourceKey, "emeraldTrap",
+                Power.CAPTURE_ANIMALS, true, NamedTextColor.GREEN, NamedTextColor.AQUA, Usages.TRAP);
     }
 
     @Override
