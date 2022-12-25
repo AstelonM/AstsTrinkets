@@ -69,7 +69,7 @@ public class PlayerInteractListener implements Listener {
             if (youthMilk.isEnabled() && youthMilk.isTrinket(item) && event.getRightClicked() instanceof Ageable ageable) {
                 if (!ageable.isAdult())
                     return;
-                if (youthMilk.isOwnedByAnother(ageable, player)) {
+                if (youthMilk.petOwnedByOtherPlayer(ageable, player)) {
                     player.sendMessage(Component.text("You can't use this on someone else's pet.", NamedTextColor.RED));
                     return;
                 }
@@ -95,7 +95,7 @@ public class PlayerInteractListener implements Listener {
             } else if (lifeWater.isEnabled() && lifeWater.isTrinket(item)) {
                 if (entity.isInvulnerable())
                     return;
-                if (lifeWater.isOwnedByAnother(entity, player)) {
+                if (lifeWater.petOwnedByOtherPlayer(entity, player)) {
                     player.sendMessage(Component.text("You can't use this on someone else's pet.", NamedTextColor.RED));
                     return;
                 }
@@ -121,7 +121,7 @@ public class PlayerInteractListener implements Listener {
             player.sendMessage(Component.text("It cannot be contained within this crystal.", NamedTextColor.RED));
             return;
         }
-        if (trap.isOwnedByAnother(entity, player)) {
+        if (trap.petOwnedByOtherPlayer(entity, player)) {
             player.sendMessage(Component.text("You can't trap someone else's pet.", NamedTextColor.RED));
             return;
         }

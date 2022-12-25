@@ -34,7 +34,7 @@ public abstract class CreatureAffectingTrinket extends Trinket {
         this.petOwnerOnly = petOwnerOnly;
     }
 
-    public boolean isOwnedByAnother(Entity entity, Player player) {
+    public boolean petOwnedByOtherPlayer(Entity entity, Player player) {
         if (petOwnerOnly && !player.hasPermission("aststrinkets.trinket.ignorepetowner"))
             return !Utils.isPetOwner(entity, player);
         return false;
