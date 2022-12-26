@@ -103,6 +103,8 @@ public class MobInfoManager {
             else
                 result.add("- Baby");
         }
+        if (entity.isInvulnerable())
+            result.add("- Invulnerable");
         if (result.isEmpty())
             result.add(getNoInfoText(entityType));
         return result;
