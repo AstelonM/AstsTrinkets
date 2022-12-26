@@ -43,9 +43,9 @@ public abstract class CreatureAffectingTrinket extends Trinket {
     public boolean isInvulnerableToPlayer(Entity entity, Player player) {
         if (entity.isInvulnerable()) {
             PersistentDataContainer container = entity.getPersistentDataContainer();
-            if (container.has(invulnerabilitySourceKey, PersistentDataType.STRING) &&
-                    player.getName().equals(container.get(invulnerabilitySourceKey, PersistentDataType.STRING)))
-                return false;
+            if (container.has(invulnerabilitySourceKey, PersistentDataType.STRING)) {
+                return !player.getName().equals(container.get(invulnerabilitySourceKey, PersistentDataType.STRING));
+            }
             return !player.hasPermission("aststrinkets.trinket.ignoreinvulnerable") && !Utils.isPetOwner(entity, player);
         }
         return false;
