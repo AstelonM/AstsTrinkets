@@ -1,4 +1,4 @@
-package com.astelon.aststrinkets.commands;
+package com.astelon.aststrinkets.commands.subcommands;
 
 import com.astelon.aststrinkets.AstsTrinkets;
 import com.astelon.aststrinkets.managers.TrinketManager;

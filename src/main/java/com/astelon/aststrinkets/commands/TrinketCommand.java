@@ -1,6 +1,7 @@
 package com.astelon.aststrinkets.commands;
 
 import com.astelon.aststrinkets.AstsTrinkets;
+import com.astelon.aststrinkets.commands.subcommands.*;
 import com.astelon.aststrinkets.managers.TrinketManager;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
