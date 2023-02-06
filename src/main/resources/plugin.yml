@@ -16,10 +16,28 @@ permissions:
     description: Gives access to all commands as well as other admin features of the plugin.
     default: op
     children:
+      aststrinkets.command.give: true
+      aststrinkets.command.clear: true
+      aststrinkets.command.reload: true
+      aststrinkets.command.help: true
+
       aststrinkets.trinket.seeinvisible: true
       aststrinkets.trinket.unboundinfinityitem: true
       aststrinkets.trinket.ignorepetowner: true
       aststrinkets.trinket.ignoreinvulnerable: true
+
+  # Command permissions
+  aststrinkets.command.give:
+    description: Allows using the give command.
+  aststrinkets.command.clear:
+    description: Allows using the clear command.
+  aststrinkets.command.reload:
+    description: Allows using the reload command.
+  aststrinkets.command.help:
+    description: Allows using the help command.
+    default: true
+
+  # Trinket permissions
   aststrinkets.trinket.seeinvisible:
     description: Allows seeing players invisible from some trinkets.
   aststrinkets.trinket.unboundinfinityitem:
