@@ -60,12 +60,12 @@ public class ReignitableRocketPrototype extends Trinket {
     }
 
     public void setFailures(double failureChance, double criticalFailureChance) {
-        double failureChance1 = Utils.normalizeRate(failureChance);
-        double criticalFailureChance1 = Utils.normalizeRate(criticalFailureChance);
+        double normalizedFailureChance = Utils.normalizeRate(failureChance);
+        double normalizedCriticalFailureChance = Utils.normalizeRate(criticalFailureChance);
         ItemMeta meta = itemStack.getItemMeta();
         PersistentDataContainer container = meta.getPersistentDataContainer();
-        container.set(keys.failureChanceKey, PersistentDataType.DOUBLE, failureChance1);
-        container.set(keys.criticalFailureChanceKey, PersistentDataType.DOUBLE, criticalFailureChance1);
+        container.set(keys.failureChanceKey, PersistentDataType.DOUBLE, normalizedFailureChance);
+        container.set(keys.criticalFailureChanceKey, PersistentDataType.DOUBLE, normalizedCriticalFailureChance);
         ArrayList<Component> newLore = new ArrayList<>();
         // Use the percentage for display, instead of the normalized values
         newLore.add(Component.text("Failure chance: " + failureChance + "%", NamedTextColor.RED)
