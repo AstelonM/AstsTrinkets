@@ -23,10 +23,10 @@ public abstract class Trinket {
     protected final ItemStack itemStack;
     protected Power power;
     protected boolean enabled;
-    protected final boolean isOp;
+    protected final boolean op;
     protected final Component usage;
 
-    public Trinket(AstsTrinkets plugin, NamespacedKeys keys, String name, TextColor infoColour, Power power, boolean isOp,
+    public Trinket(AstsTrinkets plugin, NamespacedKeys keys, String name, TextColor infoColour, Power power, boolean op,
                    String usage) {
         this.plugin = plugin;
         this.keys = keys;
@@ -37,7 +37,7 @@ public abstract class Trinket {
             this.infoColour = infoColour;
         this.power = power;
         this.itemStack = createItemStack();
-        this.isOp = isOp;
+        this.op = op;
         ItemMeta meta = itemStack.getItemMeta();
         Component displayName = meta.displayName();
         if (displayName != null)
@@ -51,8 +51,8 @@ public abstract class Trinket {
                 Placeholder.parsed("trinketusage", "<green>" + usage));
     }
 
-    public Trinket(AstsTrinkets plugin, NamespacedKeys keys, String name, Power power, boolean isOp, String usage) {
-        this(plugin, keys, name, null, power, isOp, usage);
+    public Trinket(AstsTrinkets plugin, NamespacedKeys keys, String name, Power power, boolean op, String usage) {
+        this(plugin, keys, name, null, power, op, usage);
     }
 
     protected abstract ItemStack createItemStack();
@@ -117,7 +117,7 @@ public abstract class Trinket {
     }
 
     public boolean isOp() {
-        return isOp;
+        return op;
     }
 
     public Component getUsage() {

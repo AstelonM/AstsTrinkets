@@ -17,13 +17,13 @@ public abstract class CreatureAffectingTrinket extends Trinket {
     protected boolean petOwnerOnly;
 
     public CreatureAffectingTrinket(AstsTrinkets plugin, NamespacedKeys keys, String name, TextColor infoColour, Power power,
-                                    boolean isOp, String usage) {
-        super(plugin, keys, name, infoColour, power, isOp, usage);
+                                    boolean op, String usage) {
+        super(plugin, keys, name, infoColour, power, op, usage);
     }
 
-    public CreatureAffectingTrinket(AstsTrinkets plugin, NamespacedKeys keys, String name, Power power, boolean isOp,
+    public CreatureAffectingTrinket(AstsTrinkets plugin, NamespacedKeys keys, String name, Power power, boolean op,
                                     String usage) {
-        super(plugin, keys, name, power, isOp, usage);
+        super(plugin, keys, name, power, op, usage);
     }
 
     public void setPetOwnerOnly(boolean petOwnerOnly) {

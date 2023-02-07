@@ -28,8 +28,8 @@ public abstract class CrystalTrap extends CreatureAffectingTrinket {
     protected final ArrayList<Class<? extends LivingEntity>> untrappableMobs;
 
     public CrystalTrap(AstsTrinkets plugin, MobInfoManager mobInfoManager, NamespacedKeys keys, String name,
-                       Power power, boolean isOp, TextColor nameColour, TextColor infoColour, String usage) {
-        super(plugin, keys, name, infoColour, power, isOp, usage);
+                       Power power, boolean op, TextColor nameColour, TextColor infoColour, String usage) {
+        super(plugin, keys, name, infoColour, power, op, usage);
         this.mobInfoManager = mobInfoManager;
         this.nameColour = nameColour;
         trappableMobs = new ArrayList<>();
@@ -38,8 +38,8 @@ public abstract class CrystalTrap extends CreatureAffectingTrinket {
     }
 
     public CrystalTrap(AstsTrinkets plugin, MobInfoManager mobInfoManager, NamespacedKeys keys, String name,
-                       Power power, boolean isOp, TextColor nameColour, String usage) {
-        this(plugin, mobInfoManager, keys, name, power, isOp,
+                       Power power, boolean op, TextColor nameColour, String usage) {
+        this(plugin, mobInfoManager, keys, name, power, op,
                 nameColour, null, usage);
     }
 
