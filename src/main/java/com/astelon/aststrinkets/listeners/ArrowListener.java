@@ -2,9 +2,9 @@ package com.astelon.aststrinkets.listeners;
 
 import com.astelon.aststrinkets.AstsTrinkets;
 import com.astelon.aststrinkets.managers.TrinketManager;
-import com.astelon.aststrinkets.trinkets.DeathArrow;
+import com.astelon.aststrinkets.trinkets.projectile.DeathArrow;
 import com.astelon.aststrinkets.trinkets.Trinket;
-import com.astelon.aststrinkets.trinkets.TrueDeathArrow;
+import com.astelon.aststrinkets.trinkets.projectile.TrueDeathArrow;
 import com.astelon.aststrinkets.utils.Utils;
 import com.destroystokyo.paper.event.entity.ProjectileCollideEvent;
 import org.bukkit.entity.*;

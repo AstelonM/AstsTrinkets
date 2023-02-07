@@ -2,7 +2,7 @@ package com.astelon.aststrinkets.listeners;
 
 import com.astelon.aststrinkets.AstsTrinkets;
 import com.astelon.aststrinkets.managers.CakeManager;
-import com.astelon.aststrinkets.trinkets.MysteryCake;
+import com.astelon.aststrinkets.trinkets.block.MysteryCake;
 import com.astelon.aststrinkets.managers.TrinketManager;
 import com.astelon.aststrinkets.utils.Utils;
 import com.destroystokyo.paper.event.block.BlockDestroyEvent;

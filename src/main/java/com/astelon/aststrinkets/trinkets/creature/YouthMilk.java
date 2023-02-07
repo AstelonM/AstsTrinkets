@@ -1,4 +1,4 @@
-package com.astelon.aststrinkets.trinkets;
+package com.astelon.aststrinkets.trinkets.creature;
 
 import com.astelon.aststrinkets.AstsTrinkets;
 import com.astelon.aststrinkets.Power;

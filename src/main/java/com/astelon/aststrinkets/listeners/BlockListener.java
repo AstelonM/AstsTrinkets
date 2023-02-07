@@ -2,9 +2,9 @@ package com.astelon.aststrinkets.listeners;
 
 import com.astelon.aststrinkets.AstsTrinkets;
 import com.astelon.aststrinkets.managers.TrinketManager;
-import com.astelon.aststrinkets.trinkets.InfinityItem;
+import com.astelon.aststrinkets.trinkets.block.InfinityItem;
 import com.astelon.aststrinkets.trinkets.ShulkerBoxContainmentUnit;
-import com.astelon.aststrinkets.trinkets.Spinneret;
+import com.astelon.aststrinkets.trinkets.block.Spinneret;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Material;

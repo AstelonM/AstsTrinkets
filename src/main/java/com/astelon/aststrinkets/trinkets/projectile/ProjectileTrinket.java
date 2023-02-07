@@ -1,7 +1,8 @@
-package com.astelon.aststrinkets.trinkets;
+package com.astelon.aststrinkets.trinkets.projectile;
 
 import com.astelon.aststrinkets.AstsTrinkets;
 import com.astelon.aststrinkets.Power;
+import com.astelon.aststrinkets.trinkets.Trinket;
 import net.kyori.adventure.text.format.TextColor;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Projectile;

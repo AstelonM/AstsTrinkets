@@ -5,7 +5,7 @@ import com.astelon.aststrinkets.Power;
 import com.astelon.aststrinkets.managers.InvisibilityManager;
 import com.astelon.aststrinkets.managers.TrinketManager;
 import com.astelon.aststrinkets.trinkets.Trinket;
-import com.astelon.aststrinkets.trinkets.TrueSightCap;
+import com.astelon.aststrinkets.trinkets.equipable.TrueSightCap;
 import com.destroystokyo.paper.event.player.PlayerArmorChangeEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;

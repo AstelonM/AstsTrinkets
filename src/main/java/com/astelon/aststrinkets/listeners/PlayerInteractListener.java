@@ -4,6 +4,8 @@ import com.astelon.aststrinkets.AstsTrinkets;
 import com.astelon.aststrinkets.managers.MobInfoManager;
 import com.astelon.aststrinkets.managers.TrinketManager;
 import com.astelon.aststrinkets.trinkets.*;
+import com.astelon.aststrinkets.trinkets.creature.*;
+import com.astelon.aststrinkets.trinkets.creature.traps.*;
 import com.astelon.aststrinkets.utils.Utils;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;

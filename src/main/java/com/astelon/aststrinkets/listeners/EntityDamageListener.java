@@ -2,8 +2,8 @@ package com.astelon.aststrinkets.listeners;
 
 import com.astelon.aststrinkets.AstsTrinkets;
 import com.astelon.aststrinkets.managers.TrinketManager;
-import com.astelon.aststrinkets.trinkets.DivingHelmet;
-import com.astelon.aststrinkets.trinkets.HydraulicBoots;
+import com.astelon.aststrinkets.trinkets.equipable.DivingHelmet;
+import com.astelon.aststrinkets.trinkets.equipable.HydraulicBoots;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;

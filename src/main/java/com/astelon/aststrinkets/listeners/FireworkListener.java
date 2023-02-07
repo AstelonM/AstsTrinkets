@@ -2,9 +2,9 @@ package com.astelon.aststrinkets.listeners;
 
 import com.astelon.aststrinkets.AstsTrinkets;
 import com.astelon.aststrinkets.managers.TrinketManager;
-import com.astelon.aststrinkets.trinkets.PerfectedReignitableRocket;
-import com.astelon.aststrinkets.trinkets.ReignitableRocket;
-import com.astelon.aststrinkets.trinkets.ReignitableRocketPrototype;
+import com.astelon.aststrinkets.trinkets.rocket.PerfectedReignitableRocket;
+import com.astelon.aststrinkets.trinkets.rocket.ReignitableRocket;
+import com.astelon.aststrinkets.trinkets.rocket.ReignitableRocketPrototype;
 import com.destroystokyo.paper.event.player.PlayerElytraBoostEvent;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;

@@ -1,8 +1,10 @@
-package com.astelon.aststrinkets.trinkets;
+package com.astelon.aststrinkets.trinkets.creature.traps;
 
 import com.astelon.aststrinkets.AstsTrinkets;
 import com.astelon.aststrinkets.Power;
 import com.astelon.aststrinkets.managers.MobInfoManager;
+import com.astelon.aststrinkets.trinkets.BindingPowder;
+import com.astelon.aststrinkets.trinkets.creature.CreatureAffectingTrinket;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextColor;
 import net.kyori.adventure.text.format.TextDecoration;

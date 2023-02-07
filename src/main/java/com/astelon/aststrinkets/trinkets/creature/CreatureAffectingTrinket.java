@@ -1,7 +1,8 @@
-package com.astelon.aststrinkets.trinkets;
+package com.astelon.aststrinkets.trinkets.creature;
 
 import com.astelon.aststrinkets.AstsTrinkets;
 import com.astelon.aststrinkets.Power;
+import com.astelon.aststrinkets.trinkets.Trinket;
 import com.astelon.aststrinkets.utils.Utils;
 import net.kyori.adventure.text.format.TextColor;
 import org.bukkit.NamespacedKey;
