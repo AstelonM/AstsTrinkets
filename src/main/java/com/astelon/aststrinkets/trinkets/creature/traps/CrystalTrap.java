@@ -5,11 +5,11 @@ import com.astelon.aststrinkets.Power;
 import com.astelon.aststrinkets.managers.MobInfoManager;
 import com.astelon.aststrinkets.trinkets.BindingPowder;
 import com.astelon.aststrinkets.trinkets.creature.CreatureAffectingTrinket;
+import com.astelon.aststrinkets.utils.NamespacedKeys;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextColor;
 import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.Bukkit;
-import org.bukkit.NamespacedKey;
 import org.bukkit.World;
 import org.bukkit.entity.*;
 import org.bukkit.inventory.ItemStack;
@@ -23,29 +23,23 @@ import java.util.ArrayList;
 public abstract class CrystalTrap extends CreatureAffectingTrinket {
 
     protected final MobInfoManager mobInfoManager;
-    protected final NamespacedKey trapKey;
-    protected final NamespacedKey ownerKey;
     protected final TextColor nameColour;
     protected final ArrayList<Class<? extends LivingEntity>> trappableMobs;
     protected final ArrayList<Class<? extends LivingEntity>> untrappableMobs;
 
-    public CrystalTrap(AstsTrinkets plugin, MobInfoManager mobInfoManager, NamespacedKey nameKey, NamespacedKey powerKey,
-                       NamespacedKey trapKey, NamespacedKey ownerKey, NamespacedKey invulnerabilitySourceKey, String name,
+    public CrystalTrap(AstsTrinkets plugin, MobInfoManager mobInfoManager, NamespacedKeys keys, String name,
                        Power power, boolean isOp, TextColor nameColour, TextColor infoColour, String usage) {
-        super(plugin, nameKey, powerKey, invulnerabilitySourceKey, name, infoColour, power, isOp, usage);
+        super(plugin, keys, name, infoColour, power, isOp, usage);
         this.mobInfoManager = mobInfoManager;
-        this.trapKey = trapKey;
-        this.ownerKey = ownerKey;
         this.nameColour = nameColour;
         trappableMobs = new ArrayList<>();
         untrappableMobs = new ArrayList<>();
         setMobs();
     }
 
-    public CrystalTrap(AstsTrinkets plugin, MobInfoManager mobInfoManager, NamespacedKey nameKey, NamespacedKey powerKey,
-                       NamespacedKey trapKey, NamespacedKey ownerKey, NamespacedKey invulnerabilitySourceKey, String name,
+    public CrystalTrap(AstsTrinkets plugin, MobInfoManager mobInfoManager, NamespacedKeys keys, String name,
                        Power power, boolean isOp, TextColor nameColour, String usage) {
-        this(plugin, mobInfoManager, nameKey, powerKey, trapKey, ownerKey, invulnerabilitySourceKey, name, power, isOp,
+        this(plugin, mobInfoManager, keys, name, power, isOp,
                 nameColour, null, usage);
     }
 
@@ -68,14 +62,14 @@ public abstract class CrystalTrap extends CreatureAffectingTrinket {
         ItemStack newItem = trap.asOne();
         ItemMeta meta = newItem.getItemMeta();
         PersistentDataContainer container = meta.getPersistentDataContainer();
-        if (container.has(trapKey, PersistentDataType.BYTE_ARRAY))
+        if (container.has(keys.trapKey, PersistentDataType.BYTE_ARRAY))
             return null;
         String name = mobInfoManager.getTypeAndName(entity);
         meta.displayName(Component.text("Crystal Trap with " + name, nameColour)
                 .decoration(TextDecoration.ITALIC, false));
         ArrayList<Component> newLore = new ArrayList<>();
-        if (container.has(ownerKey, PersistentDataType.STRING)) {
-            String ownerName = container.get(ownerKey, PersistentDataType.STRING);
+        if (container.has(keys.ownerKey, PersistentDataType.STRING)) {
+            String ownerName = container.get(keys.ownerKey, PersistentDataType.STRING);
             newLore.add(BindingPowder.getOwnerLoreLine(ownerName, infoColour));
         }
         ArrayList<String> mobText = new ArrayList<>();
@@ -87,7 +81,7 @@ public abstract class CrystalTrap extends CreatureAffectingTrinket {
 
         @SuppressWarnings("deprecation") // No better way to do it yet
         byte[] serialized = Bukkit.getUnsafe().serializeEntity(entity);
-        container.set(trapKey, PersistentDataType.BYTE_ARRAY, serialized);
+        container.set(keys.trapKey, PersistentDataType.BYTE_ARRAY, serialized);
         newItem.setItemMeta(meta);
         return newItem;
     }
@@ -96,15 +90,15 @@ public abstract class CrystalTrap extends CreatureAffectingTrinket {
         if (!isTrinket(trap))
             return false;
         PersistentDataContainer container = trap.getItemMeta().getPersistentDataContainer();
-        return container.has(trapKey, PersistentDataType.BYTE_ARRAY);
+        return container.has(keys.trapKey, PersistentDataType.BYTE_ARRAY);
     }
 
     public Entity getTrappedCreature(ItemStack trap, World world) {
         if (!isTrinket(trap))
             throw new IllegalArgumentException("Not a trinket");
         PersistentDataContainer container = trap.getItemMeta().getPersistentDataContainer();
-        if (container.has(trapKey, PersistentDataType.BYTE_ARRAY)) {
-            byte[] serialized = container.get(trapKey, PersistentDataType.BYTE_ARRAY);
+        if (container.has(keys.trapKey, PersistentDataType.BYTE_ARRAY)) {
+            byte[] serialized = container.get(keys.trapKey, PersistentDataType.BYTE_ARRAY);
             // No better way to do it yet
             //noinspection deprecation
             return Bukkit.getUnsafe().deserializeEntity(serialized, world);

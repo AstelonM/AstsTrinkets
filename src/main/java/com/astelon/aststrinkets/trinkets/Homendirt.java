@@ -2,12 +2,12 @@ package com.astelon.aststrinkets.trinkets;
 
 import com.astelon.aststrinkets.AstsTrinkets;
 import com.astelon.aststrinkets.Power;
+import com.astelon.aststrinkets.utils.NamespacedKeys;
 import com.astelon.aststrinkets.utils.Usages;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextColor;
 import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.EnchantmentStorageMeta;
@@ -17,8 +17,8 @@ import java.util.List;
 
 public class Homendirt extends Trinket {
 
-    public Homendirt(AstsTrinkets plugin, NamespacedKey nameKey, NamespacedKey powerKey) {
-        super(plugin, nameKey, powerKey, "homendirt", TextColor.fromHexString("#3AFC3A"), Power.ABSORB_MENDING,
+    public Homendirt(AstsTrinkets plugin, NamespacedKeys keys) {
+        super(plugin, keys, "homendirt", TextColor.fromHexString("#3AFC3A"), Power.ABSORB_MENDING,
                 false, Usages.INVENTORY);
     }
 

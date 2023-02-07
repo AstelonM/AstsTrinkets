@@ -2,11 +2,11 @@ package com.astelon.aststrinkets.trinkets;
 
 import com.astelon.aststrinkets.AstsTrinkets;
 import com.astelon.aststrinkets.Power;
+import com.astelon.aststrinkets.utils.NamespacedKeys;
 import com.astelon.aststrinkets.utils.Usages;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -18,11 +18,8 @@ import java.util.List;
 
 public class Homendingdirt extends Trinket {
 
-    private final NamespacedKey ownerKey;
-
-    public Homendingdirt(AstsTrinkets plugin, NamespacedKey nameKey, NamespacedKey powerKey, NamespacedKey ownerKey) {
-        super(plugin, nameKey, powerKey, "homendingdirt", Power.APPLY_MENDING, false, Usages.INVENTORY);
-        this.ownerKey = ownerKey;
+    public Homendingdirt(AstsTrinkets plugin, NamespacedKeys keys) {
+        super(plugin, keys, "homendingdirt", Power.APPLY_MENDING, false, Usages.INVENTORY);
     }
 
     @Override
@@ -51,7 +48,7 @@ public class Homendingdirt extends Trinket {
         meta.displayName(Component.text("Homendingdirt", NamedTextColor.GOLD));
         PersistentDataContainer container = meta.getPersistentDataContainer();
         ArrayList<Component> lore = new ArrayList<>();
-        if (container.has(ownerKey, PersistentDataType.STRING)) {
+        if (container.has(keys.ownerKey, PersistentDataType.STRING)) {
             List<Component> oldLore = meta.lore();
             if (oldLore != null && oldLore.size() >= 1)
                 lore.add(oldLore.get(0));
@@ -66,8 +63,8 @@ public class Homendingdirt extends Trinket {
         ));
         meta.lore(lore);
 
-        container.set(nameKey, PersistentDataType.STRING, name);
-        container.set(powerKey, PersistentDataType.STRING, power.powerName());
+        container.set(keys.nameKey, PersistentDataType.STRING, name);
+        container.set(keys.powerKey, PersistentDataType.STRING, power.powerName());
         result.setItemMeta(meta);
         result.addUnsafeEnchantment(Enchantment.MENDING, mendingLevel);
         return result;

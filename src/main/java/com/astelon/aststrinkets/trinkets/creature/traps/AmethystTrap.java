@@ -3,12 +3,12 @@ package com.astelon.aststrinkets.trinkets.creature.traps;
 import com.astelon.aststrinkets.AstsTrinkets;
 import com.astelon.aststrinkets.Power;
 import com.astelon.aststrinkets.managers.MobInfoManager;
+import com.astelon.aststrinkets.utils.NamespacedKeys;
 import com.astelon.aststrinkets.utils.Usages;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextColor;
 import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
 import org.bukkit.entity.*;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -17,10 +17,9 @@ import java.util.List;
 
 public class AmethystTrap extends CrystalTrap {
 
-    public AmethystTrap(AstsTrinkets plugin, MobInfoManager mobInfoManager, NamespacedKey nameKey, NamespacedKey powerKey,
-                        NamespacedKey trapKey, NamespacedKey ownerKey, NamespacedKey invulnerabilitySourceKey) {
-        super(plugin, mobInfoManager, nameKey, powerKey, trapKey, ownerKey, invulnerabilitySourceKey, "amethystTrap",
-                Power.CAPTURE_MONSTERS, true, NamedTextColor.LIGHT_PURPLE, TextColor.fromHexString("#FC3A3A"), Usages.TRAP);
+    public AmethystTrap(AstsTrinkets plugin, MobInfoManager mobInfoManager, NamespacedKeys keys) {
+        super(plugin, mobInfoManager, keys, "amethystTrap", Power.CAPTURE_MONSTERS, true, NamedTextColor.LIGHT_PURPLE,
+                TextColor.fromHexString("#FC3A3A"), Usages.TRAP);
     }
 
     @Override

@@ -3,6 +3,7 @@ package com.astelon.aststrinkets.trinkets.block;
 import com.astelon.aststrinkets.AstsTrinkets;
 import com.astelon.aststrinkets.Power;
 import com.astelon.aststrinkets.trinkets.Trinket;
+import com.astelon.aststrinkets.utils.NamespacedKeys;
 import com.astelon.aststrinkets.utils.Usages;
 import com.astelon.aststrinkets.utils.Utils;
 import net.kyori.adventure.text.Component;
@@ -10,7 +11,6 @@ import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextColor;
 import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -22,13 +22,11 @@ import java.util.List;
 
 public class InfinityItem extends Trinket {
 
-    private final NamespacedKey ownerKey;
     private final ArrayList<Material> allowedBlocks;
 
-    public InfinityItem(AstsTrinkets plugin, NamespacedKey nameKey, NamespacedKey powerKey, NamespacedKey ownerKey) {
-        super(plugin, nameKey, powerKey, "infinityItem", TextColor.fromHexString("#C8C8C8"), Power.INFINITE_PLACED_BLOCKS,
+    public InfinityItem(AstsTrinkets plugin, NamespacedKeys keys) {
+        super(plugin, keys, "infinityItem", TextColor.fromHexString("#C8C8C8"), Power.INFINITE_PLACED_BLOCKS,
                 false, Usages.INVENTORY_AND_PLACE);
-        this.ownerKey = ownerKey;
         allowedBlocks = new ArrayList<>();
     }
 
@@ -59,7 +57,7 @@ public class InfinityItem extends Trinket {
                 .decoration(TextDecoration.ITALIC, false));
         ArrayList<Component> newLore = new ArrayList<>();
         PersistentDataContainer container = meta.getPersistentDataContainer();
-        if (container.has(ownerKey, PersistentDataType.STRING)) {
+        if (container.has(keys.ownerKey, PersistentDataType.STRING)) {
             List<Component> oldLore = meta.lore();
             if (oldLore != null && oldLore.size() >= 1)
                 newLore.add(oldLore.get(0));

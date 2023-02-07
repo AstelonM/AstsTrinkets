@@ -2,6 +2,7 @@ package com.astelon.aststrinkets.trinkets;
 
 import com.astelon.aststrinkets.AstsTrinkets;
 import com.astelon.aststrinkets.Power;
+import com.astelon.aststrinkets.utils.NamespacedKeys;
 import com.astelon.aststrinkets.utils.Usages;
 import com.astelon.aststrinkets.utils.Utils;
 import net.kyori.adventure.text.Component;
@@ -9,7 +10,6 @@ import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
 import org.bukkit.block.ShulkerBox;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BlockStateMeta;
@@ -22,15 +22,9 @@ import java.util.List;
 
 public class ShulkerBoxContainmentUnit extends Trinket {
 
-    private final NamespacedKey shulkerBoxKey;
-    private final NamespacedKey ownerKey;
-
-    public ShulkerBoxContainmentUnit(AstsTrinkets plugin, NamespacedKey nameKey, NamespacedKey powerKey, NamespacedKey shulkerBoxKey,
-                                     NamespacedKey ownerKey) {
-        super(plugin, nameKey, powerKey, "shulkerBoxContainmentUnit", NamedTextColor.YELLOW, Power.STORE_SHULKER_BOXES,
+    public ShulkerBoxContainmentUnit(AstsTrinkets plugin, NamespacedKeys keys) {
+        super(plugin, keys, "shulkerBoxContainmentUnit", NamedTextColor.YELLOW, Power.STORE_SHULKER_BOXES,
                 false, Usages.SHULKER_BOX_UNIT);
-        this.shulkerBoxKey = shulkerBoxKey;
-        this.ownerKey = ownerKey;
     }
 
     @Override
@@ -50,7 +44,7 @@ public class ShulkerBoxContainmentUnit extends Trinket {
         if (!isTrinket(itemStack))
             throw new IllegalArgumentException("Not a trinket");
         PersistentDataContainer container = itemStack.getItemMeta().getPersistentDataContainer();
-        return container.has(shulkerBoxKey, PersistentDataType.BYTE_ARRAY);
+        return container.has(keys.shulkerBoxKey, PersistentDataType.BYTE_ARRAY);
     }
 
     public boolean canContainShulkerBox(ItemStack shulkerBox) {
@@ -78,12 +72,12 @@ public class ShulkerBoxContainmentUnit extends Trinket {
         byte[] serializedShulkerBox = shulkerBox.serializeAsBytes();
         ItemMeta meta = result.getItemMeta();
         PersistentDataContainer container = meta.getPersistentDataContainer();
-        container.set(shulkerBoxKey, PersistentDataType.BYTE_ARRAY, serializedShulkerBox);
+        container.set(keys.shulkerBoxKey, PersistentDataType.BYTE_ARRAY, serializedShulkerBox);
         meta.displayName(Component.text("Filled Shulker Box Containment Unit", NamedTextColor.BLUE)
                 .decoration(TextDecoration.ITALIC, false));
         ArrayList<Component> newLore = new ArrayList<>();
-        if (container.has(ownerKey, PersistentDataType.STRING)) {
-            String ownerName = container.get(ownerKey, PersistentDataType.STRING);
+        if (container.has(keys.ownerKey, PersistentDataType.STRING)) {
+            String ownerName = container.get(keys.ownerKey, PersistentDataType.STRING);
             newLore.add(BindingPowder.getOwnerLoreLine(ownerName, infoColour));
         }
         String blockName = Utils.getBlockName(shulkerBox.getType());
@@ -106,9 +100,9 @@ public class ShulkerBoxContainmentUnit extends Trinket {
         if (!isTrinket(trinket))
             throw new IllegalArgumentException("Not a trinket");
         PersistentDataContainer container = trinket.getItemMeta().getPersistentDataContainer();
-        if (!container.has(shulkerBoxKey, PersistentDataType.BYTE_ARRAY))
+        if (!container.has(keys.shulkerBoxKey, PersistentDataType.BYTE_ARRAY))
             return null;
-        byte[] result = container.get(shulkerBoxKey, PersistentDataType.BYTE_ARRAY);
+        byte[] result = container.get(keys.shulkerBoxKey, PersistentDataType.BYTE_ARRAY);
         return ItemStack.deserializeBytes(result);
     }
 }

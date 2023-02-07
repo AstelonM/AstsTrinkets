@@ -2,11 +2,11 @@ package com.astelon.aststrinkets.trinkets.creature;
 
 import com.astelon.aststrinkets.AstsTrinkets;
 import com.astelon.aststrinkets.Power;
+import com.astelon.aststrinkets.utils.NamespacedKeys;
 import com.astelon.aststrinkets.utils.Usages;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -20,9 +20,8 @@ import java.util.List;
 
 public class LifeWater extends CreatureAffectingTrinket {
 
-    public LifeWater(AstsTrinkets plugin, NamespacedKey nameKey, NamespacedKey powerKey, NamespacedKey invulnerabilitySourceKey) {
-        super(plugin, nameKey, powerKey, invulnerabilitySourceKey, "lifeWater", Power.INVULNERABILTY, true,
-                Usages.INTERACT_ENTITY);
+    public LifeWater(AstsTrinkets plugin, NamespacedKeys keys) {
+        super(plugin, keys, "lifeWater", Power.INVULNERABILTY, true, Usages.INTERACT_ENTITY);
     }
 
     @Override
@@ -44,7 +43,7 @@ public class LifeWater extends CreatureAffectingTrinket {
             return;
         entity.setInvulnerable(true);
         PersistentDataContainer container = entity.getPersistentDataContainer();
-        container.set(invulnerabilitySourceKey, PersistentDataType.STRING, player.getName());
+        container.set(keys.invulnerabilitySourceKey, PersistentDataType.STRING, player.getName());
         entity.setRemoveWhenFarAway(false);
     }
 }

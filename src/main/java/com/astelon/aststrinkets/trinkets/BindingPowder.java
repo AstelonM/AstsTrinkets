@@ -2,13 +2,13 @@ package com.astelon.aststrinkets.trinkets;
 
 import com.astelon.aststrinkets.AstsTrinkets;
 import com.astelon.aststrinkets.Power;
+import com.astelon.aststrinkets.utils.NamespacedKeys;
 import com.astelon.aststrinkets.utils.Usages;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextColor;
 import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -20,11 +20,8 @@ import java.util.List;
 
 public class BindingPowder extends Trinket {
 
-    private final NamespacedKey ownerKey;
-
-    public BindingPowder(AstsTrinkets plugin, NamespacedKey nameKey, NamespacedKey powerKey, NamespacedKey ownerKey) {
-        super(plugin, nameKey, powerKey, "bindingPowder", Power.BINDING, false, Usages.INVENTORY);
-        this.ownerKey = ownerKey;
+    public BindingPowder(AstsTrinkets plugin, NamespacedKeys keys) {
+        super(plugin, keys, "bindingPowder", Power.BINDING, false, Usages.INVENTORY);
     }
 
     @Override
@@ -44,12 +41,12 @@ public class BindingPowder extends Trinket {
         if (meta == null)
             return null;
         PersistentDataContainer container = meta.getPersistentDataContainer();
-        if (!container.has(nameKey, PersistentDataType.STRING))
+        if (!container.has(keys.nameKey, PersistentDataType.STRING))
             return null;
-        if (container.has(ownerKey, PersistentDataType.STRING))
+        if (container.has(keys.ownerKey, PersistentDataType.STRING))
             return null;
         String name = player.getName();
-        container.set(ownerKey, PersistentDataType.STRING, name);
+        container.set(keys.ownerKey, PersistentDataType.STRING, name);
         List<Component> lore = meta.lore();
         if (lore == null)
             meta.lore(List.of(getOwnerLoreLine(name, trinket.infoColour)));

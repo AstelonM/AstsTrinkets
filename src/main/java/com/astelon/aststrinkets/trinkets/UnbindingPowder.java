@@ -2,11 +2,11 @@ package com.astelon.aststrinkets.trinkets;
 
 import com.astelon.aststrinkets.AstsTrinkets;
 import com.astelon.aststrinkets.Power;
+import com.astelon.aststrinkets.utils.NamespacedKeys;
 import com.astelon.aststrinkets.utils.Usages;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
@@ -17,12 +17,8 @@ import java.util.List;
 
 public class UnbindingPowder extends Trinket {
 
-    private final NamespacedKey ownerKey;
-
-    public UnbindingPowder(AstsTrinkets plugin, NamespacedKey nameKey, NamespacedKey powerKey, NamespacedKey ownerKey) {
-        super(plugin, nameKey, powerKey, "unbindingPowder", NamedTextColor.YELLOW, Power.UNBINDING, true,
-                Usages.INVENTORY);
-        this.ownerKey = ownerKey;
+    public UnbindingPowder(AstsTrinkets plugin, NamespacedKeys keys) {
+        super(plugin, keys, "unbindingPowder", NamedTextColor.YELLOW, Power.UNBINDING, true, Usages.INVENTORY);
     }
 
     @Override
@@ -42,11 +38,11 @@ public class UnbindingPowder extends Trinket {
         if (meta == null)
             return null;
         PersistentDataContainer container = meta.getPersistentDataContainer();
-        if (!container.has(nameKey, PersistentDataType.STRING))
+        if (!container.has(keys.nameKey, PersistentDataType.STRING))
             return null;
-        if (!container.has(ownerKey, PersistentDataType.STRING))
+        if (!container.has(keys.ownerKey, PersistentDataType.STRING))
             return null;
-        container.remove(ownerKey);
+        container.remove(keys.ownerKey);
         List<Component> lore = meta.lore();
         if (lore == null)
             meta.lore(trinket.itemStack.lore());

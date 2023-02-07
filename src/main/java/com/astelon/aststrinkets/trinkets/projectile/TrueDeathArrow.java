@@ -2,13 +2,13 @@ package com.astelon.aststrinkets.trinkets.projectile;
 
 import com.astelon.aststrinkets.AstsTrinkets;
 import com.astelon.aststrinkets.Power;
+import com.astelon.aststrinkets.utils.NamespacedKeys;
 import com.astelon.aststrinkets.utils.Usages;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextColor;
 import org.bukkit.Color;
 import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.potion.PotionData;
@@ -18,9 +18,8 @@ import java.util.List;
 
 public class TrueDeathArrow extends ProjectileTrinket {
 
-    public TrueDeathArrow(AstsTrinkets plugin, NamespacedKey nameKey, NamespacedKey powerKey, NamespacedKey ownerKey) {
-        super(plugin, nameKey, powerKey, ownerKey, "trueDeathArrow", NamedTextColor.WHITE, Power.TRUE_DEATH, true,
-                Usages.ARROW);
+    public TrueDeathArrow(AstsTrinkets plugin, NamespacedKeys keys) {
+        super(plugin, keys, "trueDeathArrow", NamedTextColor.WHITE, Power.TRUE_DEATH, true, Usages.ARROW);
     }
 
     @Override

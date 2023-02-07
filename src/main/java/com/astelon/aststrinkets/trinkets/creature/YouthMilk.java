@@ -2,11 +2,11 @@ package com.astelon.aststrinkets.trinkets.creature;
 
 import com.astelon.aststrinkets.AstsTrinkets;
 import com.astelon.aststrinkets.Power;
+import com.astelon.aststrinkets.utils.NamespacedKeys;
 import com.astelon.aststrinkets.utils.Usages;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -14,8 +14,8 @@ import java.util.List;
 
 public class YouthMilk extends CreatureAffectingTrinket {
 
-    public YouthMilk(AstsTrinkets plugin, NamespacedKey nameKey, NamespacedKey powerKey, NamespacedKey invulnerabilitySourceKey) {
-        super(plugin, nameKey, powerKey, invulnerabilitySourceKey, "youthMilk", Power.YOUTH, false, Usages.YOUTH_MILK);
+    public YouthMilk(AstsTrinkets plugin, NamespacedKeys keys) {
+        super(plugin, keys, "youthMilk", Power.YOUTH, false, Usages.YOUTH_MILK);
     }
 
     @Override

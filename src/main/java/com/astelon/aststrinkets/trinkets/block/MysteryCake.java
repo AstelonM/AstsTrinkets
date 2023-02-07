@@ -3,11 +3,11 @@ package com.astelon.aststrinkets.trinkets.block;
 import com.astelon.aststrinkets.AstsTrinkets;
 import com.astelon.aststrinkets.Power;
 import com.astelon.aststrinkets.trinkets.Trinket;
+import com.astelon.aststrinkets.utils.NamespacedKeys;
 import com.astelon.aststrinkets.utils.Usages;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -24,8 +24,8 @@ public class MysteryCake extends Trinket {
     private final Random random;
     private boolean checkHealth;
 
-    public MysteryCake(AstsTrinkets plugin, NamespacedKey nameKey, NamespacedKey powerKey) {
-        super(plugin, nameKey, powerKey, "mysteryCake", Power.RANDOM_POTION_EFFECT, true, Usages.PLACE_AND_EAT);
+    public MysteryCake(AstsTrinkets plugin, NamespacedKeys keys) {
+        super(plugin, keys, "mysteryCake", Power.RANDOM_POTION_EFFECT, true, Usages.PLACE_AND_EAT);
         effects = new ArrayList<>();
         random = new Random();
         initEffects();

@@ -3,11 +3,11 @@ package com.astelon.aststrinkets.trinkets.equipable;
 import com.astelon.aststrinkets.AstsTrinkets;
 import com.astelon.aststrinkets.Power;
 import com.astelon.aststrinkets.trinkets.Trinket;
+import com.astelon.aststrinkets.utils.NamespacedKeys;
 import com.astelon.aststrinkets.utils.Usages;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextColor;
 import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.Repairable;
 
@@ -15,8 +15,8 @@ import java.util.List;
 
 public class DivingHelmet extends Trinket {
 
-    public DivingHelmet(AstsTrinkets plugin, NamespacedKey nameKey, NamespacedKey powerKey) {
-        super(plugin, nameKey, powerKey, "divingHelmet", TextColor.fromHexString("#73B833"), Power.PREVENT_SUFFOCATION,
+    public DivingHelmet(AstsTrinkets plugin, NamespacedKeys keys) {
+        super(plugin, keys, "divingHelmet", TextColor.fromHexString("#73B833"), Power.PREVENT_SUFFOCATION,
                 false, Usages.WEAR);
     }
 

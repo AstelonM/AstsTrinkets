@@ -2,12 +2,12 @@ package com.astelon.aststrinkets.trinkets;
 
 import com.astelon.aststrinkets.AstsTrinkets;
 import com.astelon.aststrinkets.Power;
+import com.astelon.aststrinkets.utils.NamespacedKeys;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextColor;
 import net.kyori.adventure.text.format.TextDecoration;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
-import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Projectile;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -17,8 +17,7 @@ import org.bukkit.persistence.PersistentDataType;
 public abstract class Trinket {
 
     protected final AstsTrinkets plugin;
-    protected final NamespacedKey nameKey;
-    protected final NamespacedKey powerKey;
+    protected final NamespacedKeys keys;
     protected final String name;
     protected final TextColor infoColour;
     protected final ItemStack itemStack;
@@ -27,11 +26,10 @@ public abstract class Trinket {
     protected final boolean isOp;
     protected final Component usage;
 
-    public Trinket(AstsTrinkets plugin, NamespacedKey nameKey, NamespacedKey powerKey, String name, TextColor infoColour,
-                   Power power, boolean isOp, String usage) {
+    public Trinket(AstsTrinkets plugin, NamespacedKeys keys, String name, TextColor infoColour, Power power, boolean isOp,
+                   String usage) {
         this.plugin = plugin;
-        this.nameKey = nameKey;
-        this.powerKey = powerKey;
+        this.keys = keys;
         this.name = name;
         if (infoColour == null)
             this.infoColour = TextColor.fromHexString("#4AF626");
@@ -45,17 +43,16 @@ public abstract class Trinket {
         if (displayName != null)
             meta.displayName(displayName.decoration(TextDecoration.ITALIC, false));
         PersistentDataContainer container = meta.getPersistentDataContainer();
-        container.set(this.nameKey, PersistentDataType.STRING, name);
-        container.set(this.powerKey, PersistentDataType.STRING, power.powerName());
+        container.set(this.keys.nameKey, PersistentDataType.STRING, name);
+        container.set(this.keys.powerKey, PersistentDataType.STRING, power.powerName());
         itemStack.setItemMeta(meta);
         this.usage = MiniMessage.miniMessage().deserialize("<gold>How to use: <trinketname></gold><br><trinketusage>",
                 Placeholder.component("trinketname", this.itemStack.displayName().hoverEvent(this.itemStack.asHoverEvent())),
                 Placeholder.parsed("trinketusage", "<green>" + usage));
     }
 
-    public Trinket(AstsTrinkets plugin, NamespacedKey nameKey, NamespacedKey powerKey, String name, Power power, boolean isOp,
-                   String usage) {
-        this(plugin, nameKey, powerKey, name, null, power, isOp, usage);
+    public Trinket(AstsTrinkets plugin, NamespacedKeys keys, String name, Power power, boolean isOp, String usage) {
+        this(plugin, keys, name, null, power, isOp, usage);
     }
 
     protected abstract ItemStack createItemStack();
@@ -78,8 +75,8 @@ public abstract class Trinket {
     }
 
     private boolean isTrinket(PersistentDataContainer container) {
-        if (container.has(nameKey, PersistentDataType.STRING)) {
-            String trinketName = container.get(nameKey, PersistentDataType.STRING);
+        if (container.has(keys.nameKey, PersistentDataType.STRING)) {
+            String trinketName = container.get(keys.nameKey, PersistentDataType.STRING);
             return name.equals(trinketName);
         }
         return false;

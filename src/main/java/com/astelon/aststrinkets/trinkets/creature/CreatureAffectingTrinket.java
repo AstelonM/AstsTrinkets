@@ -3,9 +3,9 @@ package com.astelon.aststrinkets.trinkets.creature;
 import com.astelon.aststrinkets.AstsTrinkets;
 import com.astelon.aststrinkets.Power;
 import com.astelon.aststrinkets.trinkets.Trinket;
+import com.astelon.aststrinkets.utils.NamespacedKeys;
 import com.astelon.aststrinkets.utils.Utils;
 import net.kyori.adventure.text.format.TextColor;
-import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.persistence.PersistentDataContainer;
@@ -14,21 +14,16 @@ import org.bukkit.persistence.PersistentDataType;
 //TODO InteractionBasedTrinkets?
 public abstract class CreatureAffectingTrinket extends Trinket {
 
-    protected final NamespacedKey invulnerabilitySourceKey;
     protected boolean petOwnerOnly;
 
-    public CreatureAffectingTrinket(AstsTrinkets plugin, NamespacedKey nameKey, NamespacedKey powerKey,
-                                    NamespacedKey invulnerabilitySourceKey, String name, TextColor infoColour, Power power,
+    public CreatureAffectingTrinket(AstsTrinkets plugin, NamespacedKeys keys, String name, TextColor infoColour, Power power,
                                     boolean isOp, String usage) {
-        super(plugin, nameKey, powerKey, name, infoColour, power, isOp, usage);
-        this.invulnerabilitySourceKey = invulnerabilitySourceKey;
+        super(plugin, keys, name, infoColour, power, isOp, usage);
     }
 
-    public CreatureAffectingTrinket(AstsTrinkets plugin, NamespacedKey nameKey, NamespacedKey powerKey,
-                                    NamespacedKey invulnerabilitySourceKey, String name, Power power, boolean isOp,
+    public CreatureAffectingTrinket(AstsTrinkets plugin, NamespacedKeys keys, String name, Power power, boolean isOp,
                                     String usage) {
-        super(plugin, nameKey, powerKey, name, power, isOp, usage);
-        this.invulnerabilitySourceKey = invulnerabilitySourceKey;
+        super(plugin, keys, name, power, isOp, usage);
     }
 
     public void setPetOwnerOnly(boolean petOwnerOnly) {
@@ -44,8 +39,8 @@ public abstract class CreatureAffectingTrinket extends Trinket {
     public boolean isInvulnerableToPlayer(Entity entity, Player player) {
         if (entity.isInvulnerable()) {
             PersistentDataContainer container = entity.getPersistentDataContainer();
-            if (container.has(invulnerabilitySourceKey, PersistentDataType.STRING)) {
-                return !player.getName().equals(container.get(invulnerabilitySourceKey, PersistentDataType.STRING));
+            if (container.has(keys.invulnerabilitySourceKey, PersistentDataType.STRING)) {
+                return !player.getName().equals(container.get(keys.invulnerabilitySourceKey, PersistentDataType.STRING));
             }
             return !player.hasPermission("aststrinkets.trinket.ignoreinvulnerable") && !Utils.isPetOwner(entity, player);
         }

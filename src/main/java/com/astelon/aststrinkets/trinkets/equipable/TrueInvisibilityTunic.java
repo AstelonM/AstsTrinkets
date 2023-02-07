@@ -3,13 +3,13 @@ package com.astelon.aststrinkets.trinkets.equipable;
 import com.astelon.aststrinkets.AstsTrinkets;
 import com.astelon.aststrinkets.Power;
 import com.astelon.aststrinkets.trinkets.Trinket;
+import com.astelon.aststrinkets.utils.NamespacedKeys;
 import com.astelon.aststrinkets.utils.Usages;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextColor;
 import org.bukkit.Color;
 import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
 
@@ -17,8 +17,8 @@ import java.util.List;
 
 public class TrueInvisibilityTunic extends Trinket {
 
-    public TrueInvisibilityTunic(AstsTrinkets plugin, NamespacedKey nameKey, NamespacedKey powerKey) {
-        super(plugin, nameKey, powerKey, "trueInvisibilityTunic", NamedTextColor.GOLD, Power.TRUE_INVISIBILITY,
+    public TrueInvisibilityTunic(AstsTrinkets plugin, NamespacedKeys keys) {
+        super(plugin, keys, "trueInvisibilityTunic", NamedTextColor.GOLD, Power.TRUE_INVISIBILITY,
                 true, Usages.WEAR);
     }
 

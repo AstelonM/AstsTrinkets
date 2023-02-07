@@ -16,7 +16,7 @@ import com.astelon.aststrinkets.trinkets.projectile.TrueDeathArrow;
 import com.astelon.aststrinkets.trinkets.rocket.PerfectedReignitableRocket;
 import com.astelon.aststrinkets.trinkets.rocket.ReignitableRocket;
 import com.astelon.aststrinkets.trinkets.rocket.ReignitableRocketPrototype;
-import org.bukkit.NamespacedKey;
+import com.astelon.aststrinkets.utils.NamespacedKeys;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -36,15 +36,7 @@ public class TrinketManager {
     private final AstsTrinkets plugin;
     private final MobInfoManager mobInfoManager;
     private final InvisibilityManager invisibilityManager;
-
-    private final NamespacedKey nameKey;
-    private final NamespacedKey powerKey;
-    private final NamespacedKey ownerKey;
-    private final NamespacedKey trapKey;
-    private final NamespacedKey failureChanceKey;
-    private final NamespacedKey criticalFailureChanceKey;
-    private final NamespacedKey shulkerBoxKey;
-    private final NamespacedKey invulnerabilitySourceKey;
+    private final NamespacedKeys keys;
 
     private final ArrayList<Trinket> trinkets;
     private final HashMap<String, Trinket> trinketMap;
@@ -53,48 +45,40 @@ public class TrinketManager {
         this.plugin = plugin;
         this.mobInfoManager = mobInfoManager;
         this.invisibilityManager = invisibilityManager;
-        //TODO should make these more uniform eventually + think how to deal with the obsolete versions
-        nameKey = new NamespacedKey(plugin, "trinketName");
-        powerKey = new NamespacedKey(plugin, "trinketPower");
-        ownerKey = new NamespacedKey(plugin, "trinketOwner");
-        trapKey = new NamespacedKey(plugin, "trinketTrappedEntity");
-        failureChanceKey = new NamespacedKey(plugin, "failureChance");
-        criticalFailureChanceKey = new NamespacedKey(plugin, "criticalFailureChance");
-        shulkerBoxKey = new NamespacedKey(plugin, "shulkerBoxKey");
-        invulnerabilitySourceKey = new NamespacedKey(plugin, "invulnerabilitySource");
+        this.keys = new NamespacedKeys(plugin);
         trinkets = new ArrayList<>();
         trinketMap = new HashMap<>();
         initTrinkets();
     }
 
     private void initTrinkets() {
-        addTrinket(new InvisibilityTunic(plugin, nameKey, powerKey));
-        addTrinket(new TrueInvisibilityTunic(plugin, nameKey, powerKey));
-        addTrinket(new FragileInvisibilityTunic(plugin, nameKey, powerKey));
-        addTrinket(new ShapeShifter(plugin, nameKey, powerKey));
-        addTrinket(new MysteryCake(plugin, nameKey, powerKey));
-        addTrinket(new Spinneret(plugin, nameKey, powerKey));
-        addTrinket(new MendingPowder(plugin, nameKey, powerKey));
-        addTrinket(new BindingPowder(plugin, nameKey, powerKey, ownerKey));
-        addTrinket(new TrueSightCap(plugin, nameKey, powerKey));
-        addTrinket(new Homendirt(plugin, nameKey, powerKey));
-        addTrinket(new Homendingdirt(plugin, nameKey, powerKey, ownerKey));
-        addTrinket(new YouthMilk(plugin, nameKey, powerKey, invulnerabilitySourceKey));
-        addTrinket(new DiamondTrap(plugin, mobInfoManager, nameKey, powerKey, trapKey, ownerKey, invulnerabilitySourceKey));
-        addTrinket(new EmeraldTrap(plugin, mobInfoManager, nameKey, powerKey, trapKey, ownerKey, invulnerabilitySourceKey));
-        addTrinket(new AmethystTrap(plugin, mobInfoManager, nameKey, powerKey, trapKey, ownerKey, invulnerabilitySourceKey));
-        addTrinket(new NetherStarTrap(plugin, mobInfoManager, nameKey, powerKey, trapKey, ownerKey, invulnerabilitySourceKey));
-        addTrinket(new InfinityItem(plugin, nameKey, powerKey, ownerKey));
-        addTrinket(new UnbindingPowder(plugin, nameKey, powerKey, ownerKey));
-        addTrinket(new ReignitableRocketPrototype(plugin, nameKey, powerKey, failureChanceKey, criticalFailureChanceKey));
-        addTrinket(new ReignitableRocket(plugin, nameKey, powerKey, failureChanceKey));
-        addTrinket(new PerfectedReignitableRocket(plugin, nameKey, powerKey));
-        addTrinket(new DeathArrow(plugin, nameKey, powerKey, ownerKey));
-        addTrinket(new TrueDeathArrow(plugin, nameKey, powerKey, ownerKey));
-        addTrinket(new ShulkerBoxContainmentUnit(plugin, nameKey, powerKey, shulkerBoxKey, ownerKey));
-        addTrinket(new DivingHelmet(plugin, nameKey, powerKey));
-        addTrinket(new HydraulicBoots(plugin, nameKey, powerKey));
-        addTrinket(new LifeWater(plugin, nameKey, powerKey, invulnerabilitySourceKey));
+        addTrinket(new InvisibilityTunic(plugin, keys));
+        addTrinket(new TrueInvisibilityTunic(plugin, keys));
+        addTrinket(new FragileInvisibilityTunic(plugin, keys));
+        addTrinket(new ShapeShifter(plugin, keys));
+        addTrinket(new MysteryCake(plugin, keys));
+        addTrinket(new Spinneret(plugin, keys));
+        addTrinket(new MendingPowder(plugin, keys));
+        addTrinket(new BindingPowder(plugin, keys));
+        addTrinket(new TrueSightCap(plugin, keys));
+        addTrinket(new Homendirt(plugin, keys));
+        addTrinket(new Homendingdirt(plugin, keys));
+        addTrinket(new YouthMilk(plugin, keys));
+        addTrinket(new DiamondTrap(plugin, mobInfoManager, keys));
+        addTrinket(new EmeraldTrap(plugin, mobInfoManager, keys));
+        addTrinket(new AmethystTrap(plugin, mobInfoManager, keys));
+        addTrinket(new NetherStarTrap(plugin, mobInfoManager, keys));
+        addTrinket(new InfinityItem(plugin, keys));
+        addTrinket(new UnbindingPowder(plugin, keys));
+        addTrinket(new ReignitableRocketPrototype(plugin, keys));
+        addTrinket(new ReignitableRocket(plugin, keys));
+        addTrinket(new PerfectedReignitableRocket(plugin, keys));
+        addTrinket(new DeathArrow(plugin, keys));
+        addTrinket(new TrueDeathArrow(plugin, keys));
+        addTrinket(new ShulkerBoxContainmentUnit(plugin, keys));
+        addTrinket(new DivingHelmet(plugin, keys));
+        addTrinket(new HydraulicBoots(plugin, keys));
+        addTrinket(new LifeWater(plugin, keys));
     }
 
     private void addTrinket(Trinket trinket) {
@@ -131,9 +115,9 @@ public class TrinketManager {
         if (meta == null)
             return null;
         PersistentDataContainer container = meta.getPersistentDataContainer();
-        if (!container.has(nameKey, PersistentDataType.STRING))
+        if (!container.has(keys.nameKey, PersistentDataType.STRING))
             return null;
-        String name = container.get(nameKey, PersistentDataType.STRING);
+        String name = container.get(keys.nameKey, PersistentDataType.STRING);
         return trinketMap.get(name);
     }
 
@@ -144,14 +128,14 @@ public class TrinketManager {
         if (meta == null)
             return false;
         PersistentDataContainer container = meta.getPersistentDataContainer();
-        return container.has(nameKey, PersistentDataType.STRING);
+        return container.has(keys.nameKey, PersistentDataType.STRING);
     }
 
     public boolean isTrinket(Projectile projectile) {
         if (projectile == null)
             return false;
         PersistentDataContainer container = projectile.getPersistentDataContainer();
-        return container.has(nameKey, PersistentDataType.STRING);
+        return container.has(keys.nameKey, PersistentDataType.STRING);
     }
 
     public void removePlayerTrinkets(Player player) {
@@ -184,9 +168,9 @@ public class TrinketManager {
         if (meta == null)
             return null;
         PersistentDataContainer container = meta.getPersistentDataContainer();
-        if (!container.has(ownerKey, PersistentDataType.STRING))
+        if (!container.has(keys.ownerKey, PersistentDataType.STRING))
             return null;
-        return container.get(ownerKey, PersistentDataType.STRING);
+        return container.get(keys.ownerKey, PersistentDataType.STRING);
     }
 
     @Nullable
@@ -194,9 +178,9 @@ public class TrinketManager {
         if (projectile == null)
             return null;
         PersistentDataContainer container = projectile.getPersistentDataContainer();
-        if (!container.has(ownerKey, PersistentDataType.STRING))
+        if (!container.has(keys.ownerKey, PersistentDataType.STRING))
             return null;
-        return container.get(ownerKey, PersistentDataType.STRING);
+        return container.get(keys.ownerKey, PersistentDataType.STRING);
     }
 
     /**

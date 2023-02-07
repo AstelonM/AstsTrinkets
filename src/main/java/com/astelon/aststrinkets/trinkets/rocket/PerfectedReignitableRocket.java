@@ -3,11 +3,11 @@ package com.astelon.aststrinkets.trinkets.rocket;
 import com.astelon.aststrinkets.AstsTrinkets;
 import com.astelon.aststrinkets.Power;
 import com.astelon.aststrinkets.trinkets.Trinket;
+import com.astelon.aststrinkets.utils.NamespacedKeys;
 import com.astelon.aststrinkets.utils.Usages;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextColor;
 import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -15,8 +15,8 @@ import java.util.List;
 
 public class PerfectedReignitableRocket extends Trinket {
 
-    public PerfectedReignitableRocket(AstsTrinkets plugin, NamespacedKey nameKey, NamespacedKey powerKey) {
-        super(plugin, nameKey, powerKey, "perfectedReignitableRocket", TextColor.fromHexString("#726780"),
+    public PerfectedReignitableRocket(AstsTrinkets plugin, NamespacedKeys keys) {
+        super(plugin, keys, "perfectedReignitableRocket", TextColor.fromHexString("#726780"),
                 Power.PERFECTED_REIGNITION, true, Usages.FIREWORK_ROCKET);
     }
 

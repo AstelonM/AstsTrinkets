@@ -3,6 +3,7 @@ package com.astelon.aststrinkets.trinkets.rocket;
 import com.astelon.aststrinkets.AstsTrinkets;
 import com.astelon.aststrinkets.Power;
 import com.astelon.aststrinkets.trinkets.Trinket;
+import com.astelon.aststrinkets.utils.NamespacedKeys;
 import com.astelon.aststrinkets.utils.Usages;
 import com.astelon.aststrinkets.utils.Utils;
 import net.kyori.adventure.text.Component;
@@ -10,7 +11,6 @@ import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextColor;
 import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
@@ -21,16 +21,11 @@ import java.util.List;
 
 public class ReignitableRocketPrototype extends Trinket {
 
-    private final NamespacedKey failureChanceKey;
-    private final NamespacedKey criticalFailureChanceKey;
     private boolean pluginExplosion;
 
-    public ReignitableRocketPrototype(AstsTrinkets plugin, NamespacedKey nameKey, NamespacedKey powerKey,
-                                      NamespacedKey failureChanceKey, NamespacedKey criticalFailureChanceKey) {
-        super(plugin, nameKey, powerKey, "reignitableRocketPrototype", TextColor.fromHexString("#485D33"),
+    public ReignitableRocketPrototype(AstsTrinkets plugin, NamespacedKeys keys) {
+        super(plugin, keys, "reignitableRocketPrototype", TextColor.fromHexString("#485D33"),
                 Power.REIGNITION_PROTOTYPE, false, Usages.FIREWORK_ROCKET);
-        this.failureChanceKey = failureChanceKey;
-        this.criticalFailureChanceKey = criticalFailureChanceKey;
     }
 
     @Override
@@ -50,18 +45,18 @@ public class ReignitableRocketPrototype extends Trinket {
         if (!isTrinket(itemStack))
             throw new IllegalArgumentException("Not a trinket.");
         PersistentDataContainer container = itemStack.getItemMeta().getPersistentDataContainer();
-        if (!container.has(failureChanceKey, PersistentDataType.DOUBLE))
+        if (!container.has(keys.failureChanceKey, PersistentDataType.DOUBLE))
             return 0D;
-        return container.getOrDefault(failureChanceKey, PersistentDataType.DOUBLE, 0D);
+        return container.getOrDefault(keys.failureChanceKey, PersistentDataType.DOUBLE, 0D);
     }
 
     public double getCriticalFailureChance(ItemStack itemStack) {
         if (!isTrinket(itemStack))
             throw new IllegalArgumentException("Not a trinket.");
         PersistentDataContainer container = itemStack.getItemMeta().getPersistentDataContainer();
-        if (!container.has(criticalFailureChanceKey, PersistentDataType.DOUBLE))
+        if (!container.has(keys.criticalFailureChanceKey, PersistentDataType.DOUBLE))
             return 0D;
-        return container.getOrDefault(criticalFailureChanceKey, PersistentDataType.DOUBLE, 0D);
+        return container.getOrDefault(keys.criticalFailureChanceKey, PersistentDataType.DOUBLE, 0D);
     }
 
     public void setFailures(double failureChance, double criticalFailureChance) {
@@ -69,8 +64,8 @@ public class ReignitableRocketPrototype extends Trinket {
         double criticalFailureChance1 = Utils.normalizeRate(criticalFailureChance);
         ItemMeta meta = itemStack.getItemMeta();
         PersistentDataContainer container = meta.getPersistentDataContainer();
-        container.set(failureChanceKey, PersistentDataType.DOUBLE, failureChance1);
-        container.set(criticalFailureChanceKey, PersistentDataType.DOUBLE, criticalFailureChance1);
+        container.set(keys.failureChanceKey, PersistentDataType.DOUBLE, failureChance1);
+        container.set(keys.criticalFailureChanceKey, PersistentDataType.DOUBLE, criticalFailureChance1);
         ArrayList<Component> newLore = new ArrayList<>();
         // Use the percentage for display, instead of the normalized values
         newLore.add(Component.text("Failure chance: " + failureChance + "%", NamedTextColor.RED)

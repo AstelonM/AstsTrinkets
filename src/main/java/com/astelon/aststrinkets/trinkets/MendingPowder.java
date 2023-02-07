@@ -2,11 +2,11 @@ package com.astelon.aststrinkets.trinkets;
 
 import com.astelon.aststrinkets.AstsTrinkets;
 import com.astelon.aststrinkets.Power;
+import com.astelon.aststrinkets.utils.NamespacedKeys;
 import com.astelon.aststrinkets.utils.Usages;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -14,8 +14,8 @@ import java.util.List;
 
 public class MendingPowder extends Trinket {
 
-    public MendingPowder(AstsTrinkets plugin, NamespacedKey nameKey, NamespacedKey powerKey) {
-        super(plugin, nameKey, powerKey, "mendingPowder", Power.MENDING, false, Usages.INVENTORY);
+    public MendingPowder(AstsTrinkets plugin, NamespacedKeys keys) {
+        super(plugin, keys, "mendingPowder", Power.MENDING, false, Usages.INVENTORY);
     }
 
     @Override
