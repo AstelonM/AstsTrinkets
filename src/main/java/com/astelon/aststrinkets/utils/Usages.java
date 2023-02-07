@@ -3,7 +3,7 @@ package com.astelon.aststrinkets.utils;
 public final class Usages {
 
     public static final String WEAR = "Equip this trinket to start using it. Unequip it " +
-            "to stop using it";
+            "to stop using it.";
     public static final String DONT = "You don't use it.";
     public static final String PLACE_AND_EAT = "Place it down and eat it.";
     public static final String SPINNERET = "Place down string while holding the trinket in " +
