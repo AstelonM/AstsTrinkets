@@ -82,10 +82,26 @@ public abstract class Trinket {
         return false;
     }
 
+    /**
+     * Checks whether this trinket is enabled, and the given {@code ItemStack} is an instance of it.
+     * @param itemStack the {@code ItemStack} to check
+     * @return {@code true} if this trinket is enabled and the given {@code ItemStack} is an instance of it, {@code false} otherwise
+     */
     public boolean isEnabledTrinket(ItemStack itemStack) {
-        if (!enabled)
-            return false;
-        return isTrinket(itemStack);
+        if (enabled)
+            return isTrinket(itemStack);
+        return false;
+    }
+
+    /**
+     * Checks whether this trinket is enabled, and the given {@code Projectile} is an instance of it.
+     * @param projectile the {@code Projectile} to check
+     * @return {@code true} if this trinket is enabled and the given {@code Projectile} is an instance of it, {@code false} otherwise
+     */
+    public boolean isEnabledTrinket(Projectile projectile) {
+        if (enabled)
+            return isTrinket(projectile);
+        return false;
     }
 
     public String getName() {

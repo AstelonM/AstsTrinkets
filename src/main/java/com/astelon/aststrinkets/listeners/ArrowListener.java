@@ -38,9 +38,9 @@ public class ArrowListener implements Listener {
         if (!(projectile instanceof Arrow arrow))
             return;
         if (itemStack != null && trinketManager.isOwnedWithRestrictions(itemStack, shooter)) {
-            if (deathArrow.isEnabled() && deathArrow.isTrinket(itemStack)) {
+            if (deathArrow.isEnabledTrinket(itemStack)) {
                 deathArrow.setProjectileTrinket(arrow, itemStack);
-            } else if (trueDeathArrow.isEnabled() && trueDeathArrow.isTrinket(itemStack)) {
+            } else if (trueDeathArrow.isEnabledTrinket(itemStack)) {
                 trueDeathArrow.setProjectileTrinket(arrow, itemStack);
             }
         }
@@ -55,7 +55,7 @@ public class ArrowListener implements Listener {
             if (!(shooter instanceof Entity shooterEntity))
                 return;
             if (trinketManager.isOwnedWithRestrictions(arrow, shooterEntity)) {
-                if (deathArrow.isEnabled() && deathArrow.isTrinket(arrow)) {
+                if (deathArrow.isEnabledTrinket(arrow)) {
                     livingEntity.damage(1000000, shooterEntity);
                     logDeath(deathArrow, shooterEntity, livingEntity);
                 }
@@ -72,7 +72,7 @@ public class ArrowListener implements Listener {
             if (!(shooter instanceof Entity shooterEntity))
                 return;
             if (trinketManager.isOwnedWithRestrictions(arrow, shooterEntity)) {
-                if (trueDeathArrow.isEnabled() && trueDeathArrow.isTrinket(arrow)) {
+                if (trueDeathArrow.isEnabledTrinket(arrow)) {
                     livingEntity.damage(1000000);
                     livingEntity.setHealth(0);
                     logDeath(trueDeathArrow, shooterEntity, livingEntity);

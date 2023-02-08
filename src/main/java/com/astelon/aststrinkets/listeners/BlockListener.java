@@ -51,10 +51,10 @@ public class BlockListener implements Listener {
             otherItem = inventory.getItemInMainHand();
         }
         if (trinketManager.isOwnedBy(placedItem, player.getName())) {
-            if (infinityItem.isEnabled() && infinityItem.isTrinket(placedItem)) {
+            if (infinityItem.isEnabledTrinket(placedItem)) {
                 //TODO Find a way to place the block without consuming the item and without cancelling the event
                 inventory.setItemInMainHand(placedItem);
-            } else if (shulkerBoxContainmentUnit.isEnabled() && shulkerBoxContainmentUnit.isTrinket(placedItem)) {
+            } else if (shulkerBoxContainmentUnit.isEnabledTrinket(placedItem)) {
                 if (shulkerBoxContainmentUnit.hasShulkerBox(placedItem)) {
                     ItemStack shulkerItem = shulkerBoxContainmentUnit.getContainedShulkerBox(placedItem);
                     if (shulkerItem == null) {
@@ -76,7 +76,7 @@ public class BlockListener implements Listener {
             }
         }
         if (trinketManager.isOwnedBy(otherItem, player.getName())) {
-            if (spinneret.isEnabled() && spinneret.isTrinket(otherItem)) {
+            if (spinneret.isEnabledTrinket(otherItem)) {
                 if (event.getItemInHand().getType() == Material.STRING)
                     event.getBlock().setType(Material.COBWEB);
             }

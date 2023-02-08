@@ -37,7 +37,7 @@ public class FireworkListener implements Listener {
         Player player = event.getPlayer();
         ItemStack rocket = event.getItemStack();
         if (trinketManager.isOwnedBy(rocket, player.getName())) {
-            if (reignitableRocketPrototype.isEnabled() && reignitableRocketPrototype.isTrinket(rocket)) {
+            if (reignitableRocketPrototype.isEnabledTrinket(rocket)) {
                 double roll = random.nextDouble();
                 if (roll < reignitableRocketPrototype.getCriticalFailureChance(rocket)) {
                     Location location = player.getLocation();
@@ -47,12 +47,12 @@ public class FireworkListener implements Listener {
                 } else if (roll >= reignitableRocketPrototype.getFailureChance(rocket)) {
                     event.setShouldConsume(false);
                 }
-            } else if (reignitableRocket.isEnabled() && reignitableRocket.isTrinket(rocket)) {
+            } else if (reignitableRocket.isEnabledTrinket(rocket)) {
                 double roll = random.nextDouble();
                 if (roll >= reignitableRocket.getFailureChance(rocket)) {
                     event.setShouldConsume(false);
                 }
-            } else if (perfectedReignitableRocket.isEnabled() && perfectedReignitableRocket.isTrinket(rocket)) {
+            } else if (perfectedReignitableRocket.isEnabledTrinket(rocket)) {
                 event.setShouldConsume(false);
             }
         }

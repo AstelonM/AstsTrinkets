@@ -36,7 +36,7 @@ public class EntityDamageListener implements Listener {
         if (cause == EntityDamageEvent.DamageCause.DROWNING) {
             ItemStack helmet = equipment.getHelmet();
             if (trinketManager.isOwnedWithRestrictions(helmet, entity)) {
-                if (divingHelmet.isEnabled() && divingHelmet.isTrinket(helmet)) {
+                if (divingHelmet.isEnabledTrinket(helmet)) {
                     event.setCancelled(true);
                     entity.setRemainingAir(entity.getMaximumAir());
                 }
@@ -44,7 +44,7 @@ public class EntityDamageListener implements Listener {
         } else if (cause == EntityDamageEvent.DamageCause.FALL) {
             ItemStack boots = equipment.getBoots();
             if (trinketManager.isOwnedWithRestrictions(boots, entity)) {
-                if (hydraulicBoots.isEnabled() && hydraulicBoots.isTrinket(boots)) {
+                if (hydraulicBoots.isEnabledTrinket(boots)) {
                     event.setCancelled(true);
                 }
             }

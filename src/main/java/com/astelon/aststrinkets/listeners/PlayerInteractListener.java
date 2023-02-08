@@ -65,7 +65,7 @@ public class PlayerInteractListener implements Listener {
             return;
         int slot = hand == EquipmentSlot.HAND ? inventory.getHeldItemSlot() : Utils.OFF_HAND_SLOT;
         if (trinketManager.isOwnedBy(item, player.getName())) {
-            if (youthMilk.isEnabled() && youthMilk.isTrinket(item) && event.getRightClicked() instanceof Ageable ageable) {
+            if (youthMilk.isEnabledTrinket(item) && event.getRightClicked() instanceof Ageable ageable) {
                 if (!ageable.isAdult())
                     return;
                 if (youthMilk.petOwnedByOtherPlayer(ageable, player)) {
@@ -83,15 +83,15 @@ public class PlayerInteractListener implements Listener {
                 player.updateInventory();
                 plugin.getLogger().info("Youth milk used on " + mobInfoManager.getTypeAndName(ageable) + " at " +
                         Utils.locationToString(ageable.getLocation()) + " by player " + player.getName() + ".");
-            } else if (diamondTrap.isEnabled() && diamondTrap.isTrinket(item)) {
+            } else if (diamondTrap.isEnabledTrinket(item)) {
                 trapEntity(diamondTrap, item, entity, slot, inventory, player);
-            } else if (emeraldTrap.isEnabled() && emeraldTrap.isTrinket(item)) {
+            } else if (emeraldTrap.isEnabledTrinket(item)) {
                 trapEntity(emeraldTrap, item, entity, slot, inventory, player);
-            } else if (amethystTrap.isEnabled() && amethystTrap.isTrinket(item)) {
+            } else if (amethystTrap.isEnabledTrinket(item)) {
                 trapEntity(amethystTrap, item, entity, slot, inventory, player);
-            } else if (netherStarTrap.isEnabled() && netherStarTrap.isTrinket(item)) {
+            } else if (netherStarTrap.isEnabledTrinket(item)) {
                 trapEntity(netherStarTrap, item, entity, slot, inventory, player);
-            } else if (lifeWater.isEnabled() && lifeWater.isTrinket(item)) {
+            } else if (lifeWater.isEnabledTrinket(item)) {
                 if (!(entity instanceof Mob mob))
                     return;
                 if (mob.isInvulnerable())
@@ -168,7 +168,7 @@ public class PlayerInteractListener implements Listener {
             if (itemStack == null)
                 return;
             if (trinketManager.isOwnedBy(itemStack, player.getName())) {
-                if (shulkerBoxContainmentUnit.isEnabled() && shulkerBoxContainmentUnit.isTrinket(itemStack)) {
+                if (shulkerBoxContainmentUnit.isEnabledTrinket(itemStack)) {
                     if (!shulkerBoxContainmentUnit.hasShulkerBox(itemStack))
                         return;
                     ItemStack result = shulkerBoxContainmentUnit.getContainedShulkerBox(itemStack);
@@ -188,13 +188,13 @@ public class PlayerInteractListener implements Listener {
 
     private void useTrinkets(ItemStack itemStack, Player player, Block block, int slot) {
         if (itemStack != null && trinketManager.isOwnedBy(itemStack, player.getName())) {
-            if (diamondTrap.isEnabled() && diamondTrap.isTrinket(itemStack)) {
+            if (diamondTrap.isEnabledTrinket(itemStack)) {
                 releaseEntity(diamondTrap, itemStack, block, player, slot);
-            } else if (emeraldTrap.isEnabled() && emeraldTrap.isTrinket(itemStack)) {
+            } else if (emeraldTrap.isEnabledTrinket(itemStack)) {
                 releaseEntity(emeraldTrap, itemStack, block, player, slot);
-            } else if (amethystTrap.isEnabled() && amethystTrap.isTrinket(itemStack)) {
+            } else if (amethystTrap.isEnabledTrinket(itemStack)) {
                 releaseEntity(amethystTrap, itemStack, block, player, slot);
-            } else if (netherStarTrap.isEnabled() && netherStarTrap.isTrinket(itemStack)) {
+            } else if (netherStarTrap.isEnabledTrinket(itemStack)) {
                 releaseEntity(netherStarTrap, itemStack, block, player, slot);
             }
         }

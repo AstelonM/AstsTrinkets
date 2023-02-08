@@ -52,7 +52,7 @@ public class InventoryUseListener implements Listener {
         ItemStack heldItem = event.getCursor();
         Player player = (Player) event.getView().getPlayer();
         if (heldItem != null && event.getClick() == ClickType.SHIFT_RIGHT && trinketManager.isOwnedBy(heldItem, player.getName())) {
-            if (mendingPowder.isEnabled() && mendingPowder.isTrinket(heldItem)) {
+            if (mendingPowder.isEnabledTrinket(heldItem)) {
                 ItemStack item = event.getCurrentItem();
                 if (item == null)
                     return;
@@ -69,7 +69,7 @@ public class InventoryUseListener implements Listener {
                     heldItem.subtract();
                     player.updateInventory();
                 }
-            } else if (bindingPowder.isEnabled() && bindingPowder.isTrinket(heldItem)) {
+            } else if (bindingPowder.isEnabledTrinket(heldItem)) {
                 ItemStack item = event.getCurrentItem();
                 if (item == null)
                     return;
@@ -86,7 +86,7 @@ public class InventoryUseListener implements Listener {
                         player.sendMessage(Component.text("Could not bind this trinket to you.", NamedTextColor.RED));
                     }
                 }
-            } else if (unbindingPowder.isEnabled() && unbindingPowder.isTrinket(heldItem)) {
+            } else if (unbindingPowder.isEnabledTrinket(heldItem)) {
                 ItemStack item = event.getCurrentItem();
                 if (item == null)
                     return;
@@ -103,7 +103,7 @@ public class InventoryUseListener implements Listener {
                         player.sendMessage(Component.text("Could not unbind this trinket.", NamedTextColor.RED));
                     }
                 }
-            } else if (homendirt.isEnabled() && homendirt.isTrinket(heldItem)) {
+            } else if (homendirt.isEnabledTrinket(heldItem)) {
                 ItemStack item = event.getCurrentItem();
                 if (item == null)
                     return;
@@ -134,7 +134,7 @@ public class InventoryUseListener implements Listener {
                 ItemStack homendingdirtItem = homendingdirt.createHomendingdirt(heldItem, mending);
                 transformCursorItem(heldItem, homendingdirtItem, inventory, player);
                 player.updateInventory();
-            } else if (homendingdirt.isEnabled() && homendingdirt.isTrinket(heldItem)) {
+            } else if (homendingdirt.isEnabledTrinket(heldItem)) {
                 ItemStack item = event.getCurrentItem();
                 if (item == null)
                     return;
@@ -158,7 +158,7 @@ public class InventoryUseListener implements Listener {
                 transformItem(item, result, slot, inventory, player);
                 heldItem.subtract();
                 player.updateInventory();
-            } else if (infinityItem.isEnabled() && infinityItem.isTrinket(heldItem)) {
+            } else if (infinityItem.isEnabledTrinket(heldItem)) {
                 if (infinityItem.hasBlock(heldItem))
                     return;
                 ItemStack item = event.getCurrentItem();
@@ -173,7 +173,7 @@ public class InventoryUseListener implements Listener {
                 ItemStack result = infinityItem.replicateBlock(heldItem, block);
                 transformCursorItem(heldItem, result, player.getInventory(), player);
                 player.updateInventory();
-            } else if (shulkerBoxContainmentUnit.isEnabled() && shulkerBoxContainmentUnit.isTrinket(heldItem)) {
+            } else if (shulkerBoxContainmentUnit.isEnabledTrinket(heldItem)) {
                 if (shulkerBoxContainmentUnit.hasShulkerBox(heldItem))
                     return;
                 ItemStack shulker = event.getCurrentItem();

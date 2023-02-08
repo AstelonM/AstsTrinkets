@@ -50,7 +50,7 @@ public class ShapeShifterListener implements Listener {
 
     @EventHandler(ignoreCancelled = true)
     public void onBlockPlace(BlockPlaceEvent event) {
-        if (shapeShifter.isEnabled() && shapeShifter.isTrinket(event.getItemInHand())) {
+        if (shapeShifter.isEnabledTrinket(event.getItemInHand())) {
             event.setCancelled(true);
             shapeShifter.shapeShift(event.getItemInHand());
         }
