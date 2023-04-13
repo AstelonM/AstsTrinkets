@@ -49,10 +49,10 @@ public class BindingPowder extends Trinket {
         container.set(keys.ownerKey, PersistentDataType.STRING, name);
         List<Component> lore = meta.lore();
         if (lore == null)
-            meta.lore(List.of(getOwnerLoreLine(name, trinket.infoColour)));
+            meta.lore(List.of(getOwnerLoreLine(name, trinket.primaryInfoColour)));
         else {
             ArrayList<Component> newLore = new ArrayList<>(lore.size() + 1);
-            newLore.add(getOwnerLoreLine(name, trinket.infoColour));
+            newLore.add(getOwnerLoreLine(name, trinket.primaryInfoColour));
             newLore.addAll(lore);
             meta.lore(newLore);
         }

@@ -14,48 +14,102 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public abstract class Trinket {
 
     protected final AstsTrinkets plugin;
     protected final NamespacedKeys keys;
+
     protected final String name;
-    protected final TextColor infoColour;
-    protected final ItemStack itemStack;
     protected Power power;
-    protected boolean enabled;
     protected final boolean op;
+    protected boolean enabled;
+
+    protected ItemStack itemStack;
+    protected Component trinketName;
+    protected List<Component> lore;
+    protected TextColor primaryInfoColour;
+    protected TextColor secondaryInfoColour;
+
     protected final Component usage;
 
-    public Trinket(AstsTrinkets plugin, NamespacedKeys keys, String name, TextColor infoColour, Power power, boolean op,
-                   String usage) {
+    public Trinket(AstsTrinkets plugin, NamespacedKeys keys, String name, Power power, boolean op, String usage,
+                   Component trinketName, List<Component> lore, TextColor primaryInfoColour, TextColor secondaryInfoColour) {
         this.plugin = plugin;
         this.keys = keys;
         this.name = name;
-        if (infoColour == null)
-            this.infoColour = TextColor.fromHexString("#4AF626");
-        else
-            this.infoColour = infoColour;
         this.power = power;
-        this.itemStack = createItemStack();
         this.op = op;
-        ItemMeta meta = itemStack.getItemMeta();
-        Component displayName = meta.displayName();
-        if (displayName != null)
-            meta.displayName(displayName.decoration(TextDecoration.ITALIC, false));
-        PersistentDataContainer container = meta.getPersistentDataContainer();
-        container.set(this.keys.nameKey, PersistentDataType.STRING, name);
-        container.set(this.keys.powerKey, PersistentDataType.STRING, power.powerName());
-        itemStack.setItemMeta(meta);
+
+        this.trinketName = trinketName;
+        this.lore = lore;
+        if (primaryInfoColour == null)
+            this.primaryInfoColour = TextColor.fromHexString("#4AF626");
+        else
+            this.primaryInfoColour = primaryInfoColour;
+        if (secondaryInfoColour == null)
+            this.secondaryInfoColour = primaryInfoColour;
+        else
+            this.secondaryInfoColour = secondaryInfoColour;
+
+        itemStack = createItemStack();
+        addTrinketData(this.itemStack);
+        customizeTrinket(itemStack);
+
         this.usage = MiniMessage.miniMessage().deserialize("<gold>How to use: <trinketname></gold><br><trinketusage>",
                 Placeholder.component("trinketname", this.itemStack.displayName().hoverEvent(this.itemStack.asHoverEvent())),
                 Placeholder.parsed("trinketusage", "<green>" + usage));
     }
 
-    public Trinket(AstsTrinkets plugin, NamespacedKeys keys, String name, Power power, boolean op, String usage) {
-        this(plugin, keys, name, null, power, op, usage);
+    protected abstract ItemStack createItemStack();
+
+    protected void addTrinketData(ItemStack itemStack) {
+        ItemMeta meta = itemStack.getItemMeta();
+        PersistentDataContainer container = meta.getPersistentDataContainer();
+        container.set(this.keys.nameKey, PersistentDataType.STRING, name);
+        container.set(this.keys.powerKey, PersistentDataType.STRING, power.powerName());
+        itemStack.setItemMeta(meta);
     }
 
-    protected abstract ItemStack createItemStack();
+    protected void customizeTrinket(ItemStack itemStack) {
+        ItemMeta meta = itemStack.getItemMeta();
+        meta.displayName(getTrinketName(itemStack).decoration(TextDecoration.ITALIC, false));
+        /* TODO check if above is enough
+        Component displayName = meta.displayName();
+        if (displayName != null)
+            meta.displayName(displayName.decoration(TextDecoration.ITALIC, false));
+
+         */
+        ArrayList<Component> newLore = new ArrayList<>(lore.size());
+        newLore.addAll(getBaseInfo(itemStack));
+        newLore.addAll(getTrinketInfo(itemStack));
+        newLore.addAll(getTrinketLore(itemStack));
+        meta.lore(newLore);
+        itemStack.setItemMeta(meta);
+    }
+
+    protected Component getTrinketName(ItemStack itemStack) {
+        return trinketName;
+    }
+
+    protected List<Component> getBaseInfo(ItemStack itemStack) {
+        ArrayList<Component> result = new ArrayList<>(0);
+        PersistentDataContainer container = itemStack.getItemMeta().getPersistentDataContainer();
+        if (container.has(keys.ownerKey, PersistentDataType.STRING))
+            result.add(Component.text("Owner: ", primaryInfoColour).decoration(TextDecoration.ITALIC, false)
+                .append(Component.text(name, secondaryInfoColour)));
+        return result;
+    }
+
+    protected List<Component> getTrinketInfo(ItemStack itemStack) {
+        return List.of();
+    }
+
+    protected List<Component> getTrinketLore(ItemStack itemStack) {
+        return lore;
+    }
 
     public boolean isTrinket(ItemStack itemStack) {
         if (itemStack == null)
@@ -108,8 +162,8 @@ public abstract class Trinket {
         return name;
     }
 
-    public TextColor getInfoColour() {
-        return infoColour;
+    public TextColor getPrimaryInfoColour() {
+        return primaryInfoColour;
     }
 
     public ItemStack getItemStack() {

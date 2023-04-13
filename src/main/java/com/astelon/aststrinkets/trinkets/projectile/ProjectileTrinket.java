@@ -12,9 +12,9 @@ import org.bukkit.persistence.PersistentDataType;
 
 public abstract class ProjectileTrinket extends Trinket {
 
-    public ProjectileTrinket(AstsTrinkets plugin, NamespacedKeys keys, String name, TextColor infoColour, Power power,
+    public ProjectileTrinket(AstsTrinkets plugin, NamespacedKeys keys, String name, TextColor primaryInfoColour, Power power,
                              boolean op, String usage) {
-        super(plugin, keys, name, infoColour, power, op, usage);
+        super(plugin, keys, name, primaryInfoColour, power, op, usage);
     }
 
     public void setProjectileTrinket(Projectile projectile, ItemStack itemStack) {

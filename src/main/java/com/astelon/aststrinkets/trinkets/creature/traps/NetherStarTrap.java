@@ -57,7 +57,7 @@ public class NetherStarTrap extends CrystalTrap {
         ArrayList<Component> newLore = new ArrayList<>();
         if (container.has(keys.ownerKey, PersistentDataType.STRING)) {
             String ownerName = container.get(keys.ownerKey, PersistentDataType.STRING);
-            newLore.add(BindingPowder.getOwnerLoreLine(ownerName, infoColour));
+            newLore.add(BindingPowder.getOwnerLoreLine(ownerName, primaryInfoColour));
         }
         if (container.has(keys.trapKey, PersistentDataType.BYTE_ARRAY))
             container.remove(keys.trapKey);

@@ -19,6 +19,7 @@ import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public abstract class CrystalTrap extends CreatureAffectingTrinket {
 
@@ -27,20 +28,15 @@ public abstract class CrystalTrap extends CreatureAffectingTrinket {
     protected final ArrayList<Class<? extends LivingEntity>> trappableMobs;
     protected final ArrayList<Class<? extends LivingEntity>> untrappableMobs;
 
-    public CrystalTrap(AstsTrinkets plugin, MobInfoManager mobInfoManager, NamespacedKeys keys, String name,
-                       Power power, boolean op, TextColor nameColour, TextColor infoColour, String usage) {
-        super(plugin, keys, name, infoColour, power, op, usage);
+    public CrystalTrap(AstsTrinkets plugin, NamespacedKeys keys, String name, Power power, boolean op,
+                       List<Component> lore, TextColor primaryInfoColour, TextColor secondaryInfoColour,
+                       String usage, MobInfoManager mobInfoManager, TextColor nameColour) {
+        super(plugin, keys, name, power, op, lore, primaryInfoColour, secondaryInfoColour, usage);
         this.mobInfoManager = mobInfoManager;
         this.nameColour = nameColour;
         trappableMobs = new ArrayList<>();
         untrappableMobs = new ArrayList<>();
         setMobs();
-    }
-
-    public CrystalTrap(AstsTrinkets plugin, MobInfoManager mobInfoManager, NamespacedKeys keys, String name,
-                       Power power, boolean op, TextColor nameColour, String usage) {
-        this(plugin, mobInfoManager, keys, name, power, op,
-                nameColour, null, usage);
     }
 
     protected abstract void setMobs();
@@ -70,12 +66,12 @@ public abstract class CrystalTrap extends CreatureAffectingTrinket {
         ArrayList<Component> newLore = new ArrayList<>();
         if (container.has(keys.ownerKey, PersistentDataType.STRING)) {
             String ownerName = container.get(keys.ownerKey, PersistentDataType.STRING);
-            newLore.add(BindingPowder.getOwnerLoreLine(ownerName, infoColour));
+            newLore.add(BindingPowder.getOwnerLoreLine(ownerName, primaryInfoColour));
         }
         ArrayList<String> mobText = new ArrayList<>();
         mobText.add(mobInfoManager.getMobType(entity) + " info:");
         mobText.addAll(mobInfoManager.getExtraInfo(entity));
-        newLore.addAll(mobText.stream().map(line -> Component.text(line, infoColour).decoration(TextDecoration.ITALIC, false)).toList());
+        newLore.addAll(mobText.stream().map(line -> Component.text(line, primaryInfoColour).decoration(TextDecoration.ITALIC, false)).toList());
         newLore.addAll(this.itemStack.lore());
         meta.lore(newLore);
 

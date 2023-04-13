@@ -18,8 +18,17 @@ import java.util.List;
 public class TrueInvisibilityTunic extends Trinket {
 
     public TrueInvisibilityTunic(AstsTrinkets plugin, NamespacedKeys keys) {
-        super(plugin, keys, "trueInvisibilityTunic", NamedTextColor.GOLD, Power.TRUE_INVISIBILITY,
-                true, Usages.WEAR);
+        super(
+                plugin, keys, "trueInvisibilityTunic", Power.TRUE_INVISIBILITY, true, Usages.WEAR,
+                Component.text("The True Tunic of Invisibility", TextColor.fromHexString("#2C3065")),
+                List.of(Component.text("Far more powerful than the Tunic"),
+                        Component.text("of Invisibility, this unbreakable"),
+                        Component.text("artifact will make the wearer"),
+                        Component.text("invisible to everyone, no matter"),
+                        Component.text("how good their eyesight is.")),
+                NamedTextColor.GOLD,
+                null
+        );
     }
 
     @Override

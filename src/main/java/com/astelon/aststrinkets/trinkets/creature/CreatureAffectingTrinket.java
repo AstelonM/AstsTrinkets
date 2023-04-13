@@ -5,25 +5,24 @@ import com.astelon.aststrinkets.Power;
 import com.astelon.aststrinkets.trinkets.Trinket;
 import com.astelon.aststrinkets.utils.NamespacedKeys;
 import com.astelon.aststrinkets.utils.Utils;
+import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextColor;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 
+import java.util.List;
+
 //TODO InteractionBasedTrinkets?
 public abstract class CreatureAffectingTrinket extends Trinket {
 
     protected boolean petOwnerOnly;
 
-    public CreatureAffectingTrinket(AstsTrinkets plugin, NamespacedKeys keys, String name, TextColor infoColour, Power power,
-                                    boolean op, String usage) {
-        super(plugin, keys, name, infoColour, power, op, usage);
-    }
-
     public CreatureAffectingTrinket(AstsTrinkets plugin, NamespacedKeys keys, String name, Power power, boolean op,
+                                    List<Component> lore, TextColor primaryInfoColour, TextColor secondaryInfoColour,
                                     String usage) {
-        super(plugin, keys, name, power, op, usage);
+        super(plugin, keys, name, power, op, lore, primaryInfoColour, secondaryInfoColour, usage);
     }
 
     public void setPetOwnerOnly(boolean petOwnerOnly) {

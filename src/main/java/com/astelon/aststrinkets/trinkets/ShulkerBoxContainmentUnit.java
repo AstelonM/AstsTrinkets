@@ -78,7 +78,7 @@ public class ShulkerBoxContainmentUnit extends Trinket {
         ArrayList<Component> newLore = new ArrayList<>();
         if (container.has(keys.ownerKey, PersistentDataType.STRING)) {
             String ownerName = container.get(keys.ownerKey, PersistentDataType.STRING);
-            newLore.add(BindingPowder.getOwnerLoreLine(ownerName, infoColour));
+            newLore.add(BindingPowder.getOwnerLoreLine(ownerName, primaryInfoColour));
         }
         String blockName = Utils.getBlockName(shulkerBox.getType());
         ItemMeta shulkerMeta = shulkerBox.getItemMeta();
@@ -86,9 +86,9 @@ public class ShulkerBoxContainmentUnit extends Trinket {
         if (shulkerMeta != null) {
             shulkerDisplayName = shulkerMeta.displayName();
         }
-        TextComponent shulkerName = Component.text("Contains: " + blockName, infoColour);
+        TextComponent shulkerName = Component.text("Contains: " + blockName, primaryInfoColour);
         if (shulkerDisplayName != null)
-            shulkerName = shulkerName.append(Component.text(" named ", infoColour)).append(shulkerDisplayName);
+            shulkerName = shulkerName.append(Component.text(" named ", primaryInfoColour)).append(shulkerDisplayName);
         newLore.add(shulkerName.decoration(TextDecoration.ITALIC, false));
         newLore.addAll(this.itemStack.lore());
         meta.lore(newLore);
