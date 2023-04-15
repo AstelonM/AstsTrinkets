@@ -61,9 +61,10 @@ public class EntityDamageListener implements Listener {
 
     @EventHandler(ignoreCancelled = true)
     public void onEntityDamageByEntity(EntityDamageByEntityEvent event) {
-        if (!(event.getEntity() instanceof LivingEntity) && !(event.getDamager() instanceof LivingEntity))
+        if (!(event.getEntity() instanceof LivingEntity defender))
             return;
-        LivingEntity attacker = (LivingEntity) event.getDamager();
+        if (!(event.getDamager() instanceof LivingEntity attacker))
+            return;
         EntityEquipment attackerEquipment = attacker.getEquipment();
         if (attackerEquipment == null)
             return;
@@ -73,7 +74,6 @@ public class EntityDamageListener implements Listener {
                 return;
             if (!souleater.canEat(weapon))
                 return;
-            LivingEntity defender = (LivingEntity) event.getEntity();
             EntityEquipment defenderEquipment = defender.getEquipment();
             if (defenderEquipment == null)
                 return;
