@@ -61,6 +61,9 @@ public class EntityDamageListener implements Listener {
 
     @EventHandler(ignoreCancelled = true)
     public void onEntityDamageByEntity(EntityDamageByEntityEvent event) {
+        if (event.getCause() != EntityDamageEvent.DamageCause.ENTITY_ATTACK &&
+                event.getCause() != EntityDamageEvent.DamageCause.ENTITY_SWEEP_ATTACK)
+            return;
         if (!(event.getEntity() instanceof LivingEntity defender))
             return;
         if (!(event.getDamager() instanceof LivingEntity attacker))
