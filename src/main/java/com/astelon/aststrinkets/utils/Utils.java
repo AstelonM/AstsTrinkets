@@ -132,4 +132,16 @@ public class Utils {
     public static boolean isShulkerBox(ItemStack itemStack) {
         return itemStack != null && itemStack.getType().name().contains("SHULKER_BOX");
     }
+
+    public static double ensurePercentage(double source, double defaultPercentage) {
+        if (source < 0 || source > 100)
+            return defaultPercentage;
+        return source;
+    }
+
+    public static int ensurePositive(int source, int defaultValue) {
+        if (source < 0)
+            return defaultValue;
+        return source;
+    }
 }

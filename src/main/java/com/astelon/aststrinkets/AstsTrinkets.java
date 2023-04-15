@@ -16,6 +16,7 @@ import com.astelon.aststrinkets.trinkets.creature.traps.EmeraldTrap;
 import com.astelon.aststrinkets.trinkets.creature.traps.NetherStarTrap;
 import com.astelon.aststrinkets.trinkets.rocket.ReignitableRocket;
 import com.astelon.aststrinkets.trinkets.rocket.ReignitableRocketPrototype;
+import com.astelon.aststrinkets.utils.Utils;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.PluginManager;
@@ -46,7 +47,7 @@ public class AstsTrinkets extends JavaPlugin {
         pluginManager.registerEvents(new PlayerInteractListener(this, mobInfoManager, trinketManager), this);
         pluginManager.registerEvents(new FireworkListener(this, trinketManager), this);
         pluginManager.registerEvents(new ArrowListener(this, trinketManager), this);
-        pluginManager.registerEvents(new EntityDamageListener(this, trinketManager), this);
+        pluginManager.registerEvents(new EntityDamageListener(this, trinketManager, mobInfoManager), this);
         pluginManager.registerEvents(new GrindstoneListener(trinketManager), this);
         loadConfig();
         Objects.requireNonNull(getCommand("trinkets")).setExecutor(new TrinketCommand(this, trinketManager));
@@ -84,17 +85,18 @@ public class AstsTrinkets extends JavaPlugin {
         double failureChancePrototype = configuration.getDouble(reignitableRocketPrototype.getName() + ".failureChance", 33.33);
         double criticalFailureChance = configuration.getDouble(reignitableRocketPrototype.getName() + ".criticalFailureChance", 1.0);
         boolean pluginExplosion = configuration.getBoolean(reignitableRocketPrototype.getName() + ".pluginExplosion");
-        reignitableRocketPrototype.setFailures(ensurePercentage(failureChancePrototype, 33.33),
-                ensurePercentage(criticalFailureChance, 1.0));
+        reignitableRocketPrototype.setFailures(Utils.ensurePercentage(failureChancePrototype, 33.33),
+                Utils.ensurePercentage(criticalFailureChance, 1.0));
         reignitableRocketPrototype.setPluginExplosion(pluginExplosion);
         ReignitableRocket reignitableRocket = trinketManager.getReignitableRocket();
         double failureChance = configuration.getDouble(reignitableRocket.getName() + ".failureChance", 10.0);
-        reignitableRocket.setFailureChance(ensurePercentage(failureChance, 10.0));
+        reignitableRocket.setFailureChance(Utils.ensurePercentage(failureChance, 10.0));
+        Souleater souleater = trinketManager.getSouleater();
+        int cooldown = configuration.getInt(souleater.getName() + ".cooldown", 60) * 1000;
+        souleater.setCooldown(Utils.ensurePositive(cooldown, 60000));
+        double eatChance = Utils.ensurePercentage(configuration.getDouble(souleater.getName() + ".eatChance", 1.0),
+                1.0);
+        souleater.setEatChance(eatChance);
     }
 
-    private double ensurePercentage(double source, double defaultPercentage) {
-        if (source < 0 || source > 100)
-            return defaultPercentage;
-        return source;
-    }
 }

@@ -178,3 +178,12 @@ lifeWater:
   enabled: true
   # Whether only the owner of a pet can make it invulnerable. Bypassed with aststrinkets.trinket.ignorepetowner.
   petOwnerOnly: false
+
+# A netherite sword that has a chance to "eat" a random enchantment of the equipment (armour + hands) of those it hits.
+# It does so by lowering the level of the enchantment by 1, or by removing it if it would reach 0 or less.
+souleater:
+  enabled: true
+  # The minimum time between two uses, in seconds.
+  cooldown: 60
+  # The chance that the Souleater will consume one of the enchants of those it strikes.
+  eatChance: 1.0

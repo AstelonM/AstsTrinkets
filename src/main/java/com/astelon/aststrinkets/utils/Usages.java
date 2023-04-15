@@ -25,4 +25,5 @@ public final class Usages {
             "5. You can retrieve the shulker box by placing down the trinket or by right clicking air while sneaking " +
             "with the trinket in your hand.";
     public static final String INTERACT_ENTITY = "Right click an entity that has a baby form using the trinket.";
+    public static final String HIT_AND_DAMAGE = "Hit a player or creature and damage them.";
 }

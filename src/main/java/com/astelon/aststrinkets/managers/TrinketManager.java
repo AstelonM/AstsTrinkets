@@ -79,6 +79,7 @@ public class TrinketManager {
         addTrinket(new DivingHelmet(plugin, keys));
         addTrinket(new HydraulicBoots(plugin, keys));
         addTrinket(new LifeWater(plugin, keys));
+        addTrinket(new Souleater(plugin, keys));
     }
 
     private void addTrinket(Trinket trinket) {
@@ -339,5 +340,9 @@ public class TrinketManager {
 
     public LifeWater getLifeWater() {
         return (LifeWater) getTrinketExact("lifeWater");
+    }
+
+    public Souleater getSouleater() {
+        return (Souleater) getTrinketExact("souleater");
     }
 }
