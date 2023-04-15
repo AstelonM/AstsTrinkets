@@ -187,3 +187,10 @@ souleater:
   cooldown: 60
   # The chance that the Souleater will consume one of the enchants of those it strikes.
   eatChance: 1.0
+
+# A random creature hatches from this egg when thrown. Unlike regular eggs, it will always hatch something.
+mysteryEgg:
+  enabled: true
+  # These mobs should not spawn from the eggs.
+  # A complete list of options can be found here: https://jd.papermc.io/paper/1.18/org/bukkit/entity/EntityType.html
+  blacklist: []

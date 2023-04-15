@@ -14,14 +14,17 @@ import com.astelon.aststrinkets.trinkets.creature.traps.AmethystTrap;
 import com.astelon.aststrinkets.trinkets.creature.traps.DiamondTrap;
 import com.astelon.aststrinkets.trinkets.creature.traps.EmeraldTrap;
 import com.astelon.aststrinkets.trinkets.creature.traps.NetherStarTrap;
+import com.astelon.aststrinkets.trinkets.projectile.MysteryEgg;
 import com.astelon.aststrinkets.trinkets.rocket.ReignitableRocket;
 import com.astelon.aststrinkets.trinkets.rocket.ReignitableRocketPrototype;
 import com.astelon.aststrinkets.utils.Utils;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.entity.EntityType;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 
@@ -49,6 +52,7 @@ public class AstsTrinkets extends JavaPlugin {
         pluginManager.registerEvents(new ArrowListener(this, trinketManager), this);
         pluginManager.registerEvents(new EntityDamageListener(this, trinketManager, mobInfoManager), this);
         pluginManager.registerEvents(new GrindstoneListener(trinketManager), this);
+        pluginManager.registerEvents(new ProjectileListener(this, trinketManager, mobInfoManager), this);
         loadConfig();
         Objects.requireNonNull(getCommand("trinkets")).setExecutor(new TrinketCommand(this, trinketManager));
     }
@@ -97,5 +101,20 @@ public class AstsTrinkets extends JavaPlugin {
         double eatChance = Utils.ensurePercentage(configuration.getDouble(souleater.getName() + ".eatChance", 1.0),
                 1.0);
         souleater.setEatChance(Utils.normalizeRate(eatChance));
+        MysteryEgg mysteryEgg = trinketManager.getMysteryEgg();
+        List<String> blacklist = configuration.getStringList(mysteryEgg.getName() + ".blacklist");
+        mysteryEgg.setAllowedEntities(getBlacklistedTypes(blacklist));
+    }
+
+    private HashSet<EntityType> getBlacklistedTypes(List<String> blacklist) {
+        HashSet<EntityType> result = new HashSet<>();
+        for (String typeName: blacklist) {
+            try {
+                result.add(EntityType.valueOf(typeName));
+            } catch (IllegalArgumentException e) {
+                getLogger().warning("Invalid entity type " + typeName + " in the Mystery Egg blacklist.");
+            }
+        }
+        return result;
     }
 }

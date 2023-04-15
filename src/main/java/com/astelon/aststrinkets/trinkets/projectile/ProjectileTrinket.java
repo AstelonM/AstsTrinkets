@@ -17,6 +17,11 @@ public abstract class ProjectileTrinket extends Trinket {
         super(plugin, keys, name, infoColour, power, op, usage);
     }
 
+    public ProjectileTrinket(AstsTrinkets plugin, NamespacedKeys keys, String name, Power power,
+                             boolean op, String usage) {
+        super(plugin, keys, name, power, op, usage);
+    }
+
     public void setProjectileTrinket(Projectile projectile, ItemStack itemStack) {
         PersistentDataContainer sourceContainer = itemStack.getItemMeta().getPersistentDataContainer();
         PersistentDataContainer container = projectile.getPersistentDataContainer();

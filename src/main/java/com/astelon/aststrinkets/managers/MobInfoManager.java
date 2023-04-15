@@ -29,6 +29,10 @@ public class MobInfoManager {
         return capitalize(getRawType(entity.getType()));
     }
 
+    public String getTypeName(EntityType entityType) {
+        return capitalize(getRawType(entityType));
+    }
+
     public String getTypeAndName(Entity entity) {
         String type = getMobType(entity);
         Component name = entity.customName();
