@@ -96,7 +96,6 @@ public class AstsTrinkets extends JavaPlugin {
         souleater.setCooldown(Utils.ensurePositive(cooldown, 60000));
         double eatChance = Utils.ensurePercentage(configuration.getDouble(souleater.getName() + ".eatChance", 1.0),
                 1.0);
-        souleater.setEatChance(eatChance);
+        souleater.setEatChance(Utils.normalizeRate(eatChance));
     }
-
 }
