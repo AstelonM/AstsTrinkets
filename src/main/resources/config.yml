@@ -193,4 +193,4 @@ mysteryEgg:
   enabled: true
   # These mobs should not spawn from the eggs.
   # A complete list of options can be found here: https://jd.papermc.io/paper/1.18/org/bukkit/entity/EntityType.html
-  blacklist: []
+  blacklist: [WITHER, ENDER_DRAGON]
