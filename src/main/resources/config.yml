@@ -181,6 +181,7 @@ lifeWater:
 
 # A netherite sword that has a chance to "eat" a random enchantment of the equipment (armour + hands) of those it hits.
 # It does so by lowering the level of the enchantment by 1, or by removing it if it would reach 0 or less.
+# Only triggered if the hit has at least 90% of the cooldown passed.
 souleater:
   enabled: true
   # The minimum time between two uses, in seconds.
