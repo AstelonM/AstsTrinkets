@@ -14,6 +14,7 @@ import org.bukkit.entity.Projectile;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.projectiles.ProjectileSource;
 
 public class ProjectileListener implements Listener {
 
@@ -36,8 +37,6 @@ public class ProjectileListener implements Listener {
         if (mysteryEgg.isEnabledTrinket(itemStack) && trinketManager.isOwnedBy(itemStack, player.getName())) {
             Projectile projectile = event.getProjectile();
             mysteryEgg.setProjectileTrinket(projectile, itemStack);
-            plugin.getLogger().info("Player " + player.getName() + " threw a Mystery Egg from " +
-                    Utils.locationToString(player.getLocation()) + ".");
         }
     }
 
@@ -48,8 +47,14 @@ public class ProjectileListener implements Listener {
             EntityType type = mysteryEgg.getRandomEntityType();
             event.setHatchingType(type);
             event.setHatching(true);
-            plugin.getLogger().info("Mystery Egg hatched " + mobInfoManager.getTypeName(type) + " at " +
-                    Utils.locationToString(egg.getLocation()) + ".");
+            ProjectileSource thrower = egg.getShooter();
+            if (thrower instanceof Player player) {
+                plugin.getLogger().info("Player " + player.getName() + " threw a Mystery Egg at " +
+                        Utils.locationToString(egg.getLocation()) + " and it hatched " + mobInfoManager.getTypeName(type) + ".");
+            } else {
+                plugin.getLogger().info("Mystery Egg hatched " + mobInfoManager.getTypeName(type) + " at " +
+                        Utils.locationToString(egg.getLocation()) + ".");
+            }
         }
     }
 }
