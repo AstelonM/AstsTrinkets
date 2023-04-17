@@ -41,7 +41,7 @@ public class ProjectileListener implements Listener {
         }
     }
 
-    @EventHandler(ignoreCancelled = true)
+    @EventHandler
     public void onThrownEggHatch(ThrownEggHatchEvent event) {
         Egg egg = event.getEgg();
         if (mysteryEgg.isEnabledTrinket(egg)) {
