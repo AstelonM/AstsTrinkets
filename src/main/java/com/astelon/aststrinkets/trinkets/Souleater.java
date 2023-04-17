@@ -5,7 +5,7 @@ import com.astelon.aststrinkets.Power;
 import com.astelon.aststrinkets.utils.NamespacedKeys;
 import com.astelon.aststrinkets.utils.Usages;
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.format.TextColor;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.EntityEquipment;
@@ -34,7 +34,7 @@ public class Souleater extends Trinket {
     protected ItemStack createItemStack() {
         ItemStack itemStack = new ItemStack(Material.NETHERITE_SWORD);
         ItemMeta meta = itemStack.getItemMeta();
-        meta.displayName(Component.text("The Souleater", NamedTextColor.RED));
+        meta.displayName(Component.text("The Souleater", TextColor.fromHexString("#9F1D35")));
         meta.lore(List.of(Component.text("An entity possessed this sword."),
                 Component.text("It occasionally feeds on the souls"),
                 Component.text("used to enchant the equipment of"),
