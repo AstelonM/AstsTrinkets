@@ -50,9 +50,10 @@ public class ProjectileListener implements Listener {
             ProjectileSource thrower = egg.getShooter();
             if (thrower instanceof Player player) {
                 plugin.getLogger().info("Player " + player.getName() + " threw a Mystery Egg at " +
-                        Utils.locationToString(egg.getLocation()) + " and it hatched " + mobInfoManager.getTypeName(type) + ".");
+                        Utils.locationToString(egg.getLocation()) + " and it might have hatched " +
+                        mobInfoManager.getTypeName(type) + ".");
             } else {
-                plugin.getLogger().info("Mystery Egg hatched " + mobInfoManager.getTypeName(type) + " at " +
+                plugin.getLogger().info("Mystery Egg might have hatched " + mobInfoManager.getTypeName(type) + " at " +
                         Utils.locationToString(egg.getLocation()) + ".");
             }
         }
