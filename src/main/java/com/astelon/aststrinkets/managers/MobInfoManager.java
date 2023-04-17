@@ -77,6 +77,7 @@ public class MobInfoManager {
             case CREEPER -> getCreeperInfo((Creeper) entity);
             case DONKEY -> getDonkeyInfo((Donkey) entity);
             case FOX -> getFoxInfo((Fox) entity);
+            case GOAT -> getGoatInfo((Goat) entity);
             case HORSE -> getHorseInfo((Horse) entity);
             case LLAMA -> getLlamaInfo((Llama) entity);
             case MAGMA_CUBE -> getMagmaCubeInfo((MagmaCube) entity);
@@ -158,6 +159,12 @@ public class MobInfoManager {
         if (fox.getFirstTrustedPlayer() != null || fox.getSecondTrustedPlayer() != null)
             return List.of(type, "- Trusts someone");
         return List.of(type);
+    }
+
+    private List<String> getGoatInfo(Goat goat) {
+        if (goat.isScreaming())
+            return List.of("- Screaming");
+        return List.of();
     }
 
     private List<String> getHorseInfo(Horse horse) {
