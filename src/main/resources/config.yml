@@ -189,7 +189,8 @@ souleater:
   # The chance that the Souleater will consume one of the enchants of those it strikes.
   eatChance: 1.0
 
-# A random creature hatches from this egg when thrown. Unlike regular eggs, it will always hatch something.
+# A random creature hatches from this egg when thrown.
+# Note, it is supposed to always hatch something when thrown, but a bug might be preventing that.
 mysteryEgg:
   enabled: true
   # These mobs should not spawn from the eggs.
