@@ -196,3 +196,9 @@ mysteryEgg:
   # These mobs should not spawn from the eggs.
   # A complete list of options can be found here: https://jd.papermc.io/paper/1.18/org/bukkit/entity/EntityType.html
   blacklist: [WITHER, ENDER_DRAGON]
+
+# Hold in the other hand while fishing to reduce the time it takes to lure fish.
+bait:
+  enabled: true
+  # Percentage reduced from the waiting time. Combined with lure 3, 50% makes fish appear immediately.
+  efficiency: 50.0

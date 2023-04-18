@@ -82,6 +82,7 @@ public class TrinketManager {
         addTrinket(new LifeWater(plugin, keys));
         addTrinket(new Souleater(plugin, keys));
         addTrinket(new MysteryEgg(plugin, keys));
+        addTrinket(new Bait(plugin, keys));
     }
 
     private void addTrinket(Trinket trinket) {
@@ -350,5 +351,9 @@ public class TrinketManager {
 
     public MysteryEgg getMysteryEgg() {
         return (MysteryEgg) getTrinketExact("mysteryEgg");
+    }
+
+    public Bait getBait() {
+        return (Bait) getTrinketExact("bait");
     }
 }

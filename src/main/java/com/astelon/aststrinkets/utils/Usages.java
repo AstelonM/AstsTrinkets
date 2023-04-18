@@ -27,4 +27,5 @@ public final class Usages {
     public static final String INTERACT_ENTITY = "Right click an entity that has a baby form using the trinket.";
     public static final String HIT_AND_DAMAGE = "Hit a player or creature and damage them.";
     public static final String THROW = "Throw it somewhere with right click.";
+    public static final String BAIT = "Hold in your other hand when fishing.";
 }

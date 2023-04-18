@@ -53,6 +53,7 @@ public class AstsTrinkets extends JavaPlugin {
         pluginManager.registerEvents(new EntityDamageListener(this, trinketManager, mobInfoManager), this);
         pluginManager.registerEvents(new GrindstoneListener(trinketManager), this);
         pluginManager.registerEvents(new ProjectileListener(this, trinketManager, mobInfoManager), this);
+        pluginManager.registerEvents(new FishingListener(this, trinketManager), this);
         loadConfig();
         Objects.requireNonNull(getCommand("trinkets")).setExecutor(new TrinketCommand(this, trinketManager));
     }
@@ -104,6 +105,10 @@ public class AstsTrinkets extends JavaPlugin {
         MysteryEgg mysteryEgg = trinketManager.getMysteryEgg();
         List<String> blacklist = configuration.getStringList(mysteryEgg.getName() + ".blacklist");
         mysteryEgg.setAllowedEntities(getBlacklistedTypes(blacklist));
+        Bait bait = trinketManager.getBait();
+        double efficiency = Utils.ensurePercentage(configuration.getDouble(bait.getName() + ".efficiency", 50.0),
+                50.0);
+        bait.setEfficiency(Utils.normalizeRate(efficiency));
     }
 
     private HashSet<EntityType> getBlacklistedTypes(List<String> blacklist) {

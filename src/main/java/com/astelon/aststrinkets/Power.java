@@ -29,7 +29,8 @@ public enum Power {
     PREVENT_FALL_DAMAGE("preventFallDamage"),
     INVULNERABILTY("invulnerability"),
     CONSUME_ENCHANTMENTS("consumeEnchantments"),
-    SPAWN_RANDOM_CREATURES("spawnRandomCreatures");
+    SPAWN_RANDOM_CREATURES("spawnRandomCreatures"),
+    SPEED_UP_FISHING("speedUpFishing");
 
     private final String powerName;
 
