@@ -24,6 +24,7 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemFactory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
@@ -233,6 +234,35 @@ public class TrinketManager {
                 return entity instanceof Player;
         }
         return true;
+    }
+
+    public boolean isTrinketImmune(ItemStack itemStack) {
+        ItemMeta meta = itemStack.getItemMeta();
+        if (meta == null)
+            return false;
+        PersistentDataContainer container = meta.getPersistentDataContainer();
+        return container.has(keys.trinketImmuneKey, PersistentDataType.BYTE);
+    }
+
+    public void makeTrinketImmune(ItemStack itemStack) {
+        ItemMeta meta = itemStack.getItemMeta();
+        if (meta == null) {
+            ItemFactory factory = plugin.getServer().getItemFactory();
+            meta = factory.getItemMeta(itemStack.getType());
+        }
+        PersistentDataContainer container = meta.getPersistentDataContainer();
+        container.set(keys.trinketImmuneKey, PersistentDataType.BYTE, (byte) 1);
+        itemStack.setItemMeta(meta);
+    }
+
+    public boolean isTrinketImmune(Entity entity) {
+        PersistentDataContainer container = entity.getPersistentDataContainer();
+        return container.has(keys.trinketImmuneKey, PersistentDataType.BYTE);
+    }
+
+    public void makeTrinketImmune(Entity entity) {
+        PersistentDataContainer container = entity.getPersistentDataContainer();
+        container.set(keys.trinketImmuneKey, PersistentDataType.BYTE, (byte) 1);
     }
 
     public MobInfoManager getMobInfoManager() {
