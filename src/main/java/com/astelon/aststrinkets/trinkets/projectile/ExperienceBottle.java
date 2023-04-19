@@ -56,6 +56,10 @@ public class ExperienceBottle extends ProjectileTrinket {
         return container.getOrDefault(keys.storedExperienceKey, PersistentDataType.INTEGER, -1);
     }
 
+    public long getLastUse(ItemStack itemStack) {
+        return itemStack.getItemMeta().getPersistentDataContainer().getOrDefault(keys.lastUseKey, PersistentDataType.LONG, 0L);
+    }
+
     public ItemStack fillExperienceBottle(ItemStack bottle, int experience) {
         ItemStack result = bottle.asOne();
         result.setType(Material.EXPERIENCE_BOTTLE);
@@ -64,6 +68,7 @@ public class ExperienceBottle extends ProjectileTrinket {
                 .decoration(TextDecoration.ITALIC, false));
         PersistentDataContainer container = meta.getPersistentDataContainer();
         container.set(keys.storedExperienceKey, PersistentDataType.INTEGER, experience);
+        container.set(keys.lastUseKey, PersistentDataType.LONG, System.currentTimeMillis());
         ArrayList<Component> newLore = new ArrayList<>();
         if (container.has(keys.ownerKey, PersistentDataType.STRING)) {
             List<Component> oldLore = meta.lore();

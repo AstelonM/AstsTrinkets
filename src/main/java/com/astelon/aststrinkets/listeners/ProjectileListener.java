@@ -42,6 +42,11 @@ public class ProjectileListener implements Listener {
                 Projectile projectile = event.getProjectile();
                 mysteryEgg.setProjectileTrinket(projectile, itemStack);
             } else if (experienceBottle.isEnabledTrinket(itemStack)) {
+                long lastUse = experienceBottle.getLastUse(itemStack);
+                if (System.currentTimeMillis() - lastUse <= 500L) {
+                    event.setCancelled(true);
+                    return;
+                }
                 int experience = experienceBottle.getExperience(itemStack);
                 if (experience == -1) {
                     player.sendMessage(Component.text("The experience stored in this bottle became spoiled.", NamedTextColor.RED));
