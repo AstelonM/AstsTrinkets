@@ -14,6 +14,7 @@ public class NamespacedKeys {
     public final NamespacedKey shulkerBoxKey;
     public final NamespacedKey invulnerabilitySourceKey;
     public final NamespacedKey lastUseKey;
+    public final NamespacedKey storedExperienceKey;
 
     public NamespacedKeys(AstsTrinkets plugin) {
         //TODO should make these more uniform eventually + think how to deal with the obsolete versions
@@ -26,5 +27,6 @@ public class NamespacedKeys {
         shulkerBoxKey = new NamespacedKey(plugin, "shulkerBoxKey");
         invulnerabilitySourceKey = new NamespacedKey(plugin, "invulnerabilitySource");
         lastUseKey = new NamespacedKey(plugin, "lastUse");
+        storedExperienceKey = new NamespacedKey(plugin, "storedExperience");
     }
 }

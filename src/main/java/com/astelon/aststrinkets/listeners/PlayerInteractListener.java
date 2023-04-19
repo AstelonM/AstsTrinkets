@@ -6,6 +6,7 @@ import com.astelon.aststrinkets.managers.TrinketManager;
 import com.astelon.aststrinkets.trinkets.*;
 import com.astelon.aststrinkets.trinkets.creature.*;
 import com.astelon.aststrinkets.trinkets.creature.traps.*;
+import com.astelon.aststrinkets.trinkets.projectile.ExperienceBottle;
 import com.astelon.aststrinkets.utils.Utils;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -39,6 +40,7 @@ public class PlayerInteractListener implements Listener {
     private final NetherStarTrap netherStarTrap;
     private final ShulkerBoxContainmentUnit shulkerBoxContainmentUnit;
     private final LifeWater lifeWater;
+    private final ExperienceBottle experienceBottle;
 
     public PlayerInteractListener(AstsTrinkets plugin, MobInfoManager mobInfoManager, TrinketManager trinketManager) {
         this.plugin = plugin;
@@ -52,6 +54,7 @@ public class PlayerInteractListener implements Listener {
         netherStarTrap = trinketManager.getNetherStarTrap();
         shulkerBoxContainmentUnit = trinketManager.getShulkerBoxContainmentUnit();
         lifeWater = trinketManager.getLifeWater();
+        experienceBottle = trinketManager.getExperienceBottle();
     }
 
     @EventHandler
@@ -181,6 +184,21 @@ public class PlayerInteractListener implements Listener {
                     int slot = event.getHand() == EquipmentSlot.HAND ? inventory.getHeldItemSlot() : Utils.OFF_HAND_SLOT;
                     Utils.transformItem(itemStack, result, slot, inventory, player);
                     player.updateInventory();
+                } else if (experienceBottle.isEnabledTrinket(itemStack)) {
+                    if (experienceBottle.hasExperience(itemStack))
+                        return;
+                    int experience = player.getTotalExperience();
+                    if (experience == 0) {
+                        player.sendMessage(Component.text("You don't have any experience to store in the bottle.",
+                                NamedTextColor.YELLOW));
+                        return;
+                    }
+                    ItemStack result = experienceBottle.fillExperienceBottle(itemStack, experience);
+                    PlayerInventory inventory = player.getInventory();
+                    int slot = event.getHand() == EquipmentSlot.HAND ? inventory.getHeldItemSlot() : Utils.OFF_HAND_SLOT;
+                    Utils.transformItem(itemStack, result, slot, inventory, player);
+                    player.updateInventory();
+                    player.setTotalExperience(0);
                 }
             }
         }

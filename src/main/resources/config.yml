@@ -202,3 +202,8 @@ bait:
   enabled: true
   # Percentage reduced from the waiting time. Combined with lure 3, 50% makes fish appear immediately.
   efficiency: 50.0
+
+# Right click air while sneaking to transfer your experience to this bottle and turn it into a Bottle o' Enchanting.
+# Throw that bottle to gain back your experience.
+experienceBottle:
+  enabled: true

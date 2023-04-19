@@ -12,6 +12,7 @@ import com.astelon.aststrinkets.trinkets.creature.traps.EmeraldTrap;
 import com.astelon.aststrinkets.trinkets.creature.traps.NetherStarTrap;
 import com.astelon.aststrinkets.trinkets.equipable.*;
 import com.astelon.aststrinkets.trinkets.projectile.DeathArrow;
+import com.astelon.aststrinkets.trinkets.projectile.ExperienceBottle;
 import com.astelon.aststrinkets.trinkets.projectile.MysteryEgg;
 import com.astelon.aststrinkets.trinkets.projectile.TrueDeathArrow;
 import com.astelon.aststrinkets.trinkets.rocket.PerfectedReignitableRocket;
@@ -83,6 +84,7 @@ public class TrinketManager {
         addTrinket(new Souleater(plugin, keys));
         addTrinket(new MysteryEgg(plugin, keys));
         addTrinket(new Bait(plugin, keys));
+        addTrinket(new ExperienceBottle(plugin, keys));
     }
 
     private void addTrinket(Trinket trinket) {
@@ -355,5 +357,9 @@ public class TrinketManager {
 
     public Bait getBait() {
         return (Bait) getTrinketExact("bait");
+    }
+
+    public ExperienceBottle getExperienceBottle() {
+        return (ExperienceBottle) getTrinketExact("experienceBottle");
     }
 }
