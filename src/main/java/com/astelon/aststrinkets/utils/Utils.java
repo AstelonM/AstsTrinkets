@@ -144,4 +144,25 @@ public class Utils {
             return defaultValue;
         return source;
     }
+
+    public static int getTotalExperience(Player player) {
+        int currentLevel = player.getLevel();
+        int experience = Math.round(getExpAtLevel(currentLevel) * player.getExp());
+        while (currentLevel > 0) {
+            currentLevel--;
+            experience += getExpAtLevel(currentLevel);
+        }
+        if (experience < 0)
+            experience = Integer.MAX_VALUE;
+        return experience;
+    }
+
+    public static int getExpAtLevel(int level) {
+        if (level <= 15)
+            return (level * 2) + 7;
+        else if (level <= 30)
+            return (level * 5) - 38;
+        else
+            return (level * 9) - 158;
+    }
 }

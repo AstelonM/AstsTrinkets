@@ -187,7 +187,7 @@ public class PlayerInteractListener implements Listener {
                 } else if (experienceBottle.isEnabledTrinket(itemStack)) {
                     if (experienceBottle.hasExperience(itemStack))
                         return;
-                    int experience = player.getTotalExperience();
+                    int experience = Utils.getTotalExperience(player);
                     if (experience == 0) {
                         player.sendMessage(Component.text("You don't have any experience to store in the bottle.",
                                 NamedTextColor.YELLOW));
@@ -199,6 +199,8 @@ public class PlayerInteractListener implements Listener {
                     Utils.transformItem(itemStack, result, slot, inventory, player);
                     player.updateInventory();
                     player.setTotalExperience(0);
+                    player.setLevel(0);
+                    player.setExp(0);
                 }
             }
         }
