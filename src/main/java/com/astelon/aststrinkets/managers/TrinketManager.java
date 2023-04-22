@@ -214,6 +214,20 @@ public class TrinketManager {
         return playerName.equals(owner);
     }
 
+    public boolean isStrictlyOwnedBy(ItemStack itemStack, String playerName) {
+        String owner = getOwner(itemStack);
+        if (owner == null)
+            return false;
+        return playerName.equals(owner);
+    }
+
+    public boolean isStrictlyOwnedBy(Projectile projectile, String playerName) {
+        String owner = getOwner(projectile);
+        if (owner == null)
+            return false;
+        return playerName.equals(owner);
+    }
+
     public boolean isOwnedWithRestrictions(ItemStack itemStack, Entity entity) {
         String owner = getOwner(itemStack);
         if (owner != null) {
