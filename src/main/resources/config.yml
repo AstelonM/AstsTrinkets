@@ -207,3 +207,11 @@ bait:
 # Throw that bottle to gain back your experience.
 experienceBottle:
   enabled: true
+
+# An unbreakable iron axe that cuts trees logs and wood instantly but deals half the damage of a regular iron axe.
+# Really loves to cut trees. If owned by a player, she doesn't enjoy being separated from them, nor does she appreciate
+# being handled by strangers.
+# Inspired by Lucy the Axe from Don't Starve Together.
+# Requires the "aststrinkets.op" permission to give.
+sentientAxe:
+  enabled: true

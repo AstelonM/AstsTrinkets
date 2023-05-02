@@ -86,6 +86,7 @@ public class TrinketManager {
         addTrinket(new MysteryEgg(plugin, keys));
         addTrinket(new Bait(plugin, keys));
         addTrinket(new ExperienceBottle(plugin, keys));
+        addTrinket(new SentientAxe(plugin, keys));
     }
 
     private void addTrinket(Trinket trinket) {
@@ -405,5 +406,9 @@ public class TrinketManager {
 
     public ExperienceBottle getExperienceBottle() {
         return (ExperienceBottle) getTrinketExact("experienceBottle");
+    }
+
+    public SentientAxe getSentientAxe() {
+        return (SentientAxe) getTrinketExact("sentientAxe");
     }
 }

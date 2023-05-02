@@ -29,4 +29,5 @@ public final class Usages {
     public static final String THROW = "Throw it somewhere with right click.";
     public static final String BAIT = "Hold in your other hand when fishing.";
     public static final String SHIFT_RIGHT_CLICK_AIR = "Hold it in your hand, then right click while sneaking.";
+    public static final String CUT_TREES = "You should cut some trees.";
 }

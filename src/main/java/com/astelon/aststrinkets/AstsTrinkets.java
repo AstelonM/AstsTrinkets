@@ -2,10 +2,7 @@ package com.astelon.aststrinkets;
 
 import com.astelon.aststrinkets.commands.TrinketCommand;
 import com.astelon.aststrinkets.listeners.*;
-import com.astelon.aststrinkets.managers.CakeManager;
-import com.astelon.aststrinkets.managers.InvisibilityManager;
-import com.astelon.aststrinkets.managers.MobInfoManager;
-import com.astelon.aststrinkets.managers.TrinketManager;
+import com.astelon.aststrinkets.managers.*;
 import com.astelon.aststrinkets.trinkets.*;
 import com.astelon.aststrinkets.trinkets.block.InfinityItem;
 import com.astelon.aststrinkets.trinkets.block.MysteryCake;
@@ -40,7 +37,10 @@ public class AstsTrinkets extends JavaPlugin {
         InvisibilityManager invisibilityManager = new InvisibilityManager(this);
         CakeManager cakeManager = new CakeManager(this);
         cakeManager.init();
+        SentientAxeMessageManager sentientAxeMessageManager = new SentientAxeMessageManager();
         trinketManager = new TrinketManager(this, mobInfoManager, invisibilityManager);
+        SentientAxeTaskManager sentientAxeTaskManager = new SentientAxeTaskManager(this, trinketManager,
+                sentientAxeMessageManager);
         PluginManager pluginManager = getServer().getPluginManager();
         pluginManager.registerEvents(new InvisibilityListener(this, trinketManager, invisibilityManager), this);
         pluginManager.registerEvents(new ShapeShifterListener(this, trinketManager), this);
@@ -54,6 +54,8 @@ public class AstsTrinkets extends JavaPlugin {
         pluginManager.registerEvents(new GrindstoneListener(trinketManager), this);
         pluginManager.registerEvents(new ProjectileListener(this, trinketManager, mobInfoManager), this);
         pluginManager.registerEvents(new FishingListener(this, trinketManager), this);
+        pluginManager.registerEvents(new SentientAxeListener(this, trinketManager, sentientAxeMessageManager,
+                sentientAxeTaskManager), this);
         loadConfig();
         Objects.requireNonNull(getCommand("trinkets")).setExecutor(new TrinketCommand(this, trinketManager));
     }

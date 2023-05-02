@@ -31,7 +31,8 @@ public enum Power {
     CONSUME_ENCHANTMENTS("consumeEnchantments"),
     SPAWN_RANDOM_CREATURES("spawnRandomCreatures"),
     SPEED_UP_FISHING("speedUpFishing"),
-    ABSORB_EXPERIENCE("absorbExperience");
+    ABSORB_EXPERIENCE("absorbExperience"),
+    SENTIENT_AXE("sentientAxe");
 
     private final String powerName;
 
