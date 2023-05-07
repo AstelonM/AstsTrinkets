@@ -160,7 +160,7 @@ public class PlayerInteractListener implements Listener {
                 if (trinketManager.isTrinket(mainHandItem)) {
                     useTrinkets(mainHandItem, player, block, inventory.getHeldItemSlot());
                 } else if (trinketManager.isTrinket(offHandItem)) {
-                    useTrinkets(mainHandItem, player, block, Utils.OFF_HAND_SLOT);
+                    useTrinkets(offHandItem, player, block, Utils.OFF_HAND_SLOT);
                 }
             }
         } else if (event.getAction() == Action.RIGHT_CLICK_AIR) {
