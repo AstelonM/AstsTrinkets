@@ -87,6 +87,7 @@ public class TrinketManager {
         addTrinket(new Bait(plugin, keys));
         addTrinket(new ExperienceBottle(plugin, keys));
         addTrinket(new SentientAxe(plugin, keys));
+        addTrinket(new Spellbook(plugin, keys));
     }
 
     private void addTrinket(Trinket trinket) {
@@ -410,5 +411,9 @@ public class TrinketManager {
 
     public SentientAxe getSentientAxe() {
         return (SentientAxe) getTrinketExact("sentientAxe");
+    }
+
+    public Spellbook getSpellbook() {
+        return (Spellbook) getTrinketExact("spellbook");
     }
 }

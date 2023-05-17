@@ -7,13 +7,18 @@ import com.astelon.aststrinkets.trinkets.*;
 import com.astelon.aststrinkets.trinkets.creature.*;
 import com.astelon.aststrinkets.trinkets.creature.traps.*;
 import com.astelon.aststrinkets.trinkets.projectile.ExperienceBottle;
+import com.astelon.aststrinkets.utils.CommandEvent;
 import com.astelon.aststrinkets.utils.Utils;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.command.CommandException;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.*;
+import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
@@ -26,6 +31,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public class PlayerInteractListener implements Listener {
 
@@ -41,6 +47,7 @@ public class PlayerInteractListener implements Listener {
     private final ShulkerBoxContainmentUnit shulkerBoxContainmentUnit;
     private final LifeWater lifeWater;
     private final ExperienceBottle experienceBottle;
+    private final Spellbook spellbook;
 
     public PlayerInteractListener(AstsTrinkets plugin, MobInfoManager mobInfoManager, TrinketManager trinketManager) {
         this.plugin = plugin;
@@ -55,6 +62,7 @@ public class PlayerInteractListener implements Listener {
         shulkerBoxContainmentUnit = trinketManager.getShulkerBoxContainmentUnit();
         lifeWater = trinketManager.getLifeWater();
         experienceBottle = trinketManager.getExperienceBottle();
+        spellbook = trinketManager.getSpellbook();
     }
 
     @EventHandler
@@ -62,13 +70,13 @@ public class PlayerInteractListener implements Listener {
         Player player = event.getPlayer();
         EquipmentSlot hand = event.getHand();
         PlayerInventory inventory = player.getInventory();
-        ItemStack item = hand == EquipmentSlot.HAND ? inventory.getItemInMainHand() : inventory.getItemInOffHand();
+        ItemStack itemStack = hand == EquipmentSlot.HAND ? inventory.getItemInMainHand() : inventory.getItemInOffHand();
         Entity rightClicked = event.getRightClicked();
         if (!(rightClicked instanceof LivingEntity entity))
             return;
         int slot = hand == EquipmentSlot.HAND ? inventory.getHeldItemSlot() : Utils.OFF_HAND_SLOT;
-        if (trinketManager.isOwnedBy(item, player.getName())) {
-            if (youthMilk.isEnabledTrinket(item) && event.getRightClicked() instanceof Ageable ageable) {
+        if (trinketManager.isOwnedBy(itemStack, player.getName())) {
+            if (youthMilk.isEnabledTrinket(itemStack) && event.getRightClicked() instanceof Ageable ageable) {
                 if (!ageable.isAdult())
                     return;
                 if (youthMilk.petOwnedByOtherPlayer(ageable, player)) {
@@ -82,19 +90,19 @@ public class PlayerInteractListener implements Listener {
                 event.setCancelled(true);
                 //TODO check ageLock?
                 ageable.setBaby();
-                Utils.transformItem(item, new ItemStack(Material.BUCKET), slot, inventory, player);
+                Utils.transformItem(itemStack, new ItemStack(Material.BUCKET), slot, inventory, player);
                 player.updateInventory();
                 plugin.getLogger().info("Youth milk used on " + mobInfoManager.getTypeAndName(ageable) + " at " +
                         Utils.locationToString(ageable.getLocation()) + " by player " + player.getName() + ".");
-            } else if (diamondTrap.isEnabledTrinket(item)) {
-                trapEntity(diamondTrap, item, entity, slot, inventory, player);
-            } else if (emeraldTrap.isEnabledTrinket(item)) {
-                trapEntity(emeraldTrap, item, entity, slot, inventory, player);
-            } else if (amethystTrap.isEnabledTrinket(item)) {
-                trapEntity(amethystTrap, item, entity, slot, inventory, player);
-            } else if (netherStarTrap.isEnabledTrinket(item)) {
-                trapEntity(netherStarTrap, item, entity, slot, inventory, player);
-            } else if (lifeWater.isEnabledTrinket(item)) {
+            } else if (diamondTrap.isEnabledTrinket(itemStack)) {
+                trapEntity(diamondTrap, itemStack, entity, slot, inventory, player);
+            } else if (emeraldTrap.isEnabledTrinket(itemStack)) {
+                trapEntity(emeraldTrap, itemStack, entity, slot, inventory, player);
+            } else if (amethystTrap.isEnabledTrinket(itemStack)) {
+                trapEntity(amethystTrap, itemStack, entity, slot, inventory, player);
+            } else if (netherStarTrap.isEnabledTrinket(itemStack)) {
+                trapEntity(netherStarTrap, itemStack, entity, slot, inventory, player);
+            } else if (lifeWater.isEnabledTrinket(itemStack)) {
                 if (!(entity instanceof Mob mob))
                     return;
                 if (mob.isInvulnerable())
@@ -105,10 +113,23 @@ public class PlayerInteractListener implements Listener {
                 }
                 event.setCancelled(true);
                 lifeWater.makeInvulnerable(mob, player);
-                Utils.transformItem(item, new ItemStack(Material.GLASS_BOTTLE), slot, inventory, player);
+                Utils.transformItem(itemStack, new ItemStack(Material.GLASS_BOTTLE), slot, inventory, player);
                 player.updateInventory();
                 plugin.getLogger().info("Life water used on " + mobInfoManager.getTypeAndName(mob) + " at " +
                         Utils.locationToString(mob.getLocation()) + " by player " + player.getName() + ".");
+            } else if (spellbook.isEnabledTrinket(itemStack)) {
+                event.setCancelled(true);
+                HashMap<String, String> placeholders = new HashMap<>();
+                placeholders.put("<playerName>", player.getName());
+                placeholders.put("<playerCoords>", Utils.serializeCoordsCommand(player.getLocation()));
+                placeholders.put("<targetCoords>", Utils.serializeCoordsCommand(entity.getLocation()));
+                if (entity instanceof Player targetPlayer) {
+                    placeholders.put("<targetPlayerName>", targetPlayer.getName());
+                    useSpellbook(itemStack, player, placeholders, CommandEvent.INTERACT_PLAYER, slot);
+                } else {
+                    placeholders.put("<mobType>", entity.getType().name());
+                    useSpellbook(itemStack, player, placeholders, CommandEvent.INTERACT_MOB, slot);
+                }
             }
         }
     }
@@ -150,11 +171,27 @@ public class PlayerInteractListener implements Listener {
     public void onPlayerInteract(PlayerInteractEvent event) {
         if (event.getAction() == Action.RIGHT_CLICK_BLOCK) {
             Block block = event.getClickedBlock();
+            if (block == null)
+                return;
+            Player player = event.getPlayer();
+            PlayerInventory inventory = player.getInventory();
+            // If the book is in main hand, no event is triggered for offhand like it happens with regular items
+            ItemStack handItem = event.getHand() == EquipmentSlot.HAND ? inventory.getItemInMainHand() : inventory.getItemInOffHand();
+            int slot = event.getHand() == EquipmentSlot.HAND ? inventory.getHeldItemSlot() : Utils.OFF_HAND_SLOT;
+            if (spellbook.isEnabledTrinket(handItem)) {
+                event.setUseItemInHand(Event.Result.DENY);
+                HashMap<String, String> placeholders = new HashMap<>();
+                placeholders.put("<playerName>", player.getName());
+                placeholders.put("<playerCoords>", Utils.serializeCoordsCommand(player.getLocation()));
+                placeholders.put("<blockType>", block.getType().name());
+                placeholders.put("<targetCoords>", Utils.serializeCoordsCommand(block.getLocation()));
+                useSpellbook(handItem, player, placeholders, CommandEvent.INTERACT_BLOCK, slot);
+                //TODO exclude other trinkets possibly held in the other hand?
+                return;
+            }
             // Only checking for OFF_HAND because it is never used for specific interactions (open chests etc.), and it
             // is always called otherwise. It is used for placing blocks from offhand, though, so checking for that as well
-            if (block != null && event.getHand() == EquipmentSlot.OFF_HAND && !event.isBlockInHand()) {
-                Player player = event.getPlayer();
-                PlayerInventory inventory = player.getInventory();
+            if (event.getHand() == EquipmentSlot.OFF_HAND && !event.isBlockInHand()) {
                 ItemStack mainHandItem = inventory.getItemInMainHand();
                 ItemStack offHandItem = inventory.getItemInOffHand();
                 if (trinketManager.isTrinket(mainHandItem)) {
@@ -171,6 +208,8 @@ public class PlayerInteractListener implements Listener {
             if (itemStack == null)
                 return;
             if (trinketManager.isOwnedBy(itemStack, player.getName())) {
+                PlayerInventory inventory = player.getInventory();
+                int slot = event.getHand() == EquipmentSlot.HAND ? inventory.getHeldItemSlot() : Utils.OFF_HAND_SLOT;
                 if (shulkerBoxContainmentUnit.isEnabledTrinket(itemStack)) {
                     if (!shulkerBoxContainmentUnit.hasShulkerBox(itemStack))
                         return;
@@ -180,8 +219,6 @@ public class PlayerInteractListener implements Listener {
                                 "shulker box within could not be retrieved.", NamedTextColor.RED));
                         return;
                     }
-                    PlayerInventory inventory = player.getInventory();
-                    int slot = event.getHand() == EquipmentSlot.HAND ? inventory.getHeldItemSlot() : Utils.OFF_HAND_SLOT;
                     Utils.transformItem(itemStack, result, slot, inventory, player);
                     player.updateInventory();
                 } else if (experienceBottle.isEnabledTrinket(itemStack)) {
@@ -194,13 +231,21 @@ public class PlayerInteractListener implements Listener {
                         return;
                     }
                     ItemStack result = experienceBottle.fillExperienceBottle(itemStack, experience);
-                    PlayerInventory inventory = player.getInventory();
-                    int slot = event.getHand() == EquipmentSlot.HAND ? inventory.getHeldItemSlot() : Utils.OFF_HAND_SLOT;
                     Utils.transformItem(itemStack, result, slot, inventory, player);
                     player.updateInventory();
                     player.setTotalExperience(0);
                     player.setLevel(0);
                     player.setExp(0);
+                } else if (spellbook.isEnabledTrinket(itemStack)) {
+                    event.setUseItemInHand(Event.Result.DENY);
+                    HashMap<String, String> placeholders = new HashMap<>();
+                    placeholders.put("<playerName>", player.getName());
+                    placeholders.put("<playerCoords>", Utils.serializeCoordsCommand(player.getLocation()));
+                    if (slot == Utils.OFF_HAND_SLOT)
+                        placeholders.put("<otherHandItemType>", player.getInventory().getItemInMainHand().getType().name());
+                    else
+                        placeholders.put("<otherHandItemType>", player.getInventory().getItemInOffHand().getType().name());
+                    useSpellbook(itemStack, player, placeholders, null, slot);
                 }
             }
         }
@@ -262,6 +307,94 @@ public class PlayerInteractListener implements Listener {
             return false;
         Location above = new Location(location.getWorld(), location.getBlockX(), location.getBlockY() + 1, location.getBlockZ());
         return above.getBlock().isPassable();
+    }
+
+    private void useSpellbook(ItemStack itemStack, Player player, Map<String, String> placeholders, CommandEvent actionEvent,
+                              int slot) {
+        if (spellbook.isEmpty(itemStack))
+            return;
+        String[] commands = spellbook.getCommands(itemStack);
+        if (commands == null || commands.length == 0) {
+            player.sendMessage(Component.text("This spellbook has become corrupted, and cannot be " +
+                    "used anymore.", NamedTextColor.RED));
+            return;
+        }
+        if (!spellbook.canUse(itemStack)) {
+            player.sendMessage(Component.text("You can't use this spellbook yet.", NamedTextColor.YELLOW));
+            return;
+        }
+        if (!spellbook.isFunctional(itemStack)) {
+            player.sendMessage(Component.text("This spellbook copy cannot be used.", NamedTextColor.RED));
+            return;
+        }
+        Entity targetEntity = null;
+        Block targetBlock = null;
+        boolean targetEntityComputed = false;
+        boolean targetBlockComputed = false;
+        boolean used = false;
+        for (String command: commands) {
+            String[] components = command.split("/", 2);
+            String runConfig = components[0];
+            String toExecute = components[1];
+            CommandEvent neededEvent = null;
+            if (!runConfig.isEmpty())
+                neededEvent = CommandEvent.getCommandEvent(runConfig);
+            if (!CommandEvent.matches(neededEvent, actionEvent))
+                continue;
+
+            if (neededEvent == CommandEvent.TARGET_MOB) {
+                if (!targetEntityComputed) {
+                    targetEntity = player.getTargetEntity(120);
+                    targetEntityComputed = true;
+                }
+                if (!(targetEntity instanceof LivingEntity targetMob))
+                    continue;
+                placeholders.put("<mobType>", targetMob.getType().name());
+                placeholders.put("<targetCoords>", Utils.serializeCoordsCommand(targetMob.getLocation()));
+            } else if (neededEvent == CommandEvent.TARGET_PLAYER) {
+                if (!targetEntityComputed) {
+                    targetEntity = player.getTargetEntity(120);
+                    targetEntityComputed = true;
+                }
+                if (!(targetEntity instanceof Player targetPlayer))
+                    continue;
+                placeholders.put("<targetPlayerName>", targetPlayer.getName());
+                placeholders.put("<targetCoords>", Utils.serializeCoordsCommand(targetPlayer.getLocation()));
+            } else if (neededEvent == CommandEvent.TARGET_BLOCK) {
+                if (!targetBlockComputed) {
+                    targetBlock = player.getTargetBlockExact(400);
+                    targetBlockComputed = true;
+                }
+                if (targetBlock == null)
+                    continue;
+                placeholders.put("<blockType>", targetBlock.getType().name());
+                placeholders.put("<targetCoords>", Utils.serializeCoordsCommand(targetBlock.getLocation()));
+            }
+            boolean playerRun = runConfig.contains("playerRun");
+            boolean otherHandEmpty = Material.AIR.name().equals(placeholders.get("<otherHandItemType>"));
+            if (runConfig.contains("otherHandItem") && otherHandEmpty)
+                continue;
+            if (runConfig.contains("otherHandEmpty") && !otherHandEmpty)
+                continue;
+            for (Map.Entry<String, String> entry: placeholders.entrySet()) {
+                toExecute = toExecute.replace(entry.getKey(), entry.getValue());
+            }
+            try {
+                CommandSender sender = playerRun ? player : Bukkit.getConsoleSender();
+                plugin.getLogger().info("Player " + player.getName() + " used a spellbook that ran the command: /" + toExecute);
+                Bukkit.dispatchCommand(sender, toExecute);
+                used = true;
+            } catch (CommandException ignore) {}
+        }
+        if (used) {
+            ItemStack result = spellbook.use(itemStack);
+            if (result == null)
+                itemStack.subtract();
+            else
+                Utils.transformItem(itemStack, result, slot, player.getInventory(), player);
+            player.updateInventory();
+
+        }
     }
 
     @EventHandler

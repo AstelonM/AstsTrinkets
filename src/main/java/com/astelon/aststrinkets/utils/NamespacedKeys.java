@@ -18,6 +18,10 @@ public class NamespacedKeys {
     public final NamespacedKey trinketImmuneKey;
     public final NamespacedKey customIdKey;
     public final NamespacedKey customNameKey;
+    public final NamespacedKey commandsKey;
+    public final NamespacedKey cooldownKey;
+    public final NamespacedKey remainingUsesKey;
+    public final NamespacedKey functionalCopiesKey;
 
     public NamespacedKeys(AstsTrinkets plugin) {
         //TODO should make these more uniform eventually + think how to deal with the obsolete versions
@@ -34,5 +38,9 @@ public class NamespacedKeys {
         trinketImmuneKey = new NamespacedKey(plugin, "trinketImmune");
         customIdKey = new NamespacedKey(plugin, "customId");
         customNameKey = new NamespacedKey(plugin, "customName");
+        commandsKey = new NamespacedKey(plugin, "commands");
+        cooldownKey = new NamespacedKey(plugin, "cooldown");
+        remainingUsesKey = new NamespacedKey(plugin, "remainingUses");
+        functionalCopiesKey = new NamespacedKey(plugin, "functionalCopies");
     }
 }

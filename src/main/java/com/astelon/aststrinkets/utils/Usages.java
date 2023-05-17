@@ -30,4 +30,34 @@ public final class Usages {
     public static final String BAIT = "Hold in your other hand when fishing.";
     public static final String SHIFT_RIGHT_CLICK_AIR = "Hold it in your hand, then right click while sneaking.";
     public static final String CUT_TREES = "You should cut some trees.";
+    public static final String SPELLBOOK = "To use a written spellbook, right click while sneaking with it in your hand.<br>" +
+            "To write one, write commands inside of it. You can also use several tokens to change how it behaves.<br>" +
+            "The following tokens should be written on their own line:" +
+            "1. <display> - add this at the end of a page to make all the pages after it the only ones displayed.<br>" +
+            "2. <cooldown:(cooldown in seconds)> - change the cooldown of the spellbook. By default, it is 1 second.<br>" +
+            "3. <uses:(number of uses)> - set how many times the spellbook can be uses. By default, it can be used infinitely.<br>" +
+            "4. <title:(custom title here)> - set the title of the signed book to this one.<br>" +
+            "5. <noCopy> - makes the spellbook impossible to copy.<br>" +
+            "6. <functionalCopies:(original or copy)> - if set to 'original', makes copies of original work as spellbooks. " +
+            "If set to 'copy', makes copies of a copy work as spellbooks. By default, copies can be created, but not used.<br>" +
+            "The following tokens should be written inside the actual command and act as placeholders:<br>" +
+            "1. <playerName> - replaced with the name of the player that uses the spellbook.<br>" +
+            "2. <playerCoords> - replaced with the coordinates of the player using the spellbook, written as x y z.<br>" +
+            "3. <targetCoords> - replaced with the coordinates of the target of the player, be it a mob, block or player, if available.<br>" +
+            "4. <targetPlayerName> - replaced with the name of the target player, if available.<br>" +
+            "5. <mobType> - replaced with the type of the target mob, if available.<br>" +
+            "6. <blockType> - replaced with the type of the block the player is targeting, if available.<br>" +
+            "7. <otherHandItemType> - replaced with the type of the item the player is holding in the other hand. If nothing is held, " +
+            "it defaults to AIR.<br>" +
+            "The following tokens should be written right before the command, with no spaces between:<br>" +
+            "1. <playerRun> - the command is run by the player using the spellbook, instead of by console.<br>" +
+            "2. <otherHandItem> - the command is run only if the player has an item in the other hand.<br>" +
+            "3. <otherHandEmpty> - the command is run only if the player has the other hand empty.<br>" +
+            "4. <interactPlayer> - the command is run only if the player is right clicking another player.<br>" +
+            "5. <interactMob> - the command is run only if the player is right clicking a mob.<br>" +
+            "6. <interactBlock> - the command is run only if the player is right clicking a block.<br>" +
+            "7. <targetPlayer> - the command is run only if the player is looking at another player. The maximum distance is " +
+            "120 blocks.<br>" +
+            "8. <targetMob> - the command is run only if the player is looking at a mob. The maximum distance is 120 blocks.<br>" +
+            "9. <targetBlock> - the command is run only if the player is looking at a block. The maximum distance is 400 blocks.";
 }

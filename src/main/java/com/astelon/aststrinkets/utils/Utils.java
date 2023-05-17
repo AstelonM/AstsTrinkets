@@ -29,6 +29,10 @@ public class Utils {
                 location.getBlockZ();
     }
 
+    public static String serializeCoordsCommand(Location location) {
+        return location.getBlockX() + " " + location.getBlockY() + " " + location.getBlockZ();
+    }
+
     public static Location deserializeCoords(String coords) {
         String[] components = coords.split(";");
         if (components.length != 4)
