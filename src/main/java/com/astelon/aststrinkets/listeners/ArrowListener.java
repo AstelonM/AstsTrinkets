@@ -56,7 +56,8 @@ public class ArrowListener implements Listener {
                 return;
             if (trinketManager.isOwnedWithRestrictions(arrow, shooterEntity)) {
                 if (deathArrow.isEnabledTrinket(arrow)) {
-                    livingEntity.damage(1000000, shooterEntity);
+                    event.setDamage(1000000);
+                    livingEntity.setHealth(0);
                     logDeath(deathArrow, shooterEntity, livingEntity);
                 }
             }
