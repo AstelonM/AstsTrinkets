@@ -20,6 +20,7 @@ permissions:
       aststrinkets.command.clear: true
       aststrinkets.command.reload: true
       aststrinkets.command.help: true
+      aststrinkets.command.debug: true
 
       aststrinkets.trinket.seeinvisible: true
       aststrinkets.trinket.unboundinfinityitem: true
@@ -37,6 +38,8 @@ permissions:
   aststrinkets.command.help:
     description: Allows using the help command.
     default: true
+  aststrinkets.command.debug:
+    description: Allows using the debug command.
 
   # Trinket permissions
   aststrinkets.trinket.seeinvisible:

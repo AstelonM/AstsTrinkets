@@ -2,8 +2,13 @@ package com.astelon.aststrinkets.utils;
 
 import com.astelon.aststrinkets.AstsTrinkets;
 import org.bukkit.NamespacedKey;
+import org.bukkit.persistence.PersistentDataType;
+
+import java.util.HashMap;
 
 public class NamespacedKeys {
+
+    private HashMap<NamespacedKey, PersistentDataType<?, ?>> keys;
 
     public final NamespacedKey nameKey;
     public final NamespacedKey powerKey;
@@ -42,5 +47,32 @@ public class NamespacedKeys {
         cooldownKey = new NamespacedKey(plugin, "cooldown");
         remainingUsesKey = new NamespacedKey(plugin, "remainingUses");
         functionalCopiesKey = new NamespacedKey(plugin, "functionalCopies");
+
+        initKeyMap();
+    }
+
+    private void initKeyMap() {
+        keys = new HashMap<>();
+        keys.put(nameKey, PersistentDataType.STRING);
+        keys.put(powerKey, PersistentDataType.STRING);
+        keys.put(ownerKey, PersistentDataType.STRING);
+        keys.put(trapKey, PersistentDataType.BYTE_ARRAY);
+        keys.put(failureChanceKey, PersistentDataType.DOUBLE);
+        keys.put(criticalFailureChanceKey, PersistentDataType.DOUBLE);
+        keys.put(shulkerBoxKey, PersistentDataType.BYTE_ARRAY);
+        keys.put(invulnerabilitySourceKey, PersistentDataType.STRING);
+        keys.put(lastUseKey, PersistentDataType.LONG);
+        keys.put(storedExperienceKey, PersistentDataType.INTEGER);
+        keys.put(trinketImmuneKey, PersistentDataType.BYTE);
+        keys.put(customIdKey, PersistentDataType.STRING);
+        keys.put(customNameKey, PersistentDataType.STRING);
+        keys.put(commandsKey, PersistentDataType.STRING);
+        keys.put(cooldownKey, PersistentDataType.INTEGER);
+        keys.put(remainingUsesKey, PersistentDataType.INTEGER);
+        keys.put(functionalCopiesKey, PersistentDataType.BYTE);
+    }
+
+    public HashMap<NamespacedKey, PersistentDataType<?, ?>> getKeyMap() {
+        return keys;
     }
 }

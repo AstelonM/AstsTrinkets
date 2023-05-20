@@ -25,6 +25,7 @@ public class TrinketCommand implements TabExecutor {
         addSubcommand(new ClearCommand(plugin, trinketManager));
         addSubcommand(new ReloadCommand(plugin, trinketManager));
         addSubcommand(new HelpCommand(plugin, trinketManager));
+        addSubcommand(new DebugCommand(plugin, trinketManager));
     }
 
     private void addSubcommand(Subcommand subcommand) {

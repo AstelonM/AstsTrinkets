@@ -19,6 +19,8 @@ import com.astelon.aststrinkets.trinkets.rocket.PerfectedReignitableRocket;
 import com.astelon.aststrinkets.trinkets.rocket.ReignitableRocket;
 import com.astelon.aststrinkets.trinkets.rocket.ReignitableRocketPrototype;
 import com.astelon.aststrinkets.utils.NamespacedKeys;
+import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -283,6 +285,22 @@ public class TrinketManager {
 
     public MobInfoManager getMobInfoManager() {
         return mobInfoManager;
+    }
+
+    public HashMap<String, Object> getPresentKeys(ItemStack itemStack) {
+        if (itemStack == null || itemStack.getType() == Material.AIR)
+            throw new IllegalArgumentException("ItemStack cannot be null or air.");
+        ItemMeta meta = itemStack.getItemMeta();
+        HashMap<String, Object> result = new HashMap<>();
+        if (meta == null)
+            return result;
+        PersistentDataContainer container = meta.getPersistentDataContainer();
+        for (Map.Entry<NamespacedKey, PersistentDataType<?, ?>> entry: keys.getKeyMap().entrySet()) {
+            if (container.has(entry.getKey(), entry.getValue())) {
+                result.put(entry.getKey().getKey(), container.get(entry.getKey(), entry.getValue()));
+            }
+        }
+        return result;
     }
 
     public FragileInvisibilityTunic getFragileInvisibilityTunic() {
