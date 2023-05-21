@@ -65,6 +65,8 @@ public class ProjectileListener implements Listener {
             EntityType type = mysteryEgg.getRandomEntityType();
             event.setHatchingType(type);
             event.setHatching(true);
+            if (event.getNumHatches() == 0)
+                event.setNumHatches((byte) 1);
             ProjectileSource thrower = egg.getShooter();
             if (thrower instanceof Player player) {
                 plugin.getLogger().info("Player " + player.getName() + " threw a Mystery Egg at " +
