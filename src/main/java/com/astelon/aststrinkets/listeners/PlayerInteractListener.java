@@ -32,8 +32,12 @@ import org.bukkit.inventory.PlayerInventory;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class PlayerInteractListener implements Listener {
+
+    private static final Pattern WORLD_PATTERN = Pattern.compile("<world:(.+)>");
 
     private final AstsTrinkets plugin;
     private final MobInfoManager mobInfoManager;
@@ -378,6 +382,12 @@ public class PlayerInteractListener implements Listener {
                 continue;
             for (Map.Entry<String, String> entry: placeholders.entrySet()) {
                 toExecute = toExecute.replace(entry.getKey(), entry.getValue());
+            }
+            Matcher matcher = WORLD_PATTERN.matcher(runConfig);
+            if (matcher.find()) {
+                String worldName = matcher.group(1);
+                if (worldName != null && !player.getWorld().getName().equals(worldName))
+                    continue;
             }
             try {
                 CommandSender sender = playerRun ? player : Bukkit.getConsoleSender();

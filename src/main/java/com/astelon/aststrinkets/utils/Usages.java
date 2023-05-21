@@ -59,5 +59,6 @@ public final class Usages {
             "7. <targetPlayer> - the command is run only if the player is looking at another player. The maximum distance is " +
             "120 blocks.<br>" +
             "8. <targetMob> - the command is run only if the player is looking at a mob. The maximum distance is 120 blocks.<br>" +
-            "9. <targetBlock> - the command is run only if the player is looking at a block. The maximum distance is 400 blocks.";
+            "9. <targetBlock> - the command is run only if the player is looking at a block. The maximum distance is 400 blocks.<br>" +
+            "10. <world:(world name)> - the command is run only if the player is in the specified world.";
 }
