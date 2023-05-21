@@ -12,6 +12,7 @@ import com.astelon.aststrinkets.trinkets.creature.traps.DiamondTrap;
 import com.astelon.aststrinkets.trinkets.creature.traps.EmeraldTrap;
 import com.astelon.aststrinkets.trinkets.creature.traps.NetherStarTrap;
 import com.astelon.aststrinkets.trinkets.projectile.MysteryEgg;
+import com.astelon.aststrinkets.trinkets.rocket.PerfectedReignitableRocket;
 import com.astelon.aststrinkets.trinkets.rocket.ReignitableRocket;
 import com.astelon.aststrinkets.trinkets.rocket.ReignitableRocketPrototype;
 import com.astelon.aststrinkets.utils.Utils;
@@ -95,10 +96,17 @@ public class AstsTrinkets extends JavaPlugin {
         boolean pluginExplosion = configuration.getBoolean(reignitableRocketPrototype.getName() + ".pluginExplosion");
         reignitableRocketPrototype.setFailures(Utils.ensurePercentage(failureChancePrototype, 33.33),
                 Utils.ensurePercentage(criticalFailureChance, 1.0));
+        reignitableRocketPrototype.setAllowUseAsFirework(configuration.getBoolean(reignitableRocketPrototype.getName() +
+                ".allowUseAsFirework", false));
         reignitableRocketPrototype.setPluginExplosion(pluginExplosion);
         ReignitableRocket reignitableRocket = trinketManager.getReignitableRocket();
         double failureChance = configuration.getDouble(reignitableRocket.getName() + ".failureChance", 10.0);
         reignitableRocket.setFailureChance(Utils.ensurePercentage(failureChance, 10.0));
+        reignitableRocket.setAllowUseAsFirework(configuration.getBoolean(reignitableRocket.getName() +
+                ".allowUseAsFirework", false));
+        PerfectedReignitableRocket perfectedReignitableRocket = trinketManager.getPerfectedReignitableRocket();
+        perfectedReignitableRocket.setAllowUseAsFirework(configuration.getBoolean(perfectedReignitableRocket.getName() +
+                ".allowUseAsFirework", false));
         Souleater souleater = trinketManager.getSouleater();
         int cooldown = configuration.getInt(souleater.getName() + ".cooldown", 60) * 1000;
         souleater.setCooldown(Utils.ensurePositive(cooldown, 60000));

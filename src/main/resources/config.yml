@@ -128,17 +128,23 @@ reignitableRocketPrototype:
   # and you want them to take damage as intended.
   # Warning: it can have some undesired side effects to nearby entities that are supposed to be protected from damage.
   pluginExplosion: false
+  # Set to false to prevent the trinket from being used as a regular firework rocket.
+  allowUseAsFirework: false
 
 # Works the same as the prototype, except it no longer causes explosions. On failure, it is simply consumed.
 reignitableRocket:
   enabled: true
   # Percentage of uses that result in the rocket being consumed.
   failureChance: 10.0
+  # Set to false to prevent the trinket from being used as a regular firework rocket.
+  allowUseAsFirework: false
 
 # A firework rocket that can be reused to boost an elytra. It has no chance of failure.
 # It needs "aststrinkets.op" permission to give.
 perfectedReignitableRocket:
   enabled: true
+  # Set to false to prevent the trinket from being used as a regular firework rocket.
+  allowUseAsFirework: false
 
 # An arrow that will kill anything it manages to damage. If the arrow has no owner, it will work even if shot by a mob.
 # If it has one though, it will only work if it is shot directly by the owner.

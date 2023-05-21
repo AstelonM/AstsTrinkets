@@ -19,7 +19,7 @@ import org.bukkit.persistence.PersistentDataType;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ReignitableRocketPrototype extends Trinket {
+public class ReignitableRocketPrototype extends FireworkTrinket {
 
     private boolean pluginExplosion;
 

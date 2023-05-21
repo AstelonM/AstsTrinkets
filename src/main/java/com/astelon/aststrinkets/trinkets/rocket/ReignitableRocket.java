@@ -19,7 +19,7 @@ import org.bukkit.persistence.PersistentDataType;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ReignitableRocket extends Trinket {
+public class ReignitableRocket extends FireworkTrinket {
 
     public ReignitableRocket(AstsTrinkets plugin, NamespacedKeys keys) {
         super(plugin, keys, "reignitableRocket", TextColor.fromHexString("#5FB036"), Power.REIGNITION,

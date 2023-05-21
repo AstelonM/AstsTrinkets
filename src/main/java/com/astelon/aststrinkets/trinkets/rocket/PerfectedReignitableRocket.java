@@ -13,7 +13,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.List;
 
-public class PerfectedReignitableRocket extends Trinket {
+public class PerfectedReignitableRocket extends FireworkTrinket {
 
     public PerfectedReignitableRocket(AstsTrinkets plugin, NamespacedKeys keys) {
         super(plugin, keys, "perfectedReignitableRocket", TextColor.fromHexString("#726780"),
