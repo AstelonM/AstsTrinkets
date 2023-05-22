@@ -7,6 +7,8 @@ import com.astelon.aststrinkets.utils.Usages;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextColor;
 import net.kyori.adventure.text.format.TextDecoration;
+import net.kyori.adventure.text.minimessage.MiniMessage;
+import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
 import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
@@ -27,8 +29,13 @@ public class Spellbook extends Trinket {
     private static final Pattern TITLE_PATTERN = Pattern.compile("<title:(.+)>");
     private static final Pattern FUNCTIONAL_COPIES_PATTERN = Pattern.compile("<functionalCopies:(original|copy)>");
 
+    private final Component useUsage;
+
     public Spellbook(AstsTrinkets plugin, NamespacedKeys keys) {
-        super(plugin, keys, "spellbook", Power.RUN_COMMANDS, true, Usages.SPELLBOOK);
+        super(plugin, keys, "spellbook", Power.RUN_COMMANDS, true, Usages.SPELLBOOK_CREATE);
+        useUsage = MiniMessage.miniMessage().deserialize("<gold>How to use: <trinketname></gold><br><trinketusage>",
+                Placeholder.component("trinketname", this.itemStack.displayName().hoverEvent(this.itemStack.asHoverEvent())),
+                Placeholder.parsed("trinketusage", "<green>" + Usages.SPELLBOOK_USE));
     }
 
     @Override
@@ -221,5 +228,11 @@ public class Spellbook extends Trinket {
 
     private String[] deserializeCommands(String commands) {
         return commands.split("<end>");
+    }
+
+    public Component getUsage(ItemStack spellbook) {
+        if (isEmpty(spellbook))
+            return super.getUsage();
+        return useUsage;
     }
 }

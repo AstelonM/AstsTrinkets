@@ -2,6 +2,7 @@ package com.astelon.aststrinkets.commands.subcommands;
 
 import com.astelon.aststrinkets.AstsTrinkets;
 import com.astelon.aststrinkets.managers.TrinketManager;
+import com.astelon.aststrinkets.trinkets.Spellbook;
 import com.astelon.aststrinkets.trinkets.Trinket;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -14,8 +15,11 @@ import java.util.List;
 
 public class HelpCommand extends Subcommand {
 
+    private final Spellbook spellbook;
+
     public HelpCommand(AstsTrinkets plugin, TrinketManager trinketManager) {
         super(plugin, trinketManager, "help", "aststrinkets.command.help");
+        spellbook = trinketManager.getSpellbook();
     }
 
     @Override
@@ -25,19 +29,20 @@ public class HelpCommand extends Subcommand {
             return;
         }
         PlayerInventory inventory = player.getInventory();
-        ItemStack mainHandItem = inventory.getItemInMainHand();
-        Trinket trinket = trinketManager.getTrinket(mainHandItem);
-        if (trinket != null) {
-            player.sendMessage(trinket.getUsage());
+        ItemStack itemStack = inventory.getItemInMainHand();
+        Trinket trinket = trinketManager.getTrinket(itemStack);
+        if (trinket == null) {
+            itemStack = inventory.getItemInOffHand();
+            trinket = trinketManager.getTrinket(itemStack);
+        }
+        if (trinket == null) {
+            player.sendMessage(Component.text("You are not holding any trinket.", NamedTextColor.RED));
             return;
         }
-        ItemStack offHandItem = inventory.getItemInOffHand();
-        trinket = trinketManager.getTrinket(offHandItem);
-        if (trinket != null) {
+        if (trinket instanceof Spellbook)
+            player.sendMessage(spellbook.getUsage(itemStack));
+        else
             player.sendMessage(trinket.getUsage());
-            return;
-        }
-        player.sendMessage(Component.text("You are not holding any trinket.", NamedTextColor.RED));
     }
 
     @Override

@@ -30,8 +30,10 @@ public final class Usages {
     public static final String BAIT = "Hold in your other hand when fishing.";
     public static final String SHIFT_RIGHT_CLICK_AIR = "Hold it in your hand, then right click while sneaking.";
     public static final String CUT_TREES = "You should cut some trees.";
-    public static final String SPELLBOOK = "To use a written spellbook, right click while sneaking with it in your hand.<br>" +
-            "To write one, write commands inside of it. You can also use several tokens to change how it behaves.<br>" +
+    public static final String SPELLBOOK_USE = "Depending on the spellbook, right click air, players, mobs or blocks while sneaking and " +
+            "holding the spellbook.";
+    public static final String SPELLBOOK_CREATE = "Write commands inside of the book and sign it. You can use several " +
+            "tokens to change how the commands are run.<br>" +
             "The following tokens should be written on their own line:" +
             "1. <display> - add this at the end of a page to make all the pages after it the only ones displayed.<br>" +
             "2. <cooldown:(cooldown in seconds)> - change the cooldown of the spellbook. By default, it is 1 second.<br>" +
