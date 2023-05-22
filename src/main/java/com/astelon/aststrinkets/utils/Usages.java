@@ -34,7 +34,7 @@ public final class Usages {
             "holding the spellbook.";
     public static final String SPELLBOOK_CREATE = "Write commands inside of the book and sign it. You can use several " +
             "tokens to change how the commands are run.<br>" +
-            "The following tokens should be written on their own line:" +
+            "The following tokens should be written on their own line:<br>" +
             "1. <display> - add this at the end of a page to make all the pages after it the only ones displayed.<br>" +
             "2. <cooldown:(cooldown in seconds)> - change the cooldown of the spellbook. By default, it is 1 second.<br>" +
             "3. <uses:(number of uses)> - set how many times the spellbook can be uses. By default, it can be used infinitely.<br>" +
