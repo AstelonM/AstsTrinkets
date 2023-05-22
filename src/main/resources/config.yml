@@ -196,7 +196,6 @@ souleater:
   eatChance: 1.0
 
 # A random creature hatches from this egg when thrown.
-# Note, it is supposed to always hatch something when thrown, but a bug might be preventing that.
 mysteryEgg:
   enabled: true
   # These mobs should not spawn from the eggs.
