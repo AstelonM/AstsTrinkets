@@ -2,13 +2,17 @@ package com.astelon.aststrinkets.listeners;
 
 import com.astelon.aststrinkets.AstsTrinkets;
 import com.astelon.aststrinkets.managers.TrinketManager;
+import com.astelon.aststrinkets.trinkets.block.GatewayAnchor;
 import com.astelon.aststrinkets.trinkets.block.InfinityItem;
 import com.astelon.aststrinkets.trinkets.ShulkerBoxContainmentUnit;
 import com.astelon.aststrinkets.trinkets.block.Spinneret;
+import com.astelon.aststrinkets.utils.Utils;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.block.EndGateway;
 import org.bukkit.block.ShulkerBox;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -26,6 +30,7 @@ public class BlockListener implements Listener {
     private final Spinneret spinneret;
     private final InfinityItem infinityItem;
     private final ShulkerBoxContainmentUnit shulkerBoxContainmentUnit;
+    private final GatewayAnchor gatewayAnchor;
 
     public BlockListener(AstsTrinkets plugin, TrinketManager trinketManager) {
         this.plugin = plugin;
@@ -33,6 +38,7 @@ public class BlockListener implements Listener {
         spinneret = trinketManager.getSpinneret();
         infinityItem = trinketManager.getInfinityItem();
         shulkerBoxContainmentUnit = trinketManager.getShulkerBoxContainmentUnit();
+        gatewayAnchor = trinketManager.getGatewayAnchor();
     }
 
     @EventHandler(ignoreCancelled = true)
@@ -73,6 +79,34 @@ public class BlockListener implements Listener {
                     oldState = (ShulkerBox) block.getState();
                     oldState.getInventory().setContents(shulkerInventory);
                 }
+            } else if (gatewayAnchor.isEnabledTrinket(placedItem)) {
+                if (!gatewayAnchor.hasLocation(placedItem)) {
+                    player.sendMessage(Component.text("This anchor has no location linked.", NamedTextColor.RED));
+                    event.setCancelled(true);
+                    return;
+                }
+                Location location = gatewayAnchor.getLocation(placedItem);
+                if (location == null) {
+                    player.sendMessage(Component.text("The location this anchor is linked to is corrupted.", NamedTextColor.RED));
+                    event.setCancelled(true);
+                    return;
+                }
+                if (!player.getWorld().equals(location.getWorld())) {
+                    player.sendMessage(Component.text("This anchor is linked to a location in a different world.",
+                            NamedTextColor.RED));
+                    event.setCancelled(true);
+                    return;
+                }
+                Block block = event.getBlock();
+                block.setType(Material.END_GATEWAY);
+                EndGateway gateway = (EndGateway) block.getState();
+                gateway.setAge(Long.MIN_VALUE);
+                gateway.setExactTeleport(true);
+                gateway.setExitLocation(location);
+                gateway.update(true);
+                plugin.getLogger().info("Player " + player.getName() + " created an end gateway at " +
+                        Utils.serializeCoords(block.getLocation()) + " using a Gateway Anchor " +
+                        "leading to " + Utils.serializeCoordsLogging(location));
             }
         }
         if (trinketManager.isOwnedBy(otherItem, player.getName())) {

@@ -33,7 +33,8 @@ public enum Power {
     SPEED_UP_FISHING("speedUpFishing"),
     ABSORB_EXPERIENCE("absorbExperience"),
     SENTIENT_AXE("sentientAxe"),
-    RUN_COMMANDS("runCommands");
+    RUN_COMMANDS("runCommands"),
+    CREATE_GATEWAYS("createGateways");
 
     private final String powerName;
 

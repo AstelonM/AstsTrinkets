@@ -2,6 +2,7 @@ package com.astelon.aststrinkets.managers;
 
 import com.astelon.aststrinkets.AstsTrinkets;
 import com.astelon.aststrinkets.trinkets.*;
+import com.astelon.aststrinkets.trinkets.block.GatewayAnchor;
 import com.astelon.aststrinkets.trinkets.block.InfinityItem;
 import com.astelon.aststrinkets.trinkets.block.MysteryCake;
 import com.astelon.aststrinkets.trinkets.block.Spinneret;
@@ -90,6 +91,7 @@ public class TrinketManager {
         addTrinket(new ExperienceBottle(plugin, keys));
         addTrinket(new SentientAxe(plugin, keys));
         addTrinket(new Spellbook(plugin, keys));
+        addTrinket(new GatewayAnchor(plugin, keys));
     }
 
     private void addTrinket(Trinket trinket) {
@@ -433,5 +435,9 @@ public class TrinketManager {
 
     public Spellbook getSpellbook() {
         return (Spellbook) getTrinketExact("spellbook");
+    }
+
+    public GatewayAnchor getGatewayAnchor() {
+        return (GatewayAnchor) getTrinketExact("gatewayAnchor");
     }
 }

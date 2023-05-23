@@ -4,6 +4,7 @@ import com.astelon.aststrinkets.AstsTrinkets;
 import com.astelon.aststrinkets.managers.MobInfoManager;
 import com.astelon.aststrinkets.managers.TrinketManager;
 import com.astelon.aststrinkets.trinkets.*;
+import com.astelon.aststrinkets.trinkets.block.GatewayAnchor;
 import com.astelon.aststrinkets.trinkets.creature.*;
 import com.astelon.aststrinkets.trinkets.creature.traps.*;
 import com.astelon.aststrinkets.trinkets.projectile.ExperienceBottle;
@@ -52,6 +53,7 @@ public class PlayerInteractListener implements Listener {
     private final LifeWater lifeWater;
     private final ExperienceBottle experienceBottle;
     private final Spellbook spellbook;
+    private final GatewayAnchor gatewayAnchor;
 
     public PlayerInteractListener(AstsTrinkets plugin, MobInfoManager mobInfoManager, TrinketManager trinketManager) {
         this.plugin = plugin;
@@ -67,6 +69,7 @@ public class PlayerInteractListener implements Listener {
         lifeWater = trinketManager.getLifeWater();
         experienceBottle = trinketManager.getExperienceBottle();
         spellbook = trinketManager.getSpellbook();
+        gatewayAnchor = trinketManager.getGatewayAnchor();
     }
 
     @EventHandler
@@ -250,6 +253,11 @@ public class PlayerInteractListener implements Listener {
                     else
                         placeholders.put("<otherHandItemType>", player.getInventory().getItemInOffHand().getType().name());
                     useSpellbook(itemStack, player, placeholders, null, slot);
+                } else if (gatewayAnchor.isEnabledTrinket(itemStack)) {
+                    Location location = player.getLocation();
+                    ItemStack result = gatewayAnchor.setLocation(itemStack, location);
+                    Utils.transformItem(itemStack, result, slot, inventory, player);
+                    player.updateInventory();
                 }
             }
         }

@@ -228,3 +228,9 @@ sentientAxe:
 # random players. It would be the equivalent of giving them op.
 spellbook:
   enabled: true
+
+# A respawn anchor that can be linked to your location when shift right click air, and then placed somewhere to create an
+# end gateway leading to that location.
+# Because the gateway cannot be removed by regular players, this trinket requires the "aststrinkets.op" permission to give.
+gatewayAnchor:
+  enabled: true
