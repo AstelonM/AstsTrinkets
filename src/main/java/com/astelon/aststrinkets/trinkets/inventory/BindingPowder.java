@@ -1,7 +1,8 @@
-package com.astelon.aststrinkets.trinkets;
+package com.astelon.aststrinkets.trinkets.inventory;
 
 import com.astelon.aststrinkets.AstsTrinkets;
 import com.astelon.aststrinkets.Power;
+import com.astelon.aststrinkets.trinkets.Trinket;
 import com.astelon.aststrinkets.utils.NamespacedKeys;
 import com.astelon.aststrinkets.utils.Usages;
 import net.kyori.adventure.text.Component;
@@ -49,10 +50,10 @@ public class BindingPowder extends Trinket {
         container.set(keys.ownerKey, PersistentDataType.STRING, name);
         List<Component> lore = meta.lore();
         if (lore == null)
-            meta.lore(List.of(getOwnerLoreLine(name, trinket.infoColour)));
+            meta.lore(List.of(getOwnerLoreLine(name, trinket.getInfoColour())));
         else {
             ArrayList<Component> newLore = new ArrayList<>(lore.size() + 1);
-            newLore.add(getOwnerLoreLine(name, trinket.infoColour));
+            newLore.add(getOwnerLoreLine(name, trinket.getInfoColour()));
             newLore.addAll(lore);
             meta.lore(newLore);
         }

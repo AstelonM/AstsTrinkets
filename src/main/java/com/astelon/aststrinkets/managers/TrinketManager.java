@@ -12,6 +12,7 @@ import com.astelon.aststrinkets.trinkets.creature.traps.DiamondTrap;
 import com.astelon.aststrinkets.trinkets.creature.traps.EmeraldTrap;
 import com.astelon.aststrinkets.trinkets.creature.traps.NetherStarTrap;
 import com.astelon.aststrinkets.trinkets.equipable.*;
+import com.astelon.aststrinkets.trinkets.inventory.*;
 import com.astelon.aststrinkets.trinkets.projectile.DeathArrow;
 import com.astelon.aststrinkets.trinkets.projectile.ExperienceBottle;
 import com.astelon.aststrinkets.trinkets.projectile.MysteryEgg;

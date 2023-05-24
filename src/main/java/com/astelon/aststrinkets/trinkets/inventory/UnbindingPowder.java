@@ -1,7 +1,8 @@
-package com.astelon.aststrinkets.trinkets;
+package com.astelon.aststrinkets.trinkets.inventory;
 
 import com.astelon.aststrinkets.AstsTrinkets;
 import com.astelon.aststrinkets.Power;
+import com.astelon.aststrinkets.trinkets.Trinket;
 import com.astelon.aststrinkets.utils.NamespacedKeys;
 import com.astelon.aststrinkets.utils.Usages;
 import net.kyori.adventure.text.Component;
@@ -45,7 +46,7 @@ public class UnbindingPowder extends Trinket {
         container.remove(keys.ownerKey);
         List<Component> lore = meta.lore();
         if (lore == null)
-            meta.lore(trinket.itemStack.lore());
+            meta.lore(trinket.getItemStack().lore());
         else {
             ArrayList<Component> newLore = new ArrayList<>(lore.subList(1, lore.size()));
             meta.lore(newLore);

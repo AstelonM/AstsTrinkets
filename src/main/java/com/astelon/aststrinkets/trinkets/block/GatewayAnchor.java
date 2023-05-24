@@ -2,7 +2,7 @@ package com.astelon.aststrinkets.trinkets.block;
 
 import com.astelon.aststrinkets.AstsTrinkets;
 import com.astelon.aststrinkets.Power;
-import com.astelon.aststrinkets.trinkets.BindingPowder;
+import com.astelon.aststrinkets.trinkets.inventory.BindingPowder;
 import com.astelon.aststrinkets.trinkets.Trinket;
 import com.astelon.aststrinkets.utils.NamespacedKeys;
 import com.astelon.aststrinkets.utils.Usages;
