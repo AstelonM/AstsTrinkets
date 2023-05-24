@@ -234,3 +234,8 @@ spellbook:
 # Because the gateway cannot be removed by regular players, this trinket requires the "aststrinkets.op" permission to give.
 gatewayAnchor:
   enabled: true
+
+# A thick potion which can be used on a block of amethyst with shift right click while holding it on the cursor inside the
+# inventory to turn it into a budding amethyst.
+buddingSolution:
+  enabled: true

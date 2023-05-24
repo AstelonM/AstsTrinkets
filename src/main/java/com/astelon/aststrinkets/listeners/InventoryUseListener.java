@@ -35,17 +35,19 @@ public class InventoryUseListener implements Listener {
     private final Homendingdirt homendingdirt;
     private final InfinityItem infinityItem;
     private final ShulkerBoxContainmentUnit shulkerBoxContainmentUnit;
+    private final BuddingSolution buddingSolution;
 
-    public InventoryUseListener(AstsTrinkets plugin, TrinketManager manager) {
+    public InventoryUseListener(AstsTrinkets plugin, TrinketManager trinketManager) {
         this.plugin = plugin;
-        this.trinketManager = manager;
-        this.mendingPowder = manager.getMendingPowder();
-        this.bindingPowder = manager.getBindingPowder();
-        this.unbindingPowder = manager.getUnbindingPowder();
-        this.homendirt = manager.getHomendirt();
-        this.homendingdirt = manager.getHomendingdirt();
-        this.infinityItem = manager.getInfinityItem();
-        this.shulkerBoxContainmentUnit = manager.getShulkerBoxContainmentUnit();
+        this.trinketManager = trinketManager;
+        mendingPowder = trinketManager.getMendingPowder();
+        bindingPowder = trinketManager.getBindingPowder();
+        unbindingPowder = trinketManager.getUnbindingPowder();
+        homendirt = trinketManager.getHomendirt();
+        homendingdirt = trinketManager.getHomendingdirt();
+        infinityItem = trinketManager.getInfinityItem();
+        shulkerBoxContainmentUnit = trinketManager.getShulkerBoxContainmentUnit();
+        buddingSolution = trinketManager.getBuddingSolution();
     }
 
     @EventHandler
@@ -192,6 +194,14 @@ public class InventoryUseListener implements Listener {
                     shulker.subtract();
                     player.updateInventory();
                 }
+            } else if (buddingSolution.isEnabledTrinket(heldItem)) {
+                ItemStack amethystBlock = event.getCurrentItem();
+                if (amethystBlock == null || amethystBlock.getType() != Material.AMETHYST_BLOCK)
+                    return;
+                heldItem.subtract();
+                transformItem(amethystBlock, new ItemStack(Material.BUDDING_AMETHYST), event.getSlot(), player.getInventory(), player);
+                player.updateInventory();
+                event.setCancelled(true);
             }
         }
     }

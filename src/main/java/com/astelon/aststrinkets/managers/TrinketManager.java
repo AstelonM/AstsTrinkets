@@ -93,6 +93,7 @@ public class TrinketManager {
         addTrinket(new SentientAxe(plugin, keys));
         addTrinket(new Spellbook(plugin, keys));
         addTrinket(new GatewayAnchor(plugin, keys));
+        addTrinket(new BuddingSolution(plugin, keys));
     }
 
     private void addTrinket(Trinket trinket) {
@@ -440,5 +441,9 @@ public class TrinketManager {
 
     public GatewayAnchor getGatewayAnchor() {
         return (GatewayAnchor) getTrinketExact("gatewayAnchor");
+    }
+
+    public BuddingSolution getBuddingSolution() {
+        return (BuddingSolution) getTrinketExact("buddingSolution");
     }
 }
