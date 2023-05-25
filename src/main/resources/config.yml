@@ -239,3 +239,10 @@ gatewayAnchor:
 # inventory to turn it into a budding amethyst.
 buddingSolution:
   enabled: true
+
+# An iron ingot that makes all dropped items in the given radius teleport to the player. It also causes drops from mined
+# blocks to be added to the player's inventory, if there's space.
+itemMagnet:
+  enabled: true
+  # The distance in blocks in any direction from the player that items are attracted from. High values might affect performance.
+  range: 4

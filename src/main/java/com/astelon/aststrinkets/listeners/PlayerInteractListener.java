@@ -32,6 +32,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -54,6 +55,7 @@ public class PlayerInteractListener implements Listener {
     private final ExperienceBottle experienceBottle;
     private final Spellbook spellbook;
     private final GatewayAnchor gatewayAnchor;
+    private final ItemMagnet itemMagnet;
 
     public PlayerInteractListener(AstsTrinkets plugin, MobInfoManager mobInfoManager, TrinketManager trinketManager) {
         this.plugin = plugin;
@@ -70,6 +72,7 @@ public class PlayerInteractListener implements Listener {
         experienceBottle = trinketManager.getExperienceBottle();
         spellbook = trinketManager.getSpellbook();
         gatewayAnchor = trinketManager.getGatewayAnchor();
+        itemMagnet = trinketManager.getItemMagnet();
     }
 
     @EventHandler
@@ -199,6 +202,11 @@ public class PlayerInteractListener implements Listener {
                         player.setLevel(0);
                         player.setExp(0);
                         return;
+                    } else if (itemMagnet.isEnabledTrinket(itemStack)) {
+                        int range = itemMagnet.getRange(itemStack);
+                        List<Entity> entities = player.getNearbyEntities(range, range, range);
+                        entities.stream().filter(entity -> entity instanceof Item)
+                                .forEach(item -> item.teleport(player));
                     }
                 }
             }

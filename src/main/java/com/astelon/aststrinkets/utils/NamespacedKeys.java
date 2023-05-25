@@ -28,6 +28,7 @@ public class NamespacedKeys {
     public final NamespacedKey remainingUsesKey;
     public final NamespacedKey functionalCopiesKey;
     public final NamespacedKey locationKey;
+    public final NamespacedKey rangeKey;
 
     public NamespacedKeys(AstsTrinkets plugin) {
         //TODO should make these more uniform eventually + think how to deal with the obsolete versions
@@ -49,7 +50,7 @@ public class NamespacedKeys {
         remainingUsesKey = new NamespacedKey(plugin, "remainingUses");
         functionalCopiesKey = new NamespacedKey(plugin, "functionalCopies");
         locationKey = new NamespacedKey(plugin, "location");
-
+        rangeKey = new NamespacedKey(plugin, "range");
         initKeyMap();
     }
 
@@ -73,6 +74,7 @@ public class NamespacedKeys {
         keys.put(remainingUsesKey, PersistentDataType.INTEGER);
         keys.put(functionalCopiesKey, PersistentDataType.BYTE);
         keys.put(locationKey, PersistentDataType.STRING);
+        keys.put(rangeKey, PersistentDataType.INTEGER);
     }
 
     public HashMap<NamespacedKey, PersistentDataType<?, ?>> getKeyMap() {

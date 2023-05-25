@@ -65,4 +65,6 @@ public final class Usages {
             "10. <world:(world name)> - the command is run only if the player is in the specified world.";
     public static final String LINK_AND_PLACE = "Right click air while sneaking and holding the trinket to link it to your " +
             "current location. After that, you can place it down like a block.";
+    public static final String SHIFT_RIGHT_CLICK_AND_HOLD_WHILE_MINING = SHIFT_RIGHT_CLICK + " You can also hold it in the " +
+            "other hand while mining.";
 }

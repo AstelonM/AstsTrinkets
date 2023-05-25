@@ -35,7 +35,8 @@ public enum Power {
     SENTIENT_AXE("sentientAxe"),
     RUN_COMMANDS("runCommands"),
     CREATE_GATEWAYS("createGateways"),
-    CREATE_BUDDING_AMETHYSTS("createBuddingAmethysts");
+    CREATE_BUDDING_AMETHYSTS("createBuddingAmethysts"),
+    ATTRACT_ITEMS("attractItems");
 
     private final String powerName;
 

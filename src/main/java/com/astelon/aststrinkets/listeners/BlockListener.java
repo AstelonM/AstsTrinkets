@@ -2,6 +2,7 @@ package com.astelon.aststrinkets.listeners;
 
 import com.astelon.aststrinkets.AstsTrinkets;
 import com.astelon.aststrinkets.managers.TrinketManager;
+import com.astelon.aststrinkets.trinkets.ItemMagnet;
 import com.astelon.aststrinkets.trinkets.block.GatewayAnchor;
 import com.astelon.aststrinkets.trinkets.block.InfinityItem;
 import com.astelon.aststrinkets.trinkets.ShulkerBoxContainmentUnit;
@@ -14,14 +15,20 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.EndGateway;
 import org.bukkit.block.ShulkerBox;
+import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.BlockDropItemEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.BlockStateMeta;
+
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 
 public class BlockListener implements Listener {
 
@@ -31,6 +38,7 @@ public class BlockListener implements Listener {
     private final InfinityItem infinityItem;
     private final ShulkerBoxContainmentUnit shulkerBoxContainmentUnit;
     private final GatewayAnchor gatewayAnchor;
+    private final ItemMagnet itemMagnet;
 
     public BlockListener(AstsTrinkets plugin, TrinketManager trinketManager) {
         this.plugin = plugin;
@@ -39,6 +47,7 @@ public class BlockListener implements Listener {
         infinityItem = trinketManager.getInfinityItem();
         shulkerBoxContainmentUnit = trinketManager.getShulkerBoxContainmentUnit();
         gatewayAnchor = trinketManager.getGatewayAnchor();
+        itemMagnet = trinketManager.getItemMagnet();
     }
 
     @EventHandler(ignoreCancelled = true)
@@ -113,6 +122,33 @@ public class BlockListener implements Listener {
             if (spinneret.isEnabledTrinket(otherItem)) {
                 if (event.getItemInHand().getType() == Material.STRING)
                     event.getBlock().setType(Material.COBWEB);
+            }
+        }
+    }
+
+    @EventHandler(ignoreCancelled = true)
+    public void onBlockDropItem(BlockDropItemEvent event) {
+        if (itemMagnet.isEnabled()) {
+            List<Item> items = event.getItems();
+            if (items.isEmpty())
+                return;
+            Player player = event.getPlayer();
+            PlayerInventory inventory = player.getInventory();
+            ItemStack itemStack = inventory.getItemInMainHand();
+            if (!itemMagnet.isTrinket(itemStack) || !trinketManager.isOwnedBy(itemStack, player.getName())) {
+                itemStack = inventory.getItemInOffHand();
+                if (!itemMagnet.isTrinket(itemStack) || !trinketManager.isOwnedBy(itemStack, player.getName()))
+                    return;
+            }
+            Location location = player.getLocation();
+            Iterator<Item> iterator = items.iterator();
+            while (iterator.hasNext()) {
+                Item item = iterator.next();
+                ItemStack toAdd = item.getItemStack();
+                iterator.remove();
+                HashMap<Integer, ItemStack> notAdded = inventory.addItem(toAdd);
+                for (ItemStack remaining: notAdded.values())
+                    player.getWorld().dropItem(location, remaining);
             }
         }
     }

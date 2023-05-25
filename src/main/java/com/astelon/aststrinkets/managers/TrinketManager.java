@@ -94,6 +94,7 @@ public class TrinketManager {
         addTrinket(new Spellbook(plugin, keys));
         addTrinket(new GatewayAnchor(plugin, keys));
         addTrinket(new BuddingSolution(plugin, keys));
+        addTrinket(new ItemMagnet(plugin, keys));
     }
 
     private void addTrinket(Trinket trinket) {
@@ -445,5 +446,9 @@ public class TrinketManager {
 
     public BuddingSolution getBuddingSolution() {
         return (BuddingSolution) getTrinketExact("buddingSolution");
+    }
+
+    public ItemMagnet getItemMagnet() {
+        return (ItemMagnet) getTrinketExact("itemMagnet");
     }
 }

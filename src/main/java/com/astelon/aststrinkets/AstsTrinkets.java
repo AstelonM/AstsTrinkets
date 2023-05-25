@@ -120,6 +120,9 @@ public class AstsTrinkets extends JavaPlugin {
         double efficiency = Utils.ensurePercentage(configuration.getDouble(bait.getName() + ".efficiency", 50.0),
                 50.0);
         bait.setEfficiency(Utils.normalizeRate(efficiency));
+        ItemMagnet itemMagnet = trinketManager.getItemMagnet();
+        int range = Utils.ensurePositive(configuration.getInt(itemMagnet.getName() + ".range", 4), 4);
+        itemMagnet.setRange(range);
     }
 
     private HashSet<EntityType> getBlacklistedTypes(List<String> blacklist) {
