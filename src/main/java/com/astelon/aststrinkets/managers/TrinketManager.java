@@ -10,10 +10,7 @@ import com.astelon.aststrinkets.trinkets.creature.traps.EmeraldTrap;
 import com.astelon.aststrinkets.trinkets.creature.traps.NetherStarTrap;
 import com.astelon.aststrinkets.trinkets.equipable.*;
 import com.astelon.aststrinkets.trinkets.inventory.*;
-import com.astelon.aststrinkets.trinkets.projectile.DeathArrow;
-import com.astelon.aststrinkets.trinkets.projectile.ExperienceBottle;
-import com.astelon.aststrinkets.trinkets.projectile.MysteryEgg;
-import com.astelon.aststrinkets.trinkets.projectile.TrueDeathArrow;
+import com.astelon.aststrinkets.trinkets.projectile.*;
 import com.astelon.aststrinkets.trinkets.rocket.PerfectedReignitableRocket;
 import com.astelon.aststrinkets.trinkets.rocket.ReignitableRocket;
 import com.astelon.aststrinkets.trinkets.rocket.ReignitableRocketPrototype;
@@ -93,6 +90,7 @@ public class TrinketManager {
         addTrinket(new BuddingSolution(plugin, keys));
         addTrinket(new ItemMagnet(plugin, keys));
         addTrinket(new Terrarium(plugin, keys, mobInfoManager));
+        addTrinket(new SmitingArrow(plugin, keys));
     }
 
     private void addTrinket(Trinket trinket) {
@@ -452,5 +450,9 @@ public class TrinketManager {
 
     public Terrarium getTerrarium() {
         return (Terrarium) getTrinketExact("terrarium");
+    }
+
+    public SmitingArrow getSmitingArrow() {
+        return (SmitingArrow) getTrinketExact("smitingArrow");
     }
 }

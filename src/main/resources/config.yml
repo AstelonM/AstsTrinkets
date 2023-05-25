@@ -256,3 +256,7 @@ terrarium:
   allowEnderDragonCapture: false
   # Whether only the owner of a pet can trap it. Bypassed with aststrinkets.trinket.ignorepetowner.
   petOwnerOnly: true
+
+# An arrow that summons a lightning bolt wherever it lands.
+smitingArrow:
+  enabled: true

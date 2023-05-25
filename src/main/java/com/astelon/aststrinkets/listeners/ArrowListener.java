@@ -4,15 +4,19 @@ import com.astelon.aststrinkets.AstsTrinkets;
 import com.astelon.aststrinkets.managers.TrinketManager;
 import com.astelon.aststrinkets.trinkets.projectile.DeathArrow;
 import com.astelon.aststrinkets.trinkets.Trinket;
+import com.astelon.aststrinkets.trinkets.projectile.SmitingArrow;
 import com.astelon.aststrinkets.trinkets.projectile.TrueDeathArrow;
 import com.astelon.aststrinkets.utils.Utils;
 import com.destroystokyo.paper.event.entity.ProjectileCollideEvent;
+import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityShootBowEvent;
+import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.projectiles.ProjectileSource;
 
@@ -22,12 +26,14 @@ public class ArrowListener implements Listener {
     private final TrinketManager trinketManager;
     private final DeathArrow deathArrow;
     private final TrueDeathArrow trueDeathArrow;
+    private final SmitingArrow smitingArrow;
 
     public ArrowListener(AstsTrinkets plugin, TrinketManager trinketManager) {
         this.plugin = plugin;
         this.trinketManager = trinketManager;
-        this.deathArrow = trinketManager.getDeathArrow();
-        this.trueDeathArrow = trinketManager.getTrueDeathArrow();
+        deathArrow = trinketManager.getDeathArrow();
+        trueDeathArrow = trinketManager.getTrueDeathArrow();
+        smitingArrow = trinketManager.getSmitingArrow();
     }
 
     @EventHandler(ignoreCancelled = true)
@@ -42,6 +48,8 @@ public class ArrowListener implements Listener {
                 deathArrow.setProjectileTrinket(arrow, itemStack);
             } else if (trueDeathArrow.isEnabledTrinket(itemStack)) {
                 trueDeathArrow.setProjectileTrinket(arrow, itemStack);
+            } else if (smitingArrow.isEnabledTrinket(itemStack)) {
+                smitingArrow.setProjectileTrinket(arrow, itemStack);
             }
         }
     }
@@ -77,6 +85,23 @@ public class ArrowListener implements Listener {
                     livingEntity.damage(1000000);
                     livingEntity.setHealth(0);
                     logDeath(trueDeathArrow, shooterEntity, livingEntity);
+                }
+            }
+        }
+    }
+
+    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
+    public void onProjectileHit(ProjectileHitEvent event) {
+        Projectile projectile = event.getEntity();
+        if (projectile instanceof Arrow arrow) {
+            ProjectileSource shooter = arrow.getShooter();
+            if (!(shooter instanceof Entity shooterEntity))
+                return;
+            if (trinketManager.isOwnedWithRestrictions(arrow, shooterEntity)) {
+                if (smitingArrow.isEnabledTrinket(arrow)) {
+                    World world = projectile.getWorld();
+                    Location location = projectile.getLocation();
+                    world.strikeLightning(location);
                 }
             }
         }
