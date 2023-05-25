@@ -6,6 +6,7 @@ import com.astelon.aststrinkets.managers.*;
 import com.astelon.aststrinkets.trinkets.*;
 import com.astelon.aststrinkets.trinkets.block.InfinityItem;
 import com.astelon.aststrinkets.trinkets.block.MysteryCake;
+import com.astelon.aststrinkets.trinkets.block.Terrarium;
 import com.astelon.aststrinkets.trinkets.creature.*;
 import com.astelon.aststrinkets.trinkets.creature.traps.AmethystTrap;
 import com.astelon.aststrinkets.trinkets.creature.traps.DiamondTrap;
@@ -46,7 +47,7 @@ public class AstsTrinkets extends JavaPlugin {
         pluginManager.registerEvents(new InvisibilityListener(this, trinketManager, invisibilityManager), this);
         pluginManager.registerEvents(new ShapeShifterListener(this, trinketManager), this);
         pluginManager.registerEvents(new CakeListener(this, trinketManager, cakeManager), this);
-        pluginManager.registerEvents(new BlockListener(this, trinketManager), this);
+        pluginManager.registerEvents(new BlockListener(this, trinketManager, mobInfoManager), this);
         pluginManager.registerEvents(new InventoryUseListener(this, trinketManager), this);
         pluginManager.registerEvents(new PlayerInteractListener(this, mobInfoManager, trinketManager), this);
         pluginManager.registerEvents(new FireworkListener(this, trinketManager), this);
@@ -123,6 +124,9 @@ public class AstsTrinkets extends JavaPlugin {
         ItemMagnet itemMagnet = trinketManager.getItemMagnet();
         int range = Utils.ensurePositive(configuration.getInt(itemMagnet.getName() + ".range", 4), 4);
         itemMagnet.setRange(range);
+        Terrarium terrarium = trinketManager.getTerrarium();
+        terrarium.setAllowEnderDragonCapture(configuration.getBoolean(terrarium.getName() + ".allowEnderDragonCapture"));
+        terrarium.setPetOwnerOnly(configuration.getBoolean(terrarium.getName() + ".petOwnerOnly"));
     }
 
     private HashSet<EntityType> getBlacklistedTypes(List<String> blacklist) {

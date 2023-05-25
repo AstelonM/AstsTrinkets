@@ -5,6 +5,7 @@ import com.astelon.aststrinkets.managers.MobInfoManager;
 import com.astelon.aststrinkets.managers.TrinketManager;
 import com.astelon.aststrinkets.trinkets.*;
 import com.astelon.aststrinkets.trinkets.block.GatewayAnchor;
+import com.astelon.aststrinkets.trinkets.block.Terrarium;
 import com.astelon.aststrinkets.trinkets.creature.*;
 import com.astelon.aststrinkets.trinkets.creature.traps.*;
 import com.astelon.aststrinkets.trinkets.projectile.ExperienceBottle;
@@ -56,6 +57,7 @@ public class PlayerInteractListener implements Listener {
     private final Spellbook spellbook;
     private final GatewayAnchor gatewayAnchor;
     private final ItemMagnet itemMagnet;
+    private final Terrarium terrarium;
 
     public PlayerInteractListener(AstsTrinkets plugin, MobInfoManager mobInfoManager, TrinketManager trinketManager) {
         this.plugin = plugin;
@@ -73,6 +75,7 @@ public class PlayerInteractListener implements Listener {
         spellbook = trinketManager.getSpellbook();
         gatewayAnchor = trinketManager.getGatewayAnchor();
         itemMagnet = trinketManager.getItemMagnet();
+        terrarium = trinketManager.getTerrarium();
     }
 
     @EventHandler
@@ -140,6 +143,35 @@ public class PlayerInteractListener implements Listener {
                     placeholders.put("<mobType>", entity.getType().name());
                     useSpellbook(itemStack, player, placeholders, CommandEvent.INTERACT_MOB, slot);
                 }
+            } else if (terrarium.isEnabledTrinket(itemStack)) {
+                if (!terrarium.canUse(itemStack))
+                    return;
+                if (terrarium.hasTrappedCreature(itemStack)) {
+                    player.sendMessage(Component.text("This terrarium already has a creature inside.", NamedTextColor.YELLOW));
+                    return;
+                }
+                if (!terrarium.canTrap(entity)) {
+                    player.sendMessage(Component.text("This creature cannot be trapped in the terrarium.", NamedTextColor.RED));
+                    return;
+                }
+                if (terrarium.petOwnedByOtherPlayer(entity, player)) {
+                    player.sendMessage(Component.text("You can't trap someone else's pet.", NamedTextColor.RED));
+                    return;
+                }
+                if (terrarium.isInvulnerableToPlayer(entity, player)) {
+                    player.sendMessage(Component.text("This creature is too strong to be trapped.", NamedTextColor.RED));
+                    return;
+                }
+                ItemStack result = terrarium.trapCreature(itemStack, entity);
+                if (result == null)
+                    return;
+                entity.remove();
+                Utils.transformItem(itemStack, result, slot, inventory, player);
+                player.updateInventory();
+                String mobName = mobInfoManager.getTypeAndName(entity);
+                player.sendMessage(Component.text("You trapped the " + mobName + " in the terrarium.", NamedTextColor.GOLD));
+                plugin.getLogger().info(mobName + " trapped in a Terrarium at " +
+                        Utils.locationToString(entity.getLocation()) + " by player " + player.getName() + ".");
             }
         }
     }
@@ -240,6 +272,40 @@ public class PlayerInteractListener implements Listener {
                     useTrinkets(mainHandItem, player, block, inventory.getHeldItemSlot());
                 } else if (trinketManager.isTrinket(offHandItem)) {
                     useTrinkets(offHandItem, player, block, Utils.OFF_HAND_SLOT);
+                }
+            }
+            if (event.isBlockInHand() && player.isSneaking()) {
+                if (terrarium.isEnabledTrinket(handItem)) {
+                    event.setUseItemInHand(Event.Result.DENY);
+                    if (!terrarium.canUse(handItem))
+                        return;
+                    if (!terrarium.hasTrappedCreature(handItem))
+                        return;
+                    Location originalLocation = block.getLocation();
+                    Location spawnLocation = new Location(originalLocation.getWorld(), originalLocation.getBlockX() + 0.5,
+                            originalLocation.getBlockY() + 1, originalLocation.getBlockZ() + 0.5);
+                    if (!hasEnoughSpace(spawnLocation)) {
+                        player.sendMessage(Component.text("You need at least two blocks of free space to release the creature.",
+                                NamedTextColor.RED));
+                        return;
+                    }
+                    Entity entity = terrarium.getTrappedCreature(handItem, spawnLocation.getWorld());
+                    if (entity == null) {
+                        player.sendMessage(Component.text("The creature could not be released. The terrarium might be corrupted.",
+                                NamedTextColor.RED));
+                        return;
+                    }
+                    if (!entity.spawnAt(spawnLocation)) {
+                        player.sendMessage(Component.text("You can't release this creature here. Something stopped it from " +
+                                "spawning.", NamedTextColor.RED));
+                        return;
+                    }
+                    Utils.transformItem(handItem, terrarium.emptyTerrarium(handItem), slot, player.getInventory(), player);
+                    player.updateInventory();
+                    String mobName = mobInfoManager.getTypeAndName(entity);
+                    player.sendMessage(Component.text("Successfully released the " + mobName + ".", NamedTextColor.GOLD));
+                    plugin.getLogger().info(mobName + " released from a Terrarium at " +
+                            Utils.locationToString(entity.getLocation()) + " by player " + player.getName() + ".");
                 }
             }
         } else if (event.getAction() == Action.RIGHT_CLICK_AIR) {

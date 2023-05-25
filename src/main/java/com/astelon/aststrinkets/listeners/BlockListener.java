@@ -1,20 +1,25 @@
 package com.astelon.aststrinkets.listeners;
 
 import com.astelon.aststrinkets.AstsTrinkets;
+import com.astelon.aststrinkets.managers.MobInfoManager;
 import com.astelon.aststrinkets.managers.TrinketManager;
 import com.astelon.aststrinkets.trinkets.ItemMagnet;
 import com.astelon.aststrinkets.trinkets.block.GatewayAnchor;
 import com.astelon.aststrinkets.trinkets.block.InfinityItem;
 import com.astelon.aststrinkets.trinkets.ShulkerBoxContainmentUnit;
 import com.astelon.aststrinkets.trinkets.block.Spinneret;
+import com.astelon.aststrinkets.trinkets.block.Terrarium;
 import com.astelon.aststrinkets.utils.Utils;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.block.CreatureSpawner;
 import org.bukkit.block.EndGateway;
 import org.bukkit.block.ShulkerBox;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -34,20 +39,24 @@ public class BlockListener implements Listener {
 
     private final AstsTrinkets plugin;
     private final TrinketManager trinketManager;
+    private final MobInfoManager mobInfoManager;
     private final Spinneret spinneret;
     private final InfinityItem infinityItem;
     private final ShulkerBoxContainmentUnit shulkerBoxContainmentUnit;
     private final GatewayAnchor gatewayAnchor;
     private final ItemMagnet itemMagnet;
+    private final Terrarium terrarium;
 
-    public BlockListener(AstsTrinkets plugin, TrinketManager trinketManager) {
+    public BlockListener(AstsTrinkets plugin, TrinketManager trinketManager, MobInfoManager mobInfoManager) {
         this.plugin = plugin;
         this.trinketManager = trinketManager;
+        this.mobInfoManager = mobInfoManager;
         spinneret = trinketManager.getSpinneret();
         infinityItem = trinketManager.getInfinityItem();
         shulkerBoxContainmentUnit = trinketManager.getShulkerBoxContainmentUnit();
         gatewayAnchor = trinketManager.getGatewayAnchor();
         itemMagnet = trinketManager.getItemMagnet();
+        terrarium = trinketManager.getTerrarium();
     }
 
     @EventHandler(ignoreCancelled = true)
@@ -116,6 +125,31 @@ public class BlockListener implements Listener {
                 plugin.getLogger().info("Player " + player.getName() + " created an end gateway at " +
                         Utils.serializeCoordsLogging(block.getLocation()) + " using a Gateway Anchor " +
                         "leading to " + Utils.serializeCoordsLogging(location));
+            } else if (terrarium.isEnabledTrinket(placedItem)) {
+                if (!terrarium.canUse(placedItem)) {
+                    event.setCancelled(true);
+                    return;
+                }
+                if (!terrarium.hasTrappedCreature(placedItem)) {
+                    player.sendMessage(Component.text("This terrarium is empty.", NamedTextColor.RED));
+                    event.setCancelled(true);
+                    return;
+                }
+                Entity entity = terrarium.getTrappedCreature(placedItem, player.getWorld());
+                if (entity == null) {
+                    player.sendMessage(Component.text("The creature could not be released. The terrarium might be corrupted.",
+                            NamedTextColor.RED));
+                    event.setCancelled(true);
+                    return;
+                }
+                EntityType entityType = entity.getType();
+                Block block = event.getBlock();
+                block.setType(Material.SPAWNER);
+                CreatureSpawner spawner = (CreatureSpawner) block.getState();
+                spawner.setSpawnedType(entityType);
+                spawner.update(true);
+                plugin.getLogger().info("Player " + player.getName() + " created a " + mobInfoManager.getTypeName(entityType) +
+                        " spawner at " + Utils.serializeCoords(block.getLocation()) + " using a Terrarium.");
             }
         }
         if (trinketManager.isOwnedBy(otherItem, player.getName())) {

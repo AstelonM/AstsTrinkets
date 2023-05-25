@@ -246,3 +246,13 @@ itemMagnet:
   enabled: true
   # The distance in blocks in any direction from the player that items are attracted from. High values might affect performance.
   range: 4
+
+# A glass block that can trap any creature inside, and can then be placed to create a spawner that spawns creatures of the
+# type of the one trapped. The creature inside can also be released by shift right clicking a block, like with a trap.
+# This trinket requires the "aststrinkets.op" permission to give.
+terrarium:
+  enabled: true
+  # Whether the ender dragon can be trapped in a terrarium.
+  allowEnderDragonCapture: false
+  # Whether only the owner of a pet can trap it. Bypassed with aststrinkets.trinket.ignorepetowner.
+  petOwnerOnly: true

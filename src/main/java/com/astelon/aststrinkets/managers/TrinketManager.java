@@ -2,10 +2,7 @@ package com.astelon.aststrinkets.managers;
 
 import com.astelon.aststrinkets.AstsTrinkets;
 import com.astelon.aststrinkets.trinkets.*;
-import com.astelon.aststrinkets.trinkets.block.GatewayAnchor;
-import com.astelon.aststrinkets.trinkets.block.InfinityItem;
-import com.astelon.aststrinkets.trinkets.block.MysteryCake;
-import com.astelon.aststrinkets.trinkets.block.Spinneret;
+import com.astelon.aststrinkets.trinkets.block.*;
 import com.astelon.aststrinkets.trinkets.creature.*;
 import com.astelon.aststrinkets.trinkets.creature.traps.AmethystTrap;
 import com.astelon.aststrinkets.trinkets.creature.traps.DiamondTrap;
@@ -95,6 +92,7 @@ public class TrinketManager {
         addTrinket(new GatewayAnchor(plugin, keys));
         addTrinket(new BuddingSolution(plugin, keys));
         addTrinket(new ItemMagnet(plugin, keys));
+        addTrinket(new Terrarium(plugin, keys, mobInfoManager));
     }
 
     private void addTrinket(Trinket trinket) {
@@ -450,5 +448,9 @@ public class TrinketManager {
 
     public ItemMagnet getItemMagnet() {
         return (ItemMagnet) getTrinketExact("itemMagnet");
+    }
+
+    public Terrarium getTerrarium() {
+        return (Terrarium) getTrinketExact("terrarium");
     }
 }

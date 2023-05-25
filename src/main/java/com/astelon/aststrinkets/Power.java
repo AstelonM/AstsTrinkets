@@ -36,7 +36,8 @@ public enum Power {
     RUN_COMMANDS("runCommands"),
     CREATE_GATEWAYS("createGateways"),
     CREATE_BUDDING_AMETHYSTS("createBuddingAmethysts"),
-    ATTRACT_ITEMS("attractItems");
+    ATTRACT_ITEMS("attractItems"),
+    CREATE_SPAWNERS("createSpawners");
 
     private final String powerName;
 

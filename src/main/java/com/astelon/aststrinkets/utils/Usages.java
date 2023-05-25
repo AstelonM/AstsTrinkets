@@ -67,4 +67,7 @@ public final class Usages {
             "current location. After that, you can place it down like a block.";
     public static final String SHIFT_RIGHT_CLICK_AND_HOLD_WHILE_MINING = SHIFT_RIGHT_CLICK + " You can also hold it in the " +
             "other hand while mining.";
+    public static final String TERRARIUM = "If the terrarium is empty, right click a creature to trap it inside.<br>" +
+            "If the terrarium has a creature inside, place it down as a block to create a spawner or right click the block " +
+            "while sneaking to release the creature.";
 }
