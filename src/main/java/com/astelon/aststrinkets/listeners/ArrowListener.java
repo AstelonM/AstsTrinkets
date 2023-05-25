@@ -4,6 +4,7 @@ import com.astelon.aststrinkets.AstsTrinkets;
 import com.astelon.aststrinkets.managers.TrinketManager;
 import com.astelon.aststrinkets.trinkets.projectile.DeathArrow;
 import com.astelon.aststrinkets.trinkets.Trinket;
+import com.astelon.aststrinkets.trinkets.projectile.ExplosiveArrow;
 import com.astelon.aststrinkets.trinkets.projectile.SmitingArrow;
 import com.astelon.aststrinkets.trinkets.projectile.TrueDeathArrow;
 import com.astelon.aststrinkets.utils.Utils;
@@ -27,6 +28,7 @@ public class ArrowListener implements Listener {
     private final DeathArrow deathArrow;
     private final TrueDeathArrow trueDeathArrow;
     private final SmitingArrow smitingArrow;
+    private final ExplosiveArrow explosiveArrow;
 
     public ArrowListener(AstsTrinkets plugin, TrinketManager trinketManager) {
         this.plugin = plugin;
@@ -34,6 +36,7 @@ public class ArrowListener implements Listener {
         deathArrow = trinketManager.getDeathArrow();
         trueDeathArrow = trinketManager.getTrueDeathArrow();
         smitingArrow = trinketManager.getSmitingArrow();
+        explosiveArrow = trinketManager.getExplosiveArrow();
     }
 
     @EventHandler(ignoreCancelled = true)
@@ -50,6 +53,8 @@ public class ArrowListener implements Listener {
                 trueDeathArrow.setProjectileTrinket(arrow, itemStack);
             } else if (smitingArrow.isEnabledTrinket(itemStack)) {
                 smitingArrow.setProjectileTrinket(arrow, itemStack);
+            } else if (explosiveArrow.isEnabledTrinket(itemStack)) {
+                explosiveArrow.setProjectileTrinket(arrow, itemStack);
             }
         }
     }
@@ -102,6 +107,10 @@ public class ArrowListener implements Listener {
                     World world = projectile.getWorld();
                     Location location = projectile.getLocation();
                     world.strikeLightning(location);
+                } else if (explosiveArrow.isEnabledTrinket(arrow)) {
+                    World world = projectile.getWorld();
+                    Location location = projectile.getLocation();
+                    world.createExplosion(location, 2f, false, false, shooterEntity);
                 }
             }
         }

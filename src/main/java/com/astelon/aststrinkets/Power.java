@@ -38,7 +38,8 @@ public enum Power {
     CREATE_BUDDING_AMETHYSTS("createBuddingAmethysts"),
     ATTRACT_ITEMS("attractItems"),
     CREATE_SPAWNERS("createSpawners"),
-    SUMMON_LIGHTNING("summonLightning");
+    SUMMON_LIGHTNING("summonLightning"),
+    CREATE_EXPLOSION("createExplosion");
 
     private final String powerName;
 

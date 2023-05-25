@@ -91,6 +91,7 @@ public class TrinketManager {
         addTrinket(new ItemMagnet(plugin, keys));
         addTrinket(new Terrarium(plugin, keys, mobInfoManager));
         addTrinket(new SmitingArrow(plugin, keys));
+        addTrinket(new ExplosiveArrow(plugin, keys));
     }
 
     private void addTrinket(Trinket trinket) {
@@ -454,5 +455,9 @@ public class TrinketManager {
 
     public SmitingArrow getSmitingArrow() {
         return (SmitingArrow) getTrinketExact("smitingArrow");
+    }
+
+    public ExplosiveArrow getExplosiveArrow() {
+        return (ExplosiveArrow) getTrinketExact("explosiveArrow");
     }
 }
