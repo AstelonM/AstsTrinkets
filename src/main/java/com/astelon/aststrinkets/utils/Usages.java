@@ -28,7 +28,7 @@ public final class Usages {
     public static final String HIT_AND_DAMAGE = "Hit a player or creature and damage them.";
     public static final String THROW = "Throw it somewhere with right click.";
     public static final String BAIT = "Hold in your other hand when fishing.";
-    public static final String SHIFT_RIGHT_CLICK_AIR = "Hold it in your hand, then right click while sneaking.";
+    public static final String SHIFT_RIGHT_CLICK = "Hold it in your hand, then right click while sneaking.";
     public static final String CUT_TREES = "You should cut some trees.";
     public static final String SPELLBOOK_USE = "Depending on the spellbook, right click air, players, mobs or blocks while sneaking and " +
             "holding the spellbook.";

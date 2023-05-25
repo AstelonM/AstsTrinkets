@@ -20,7 +20,7 @@ import java.util.List;
 public class ExperienceBottle extends ProjectileTrinket {
 
     public ExperienceBottle(AstsTrinkets plugin, NamespacedKeys keys) {
-        super(plugin, keys, "experienceBottle", Power.ABSORB_EXPERIENCE, false, Usages.SHIFT_RIGHT_CLICK_AIR);
+        super(plugin, keys, "experienceBottle", Power.ABSORB_EXPERIENCE, false, Usages.SHIFT_RIGHT_CLICK);
     }
 
     @Override
