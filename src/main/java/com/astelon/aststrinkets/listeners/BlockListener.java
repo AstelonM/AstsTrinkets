@@ -114,7 +114,7 @@ public class BlockListener implements Listener {
                 gateway.setExitLocation(location);
                 gateway.update(true);
                 plugin.getLogger().info("Player " + player.getName() + " created an end gateway at " +
-                        Utils.serializeCoords(block.getLocation()) + " using a Gateway Anchor " +
+                        Utils.serializeCoordsLogging(block.getLocation()) + " using a Gateway Anchor " +
                         "leading to " + Utils.serializeCoordsLogging(location));
             }
         }
