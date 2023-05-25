@@ -176,6 +176,33 @@ public class PlayerInteractListener implements Listener {
 
     @EventHandler
     public void onPlayerInteract(PlayerInteractEvent event) {
+        if (event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_BLOCK) {
+            Player player = event.getPlayer();
+            ItemStack itemStack = event.getItem();
+            if (player.isSneaking() && itemStack != null) {
+                if (trinketManager.isOwnedBy(itemStack, player.getName())) {
+                    PlayerInventory inventory = player.getInventory();
+                    int slot = event.getHand() == EquipmentSlot.HAND ? inventory.getHeldItemSlot() : Utils.OFF_HAND_SLOT;
+                    if (experienceBottle.isEnabledTrinket(itemStack)) {
+                        if (experienceBottle.hasExperience(itemStack))
+                            return;
+                        int experience = Utils.getTotalExperience(player);
+                        if (experience == 0) {
+                            player.sendMessage(Component.text("You don't have any experience to store in the bottle.",
+                                    NamedTextColor.YELLOW));
+                            return;
+                        }
+                        ItemStack result = experienceBottle.fillExperienceBottle(itemStack, experience);
+                        Utils.transformItem(itemStack, result, slot, inventory, player);
+                        player.updateInventory();
+                        player.setTotalExperience(0);
+                        player.setLevel(0);
+                        player.setExp(0);
+                        return;
+                    }
+                }
+            }
+        }
         if (event.getAction() == Action.RIGHT_CLICK_BLOCK) {
             Block block = event.getClickedBlock();
             if (block == null)
@@ -228,21 +255,6 @@ public class PlayerInteractListener implements Listener {
                     }
                     Utils.transformItem(itemStack, result, slot, inventory, player);
                     player.updateInventory();
-                } else if (experienceBottle.isEnabledTrinket(itemStack)) {
-                    if (experienceBottle.hasExperience(itemStack))
-                        return;
-                    int experience = Utils.getTotalExperience(player);
-                    if (experience == 0) {
-                        player.sendMessage(Component.text("You don't have any experience to store in the bottle.",
-                                NamedTextColor.YELLOW));
-                        return;
-                    }
-                    ItemStack result = experienceBottle.fillExperienceBottle(itemStack, experience);
-                    Utils.transformItem(itemStack, result, slot, inventory, player);
-                    player.updateInventory();
-                    player.setTotalExperience(0);
-                    player.setLevel(0);
-                    player.setExp(0);
                 } else if (spellbook.isEnabledTrinket(itemStack)) {
                     event.setUseItemInHand(Event.Result.DENY);
                     HashMap<String, String> placeholders = new HashMap<>();
