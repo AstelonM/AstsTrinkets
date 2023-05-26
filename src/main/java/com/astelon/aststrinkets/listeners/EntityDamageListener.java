@@ -5,6 +5,7 @@ import com.astelon.aststrinkets.managers.MobInfoManager;
 import com.astelon.aststrinkets.managers.TrinketManager;
 import com.astelon.aststrinkets.trinkets.Souleater;
 import com.astelon.aststrinkets.trinkets.equipable.DivingHelmet;
+import com.astelon.aststrinkets.trinkets.equipable.FireproofVest;
 import com.astelon.aststrinkets.trinkets.equipable.HydraulicBoots;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -23,14 +24,16 @@ public class EntityDamageListener implements Listener {
     private final DivingHelmet divingHelmet;
     private final HydraulicBoots hydraulicBoots;
     private final Souleater souleater;
+    private final FireproofVest fireproofVest;
 
     public EntityDamageListener(AstsTrinkets plugin, TrinketManager trinketManager, MobInfoManager mobInfoManager) {
         this.plugin = plugin;
         this.trinketManager = trinketManager;
+        this.mobInfoManager = mobInfoManager;
         divingHelmet = trinketManager.getDivingHelmet();
         hydraulicBoots = trinketManager.getHydraulicBoots();
         souleater = trinketManager.getSouleater();
-        this.mobInfoManager = mobInfoManager;
+        fireproofVest = trinketManager.getFireproofVest();
     }
 
     @EventHandler(ignoreCancelled = true)
@@ -53,6 +56,13 @@ public class EntityDamageListener implements Listener {
             ItemStack boots = equipment.getBoots();
             if (trinketManager.isOwnedWithRestrictions(boots, entity)) {
                 if (hydraulicBoots.isEnabledTrinket(boots)) {
+                    event.setCancelled(true);
+                }
+            }
+        } else if (cause == EntityDamageEvent.DamageCause.FIRE || cause == EntityDamageEvent.DamageCause.FIRE_TICK) {
+            ItemStack chestplate = equipment.getChestplate();
+            if (trinketManager.isOwnedWithRestrictions(chestplate, entity)) {
+                if (fireproofVest.isEnabledTrinket(chestplate)) {
                     event.setCancelled(true);
                 }
             }

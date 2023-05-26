@@ -264,3 +264,7 @@ smitingArrow:
 # An arrow that creates an explosion wherever it lands. The explosion is half as strong as that of a tnt, and doesn't break blocks.
 explosiveArrow:
   enabled: true
+
+# Leather tunic that prevents damage from fire. Entities can use it too. Does not prevent damage from direct contact with lava.
+fireproofVest:
+  enabled: true

@@ -39,7 +39,8 @@ public enum Power {
     ATTRACT_ITEMS("attractItems"),
     CREATE_SPAWNERS("createSpawners"),
     SUMMON_LIGHTNING("summonLightning"),
-    CREATE_EXPLOSION("createExplosion");
+    CREATE_EXPLOSION("createExplosion"),
+    PREVENT_FIRE_DAMAGE("preventFireDamage");
 
     private final String powerName;
 
