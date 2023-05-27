@@ -4,7 +4,6 @@ import com.astelon.aststrinkets.AstsTrinkets;
 import com.astelon.aststrinkets.Power;
 import com.astelon.aststrinkets.managers.MobInfoManager;
 import com.astelon.aststrinkets.trinkets.creature.CreatureAffectingTrinket;
-import com.astelon.aststrinkets.trinkets.creature.traps.CrystalTrap;
 import com.astelon.aststrinkets.trinkets.inventory.BindingPowder;
 import com.astelon.aststrinkets.utils.NamespacedKeys;
 import com.astelon.aststrinkets.utils.Usages;
@@ -81,8 +80,7 @@ public class Terrarium extends CreatureAffectingTrinket {
             String ownerName = container.get(keys.ownerKey, PersistentDataType.STRING);
             newLore.add(BindingPowder.getOwnerLoreLine(ownerName, infoColour));
         }
-        String mobType = mobInfoManager.getMobType(entity);
-        newLore.add(Component.text("Creature trapped: " + mobType, infoColour).decoration(TextDecoration.ITALIC, false));
+        newLore.add(getCreatureLine(entity));
         newLore.addAll(this.itemStack.lore());
         meta.lore(newLore);
         @SuppressWarnings("deprecation") // No better way to do it yet
@@ -122,6 +120,45 @@ public class Terrarium extends CreatureAffectingTrinket {
         container.set(keys.lastUseKey, PersistentDataType.LONG, System.currentTimeMillis());
         result.setItemMeta(meta);
         return result;
+    }
+
+    public boolean isLocked(ItemStack terrarium) {
+        PersistentDataContainer container = terrarium.getItemMeta().getPersistentDataContainer();
+        return container.has(keys.lockedKey, PersistentDataType.BYTE);
+    }
+
+    public ItemStack lock(ItemStack terrarium, World world) {
+        ItemStack result = terrarium.asOne();
+        ItemMeta meta = result.getItemMeta();
+        PersistentDataContainer container = meta.getPersistentDataContainer();
+        if (!container.has(keys.trapKey, PersistentDataType.BYTE_ARRAY) || container.has(keys.lockedKey, PersistentDataType.BYTE))
+            return null;
+        container.set(keys.lockedKey, PersistentDataType.BYTE, (byte) 1);
+        meta.displayName(Component.text("Locked Terrarium", NamedTextColor.GOLD)
+                .decoration(TextDecoration.ITALIC, false));
+        ArrayList<Component> newLore = new ArrayList<>();
+        if (container.has(keys.ownerKey, PersistentDataType.STRING)) {
+            String ownerName = container.get(keys.ownerKey, PersistentDataType.STRING);
+            newLore.add(BindingPowder.getOwnerLoreLine(ownerName, infoColour));
+        }
+        Entity entity = getTrappedCreature(terrarium, world);
+        if (entity == null)
+            return null;
+        newLore.add(getCreatureLine(entity));
+        newLore.add(Component.text("Locked", this.infoColour).decoration(TextDecoration.ITALIC, false));
+        newLore.addAll(this.itemStack.lore());
+        newLore.add(Component.text("This terrarium has been locked. The"));
+        newLore.add(Component.text("creature inside cannot be freed"));
+        newLore.add(Component.text("without breaking it."));
+        meta.lore(newLore);
+        container.set(keys.lastUseKey, PersistentDataType.LONG, System.currentTimeMillis());
+        result.setItemMeta(meta);
+        return result;
+    }
+
+    private Component getCreatureLine(Entity entity) {
+        String mobType = mobInfoManager.getMobType(entity);
+        return Component.text("Creature trapped: " + mobType, infoColour).decoration(TextDecoration.ITALIC, false);
     }
 
     public void setAllowEnderDragonCapture(boolean allowEnderDragonCapture) {

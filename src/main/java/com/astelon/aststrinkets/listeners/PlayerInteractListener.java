@@ -45,7 +45,10 @@ public class PlayerInteractListener implements Listener {
     private final AstsTrinkets plugin;
     private final MobInfoManager mobInfoManager;
     private final TrinketManager trinketManager;
+
     private final HashMap<Player, Long> cooldowns;
+    private final HashMap<Player, Long> terrariumLockAttempts;
+
     private final YouthMilk youthMilk;
     private final DiamondTrap diamondTrap;
     private final EmeraldTrap emeraldTrap;
@@ -64,6 +67,7 @@ public class PlayerInteractListener implements Listener {
         this.mobInfoManager = mobInfoManager;
         this.trinketManager = trinketManager;
         cooldowns = new HashMap<>();
+        terrariumLockAttempts = new HashMap<>();
         youthMilk = trinketManager.getYouthMilk();
         diamondTrap = trinketManager.getDiamondTrap();
         emeraldTrap = trinketManager.getEmeraldTrap();
@@ -300,7 +304,10 @@ public class PlayerInteractListener implements Listener {
                                 "spawning.", NamedTextColor.RED));
                         return;
                     }
-                    Utils.transformItem(handItem, terrarium.emptyTerrarium(handItem), slot, player.getInventory(), player);
+                    if (terrarium.isLocked(handItem))
+                        handItem.subtract();
+                    else
+                        Utils.transformItem(handItem, terrarium.emptyTerrarium(handItem), slot, player.getInventory(), player);
                     player.updateInventory();
                     String mobName = mobInfoManager.getTypeAndName(entity);
                     player.sendMessage(Component.text("Successfully released the " + mobName + ".", NamedTextColor.GOLD));
@@ -344,6 +351,25 @@ public class PlayerInteractListener implements Listener {
                     ItemStack result = gatewayAnchor.setLocation(itemStack, location);
                     Utils.transformItem(itemStack, result, slot, inventory, player);
                     player.updateInventory();
+                } else if (terrarium.isEnabledTrinket(itemStack)) {
+                    if (!terrarium.canUse(itemStack) || !terrarium.hasTrappedCreature(itemStack) || terrarium.isLocked(itemStack))
+                        return;
+                    long lastAttempt = terrariumLockAttempts.getOrDefault(player, 0L);
+                    long now = System.currentTimeMillis();
+                    if (now - lastAttempt >= 3000) {
+                        player.sendMessage(Component.text("Are you sure you want to lock this terrarium? " +
+                                "Right click air while sneaking again to confirm.", NamedTextColor.GREEN));
+                        terrariumLockAttempts.put(player, now);
+                    } else {
+                        terrariumLockAttempts.remove(player);
+                        ItemStack result = terrarium.lock(itemStack, player.getWorld());
+                        if (result == null) {
+                            player.sendMessage(Component.text("This terrarium could not be locked.", NamedTextColor.RED));
+                            return;
+                        }
+                        Utils.transformItem(itemStack, result, slot, inventory, player);
+                        player.updateInventory();
+                    }
                 }
             }
         }
@@ -504,5 +530,6 @@ public class PlayerInteractListener implements Listener {
     @EventHandler
     public void onPlayerQuit(PlayerQuitEvent event) {
         cooldowns.remove(event.getPlayer());
+        terrariumLockAttempts.remove(event.getPlayer());
     }
 }

@@ -69,5 +69,7 @@ public final class Usages {
             "other hand while mining.";
     public static final String TERRARIUM = "If the terrarium is empty, right click a creature to trap it inside.<br>" +
             "If the terrarium has a creature inside, place it down as a block to create a spawner or right click the block " +
-            "while sneaking to release the creature.";
+            "while sneaking to release the creature.<br>" +
+            "A filled terrarium can be locked by right clicking air while sneaking twice, while holding it. A locked terrarium " +
+            "is consumed when the creature is released. One that hasn't been locked can be reused.";
 }
