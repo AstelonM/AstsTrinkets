@@ -1,6 +1,7 @@
 package com.astelon.aststrinkets.listeners;
 
 import com.astelon.aststrinkets.AstsTrinkets;
+import com.astelon.aststrinkets.managers.MobInfoManager;
 import com.astelon.aststrinkets.managers.TrinketManager;
 import com.astelon.aststrinkets.trinkets.projectile.DeathArrow;
 import com.astelon.aststrinkets.trinkets.Trinket;
@@ -25,14 +26,16 @@ public class ArrowListener implements Listener {
 
     private final AstsTrinkets plugin;
     private final TrinketManager trinketManager;
+    private final MobInfoManager mobInfoManager;
     private final DeathArrow deathArrow;
     private final TrueDeathArrow trueDeathArrow;
     private final SmitingArrow smitingArrow;
     private final ExplosiveArrow explosiveArrow;
 
-    public ArrowListener(AstsTrinkets plugin, TrinketManager trinketManager) {
+    public ArrowListener(AstsTrinkets plugin, TrinketManager trinketManager, MobInfoManager mobInfoManager) {
         this.plugin = plugin;
         this.trinketManager = trinketManager;
+        this.mobInfoManager = mobInfoManager;
         deathArrow = trinketManager.getDeathArrow();
         trueDeathArrow = trinketManager.getTrueDeathArrow();
         smitingArrow = trinketManager.getSmitingArrow();
@@ -127,6 +130,6 @@ public class ArrowListener implements Listener {
         if (entity instanceof Player player)
             return "Player " + player.getName();
         else
-            return trinketManager.getMobInfoManager().getTypeAndName(entity);
+            return mobInfoManager.getTypeAndName(entity);
     }
 }

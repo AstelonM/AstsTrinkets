@@ -286,10 +286,6 @@ public class TrinketManager {
         container.set(keys.trinketImmuneKey, PersistentDataType.BYTE, (byte) 1);
     }
 
-    public MobInfoManager getMobInfoManager() {
-        return mobInfoManager;
-    }
-
     public HashMap<String, Object> getPresentKeys(ItemStack itemStack) {
         if (itemStack == null || itemStack.getType() == Material.AIR)
             throw new IllegalArgumentException("ItemStack cannot be null or air.");
