@@ -19,6 +19,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityShootBowEvent;
 import org.bukkit.event.entity.ProjectileHitEvent;
+import org.bukkit.inventory.EntityEquipment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.projectiles.ProjectileSource;
 
@@ -44,8 +45,21 @@ public class ArrowListener implements Listener {
 
     @EventHandler(ignoreCancelled = true)
     public void onEntityShootBow(EntityShootBowEvent event) {
-        Entity shooter = event.getEntity();
+        LivingEntity shooter = event.getEntity();
         ItemStack itemStack = event.getConsumable();
+        if (!(shooter instanceof Player)) {
+            EntityEquipment equipment = shooter.getEquipment();
+            if (equipment != null) {
+                ItemStack offHand = equipment.getItemInOffHand();
+                if (offHand.getType().name().endsWith("ARROW"))
+                    itemStack = offHand;
+                else {
+                    ItemStack mainHand = equipment.getItemInMainHand();
+                    if (mainHand.getType().name().endsWith("ARROW"))
+                        itemStack = mainHand;
+                }
+            }
+        }
         Entity projectile = event.getProjectile();
         if (!(projectile instanceof Arrow arrow))
             return;
