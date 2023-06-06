@@ -239,10 +239,15 @@ public class PlayerInteractListener implements Listener {
                         player.setExp(0);
                         return;
                     } else if (itemMagnet.isEnabledTrinket(itemStack)) {
+                        if (!itemMagnet.canUse(itemStack)) {
+                            player.sendMessage(Component.text("You can't use this trinket yet.", NamedTextColor.RED));
+                            return;
+                        }
                         int range = itemMagnet.getRange(itemStack);
                         List<Entity> entities = player.getNearbyEntities(range, range, range);
                         entities.stream().filter(entity -> entity instanceof Item)
                                 .forEach(item -> item.teleport(player));
+                        itemMagnet.use(itemStack);
                     }
                 }
             }

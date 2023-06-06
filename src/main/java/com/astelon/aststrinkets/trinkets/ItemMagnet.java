@@ -34,6 +34,21 @@ public class ItemMagnet extends Trinket {
         return itemStack;
     }
 
+    public boolean canUse(ItemStack itemMagnet) {
+        if (!isTrinket(itemMagnet))
+            throw new IllegalArgumentException("Not a trinket.");
+        PersistentDataContainer container = itemMagnet.getItemMeta().getPersistentDataContainer();
+        long lastUse = container.getOrDefault(keys.lastUseKey, PersistentDataType.LONG, 0L);
+        return System.currentTimeMillis() - lastUse >= 1000;
+    }
+
+    public void use(ItemStack itemMagnet) {
+        ItemMeta meta = itemMagnet.getItemMeta();
+        PersistentDataContainer container = meta.getPersistentDataContainer();
+        container.set(keys.lastUseKey, PersistentDataType.LONG, System.currentTimeMillis());
+        itemMagnet.setItemMeta(meta);
+    }
+
     public int getRange(ItemStack itemMagnet) {
         if (!isTrinket(itemMagnet))
             throw new IllegalArgumentException("Not a trinket.");
