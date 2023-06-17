@@ -3,15 +3,15 @@ package com.astelon.aststrinkets.listeners;
 import com.astelon.aststrinkets.AstsTrinkets;
 import com.astelon.aststrinkets.managers.MobInfoManager;
 import com.astelon.aststrinkets.managers.TrinketManager;
-import com.astelon.aststrinkets.trinkets.projectile.DeathArrow;
+import com.astelon.aststrinkets.trinkets.projectile.arrow.*;
 import com.astelon.aststrinkets.trinkets.Trinket;
-import com.astelon.aststrinkets.trinkets.projectile.ExplosiveArrow;
-import com.astelon.aststrinkets.trinkets.projectile.SmitingArrow;
-import com.astelon.aststrinkets.trinkets.projectile.TrueDeathArrow;
 import com.astelon.aststrinkets.utils.Utils;
 import com.destroystokyo.paper.event.entity.ProjectileCollideEvent;
+import org.bukkit.GameMode;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.World;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -64,6 +64,17 @@ public class ArrowListener implements Listener {
         if (!(projectile instanceof Arrow arrow))
             return;
         if (itemStack != null && trinketManager.isOwnedWithRestrictions(itemStack, shooter)) {
+            Trinket trinket = trinketManager.getTrinket(itemStack);
+            if (trinket instanceof ArrowTrinket arrowTrinket) {
+                ItemStack weapon = event.getBow();
+                if (weapon != null && weapon.getType() == Material.CROSSBOW) {
+                    if (!arrowTrinket.isMultishotAllowed() && weapon.containsEnchantment(Enchantment.MULTISHOT) &&
+                            arrow.getPickupStatus() == AbstractArrow.PickupStatus.CREATIVE_ONLY &&
+                            !(shooter instanceof Player player && player.getGameMode() == GameMode.CREATIVE))
+                        return;
+                }
+            }
+
             if (deathArrow.isEnabledTrinket(itemStack)) {
                 deathArrow.setProjectileTrinket(arrow, itemStack);
             } else if (trueDeathArrow.isEnabledTrinket(itemStack)) {
@@ -89,6 +100,7 @@ public class ArrowListener implements Listener {
                     event.setDamage(1000000);
                     livingEntity.setHealth(0);
                     logDeath(deathArrow, shooterEntity, livingEntity);
+                    checkAndRemovePiercing(arrow);
                 }
             }
         }
@@ -107,6 +119,7 @@ public class ArrowListener implements Listener {
                     livingEntity.damage(1000000);
                     livingEntity.setHealth(0);
                     logDeath(trueDeathArrow, shooterEntity, livingEntity);
+                    checkAndRemovePiercing(arrow);
                 }
             }
         }
@@ -124,10 +137,12 @@ public class ArrowListener implements Listener {
                     World world = projectile.getWorld();
                     Location location = projectile.getLocation();
                     world.strikeLightning(location);
+                    checkAndRemovePiercing(arrow);
                 } else if (explosiveArrow.isEnabledTrinket(arrow)) {
                     World world = projectile.getWorld();
                     Location location = projectile.getLocation();
                     world.createExplosion(location, 2f, false, false, shooterEntity);
+                    checkAndRemovePiercing(arrow);
                 }
             }
         }
@@ -145,5 +160,13 @@ public class ArrowListener implements Listener {
             return "Player " + player.getName();
         else
             return mobInfoManager.getTypeAndName(entity);
+    }
+
+    private void checkAndRemovePiercing(Arrow arrow) {
+        Trinket trinket = trinketManager.getTrinket(arrow);
+        if (trinket instanceof ArrowTrinket arrowTrinket) {
+            if (arrow.getPierceLevel() != 0 && !arrowTrinket.isPiercingAllowed())
+                arrowTrinket.removeProjectileTrinket(arrow);
+        }
     }
 }

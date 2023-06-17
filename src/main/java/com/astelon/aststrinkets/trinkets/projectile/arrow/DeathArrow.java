@@ -1,4 +1,4 @@
-package com.astelon.aststrinkets.trinkets.projectile;
+package com.astelon.aststrinkets.trinkets.projectile.arrow;
 
 import com.astelon.aststrinkets.AstsTrinkets;
 import com.astelon.aststrinkets.Power;
@@ -15,7 +15,7 @@ import org.bukkit.potion.PotionType;
 
 import java.util.List;
 
-public class DeathArrow extends ProjectileTrinket {
+public class DeathArrow extends ArrowTrinket {
 
     public DeathArrow(AstsTrinkets plugin, NamespacedKeys keys) {
         super(plugin, keys, "deathArrow", TextColor.fromHexString("#AA0055"), Power.DEATH,

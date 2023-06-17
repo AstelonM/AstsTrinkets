@@ -150,6 +150,11 @@ perfectedReignitableRocket:
 # If it has one though, it will only work if it is shot directly by the owner.
 deathArrow:
   enabled: true
+  # Whether the arrows can pierce if shot from a crossbow with Piercing enchantment.
+  piercingAllowed: false
+  # Whether the extra arrows created by the Multishot enchantment are also counted as trinkets.
+  # Note: does not apply to arrows shot while in creative mode.
+  multishotAllowed: false
 
 # Like the True Tunic of Invisibility, this is what I would call a completely unbalanced trinket you want to really
 # take care with. Once it's shot and it hits something with health, whatever it hit will die. The only way to stop the
@@ -159,6 +164,11 @@ deathArrow:
 # Obviously it requires the "aststrinkets.op" permission to give.
 trueDeathArrow:
   enabled: true
+  # Whether the arrows can pierce if shot from a crossbow with Piercing enchantment.
+  piercingAllowed: false
+  # Whether the extra arrows created by the Multishot enchantment are also counted as trinkets.
+  # Note: does not apply to arrows shot while in creative mode.
+  multishotAllowed: false
 
 # An ender chest that lets you contain a shulker box "inside". This in turn allows you to put it in another shulker box.
 # Does not work if the box has another containment unit inside. Contain a shulker box by using shift right click inside
@@ -260,10 +270,20 @@ terrarium:
 # An arrow that summons a lightning bolt wherever it lands.
 smitingArrow:
   enabled: true
+  # Whether the arrows can pierce if shot from a crossbow with Piercing enchantment.
+  piercingAllowed: true
+  # Whether the extra arrows created by the Multishot enchantment are also counted as trinkets.
+  # Note: does not apply to arrows shot while in creative mode.
+  multishotAllowed: true
 
 # An arrow that creates an explosion wherever it lands. The explosion is half as strong as that of a tnt, and doesn't break blocks.
 explosiveArrow:
   enabled: true
+  # Whether the arrows can pierce if shot from a crossbow with Piercing enchantment.
+  piercingAllowed: true
+  # Whether the extra arrows created by the Multishot enchantment are also counted as trinkets.
+  # Note: does not apply to arrows shot while in creative mode.
+  multishotAllowed: true
 
 # Leather tunic that prevents damage from fire. Entities can use it too. Does not prevent damage from direct contact with lava.
 fireproofVest:

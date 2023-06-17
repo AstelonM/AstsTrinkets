@@ -13,6 +13,10 @@ import com.astelon.aststrinkets.trinkets.creature.traps.DiamondTrap;
 import com.astelon.aststrinkets.trinkets.creature.traps.EmeraldTrap;
 import com.astelon.aststrinkets.trinkets.creature.traps.NetherStarTrap;
 import com.astelon.aststrinkets.trinkets.projectile.MysteryEgg;
+import com.astelon.aststrinkets.trinkets.projectile.arrow.DeathArrow;
+import com.astelon.aststrinkets.trinkets.projectile.arrow.ExplosiveArrow;
+import com.astelon.aststrinkets.trinkets.projectile.arrow.SmitingArrow;
+import com.astelon.aststrinkets.trinkets.projectile.arrow.TrueDeathArrow;
 import com.astelon.aststrinkets.trinkets.rocket.PerfectedReignitableRocket;
 import com.astelon.aststrinkets.trinkets.rocket.ReignitableRocket;
 import com.astelon.aststrinkets.trinkets.rocket.ReignitableRocketPrototype;
@@ -108,6 +112,12 @@ public class AstsTrinkets extends JavaPlugin {
         PerfectedReignitableRocket perfectedReignitableRocket = trinketManager.getPerfectedReignitableRocket();
         perfectedReignitableRocket.setAllowUseAsFirework(configuration.getBoolean(perfectedReignitableRocket.getName() +
                 ".allowUseAsFirework", false));
+        DeathArrow deathArrow = trinketManager.getDeathArrow();
+        deathArrow.setPiercingAllowed(configuration.getBoolean(deathArrow.getName() + ".piercingAllowed"));
+        deathArrow.setMultishotAllowed(configuration.getBoolean(deathArrow.getName() + ".multishotAllowed"));
+        TrueDeathArrow trueDeathArrow = trinketManager.getTrueDeathArrow();
+        trueDeathArrow.setPiercingAllowed(configuration.getBoolean(trueDeathArrow.getName() + ".piercingAllowed"));
+        trueDeathArrow.setMultishotAllowed(configuration.getBoolean(trueDeathArrow.getName() + ".multishotAllowed"));
         Souleater souleater = trinketManager.getSouleater();
         int cooldown = configuration.getInt(souleater.getName() + ".cooldown", 60) * 1000;
         souleater.setCooldown(Utils.ensurePositive(cooldown, 60000));
@@ -127,6 +137,12 @@ public class AstsTrinkets extends JavaPlugin {
         Terrarium terrarium = trinketManager.getTerrarium();
         terrarium.setAllowEnderDragonCapture(configuration.getBoolean(terrarium.getName() + ".allowEnderDragonCapture"));
         terrarium.setPetOwnerOnly(configuration.getBoolean(terrarium.getName() + ".petOwnerOnly"));
+        SmitingArrow smitingArrow = trinketManager.getSmitingArrow();
+        smitingArrow.setPiercingAllowed(configuration.getBoolean(smitingArrow.getName() + ".piercingAllowed"));
+        smitingArrow.setMultishotAllowed(configuration.getBoolean(smitingArrow.getName() + ".multishotAllowed"));
+        ExplosiveArrow explosiveArrow = trinketManager.getExplosiveArrow();
+        explosiveArrow.setPiercingAllowed(configuration.getBoolean(explosiveArrow.getName() + ".piercingAllowed"));
+        explosiveArrow.setMultishotAllowed(configuration.getBoolean(explosiveArrow.getName() + ".multishotAllowed"));
     }
 
     private HashSet<EntityType> getBlacklistedTypes(List<String> blacklist) {

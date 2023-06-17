@@ -33,4 +33,11 @@ public abstract class ProjectileTrinket extends Trinket {
             container.set(keys.ownerKey, PersistentDataType.STRING,
                     sourceContainer.getOrDefault(keys.ownerKey, PersistentDataType.STRING, ""));
     }
+
+    public void removeProjectileTrinket(Projectile projectile) {
+        PersistentDataContainer container = projectile.getPersistentDataContainer();
+        container.remove(keys.nameKey);
+        container.remove(keys.powerKey);
+        container.remove(keys.ownerKey);
+    }
 }

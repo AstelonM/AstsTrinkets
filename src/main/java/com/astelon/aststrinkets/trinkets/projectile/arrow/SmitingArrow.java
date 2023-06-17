@@ -1,4 +1,4 @@
-package com.astelon.aststrinkets.trinkets.projectile;
+package com.astelon.aststrinkets.trinkets.projectile.arrow;
 
 import com.astelon.aststrinkets.AstsTrinkets;
 import com.astelon.aststrinkets.Power;
@@ -15,10 +15,10 @@ import org.bukkit.potion.PotionType;
 
 import java.util.List;
 
-public class ExplosiveArrow extends ProjectileTrinket {
+public class SmitingArrow extends ArrowTrinket {
 
-    public ExplosiveArrow(AstsTrinkets plugin, NamespacedKeys keys) {
-        super(plugin, keys, "explosiveArrow", TextColor.fromHexString("#00FF00"), Power.CREATE_EXPLOSION, false,
+    public SmitingArrow(AstsTrinkets plugin, NamespacedKeys keys) {
+        super(plugin, keys, "smitingArrow", TextColor.fromHexString("#FF7A7A"), Power.SUMMON_LIGHTNING, false,
                 Usages.ARROW);
     }
 
@@ -26,12 +26,12 @@ public class ExplosiveArrow extends ProjectileTrinket {
     protected ItemStack createItemStack() {
         ItemStack itemStack = new ItemStack(Material.TIPPED_ARROW);
         PotionMeta meta = (PotionMeta) itemStack.getItemMeta();
-        meta.setColor(Color.fromRGB(255, 255, 0));
+        meta.setColor(Color.fromRGB(122, 122, 255));
         PotionData potionData = new PotionData(PotionType.INSTANT_DAMAGE);
         meta.setBasePotionData(potionData);
-        meta.displayName(Component.text("Explosive Arrow", TextColor.fromHexString("#FFFF00")));
-        meta.lore(List.of(Component.text("The tip is made out of an"),
-                Component.text("explosive material.")));
+        meta.displayName(Component.text("Arrow of Smiting", TextColor.fromHexString("#7A7AFF")));
+        meta.lore(List.of(Component.text("Your foes will feel the wrath"),
+                Component.text("of the sky.")));
         itemStack.setItemMeta(meta);
         return itemStack;
     }

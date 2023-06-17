@@ -11,6 +11,10 @@ import com.astelon.aststrinkets.trinkets.creature.traps.NetherStarTrap;
 import com.astelon.aststrinkets.trinkets.equipable.*;
 import com.astelon.aststrinkets.trinkets.inventory.*;
 import com.astelon.aststrinkets.trinkets.projectile.*;
+import com.astelon.aststrinkets.trinkets.projectile.arrow.DeathArrow;
+import com.astelon.aststrinkets.trinkets.projectile.arrow.ExplosiveArrow;
+import com.astelon.aststrinkets.trinkets.projectile.arrow.SmitingArrow;
+import com.astelon.aststrinkets.trinkets.projectile.arrow.TrueDeathArrow;
 import com.astelon.aststrinkets.trinkets.rocket.PerfectedReignitableRocket;
 import com.astelon.aststrinkets.trinkets.rocket.ReignitableRocket;
 import com.astelon.aststrinkets.trinkets.rocket.ReignitableRocketPrototype;
@@ -129,6 +133,17 @@ public class TrinketManager {
         if (meta == null)
             return null;
         PersistentDataContainer container = meta.getPersistentDataContainer();
+        if (!container.has(keys.nameKey, PersistentDataType.STRING))
+            return null;
+        String name = container.get(keys.nameKey, PersistentDataType.STRING);
+        return trinketMap.get(name);
+    }
+
+    @Nullable
+    public Trinket getTrinket(Projectile projectile) {
+        if (projectile == null)
+            return null;
+        PersistentDataContainer container = projectile.getPersistentDataContainer();
         if (!container.has(keys.nameKey, PersistentDataType.STRING))
             return null;
         String name = container.get(keys.nameKey, PersistentDataType.STRING);
