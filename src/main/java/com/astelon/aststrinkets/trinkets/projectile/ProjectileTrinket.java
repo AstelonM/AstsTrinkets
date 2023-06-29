@@ -12,6 +12,8 @@ import org.bukkit.persistence.PersistentDataType;
 
 public abstract class ProjectileTrinket extends Trinket {
 
+    private boolean dispenserAllowed;
+
     public ProjectileTrinket(AstsTrinkets plugin, NamespacedKeys keys, String name, TextColor infoColour, Power power,
                              boolean op, String usage) {
         super(plugin, keys, name, infoColour, power, op, usage);
@@ -39,5 +41,13 @@ public abstract class ProjectileTrinket extends Trinket {
         container.remove(keys.nameKey);
         container.remove(keys.powerKey);
         container.remove(keys.ownerKey);
+    }
+
+    public boolean isDispenserAllowed() {
+        return dispenserAllowed;
+    }
+
+    public void setDispenserAllowed(boolean dispenserAllowed) {
+        this.dispenserAllowed = dispenserAllowed;
     }
 }

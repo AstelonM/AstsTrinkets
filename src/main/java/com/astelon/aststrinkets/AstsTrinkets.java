@@ -12,6 +12,7 @@ import com.astelon.aststrinkets.trinkets.creature.traps.AmethystTrap;
 import com.astelon.aststrinkets.trinkets.creature.traps.DiamondTrap;
 import com.astelon.aststrinkets.trinkets.creature.traps.EmeraldTrap;
 import com.astelon.aststrinkets.trinkets.creature.traps.NetherStarTrap;
+import com.astelon.aststrinkets.trinkets.projectile.ExperienceBottle;
 import com.astelon.aststrinkets.trinkets.projectile.MysteryEgg;
 import com.astelon.aststrinkets.trinkets.projectile.arrow.DeathArrow;
 import com.astelon.aststrinkets.trinkets.projectile.arrow.ExplosiveArrow;
@@ -55,7 +56,6 @@ public class AstsTrinkets extends JavaPlugin {
         pluginManager.registerEvents(new InventoryUseListener(this, trinketManager), this);
         pluginManager.registerEvents(new PlayerInteractListener(this, mobInfoManager, trinketManager), this);
         pluginManager.registerEvents(new FireworkListener(this, trinketManager), this);
-        pluginManager.registerEvents(new ArrowListener(this, trinketManager, mobInfoManager), this);
         pluginManager.registerEvents(new EntityDamageListener(this, trinketManager, mobInfoManager), this);
         pluginManager.registerEvents(new GrindstoneListener(trinketManager), this);
         pluginManager.registerEvents(new ProjectileListener(this, trinketManager, mobInfoManager), this);
@@ -115,9 +115,11 @@ public class AstsTrinkets extends JavaPlugin {
         DeathArrow deathArrow = trinketManager.getDeathArrow();
         deathArrow.setPiercingAllowed(configuration.getBoolean(deathArrow.getName() + ".piercingAllowed"));
         deathArrow.setMultishotAllowed(configuration.getBoolean(deathArrow.getName() + ".multishotAllowed"));
+        deathArrow.setDispenserAllowed(configuration.getBoolean(deathArrow.getName() + ".dispenserAllowed"));
         TrueDeathArrow trueDeathArrow = trinketManager.getTrueDeathArrow();
         trueDeathArrow.setPiercingAllowed(configuration.getBoolean(trueDeathArrow.getName() + ".piercingAllowed"));
         trueDeathArrow.setMultishotAllowed(configuration.getBoolean(trueDeathArrow.getName() + ".multishotAllowed"));
+        trueDeathArrow.setDispenserAllowed(configuration.getBoolean(trueDeathArrow.getName() + ".dispenserAllowed"));
         Souleater souleater = trinketManager.getSouleater();
         int cooldown = configuration.getInt(souleater.getName() + ".cooldown", 60) * 1000;
         souleater.setCooldown(Utils.ensurePositive(cooldown, 60000));
@@ -127,10 +129,13 @@ public class AstsTrinkets extends JavaPlugin {
         MysteryEgg mysteryEgg = trinketManager.getMysteryEgg();
         List<String> blacklist = configuration.getStringList(mysteryEgg.getName() + ".blacklist");
         mysteryEgg.setAllowedEntities(getBlacklistedTypes(blacklist));
+        mysteryEgg.setDispenserAllowed(configuration.getBoolean(mysteryEgg.getName() + ".dispenserAllowed"));
         Bait bait = trinketManager.getBait();
         double efficiency = Utils.ensurePercentage(configuration.getDouble(bait.getName() + ".efficiency", 50.0),
                 50.0);
         bait.setEfficiency(Utils.normalizeRate(efficiency));
+        ExperienceBottle experienceBottle = trinketManager.getExperienceBottle();
+        experienceBottle.setDispenserAllowed(configuration.getBoolean(experienceBottle.getName() + ".dispenserAllowed"));
         ItemMagnet itemMagnet = trinketManager.getItemMagnet();
         int range = Utils.ensurePositive(configuration.getInt(itemMagnet.getName() + ".range", 4), 4);
         itemMagnet.setRange(range);
@@ -140,9 +145,11 @@ public class AstsTrinkets extends JavaPlugin {
         SmitingArrow smitingArrow = trinketManager.getSmitingArrow();
         smitingArrow.setPiercingAllowed(configuration.getBoolean(smitingArrow.getName() + ".piercingAllowed"));
         smitingArrow.setMultishotAllowed(configuration.getBoolean(smitingArrow.getName() + ".multishotAllowed"));
+        smitingArrow.setDispenserAllowed(configuration.getBoolean(smitingArrow.getName() + ".dispenserAllowed"));
         ExplosiveArrow explosiveArrow = trinketManager.getExplosiveArrow();
         explosiveArrow.setPiercingAllowed(configuration.getBoolean(explosiveArrow.getName() + ".piercingAllowed"));
         explosiveArrow.setMultishotAllowed(configuration.getBoolean(explosiveArrow.getName() + ".multishotAllowed"));
+        explosiveArrow.setDispenserAllowed(configuration.getBoolean(explosiveArrow.getName() + ".dispenserAllowed"));
     }
 
     private HashSet<EntityType> getBlacklistedTypes(List<String> blacklist) {

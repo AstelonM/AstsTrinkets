@@ -155,6 +155,8 @@ deathArrow:
   # Whether the extra arrows created by the Multishot enchantment are also counted as trinkets.
   # Note: does not apply to arrows shot while in creative mode.
   multishotAllowed: false
+  # Whether arrows shot by a dispenser count as trinkets. Only works with unowned trinkets.
+  dispenserAllowed: true
 
 # Like the True Tunic of Invisibility, this is what I would call a completely unbalanced trinket you want to really
 # take care with. Once it's shot and it hits something with health, whatever it hit will die. The only way to stop the
@@ -169,6 +171,8 @@ trueDeathArrow:
   # Whether the extra arrows created by the Multishot enchantment are also counted as trinkets.
   # Note: does not apply to arrows shot while in creative mode.
   multishotAllowed: false
+  # Whether arrows shot by a dispenser count as trinkets. Only works with unowned trinkets.
+  dispenserAllowed: true
 
 # An ender chest that lets you contain a shulker box "inside". This in turn allows you to put it in another shulker box.
 # Does not work if the box has another containment unit inside. Contain a shulker box by using shift right click inside
@@ -211,6 +215,8 @@ mysteryEgg:
   # These mobs should not spawn from the eggs.
   # A complete list of options can be found here: https://jd.papermc.io/paper/1.18/org/bukkit/entity/EntityType.html
   blacklist: [WITHER, ENDER_DRAGON]
+  # Whether eggs shot by a dispenser count as trinkets. Only works with unowned trinkets.
+  dispenserAllowed: true
 
 # Hold in the other hand while fishing to reduce the time it takes to lure fish.
 bait:
@@ -222,6 +228,8 @@ bait:
 # Throw that bottle to gain back your experience.
 experienceBottle:
   enabled: true
+  # Whether bottles shot by a dispenser count as trinkets. Only works with unowned trinkets.
+  dispenserAllowed: true
 
 # An unbreakable iron axe that cuts trees logs and wood instantly but deals half the damage of a regular iron axe.
 # Really loves to cut trees. If owned by a player, she doesn't enjoy being separated from them, nor does she appreciate
@@ -275,6 +283,8 @@ smitingArrow:
   # Whether the extra arrows created by the Multishot enchantment are also counted as trinkets.
   # Note: does not apply to arrows shot while in creative mode.
   multishotAllowed: true
+  # Whether arrows shot by a dispenser count as trinkets. Only works with unowned trinkets.
+  dispenserAllowed: true
 
 # An arrow that creates an explosion wherever it lands. The explosion is half as strong as that of a tnt, and doesn't break blocks.
 explosiveArrow:
@@ -284,6 +294,8 @@ explosiveArrow:
   # Whether the extra arrows created by the Multishot enchantment are also counted as trinkets.
   # Note: does not apply to arrows shot while in creative mode.
   multishotAllowed: true
+  # Whether arrows shot by a dispenser count as trinkets. Only works with unowned trinkets.
+  dispenserAllowed: true
 
 # Leather tunic that prevents damage from fire. Entities can use it too. Does not prevent damage from direct contact with lava.
 fireproofVest:
