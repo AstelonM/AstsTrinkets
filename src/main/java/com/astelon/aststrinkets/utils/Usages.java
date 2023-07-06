@@ -72,4 +72,6 @@ public final class Usages {
             "while sneaking to release the creature.<br>" +
             "A filled terrarium can be locked by right clicking air while sneaking twice, while holding it. A locked terrarium " +
             "is consumed when the creature is released. One that hasn't been locked can be reused.";
+    public static final String LINK_AND_USE = "Right click air while sneaking and holding the trinket to link it to your " +
+            "current location. After that, right click air while sneaking again to use it.";
 }

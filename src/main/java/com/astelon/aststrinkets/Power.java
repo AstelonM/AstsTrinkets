@@ -40,7 +40,9 @@ public enum Power {
     CREATE_SPAWNERS("createSpawners"),
     SUMMON_LIGHTNING("summonLightning"),
     CREATE_EXPLOSION("createExplosion"),
-    PREVENT_FIRE_DAMAGE("preventFireDamage");
+    PREVENT_FIRE_DAMAGE("preventFireDamage"),
+    TELEPORT_BACK_WITHOUT_ITEMS("teleportBackWithoutItems"),
+    TELEPORT_BACK("teleportBack");
 
     private final String powerName;
 

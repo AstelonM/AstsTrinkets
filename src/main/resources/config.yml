@@ -300,3 +300,8 @@ explosiveArrow:
 # Leather tunic that prevents damage from fire. Entities can use it too. Does not prevent damage from direct contact with lava.
 fireproofVest:
   enabled: true
+
+# A clock that can be set to a specific location and then used to teleport you back there later. Every item except
+# Time Machine Prototypes are dropped at your location.
+timeMachinePrototype:
+  enabled: true

@@ -97,6 +97,7 @@ public class TrinketManager {
         addTrinket(new SmitingArrow(plugin, keys));
         addTrinket(new ExplosiveArrow(plugin, keys));
         addTrinket(new FireproofVest(plugin, keys));
+        addTrinket(new TimeMachinePrototype(plugin, keys));
     }
 
     private void addTrinket(Trinket trinket) {
@@ -475,5 +476,9 @@ public class TrinketManager {
 
     public FireproofVest getFireproofVest() {
         return (FireproofVest) getTrinketExact("fireproofVest");
+    }
+
+    public TimeMachinePrototype getTimeMachinePrototype() {
+        return (TimeMachinePrototype) getTrinketExact("timeMachinePrototype");
     }
 }

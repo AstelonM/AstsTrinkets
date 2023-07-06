@@ -16,6 +16,7 @@ import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.command.CommandException;
 import org.bukkit.command.CommandSender;
@@ -61,6 +62,7 @@ public class PlayerInteractListener implements Listener {
     private final GatewayAnchor gatewayAnchor;
     private final ItemMagnet itemMagnet;
     private final Terrarium terrarium;
+    private final TimeMachinePrototype timeMachinePrototype;
 
     public PlayerInteractListener(AstsTrinkets plugin, MobInfoManager mobInfoManager, TrinketManager trinketManager) {
         this.plugin = plugin;
@@ -80,6 +82,7 @@ public class PlayerInteractListener implements Listener {
         gatewayAnchor = trinketManager.getGatewayAnchor();
         itemMagnet = trinketManager.getItemMagnet();
         terrarium = trinketManager.getTerrarium();
+        timeMachinePrototype = trinketManager.getTimeMachinePrototype();
     }
 
     @EventHandler
@@ -248,6 +251,46 @@ public class PlayerInteractListener implements Listener {
                         entities.stream().filter(entity -> entity instanceof Item)
                                 .forEach(item -> item.teleport(player));
                         itemMagnet.use(itemStack);
+                    } else if (timeMachinePrototype.isEnabledTrinket(itemStack)) {
+                        long now = System.currentTimeMillis();
+                        if (now - cooldowns.getOrDefault(player, 0L) <= 1000)
+                            return;
+                        if (timeMachinePrototype.hasLocation(itemStack)) {
+                            Location location = timeMachinePrototype.getLocation(itemStack);
+                            if (location == null) {
+                                player.sendMessage(Component.text("This time machine prototype is broken.", NamedTextColor.RED));
+                                return;
+                            }
+                            World world = player.getWorld();
+                            if (!world.equals(location.getWorld())) {
+                                player.sendMessage(Component.text("This time machine prototype is linked to a location " +
+                                                "in a different world.", NamedTextColor.RED));
+                                return;
+                            }
+                            Location playerLocation = player.getLocation();
+                            boolean dropped = false;
+                            for (int i = 0; i < inventory.getSize(); i++) {
+                                ItemStack inventoryItem = inventory.getItem(i);
+                                if (inventoryItem != null && !timeMachinePrototype.isTrinket(inventoryItem)) {
+                                    world.dropItem(playerLocation, inventoryItem);
+                                    inventory.setItem(i, null);
+                                    dropped = true;
+                                }
+                            }
+                            player.teleport(location);
+                            if (dropped)
+                                player.sendMessage(Component.text("The items you had in your inventory had been " +
+                                        "dropped when you used the time machine.", NamedTextColor.YELLOW));
+                            itemStack.subtract();
+                            player.updateInventory();
+                            cooldowns.put(player, now);
+                        } else {
+                            Location location = player.getLocation();
+                            ItemStack result = timeMachinePrototype.setLocation(itemStack, location);
+                            Utils.transformItem(itemStack, result, slot, inventory, player);
+                            player.updateInventory();
+                            cooldowns.put(player, now);
+                        }
                     }
                 }
             }
