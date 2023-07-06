@@ -22,7 +22,6 @@ import com.astelon.aststrinkets.trinkets.rocket.PerfectedReignitableRocket;
 import com.astelon.aststrinkets.trinkets.rocket.ReignitableRocket;
 import com.astelon.aststrinkets.trinkets.rocket.ReignitableRocketPrototype;
 import com.astelon.aststrinkets.utils.Utils;
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.EntityType;
