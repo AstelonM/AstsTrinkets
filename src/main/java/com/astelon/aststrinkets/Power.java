@@ -27,7 +27,7 @@ public enum Power {
     STORE_SHULKER_BOXES("storeShulkerBoxes"),
     PREVENT_SUFFOCATION("preventSuffocation"),
     PREVENT_FALL_DAMAGE("preventFallDamage"),
-    INVULNERABILTY("invulnerability"),
+    INVULNERABILITY("invulnerability"),
     CONSUME_ENCHANTMENTS("consumeEnchantments"),
     SPAWN_RANDOM_CREATURES("spawnRandomCreatures"),
     SPEED_UP_FISHING("speedUpFishing"),
