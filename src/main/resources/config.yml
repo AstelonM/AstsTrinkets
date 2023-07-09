@@ -33,6 +33,8 @@ mysteryCake:
   # By default, the plugin checks the hunger of the player when determining if the cake is going to be eaten or not.
   # Set this to true if your server uses a plugin that makes food heal directly instead of through hunger.
   checkHealth: false
+  # Set to true if you want the plugin to ignore other plugins stopping the player from eating from a cake.
+  ignoreBlockRestrictions: false
 
 # The organ a spider uses to spin webs. Keep it in offhand while placing string, to place cobwebs instead.
 spinneret:

@@ -81,6 +81,7 @@ public class AstsTrinkets extends JavaPlugin {
         shapeShifter.removeItems(configuration.getStringList(shapeShifter.getName() + ".itemBlacklist"));
         MysteryCake mysteryCake = trinketManager.getMysteryCake();
         mysteryCake.setCheckHealth(configuration.getBoolean(mysteryCake.getName() + ".checkHealth"));
+        mysteryCake.setIgnoreBlockRestrictions(configuration.getBoolean(mysteryCake.getName() + ".ignoreBlockRestrictions"));
         InfinityItem infinityItem = trinketManager.getInfinityItem();
         List<Material> allowedBlocks = configuration.getStringList(infinityItem.getName() + ".allowedBlocks")
                 .stream().map(Material::valueOf).filter(Material::isBlock).filter(Material::isItem).toList();

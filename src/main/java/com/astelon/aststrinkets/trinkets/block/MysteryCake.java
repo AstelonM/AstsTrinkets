@@ -23,6 +23,7 @@ public class MysteryCake extends Trinket {
     private final ArrayList<PotionEffect> effects;
     private final Random random;
     private boolean checkHealth;
+    private boolean ignoreBlockRestrictions;
 
     public MysteryCake(AstsTrinkets plugin, NamespacedKeys keys) {
         super(plugin, keys, "mysteryCake", Power.RANDOM_POTION_EFFECT, true, Usages.PLACE_AND_EAT);
@@ -88,5 +89,13 @@ public class MysteryCake extends Trinket {
 
     public void setCheckHealth(boolean checkHealth) {
         this.checkHealth = checkHealth;
+    }
+
+    public boolean isIgnoreBlockRestrictions() {
+        return ignoreBlockRestrictions;
+    }
+
+    public void setIgnoreBlockRestrictions(boolean ignoreBlockRestrictions) {
+        this.ignoreBlockRestrictions = ignoreBlockRestrictions;
     }
 }

@@ -11,7 +11,9 @@ import org.bukkit.attribute.Attribute;
 import org.bukkit.block.Block;
 import org.bukkit.block.data.type.Cake;
 import org.bukkit.entity.Player;
+import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.*;
 import org.bukkit.event.entity.EntityExplodeEvent;
@@ -97,7 +99,7 @@ public class CakeListener implements Listener {
         }
     }
 
-    @EventHandler(ignoreCancelled = true)
+    @EventHandler(priority = EventPriority.HIGH)
     public void onPlayerInteract(PlayerInteractEvent event) {
         Block block = event.getClickedBlock();
         if (block != null) {
@@ -108,6 +110,8 @@ public class CakeListener implements Listener {
                     plugin.getLogger().info("Mystery cake destroyed at " + Utils.locationToString(location) + " by an " +
                             "unknown cause at an unknown time.");
                 }
+                if (event.useInteractedBlock() == Event.Result.DENY && ! mysteryCake.isIgnoreBlockRestrictions())
+                    return;
                 Player player = event.getPlayer();
                 boolean canEat = mysteryCake.isCheckHealth() ?
                         player.getHealth() < Objects.requireNonNull(player.getAttribute(Attribute.GENERIC_MAX_HEALTH)).getValue() :
