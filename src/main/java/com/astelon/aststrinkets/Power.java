@@ -42,7 +42,8 @@ public enum Power {
     CREATE_EXPLOSION("createExplosion"),
     PREVENT_FIRE_DAMAGE("preventFireDamage"),
     TELEPORT_BACK_WITHOUT_ITEMS("teleportBackWithoutItems"),
-    TELEPORT_BACK("teleportBack");
+    TELEPORT_BACK("teleportBack"),
+    INFINITE_ITEMS_OF_A_KIND_STORED("infiniteItemsOfAKindStored");
 
     private final String powerName;
 

@@ -305,3 +305,7 @@ fireproofVest:
 # Time Machine Prototypes are dropped at your location.
 timeMachinePrototype:
   enabled: true
+
+# A bundle that can hold an effectively limitless amount of a singly item kind.
+holdingBundle:
+  enabled: true

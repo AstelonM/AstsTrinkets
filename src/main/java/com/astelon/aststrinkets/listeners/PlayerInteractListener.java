@@ -63,6 +63,7 @@ public class PlayerInteractListener implements Listener {
     private final ItemMagnet itemMagnet;
     private final Terrarium terrarium;
     private final TimeMachinePrototype timeMachinePrototype;
+    private final HoldingBundle holdingBundle;
 
     public PlayerInteractListener(AstsTrinkets plugin, MobInfoManager mobInfoManager, TrinketManager trinketManager) {
         this.plugin = plugin;
@@ -83,6 +84,7 @@ public class PlayerInteractListener implements Listener {
         itemMagnet = trinketManager.getItemMagnet();
         terrarium = trinketManager.getTerrarium();
         timeMachinePrototype = trinketManager.getTimeMachinePrototype();
+        holdingBundle = trinketManager.getHoldingBundle();
     }
 
     @EventHandler
@@ -221,76 +223,86 @@ public class PlayerInteractListener implements Listener {
         if (event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_BLOCK) {
             Player player = event.getPlayer();
             ItemStack itemStack = event.getItem();
-            if (player.isSneaking() && itemStack != null) {
-                if (trinketManager.isOwnedBy(itemStack, player.getName())) {
-                    PlayerInventory inventory = player.getInventory();
-                    int slot = event.getHand() == EquipmentSlot.HAND ? inventory.getHeldItemSlot() : Utils.OFF_HAND_SLOT;
-                    if (experienceBottle.isEnabledTrinket(itemStack)) {
-                        if (experienceBottle.hasExperience(itemStack))
-                            return;
-                        int experience = Utils.getTotalExperience(player);
-                        if (experience == 0) {
-                            player.sendMessage(Component.text("You don't have any experience to store in the bottle.",
-                                    NamedTextColor.YELLOW));
-                            return;
-                        }
-                        ItemStack result = experienceBottle.fillExperienceBottle(itemStack, experience);
-                        Utils.transformItem(itemStack, result, slot, inventory, player);
-                        player.updateInventory();
-                        player.setTotalExperience(0);
-                        player.setLevel(0);
-                        player.setExp(0);
-                        return;
-                    } else if (itemMagnet.isEnabledTrinket(itemStack)) {
-                        if (!itemMagnet.canUse(itemStack)) {
-                            player.sendMessage(Component.text("You can't use this trinket yet.", NamedTextColor.RED));
-                            return;
-                        }
-                        int range = itemMagnet.getRange(itemStack);
-                        List<Entity> entities = player.getNearbyEntities(range, range, range);
-                        entities.stream().filter(entity -> entity instanceof Item)
-                                .forEach(item -> item.teleport(player));
-                        itemMagnet.use(itemStack);
-                    } else if (timeMachinePrototype.isEnabledTrinket(itemStack)) {
-                        long now = System.currentTimeMillis();
-                        if (now - cooldowns.getOrDefault(player, 0L) <= 1000)
-                            return;
-                        if (timeMachinePrototype.hasLocation(itemStack)) {
-                            Location location = timeMachinePrototype.getLocation(itemStack);
-                            if (location == null) {
-                                player.sendMessage(Component.text("This time machine prototype is broken.", NamedTextColor.RED));
+            if (itemStack != null) {
+                if (player.isSneaking()) {
+                    if (trinketManager.isOwnedBy(itemStack, player.getName())) {
+                        PlayerInventory inventory = player.getInventory();
+                        int slot = event.getHand() == EquipmentSlot.HAND ? inventory.getHeldItemSlot() : Utils.OFF_HAND_SLOT;
+                        if (experienceBottle.isEnabledTrinket(itemStack)) {
+                            if (experienceBottle.hasExperience(itemStack))
+                                return;
+                            int experience = Utils.getTotalExperience(player);
+                            if (experience == 0) {
+                                player.sendMessage(Component.text("You don't have any experience to store in the bottle.",
+                                        NamedTextColor.YELLOW));
                                 return;
                             }
-                            World world = player.getWorld();
-                            if (!world.equals(location.getWorld())) {
-                                player.sendMessage(Component.text("This time machine prototype is linked to a location " +
-                                                "in a different world.", NamedTextColor.RED));
-                                return;
-                            }
-                            Location playerLocation = player.getLocation();
-                            boolean dropped = false;
-                            for (int i = 0; i < inventory.getSize(); i++) {
-                                ItemStack inventoryItem = inventory.getItem(i);
-                                if (inventoryItem != null && !timeMachinePrototype.isTrinket(inventoryItem)) {
-                                    world.dropItem(playerLocation, inventoryItem);
-                                    inventory.setItem(i, null);
-                                    dropped = true;
-                                }
-                            }
-                            player.teleport(location);
-                            if (dropped)
-                                player.sendMessage(Component.text("The items you had in your inventory had been " +
-                                        "dropped when you used the time machine.", NamedTextColor.YELLOW));
-                            itemStack.subtract();
-                            player.updateInventory();
-                            cooldowns.put(player, now);
-                        } else {
-                            Location location = player.getLocation();
-                            ItemStack result = timeMachinePrototype.setLocation(itemStack, location);
+                            ItemStack result = experienceBottle.fillExperienceBottle(itemStack, experience);
                             Utils.transformItem(itemStack, result, slot, inventory, player);
                             player.updateInventory();
-                            cooldowns.put(player, now);
+                            player.setTotalExperience(0);
+                            player.setLevel(0);
+                            player.setExp(0);
+                            return;
+                        } else if (itemMagnet.isEnabledTrinket(itemStack)) {
+                            if (!itemMagnet.canUse(itemStack)) {
+                                player.sendMessage(Component.text("You can't use this trinket yet.", NamedTextColor.RED));
+                                return;
+                            }
+                            int range = itemMagnet.getRange(itemStack);
+                            List<Entity> entities = player.getNearbyEntities(range, range, range);
+                            entities.stream().filter(entity -> entity instanceof Item)
+                                    .forEach(item -> item.teleport(player));
+                            itemMagnet.use(itemStack);
+                        } else if (timeMachinePrototype.isEnabledTrinket(itemStack)) {
+                            long now = System.currentTimeMillis();
+                            if (now - cooldowns.getOrDefault(player, 0L) <= 1000)
+                                return;
+                            if (timeMachinePrototype.hasLocation(itemStack)) {
+                                Location location = timeMachinePrototype.getLocation(itemStack);
+                                if (location == null) {
+                                    player.sendMessage(Component.text("This time machine prototype is broken.", NamedTextColor.RED));
+                                    return;
+                                }
+                                World world = player.getWorld();
+                                if (!world.equals(location.getWorld())) {
+                                    player.sendMessage(Component.text("This time machine prototype is linked to a location " +
+                                            "in a different world.", NamedTextColor.RED));
+                                    return;
+                                }
+                                Location playerLocation = player.getLocation();
+                                boolean dropped = false;
+                                for (int i = 0; i < inventory.getSize(); i++) {
+                                    ItemStack inventoryItem = inventory.getItem(i);
+                                    if (inventoryItem != null && !timeMachinePrototype.isTrinket(inventoryItem)) {
+                                        world.dropItem(playerLocation, inventoryItem);
+                                        inventory.setItem(i, null);
+                                        dropped = true;
+                                    }
+                                }
+                                player.teleport(location);
+                                if (dropped)
+                                    player.sendMessage(Component.text("The items you had in your inventory had been " +
+                                            "dropped when you used the time machine.", NamedTextColor.YELLOW));
+                                itemStack.subtract();
+                                player.updateInventory();
+                                cooldowns.put(player, now);
+                            } else {
+                                Location location = player.getLocation();
+                                ItemStack result = timeMachinePrototype.setLocation(itemStack, location);
+                                Utils.transformItem(itemStack, result, slot, inventory, player);
+                                player.updateInventory();
+                                cooldowns.put(player, now);
+                            }
                         }
+                    }
+                } else {
+                    if (holdingBundle.isEnabledTrinket(itemStack) && holdingBundle.hasItems(itemStack)) {
+                        ItemStack containedItem = holdingBundle.getItem(itemStack);
+                        Bukkit.getScheduler().runTask(plugin, () -> {
+                            holdingBundle.refillBundle(itemStack, containedItem);
+                            player.updateInventory();
+                        });
                     }
                 }
             }
