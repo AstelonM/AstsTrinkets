@@ -52,7 +52,6 @@ public class CakeManager {
     public void addCake(Location location) {
         boolean added = cakes.add(Utils.serializeCoords(location));
         if (added) {
-            plugin.getLogger().info("A mystery cake was placed at " + Utils.serializeCoordsLogging(location));
             String cakesOutput = formatCakes();
             Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> saveCakes(cakesOutput));
         }
@@ -61,7 +60,6 @@ public class CakeManager {
     public void removeCake(Location location) {
         boolean removed = cakes.remove(Utils.serializeCoords(location));
         if (removed) {
-            plugin.getLogger().info("A mystery cake was removed from " + Utils.serializeCoordsLogging(location));
             String cakesOutput = formatCakes();
             Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> saveCakes(cakesOutput));
         }
