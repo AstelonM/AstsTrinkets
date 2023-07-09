@@ -7,6 +7,7 @@ import com.astelon.aststrinkets.managers.TrinketManager;
 import com.astelon.aststrinkets.utils.Utils;
 import com.destroystokyo.paper.event.block.BlockDestroyEvent;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.block.Block;
 import org.bukkit.block.data.type.Cake;
@@ -55,6 +56,61 @@ public class CakeListener implements Listener {
         }
     }
 
+    @EventHandler(priority = EventPriority.HIGHEST)
+    public void onPlayerInteractHighest(PlayerInteractEvent event) {
+        if (mysteryCake.isUseLowestPriorityListener())
+            return;
+        playerInteractExecution(event);
+    }
+
+    @EventHandler(priority = EventPriority.LOWEST)
+    public void onPlayerInteractLowest(PlayerInteractEvent event) {
+        if (!mysteryCake.isUseLowestPriorityListener())
+            return;
+        playerInteractExecution(event);
+    }
+
+    private void playerInteractExecution(PlayerInteractEvent event) {
+        Block block = event.getClickedBlock();
+        if (block != null) {
+            Location location = block.getLocation();
+            if (cakeManager.isCakeLocation(location)) {
+                if (!(block.getBlockData() instanceof Cake)) {
+                    cakeManager.removeCake(location);
+                    plugin.getLogger().info("Mystery cake destroyed at " + Utils.locationToString(location) + " by an " +
+                            "unknown cause at an unknown time.");
+                }
+                if (event.useInteractedBlock() == Event.Result.DENY && ! mysteryCake.isIgnoreBlockRestrictions())
+                    return;
+                Player player = event.getPlayer();
+                boolean canEat = mysteryCake.isCheckHealth() ?
+                        player.getHealth() < Objects.requireNonNull(player.getAttribute(Attribute.GENERIC_MAX_HEALTH)).getValue() :
+                        player.getFoodLevel() < 20;
+                if (canEat) {
+                    Cake cake = (Cake) block.getBlockData();
+                    PotionEffect effect = mysteryCake.applyRandomEffect(player);
+                    if (cake.getBites() == cake.getMaximumBites()) {
+                        if (mysteryCake.isConsumeCakeEnabled()) {
+                            block.setType(Material.AIR);
+                            event.setUseInteractedBlock(Event.Result.DENY);
+                        }
+                        cakeManager.removeCake(location);
+                        plugin.getLogger().info("Player " + player.getName() + " consumed a mystery cake at " +
+                                Utils.locationToString(location) + " and was given " + effect.getType().getName());
+                    } else {
+                        if (mysteryCake.isConsumeCakeEnabled()) {
+                            cake.setBites(cake.getBites() + 1);
+                            block.setBlockData(cake);
+                            event.setUseInteractedBlock(Event.Result.DENY);
+                        }
+                        plugin.getLogger().info("Player " + player.getName() + " bit a mystery cake at " +
+                                Utils.locationToString(location) + " and was given " + effect.getType().getName());
+                    }
+                }
+            }
+        }
+    }
+
     @EventHandler(ignoreCancelled = true)
     public void onBlockBreak(BlockBreakEvent event) {
         Location location = event.getBlock().getLocation();
@@ -96,39 +152,6 @@ public class CakeListener implements Listener {
                 cakeManager.removeCake(location);
                 plugin.getLogger().info("Mystery cake destroyed at " + Utils.locationToString(location) + " by an " +
                         "entity explosion.");
-            }
-        }
-    }
-
-    @EventHandler(priority = EventPriority.HIGH)
-    public void onPlayerInteract(PlayerInteractEvent event) {
-        Block block = event.getClickedBlock();
-        if (block != null) {
-            Location location = block.getLocation();
-            if (cakeManager.isCakeLocation(location)) {
-                if (!(block.getBlockData() instanceof Cake)) {
-                    cakeManager.removeCake(location);
-                    plugin.getLogger().info("Mystery cake destroyed at " + Utils.locationToString(location) + " by an " +
-                            "unknown cause at an unknown time.");
-                }
-                if (event.useInteractedBlock() == Event.Result.DENY && ! mysteryCake.isIgnoreBlockRestrictions())
-                    return;
-                Player player = event.getPlayer();
-                boolean canEat = mysteryCake.isCheckHealth() ?
-                        player.getHealth() < Objects.requireNonNull(player.getAttribute(Attribute.GENERIC_MAX_HEALTH)).getValue() :
-                        player.getFoodLevel() < 20;
-                if (canEat) {
-                    Cake cake = (Cake) block.getBlockData();
-                    PotionEffect effect = mysteryCake.applyRandomEffect(player);
-                    if (cake.getBites() == 6) {
-                        cakeManager.removeCake(location);
-                        plugin.getLogger().info("Player " + player.getName() + " consumed a mystery cake at " +
-                                Utils.locationToString(location) + " and was given " + effect.getType().getName());
-                    } else {
-                        plugin.getLogger().info("Player " + player.getName() + " bit a mystery cake at " +
-                                Utils.locationToString(location) + " and was given " + effect.getType().getName());
-                    }
-                }
             }
         }
     }

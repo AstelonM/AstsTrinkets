@@ -35,6 +35,14 @@ mysteryCake:
   checkHealth: false
   # Set to true if you want the plugin to ignore other plugins stopping the player from eating from a cake.
   ignoreBlockRestrictions: false
+  # Set this to true if you have a plugin that deals with cake eating instead of using vanilla behaviour.
+  # Note that if you have plugins preventing players from eating cakes, this will probably result in the random effects being given
+  # without the cake actually being consumed.
+  useLowestPriorityListener: false
+  # Set this to true if you want the plugin to also consume the cakes when an effect is given.
+  # This will replace vanilla behaviour, so the cake won't be consumed naturally. If "useLowestPriorityListener" is also set
+  # to true, this should also stop other plugins from affecting cake eating.
+  consumeCakeEnabled: false
 
 # The organ a spider uses to spin webs. Keep it in offhand while placing string, to place cobwebs instead.
 spinneret:

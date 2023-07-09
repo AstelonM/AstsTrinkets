@@ -82,6 +82,8 @@ public class AstsTrinkets extends JavaPlugin {
         MysteryCake mysteryCake = trinketManager.getMysteryCake();
         mysteryCake.setCheckHealth(configuration.getBoolean(mysteryCake.getName() + ".checkHealth"));
         mysteryCake.setIgnoreBlockRestrictions(configuration.getBoolean(mysteryCake.getName() + ".ignoreBlockRestrictions"));
+        mysteryCake.setUseLowestPriorityListener(configuration.getBoolean(mysteryCake.getName() + ".useLowestPriorityListener"));
+        mysteryCake.setConsumeCakeEnabled(configuration.getBoolean(mysteryCake.getName() + ".consumeCakeEnabled"));
         InfinityItem infinityItem = trinketManager.getInfinityItem();
         List<Material> allowedBlocks = configuration.getStringList(infinityItem.getName() + ".allowedBlocks")
                 .stream().map(Material::valueOf).filter(Material::isBlock).filter(Material::isItem).toList();

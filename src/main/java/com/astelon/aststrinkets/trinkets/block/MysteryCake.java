@@ -24,6 +24,8 @@ public class MysteryCake extends Trinket {
     private final Random random;
     private boolean checkHealth;
     private boolean ignoreBlockRestrictions;
+    private boolean useLowestPriorityListener;
+    private boolean consumeCakeEnabled;
 
     public MysteryCake(AstsTrinkets plugin, NamespacedKeys keys) {
         super(plugin, keys, "mysteryCake", Power.RANDOM_POTION_EFFECT, true, Usages.PLACE_AND_EAT);
@@ -98,5 +100,21 @@ public class MysteryCake extends Trinket {
 
     public void setIgnoreBlockRestrictions(boolean ignoreBlockRestrictions) {
         this.ignoreBlockRestrictions = ignoreBlockRestrictions;
+    }
+
+    public boolean isUseLowestPriorityListener() {
+        return useLowestPriorityListener;
+    }
+
+    public void setUseLowestPriorityListener(boolean useLowestPriorityListener) {
+        this.useLowestPriorityListener = useLowestPriorityListener;
+    }
+
+    public boolean isConsumeCakeEnabled() {
+        return consumeCakeEnabled;
+    }
+
+    public void setConsumeCakeEnabled(boolean consumeCakeEnabled) {
+        this.consumeCakeEnabled = consumeCakeEnabled;
     }
 }
