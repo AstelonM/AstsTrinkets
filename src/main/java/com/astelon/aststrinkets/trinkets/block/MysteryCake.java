@@ -78,9 +78,10 @@ public class MysteryCake extends Trinket {
         return itemStack;
     }
 
-    public void applyRandomEffect(Player player) {
+    public PotionEffect applyRandomEffect(Player player) {
         PotionEffect effect = effects.get(random.nextInt(effects.size()));
         player.addPotionEffect(effect);
+        return effect;
     }
 
     public boolean isCheckHealth() {

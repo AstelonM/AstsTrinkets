@@ -19,6 +19,7 @@ import org.bukkit.event.block.*;
 import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.potion.PotionEffect;
 
 import java.util.Objects;
 
@@ -118,14 +119,14 @@ public class CakeListener implements Listener {
                         player.getFoodLevel() < 20;
                 if (canEat) {
                     Cake cake = (Cake) block.getBlockData();
-                    mysteryCake.applyRandomEffect(player);
+                    PotionEffect effect = mysteryCake.applyRandomEffect(player);
                     if (cake.getBites() == 6) {
                         cakeManager.removeCake(location);
-                        plugin.getLogger().info("Mystery cake consumed at " + Utils.locationToString(location) + " by player " +
-                                player.getName() + ".");
+                        plugin.getLogger().info("Player " + player.getName() + " consumed a mystery cake at " +
+                                Utils.locationToString(location) + " and was given " + effect.getType().getName());
                     } else {
-                        plugin.getLogger().info("Mystery cake bitten at " + Utils.locationToString(location) + " by player " +
-                                player.getName() + ".");
+                        plugin.getLogger().info("Player " + player.getName() + " bit a mystery cake at " +
+                                Utils.locationToString(location) + " and was given " + effect.getType().getName());
                     }
                 }
             }
