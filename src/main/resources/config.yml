@@ -27,7 +27,7 @@ shapeShifter:
   itemBlacklist: []
 
 # A cake that gives a random effect of 30 seconds duration when a piece is eaten.
-# This trinket is experimental, so it requires "aststrinkets.op" permission to give. It might not function properly.
+# This trinket requires "aststrinkets.op" permission to give.
 mysteryCake:
   enabled: true
   # By default, the plugin checks the hunger of the player when determining if the cake is going to be eaten or not.
@@ -84,7 +84,6 @@ youthMilk:
   petOwnerOnly: true
 
 # Right click a mob to trap it within the diamond. Able to trap any mob excluding withers and ender dragons.
-# This is experimental.
 diamondTrap:
   enabled: true
   # Whether only the owner of a pet can trap it. Bypassed with aststrinkets.trinket.ignorepetowner.
@@ -92,7 +91,7 @@ diamondTrap:
 
 # Right click an animal to trap it within the emerald. Able to trap any animal, even the aggressive ones, but not
 # undead animals.
-# This is experimental.
+
 emeraldTrap:
   enabled: true
   # Whether only the owner of a pet can trap it. Bypassed with aststrinkets.trinket.ignorepetowner.
@@ -100,7 +99,7 @@ emeraldTrap:
 
 # Right click a monster to trap it within the amethyst. Able to trap any monster excluding those with implied or obvious
 # sentience (eg. illagers, endermen) and boss monsters (wither, ender dragon).
-# This is experimental.
+
 amethystTrap:
   enabled: true
   # Whether only the owner of a pet can trap it. Bypassed with aststrinkets.trinket.ignorepetowner.
@@ -108,7 +107,7 @@ amethystTrap:
 
 # Right click a mob to trap it within the nether star. Able to trap any mob apart from the ender dragons. Unlike the
 # others, it is not destroyed when the trapped creature is released.
-# This is experimental.
+
 netherStarTrap:
   enabled: true
   # Whether only the owner of a pet can trap it. Bypassed with aststrinkets.trinket.ignorepetowner.
