@@ -112,6 +112,8 @@ public class ProjectileListener implements Listener {
             if (shooterEntity != null && !trinketManager.isOwnedWithRestrictions(arrow, shooterEntity) ||
                     shooterEntity == null && trinketManager.getOwner(arrow) != null)
                 return;
+            if (trinketManager.isTrinketImmune(livingEntity))
+                return;
             if (deathArrow.isEnabledTrinket(arrow)) {
                 event.setDamage(1000000);
                 livingEntity.setHealth(0);
@@ -130,6 +132,8 @@ public class ProjectileListener implements Listener {
             Entity shooterEntity = shooter instanceof Entity ? (Entity) shooter : null;
             if (shooterEntity != null && !trinketManager.isOwnedWithRestrictions(arrow, shooterEntity) ||
                     shooterEntity == null && trinketManager.getOwner(arrow) != null)
+                return;
+            if (trinketManager.isTrinketImmune(livingEntity))
                 return;
             if (trueDeathArrow.isEnabledTrinket(arrow)) {
                 livingEntity.damage(1000000);

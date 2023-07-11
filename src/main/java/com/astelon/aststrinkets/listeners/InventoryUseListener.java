@@ -103,6 +103,10 @@ public class InventoryUseListener implements Listener {
             if (mendingPowder.isEnabledTrinket(heldItem)) {
                 if (clickedItem == null)
                     return;
+                if (trinketManager.isTrinketImmune(clickedItem)) {
+                    player.sendMessage(Component.text("Trinkets cannot be used on this item.", NamedTextColor.RED));
+                    return;
+                }
                 ItemMeta meta = clickedItem.getItemMeta();
                 if (!(meta instanceof Damageable damageable))
                     return;
@@ -119,6 +123,10 @@ public class InventoryUseListener implements Listener {
             } else if (bindingPowder.isEnabledTrinket(heldItem)) {
                 if (clickedItem == null)
                     return;
+                if (trinketManager.isTrinketImmune(clickedItem)) {
+                    player.sendMessage(Component.text("Trinkets cannot be used on this item.", NamedTextColor.RED));
+                    return;
+                }
                 Trinket trinket = trinketManager.getTrinket(clickedItem);
                 if (trinket != null) {
                     event.setCancelled(true);
@@ -135,6 +143,10 @@ public class InventoryUseListener implements Listener {
             } else if (unbindingPowder.isEnabledTrinket(heldItem)) {
                 if (clickedItem == null)
                     return;
+                if (trinketManager.isTrinketImmune(clickedItem)) {
+                    player.sendMessage(Component.text("Trinkets cannot be used on this item.", NamedTextColor.RED));
+                    return;
+                }
                 Trinket trinket = trinketManager.getTrinket(clickedItem);
                 if (trinket != null) {
                     event.setCancelled(true);
@@ -151,6 +163,10 @@ public class InventoryUseListener implements Listener {
             } else if (homendirt.isEnabledTrinket(heldItem)) {
                 if (clickedItem == null)
                     return;
+                if (trinketManager.isTrinketImmune(clickedItem)) {
+                    player.sendMessage(Component.text("Trinkets cannot be used on this item.", NamedTextColor.RED));
+                    return;
+                }
                 int slot = event.getSlot();
                 Inventory inventory = event.getClickedInventory();
                 if (homendingdirt.isTrinket(clickedItem)) {
@@ -181,6 +197,10 @@ public class InventoryUseListener implements Listener {
             } else if (homendingdirt.isEnabledTrinket(heldItem)) {
                 if (clickedItem == null)
                     return;
+                if (trinketManager.isTrinketImmune(clickedItem)) {
+                    player.sendMessage(Component.text("Trinkets cannot be used on this item.", NamedTextColor.RED));
+                    return;
+                }
                 int slot = event.getSlot();
                 Inventory inventory = event.getClickedInventory();
                 if (homendirt.isTrinket(clickedItem)) {
@@ -220,6 +240,7 @@ public class InventoryUseListener implements Listener {
                     return;
                 if (!Utils.isShulkerBox(clickedItem))
                     return;
+                //TODO trinket immune check?
                 if (!shulkerBoxContainmentUnit.canContainShulkerBox(clickedItem)) {
                     player.sendMessage(Component.text("You can't contain this shulker. Make sure it doesn't have " +
                             "another containment unit inside.", NamedTextColor.RED));
@@ -235,6 +256,10 @@ public class InventoryUseListener implements Listener {
             } else if (buddingSolution.isEnabledTrinket(heldItem)) {
                 if (clickedItem == null || clickedItem.getType() != Material.AMETHYST_BLOCK)
                     return;
+                if (trinketManager.isTrinketImmune(clickedItem)) {
+                    player.sendMessage(Component.text("Trinkets cannot be used on this item.", NamedTextColor.RED));
+                    return;
+                }
                 heldItem.subtract();
                 transformItem(clickedItem, new ItemStack(Material.BUDDING_AMETHYST), event.getSlot(), player.getInventory(), player);
                 player.updateInventory();

@@ -74,6 +74,8 @@ public class EntityDamageListener implements Listener {
         if (event.getCause() != EntityDamageEvent.DamageCause.ENTITY_ATTACK &&
                 event.getCause() != EntityDamageEvent.DamageCause.ENTITY_SWEEP_ATTACK)
             return;
+        if (trinketManager.isTrinketImmune(event.getEntity()))
+            return; //TODO message?
         if (!(event.getEntity() instanceof LivingEntity defender))
             return;
         if (!(event.getDamager() instanceof LivingEntity attacker))

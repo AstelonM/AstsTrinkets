@@ -101,6 +101,10 @@ public class PlayerInteractListener implements Listener {
             if (youthMilk.isEnabledTrinket(itemStack) && event.getRightClicked() instanceof Ageable ageable) {
                 if (!ageable.isAdult())
                     return;
+                if (trinketManager.isTrinketImmune(ageable)) {
+                    player.sendMessage(Component.text("Trinkets cannot be used on this entity.", NamedTextColor.RED));
+                    return;
+                }
                 if (youthMilk.petOwnedByOtherPlayer(ageable, player)) {
                     player.sendMessage(Component.text("You can't use this on someone else's pet.", NamedTextColor.RED));
                     return;
@@ -129,6 +133,10 @@ public class PlayerInteractListener implements Listener {
                     return;
                 if (mob.isInvulnerable())
                     return;
+                if (trinketManager.isTrinketImmune(mob)) {
+                    player.sendMessage(Component.text("Trinkets cannot be used on this entity.", NamedTextColor.RED));
+                    return;
+                }
                 if (lifeWater.petOwnedByOtherPlayer(mob, player)) {
                     player.sendMessage(Component.text("You can't use this on someone else's pet.", NamedTextColor.RED));
                     return;
@@ -157,6 +165,10 @@ public class PlayerInteractListener implements Listener {
                     return;
                 if (terrarium.hasTrappedCreature(itemStack)) {
                     player.sendMessage(Component.text("This terrarium already has a creature inside.", NamedTextColor.YELLOW));
+                    return;
+                }
+                if (trinketManager.isTrinketImmune(entity)) {
+                    player.sendMessage(Component.text("Trinkets cannot be used on this entity.", NamedTextColor.RED));
                     return;
                 }
                 if (!terrarium.canTrap(entity)) {
@@ -191,6 +203,10 @@ public class PlayerInteractListener implements Listener {
             return;
         if (trap.hasTrappedCreature(item)) {
             player.sendMessage(Component.text("This crystal trap already has a creature inside.", NamedTextColor.YELLOW));
+            return;
+        }
+        if (trinketManager.isTrinketImmune(entity)) {
+            player.sendMessage(Component.text("Trinkets cannot be used on this entity.", NamedTextColor.RED));
             return;
         }
         if (!trap.isAllowedMob(entity)) {
