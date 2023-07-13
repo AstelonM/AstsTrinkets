@@ -74,4 +74,5 @@ public final class Usages {
             "is consumed when the creature is released. One that hasn't been locked can be reused.";
     public static final String LINK_AND_USE = "Right click air while sneaking and holding the trinket to link it to your " +
             "current location. After that, right click air while sneaking again to use it.";
+    public static final String BUNDLE = "Use like a regular bundle.";
 }

@@ -4,6 +4,7 @@ import com.astelon.aststrinkets.AstsTrinkets;
 import com.astelon.aststrinkets.Power;
 import com.astelon.aststrinkets.trinkets.inventory.BindingPowder;
 import com.astelon.aststrinkets.utils.NamespacedKeys;
+import com.astelon.aststrinkets.utils.Usages;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
@@ -20,7 +21,7 @@ import java.util.List;
 public class HoldingBundle extends Trinket {
 
     public HoldingBundle(AstsTrinkets plugin, NamespacedKeys keys) {
-        super(plugin, keys, "holdingBundle", Power.INFINITE_ITEMS_OF_A_KIND_STORED, false, "");
+        super(plugin, keys, "holdingBundle", Power.INFINITE_ITEMS_OF_A_KIND_STORED, false, Usages.BUNDLE);
     }
 
     @Override
