@@ -64,6 +64,8 @@ public class PlayerInteractListener implements Listener {
     private final Terrarium terrarium;
     private final TimeMachinePrototype timeMachinePrototype;
     private final HoldingBundle holdingBundle;
+    private final TrinketImmunitySponge trinketImmunitySponge;
+    private final TrinketVulnerabilitySponge trinketVulnerabilitySponge;
 
     public PlayerInteractListener(AstsTrinkets plugin, MobInfoManager mobInfoManager, TrinketManager trinketManager) {
         this.plugin = plugin;
@@ -85,6 +87,8 @@ public class PlayerInteractListener implements Listener {
         terrarium = trinketManager.getTerrarium();
         timeMachinePrototype = trinketManager.getTimeMachinePrototype();
         holdingBundle = trinketManager.getHoldingBundle();
+        trinketImmunitySponge = trinketManager.getTrinketImmunitySponge();
+        trinketVulnerabilitySponge = trinketManager.getTrinketVulnerabilitySponge();
     }
 
     @EventHandler
@@ -193,6 +197,20 @@ public class PlayerInteractListener implements Listener {
                 player.sendMessage(Component.text("You trapped the " + mobName + " in the terrarium.", NamedTextColor.GOLD));
                 plugin.getLogger().info(mobName + " trapped in a Terrarium at " +
                         Utils.locationToString(entity.getLocation()) + " by player " + player.getName() + ".");
+            } else if (trinketImmunitySponge.isEnabledTrinket(itemStack)) {
+                if (trinketManager.isTrinketImmune(entity)) {
+                    player.sendMessage(Component.text("This entity is already trinket immune.", NamedTextColor.RED));
+                    return;
+                }
+                trinketManager.makeTrinketImmune(entity);
+                player.sendMessage(Component.text("This entity is now trinket immune."));
+            } else if (trinketVulnerabilitySponge.isEnabledTrinket(itemStack)) {
+                if (!trinketManager.isTrinketImmune(entity)) {
+                    player.sendMessage(Component.text("This entity is not trinket immune.", NamedTextColor.RED));
+                    return;
+                }
+                trinketManager.removeTrinketImmunity(entity);
+                player.sendMessage(Component.text("This entity is no longer trinket immune."));
             }
         }
     }

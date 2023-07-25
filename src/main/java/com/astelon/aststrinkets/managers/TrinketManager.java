@@ -99,6 +99,8 @@ public class TrinketManager {
         addTrinket(new FireproofVest(plugin, keys));
         addTrinket(new TimeMachinePrototype(plugin, keys));
         addTrinket(new HoldingBundle(plugin, keys));
+        addTrinket(new TrinketImmunitySponge(plugin, keys));
+        addTrinket(new TrinketVulnerabilitySponge(plugin, keys));
     }
 
     private void addTrinket(Trinket trinket) {
@@ -293,6 +295,15 @@ public class TrinketManager {
         itemStack.setItemMeta(meta);
     }
 
+    public void removeTrinketImmunity(ItemStack itemStack) {
+        ItemMeta meta = itemStack.getItemMeta();
+        if (meta == null)
+            return;
+        PersistentDataContainer container = meta.getPersistentDataContainer();
+        container.remove(keys.trinketImmuneKey);
+        itemStack.setItemMeta(meta);
+    }
+
     public boolean isTrinketImmune(Entity entity) {
         PersistentDataContainer container = entity.getPersistentDataContainer();
         return container.has(keys.trinketImmuneKey, PersistentDataType.BYTE);
@@ -301,6 +312,11 @@ public class TrinketManager {
     public void makeTrinketImmune(Entity entity) {
         PersistentDataContainer container = entity.getPersistentDataContainer();
         container.set(keys.trinketImmuneKey, PersistentDataType.BYTE, (byte) 1);
+    }
+
+    public void removeTrinketImmunity(Entity entity) {
+        PersistentDataContainer container = entity.getPersistentDataContainer();
+        container.remove(keys.trinketImmuneKey);
     }
 
     public HashMap<String, Object> getPresentKeys(ItemStack itemStack) {
@@ -485,5 +501,13 @@ public class TrinketManager {
 
     public HoldingBundle getHoldingBundle() {
         return (HoldingBundle) getTrinketExact("holdingBundle");
+    }
+
+    public TrinketImmunitySponge getTrinketImmunitySponge() {
+        return (TrinketImmunitySponge) getTrinketExact("trinketImmunitySponge");
+    }
+
+    public TrinketVulnerabilitySponge getTrinketVulnerabilitySponge() {
+        return (TrinketVulnerabilitySponge) getTrinketExact("trinketVulnerabilitySponge");
     }
 }

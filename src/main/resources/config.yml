@@ -318,3 +318,11 @@ timeMachinePrototype:
 # A bundle that can hold an effectively limitless amount of a singly item kind.
 holdingBundle:
   enabled: true
+
+# A wet sponge that lets you manually mark item stacks and creatures as trinket immune.
+trinketImmunitySponge:
+  enabled: true
+
+# A sponge that lets you manually remove trinket immunity from item stacks and entities.
+trinketVulnerabilitySponge:
+  enabled: true

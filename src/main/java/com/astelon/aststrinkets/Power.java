@@ -43,7 +43,9 @@ public enum Power {
     PREVENT_FIRE_DAMAGE("preventFireDamage"),
     TELEPORT_BACK_WITHOUT_ITEMS("teleportBackWithoutItems"),
     TELEPORT_BACK("teleportBack"),
-    INFINITE_ITEMS_OF_A_KIND_STORED("infiniteItemsOfAKindStored");
+    INFINITE_ITEMS_OF_A_KIND_STORED("infiniteItemsOfAKindStored"),
+    TRINKET_IMMUNITY("trinketImmunity"),
+    TRINKET_VULNERABILITY("trinketVulnerability");
 
     private final String powerName;
 

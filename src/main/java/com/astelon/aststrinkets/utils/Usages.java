@@ -75,4 +75,6 @@ public final class Usages {
     public static final String LINK_AND_USE = "Right click air while sneaking and holding the trinket to link it to your " +
             "current location. After that, right click air while sneaking again to use it.";
     public static final String BUNDLE = "Use like a regular bundle.";
+    public static final String INVENTORY_OR_INTERACT = "Use on items with the following steps:<br>" + INVENTORY + "<br>" +
+            "Use on entities by right clicking them.";
 }

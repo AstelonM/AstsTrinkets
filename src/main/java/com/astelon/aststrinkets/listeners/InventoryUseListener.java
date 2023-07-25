@@ -37,6 +37,8 @@ public class InventoryUseListener implements Listener {
     private final ShulkerBoxContainmentUnit shulkerBoxContainmentUnit;
     private final BuddingSolution buddingSolution;
     private final HoldingBundle holdingBundle;
+    private final TrinketImmunitySponge trinketImmunitySponge;
+    private final TrinketVulnerabilitySponge trinketVulnerabilitySponge;
 
     public InventoryUseListener(AstsTrinkets plugin, TrinketManager trinketManager) {
         this.plugin = plugin;
@@ -50,6 +52,8 @@ public class InventoryUseListener implements Listener {
         shulkerBoxContainmentUnit = trinketManager.getShulkerBoxContainmentUnit();
         buddingSolution = trinketManager.getBuddingSolution();
         holdingBundle = trinketManager.getHoldingBundle();
+        trinketImmunitySponge = trinketManager.getTrinketImmunitySponge();
+        trinketVulnerabilitySponge = trinketManager.getTrinketVulnerabilitySponge();
     }
 
     @EventHandler
@@ -264,6 +268,26 @@ public class InventoryUseListener implements Listener {
                 transformItem(clickedItem, new ItemStack(Material.BUDDING_AMETHYST), event.getSlot(), player.getInventory(), player);
                 player.updateInventory();
                 event.setCancelled(true);
+            } else if (trinketImmunitySponge.isEnabledTrinket(heldItem)) {
+                if (clickedItem == null)
+                    return;
+                if (trinketManager.isTrinketImmune(clickedItem)) {
+                    player.sendMessage(Component.text("This item stack is already trinket immune.", NamedTextColor.RED));
+                    return;
+                }
+                event.setCancelled(true);
+                trinketManager.makeTrinketImmune(clickedItem);
+                player.sendMessage(Component.text("The item stack is now trinket immune."));
+            } else if (trinketVulnerabilitySponge.isEnabledTrinket(heldItem)) {
+                if (clickedItem == null)
+                    return;
+                if (!trinketManager.isTrinketImmune(clickedItem)) {
+                    player.sendMessage(Component.text("This item stack is not trinket immune.", NamedTextColor.RED));
+                    return;
+                }
+                event.setCancelled(true);
+                trinketManager.removeTrinketImmunity(clickedItem);
+                player.sendMessage(Component.text("The item stack is no longer trinket immune."));
             }
         }
     }
