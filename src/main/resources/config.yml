@@ -326,3 +326,7 @@ trinketImmunitySponge:
 # A sponge that lets you manually remove trinket immunity from item stacks and entities.
 trinketVulnerabilitySponge:
   enabled: true
+
+# An enchanted book that increases the level of one random enchantment on an item.
+arcaneTome:
+  enabled: true

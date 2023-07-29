@@ -39,6 +39,7 @@ public class InventoryUseListener implements Listener {
     private final HoldingBundle holdingBundle;
     private final TrinketImmunitySponge trinketImmunitySponge;
     private final TrinketVulnerabilitySponge trinketVulnerabilitySponge;
+    private final ArcaneTome arcaneTome;
 
     public InventoryUseListener(AstsTrinkets plugin, TrinketManager trinketManager) {
         this.plugin = plugin;
@@ -54,6 +55,7 @@ public class InventoryUseListener implements Listener {
         holdingBundle = trinketManager.getHoldingBundle();
         trinketImmunitySponge = trinketManager.getTrinketImmunitySponge();
         trinketVulnerabilitySponge = trinketManager.getTrinketVulnerabilitySponge();
+        arcaneTome = trinketManager.getArcaneTome();
     }
 
     @EventHandler
@@ -288,6 +290,30 @@ public class InventoryUseListener implements Listener {
                 event.setCancelled(true);
                 trinketManager.removeTrinketImmunity(clickedItem);
                 player.sendMessage(Component.text("The item stack is no longer trinket immune."));
+            } else if (arcaneTome.isEnabledTrinket(heldItem)) {
+                if (clickedItem == null)
+                    return;
+                if (trinketManager.isTrinketImmune(clickedItem)) {
+                    player.sendMessage(Component.text("Trinkets cannot be used on this item.", NamedTextColor.RED));
+                    return;
+                }
+                if (clickedItem.getType() == Material.ENCHANTED_BOOK) {
+                    EnchantmentStorageMeta meta = (EnchantmentStorageMeta) clickedItem.getItemMeta();
+                    if (meta == null || !meta.hasStoredEnchants() && clickedItem.getEnchantments().isEmpty()) {
+                        player.sendMessage(Component.text("This item has no enchantments.", NamedTextColor.RED));
+                        return;
+                    }
+                } else if (clickedItem.getEnchantments().isEmpty()) {
+                    player.sendMessage(Component.text("This item has no enchantments.", NamedTextColor.RED));
+                    return;
+                }
+                event.setCancelled(true);
+                ItemStack result = arcaneTome.improveEnchantment(clickedItem);
+                int slot = event.getSlot();
+                Inventory inventory = event.getClickedInventory();
+                transformItem(clickedItem, result, slot, inventory, player);
+                heldItem.subtract();
+                player.updateInventory();
             }
         }
     }

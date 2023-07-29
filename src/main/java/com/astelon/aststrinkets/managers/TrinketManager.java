@@ -101,6 +101,7 @@ public class TrinketManager {
         addTrinket(new HoldingBundle(plugin, keys));
         addTrinket(new TrinketImmunitySponge(plugin, keys));
         addTrinket(new TrinketVulnerabilitySponge(plugin, keys));
+        addTrinket(new ArcaneTome(plugin, keys));
     }
 
     private void addTrinket(Trinket trinket) {
@@ -509,5 +510,9 @@ public class TrinketManager {
 
     public TrinketVulnerabilitySponge getTrinketVulnerabilitySponge() {
         return (TrinketVulnerabilitySponge) getTrinketExact("trinketVulnerabilitySponge");
+    }
+
+    public ArcaneTome getArcaneTome() {
+        return (ArcaneTome) getTrinketExact("arcaneTome");
     }
 }
