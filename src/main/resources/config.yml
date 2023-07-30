@@ -330,3 +330,10 @@ trinketVulnerabilitySponge:
 # An enchanted book that increases the level of one random enchantment on an item.
 arcaneTome:
   enabled: true
+
+# A netherite ingot that makes all players in the given radius teleport to the player using it.
+# Needless to say, it requires the "aststrinkets.op" permission to give.
+playerMagnet:
+  enabled: true
+  # The distance in blocks in any direction from the player that players are attracted from. High values might affect performance.
+  range: 4

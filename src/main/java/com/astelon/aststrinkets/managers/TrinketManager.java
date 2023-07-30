@@ -102,6 +102,7 @@ public class TrinketManager {
         addTrinket(new TrinketImmunitySponge(plugin, keys));
         addTrinket(new TrinketVulnerabilitySponge(plugin, keys));
         addTrinket(new ArcaneTome(plugin, keys));
+        addTrinket(new PlayerMagnet(plugin, keys));
     }
 
     private void addTrinket(Trinket trinket) {
@@ -514,5 +515,9 @@ public class TrinketManager {
 
     public ArcaneTome getArcaneTome() {
         return (ArcaneTome) getTrinketExact("arcaneTome");
+    }
+
+    public PlayerMagnet getPlayerMagnet() {
+        return (PlayerMagnet) getTrinketExact("playerMagnet");
     }
 }

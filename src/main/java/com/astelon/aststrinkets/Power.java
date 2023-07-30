@@ -46,7 +46,8 @@ public enum Power {
     INFINITE_ITEMS_OF_A_KIND_STORED("infiniteItemsOfAKindStored"),
     TRINKET_IMMUNITY("trinketImmunity"),
     TRINKET_VULNERABILITY("trinketVulnerability"),
-    IMPROVE_RANDOM_ENCHANTMENT("improveRandomEnchantment");
+    IMPROVE_RANDOM_ENCHANTMENT("improveRandomEnchantment"),
+    ATTRACT_PLAYERS("attractPlayers");
 
     private final String powerName;
 

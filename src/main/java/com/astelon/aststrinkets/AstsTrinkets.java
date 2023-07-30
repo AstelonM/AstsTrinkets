@@ -140,8 +140,8 @@ public class AstsTrinkets extends JavaPlugin {
         ExperienceBottle experienceBottle = trinketManager.getExperienceBottle();
         experienceBottle.setDispenserAllowed(configuration.getBoolean(experienceBottle.getName() + ".dispenserAllowed"));
         ItemMagnet itemMagnet = trinketManager.getItemMagnet();
-        int range = Utils.ensurePositive(configuration.getInt(itemMagnet.getName() + ".range", 4), 4);
-        itemMagnet.setRange(range);
+        int itemMagnetRange = Utils.ensurePositive(configuration.getInt(itemMagnet.getName() + ".range", 4), 4);
+        itemMagnet.setRange(itemMagnetRange);
         Terrarium terrarium = trinketManager.getTerrarium();
         terrarium.setAllowEnderDragonCapture(configuration.getBoolean(terrarium.getName() + ".allowEnderDragonCapture"));
         terrarium.setPetOwnerOnly(configuration.getBoolean(terrarium.getName() + ".petOwnerOnly"));
@@ -153,6 +153,9 @@ public class AstsTrinkets extends JavaPlugin {
         explosiveArrow.setPiercingAllowed(configuration.getBoolean(explosiveArrow.getName() + ".piercingAllowed"));
         explosiveArrow.setMultishotAllowed(configuration.getBoolean(explosiveArrow.getName() + ".multishotAllowed"));
         explosiveArrow.setDispenserAllowed(configuration.getBoolean(explosiveArrow.getName() + ".dispenserAllowed"));
+        PlayerMagnet playerMagnet = trinketManager.getPlayerMagnet();
+        int playerMagnetRange = Utils.ensurePositive(configuration.getInt(playerMagnet.getName() + ".range", 4), 4);
+        playerMagnet.setRange(playerMagnetRange);
     }
 
     private HashSet<EntityType> getBlacklistedTypes(List<String> blacklist) {

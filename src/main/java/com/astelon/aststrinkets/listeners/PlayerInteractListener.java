@@ -33,6 +33,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -66,6 +67,7 @@ public class PlayerInteractListener implements Listener {
     private final HoldingBundle holdingBundle;
     private final TrinketImmunitySponge trinketImmunitySponge;
     private final TrinketVulnerabilitySponge trinketVulnerabilitySponge;
+    private final PlayerMagnet playerMagnet;
 
     public PlayerInteractListener(AstsTrinkets plugin, MobInfoManager mobInfoManager, TrinketManager trinketManager) {
         this.plugin = plugin;
@@ -89,6 +91,7 @@ public class PlayerInteractListener implements Listener {
         holdingBundle = trinketManager.getHoldingBundle();
         trinketImmunitySponge = trinketManager.getTrinketImmunitySponge();
         trinketVulnerabilitySponge = trinketManager.getTrinketVulnerabilitySponge();
+        playerMagnet = trinketManager.getPlayerMagnet();
     }
 
     @EventHandler
@@ -328,6 +331,16 @@ public class PlayerInteractListener implements Listener {
                                 player.updateInventory();
                                 cooldowns.put(player, now);
                             }
+                        } else if (playerMagnet.isEnabledTrinket(itemStack)) {
+                            if (!playerMagnet.canUse(itemStack)) {
+                                player.sendMessage(Component.text("You can't use this trinket yet.", NamedTextColor.RED));
+                                return;
+                            }
+                            int range = playerMagnet.getRange(itemStack);
+                            Collection<Player> players = player.getWorld().getNearbyPlayers(player.getLocation(), range);
+                            players.stream().filter(nearbyPlayer -> !players.equals(nearbyPlayer))
+                                    .forEach(nearbyPlayer -> nearbyPlayer.teleport(player));
+                            playerMagnet.use(itemStack);
                         }
                     }
                 } else {
