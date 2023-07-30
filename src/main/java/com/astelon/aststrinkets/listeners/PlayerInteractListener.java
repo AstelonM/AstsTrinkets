@@ -17,6 +17,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
+import org.bukkit.attribute.Attribute;
+import org.bukkit.attribute.AttributeInstance;
 import org.bukkit.block.Block;
 import org.bukkit.command.CommandException;
 import org.bukkit.command.CommandSender;
@@ -68,6 +70,7 @@ public class PlayerInteractListener implements Listener {
     private final TrinketImmunitySponge trinketImmunitySponge;
     private final TrinketVulnerabilitySponge trinketVulnerabilitySponge;
     private final PlayerMagnet playerMagnet;
+    private final HealingHerb healingHerb;
 
     public PlayerInteractListener(AstsTrinkets plugin, MobInfoManager mobInfoManager, TrinketManager trinketManager) {
         this.plugin = plugin;
@@ -92,6 +95,7 @@ public class PlayerInteractListener implements Listener {
         trinketImmunitySponge = trinketManager.getTrinketImmunitySponge();
         trinketVulnerabilitySponge = trinketManager.getTrinketVulnerabilitySponge();
         playerMagnet = trinketManager.getPlayerMagnet();
+        healingHerb = trinketManager.getHealingHerb();
     }
 
     @EventHandler
@@ -214,6 +218,12 @@ public class PlayerInteractListener implements Listener {
                 }
                 trinketManager.removeTrinketImmunity(entity);
                 player.sendMessage(Component.text("This entity is no longer trinket immune."));
+            } else if (healingHerb.isEnabledTrinket(itemStack)) {
+                if (trinketManager.isTrinketImmune(entity)) {
+                    player.sendMessage(Component.text("Trinkets cannot be used on this entity.", NamedTextColor.RED));
+                    return;
+                }
+                restoreHealth(entity, itemStack, player);
             }
         }
     }
@@ -477,6 +487,8 @@ public class PlayerInteractListener implements Listener {
                         Utils.transformItem(itemStack, result, slot, inventory, player);
                         player.updateInventory();
                     }
+                } else if (healingHerb.isEnabledTrinket(itemStack)) {
+                    restoreHealth(player, itemStack, player);
                 }
             }
         }
@@ -632,6 +644,19 @@ public class PlayerInteractListener implements Listener {
             player.updateInventory();
 
         }
+    }
+
+    private void restoreHealth(LivingEntity entity, ItemStack itemStack, Player player) {
+        double health = entity.getHealth();
+        AttributeInstance healthAttribute = entity.getAttribute(Attribute.GENERIC_MAX_HEALTH);
+        if (healthAttribute == null)
+            return;
+        double maxHealth = healthAttribute.getValue();
+        if (health >= maxHealth)
+            return;
+        entity.setHealth(maxHealth);
+        itemStack.subtract();
+        player.updateInventory();
     }
 
     @EventHandler

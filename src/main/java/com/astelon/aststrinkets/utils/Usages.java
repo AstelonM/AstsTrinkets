@@ -77,4 +77,7 @@ public final class Usages {
     public static final String BUNDLE = "Use like a regular bundle.";
     public static final String INVENTORY_OR_INTERACT = "Use on items with the following steps:<br>" + INVENTORY + "<br>" +
             "Use on entities by right clicking them.";
+    public static final String INTERACT_ENTITY = "Right click an entity using the trinket.";
+    public static final String USE_SELF_OR_ON_CREATURE = "How to use it on yourself:<br>" + SHIFT_RIGHT_CLICK +
+            "<br>How to use it on other creatures:<br>" + INTERACT_ENTITY;
 }

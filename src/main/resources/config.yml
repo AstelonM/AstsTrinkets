@@ -341,3 +341,7 @@ playerMagnet:
 # A string that can be used on armour (or anything that can be worn in the armour slots) to make it unbreakable.
 adamantineStrand:
   enabled: true
+
+# A kelp that can be eaten (shift right click air) or fed to a creature (right click it) to heal back to full health.
+healingHerb:
+  enabled: true

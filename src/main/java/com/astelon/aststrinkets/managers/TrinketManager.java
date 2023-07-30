@@ -104,6 +104,7 @@ public class TrinketManager {
         addTrinket(new ArcaneTome(plugin, keys));
         addTrinket(new PlayerMagnet(plugin, keys));
         addTrinket(new AdamantineStrand(plugin, keys));
+        addTrinket(new HealingHerb(plugin, keys));
     }
 
     private void addTrinket(Trinket trinket) {
@@ -524,5 +525,9 @@ public class TrinketManager {
 
     public AdamantineStrand getAdamantineStrand() {
         return (AdamantineStrand) getTrinketExact("adamantineStrand");
+    }
+
+    public HealingHerb getHealingHerb() {
+        return (HealingHerb) getTrinketExact("healingHerb");
     }
 }
