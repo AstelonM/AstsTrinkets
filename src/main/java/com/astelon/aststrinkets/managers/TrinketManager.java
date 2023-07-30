@@ -237,11 +237,19 @@ public class TrinketManager {
         return playerName.equals(owner);
     }
 
+    public boolean isOwnedBy(ItemStack itemStack, Player player) {
+        return isOwnedBy(itemStack, player.getName());
+    }
+
     public boolean isOwnedBy(Projectile projectile, String playerName) {
         String owner = getOwner(projectile);
         if (owner == null)
             return true;
         return playerName.equals(owner);
+    }
+
+    public boolean isOwnedBy(Projectile projectile, Player player) {
+        return isOwnedBy(projectile, player.getName());
     }
 
     public boolean isStrictlyOwnedBy(ItemStack itemStack, String playerName) {
@@ -251,6 +259,10 @@ public class TrinketManager {
         return playerName.equals(owner);
     }
 
+    public boolean isStrictlyOwnedBy(ItemStack itemStack, Player player) {
+        return isStrictlyOwnedBy(itemStack, player.getName());
+    }
+
     public boolean isStrictlyOwnedBy(Projectile projectile, String playerName) {
         String owner = getOwner(projectile);
         if (owner == null)
@@ -258,10 +270,14 @@ public class TrinketManager {
         return playerName.equals(owner);
     }
 
+    public boolean isStrictlyOwnedBy(Projectile projectile, Player player) {
+        return isStrictlyOwnedBy(projectile, player.getName());
+    }
+
     public boolean isOwnedWithRestrictions(ItemStack itemStack, Entity entity) {
         String owner = getOwner(itemStack);
         if (owner != null) {
-            if (entity instanceof Player player && !isOwnedBy(itemStack, player.getName()))
+            if (entity instanceof Player player && !isOwnedBy(itemStack, player))
                 return false;
             else
                 return entity instanceof Player;
@@ -272,7 +288,7 @@ public class TrinketManager {
     public boolean isOwnedWithRestrictions(Arrow arrow, Entity entity) {
         String owner = getOwner(arrow);
         if (owner != null) {
-            if (entity instanceof Player player && !isOwnedBy(arrow, player.getName()))
+            if (entity instanceof Player player && !isOwnedBy(arrow, player))
                 return false;
             else
                 return entity instanceof Player;
