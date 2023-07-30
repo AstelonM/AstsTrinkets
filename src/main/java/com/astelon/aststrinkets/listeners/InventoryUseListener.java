@@ -70,7 +70,7 @@ public class InventoryUseListener implements Listener {
         ItemStack clickedItem = event.getCurrentItem();
         if (event.getClick() == ClickType.RIGHT) {
             if (holdingBundle.isEnabled()) {
-                if (holdingBundle.isTrinket(heldItem)) {
+                if (holdingBundle.isTrinket(heldItem) && trinketManager.isOwnedBy(heldItem, player)) {
                     if (clickedItem != null && clickedItem.getType() != Material.AIR) {
                         if (holdingBundle.hasItems(heldItem)) {
                             event.setCancelled(true);
@@ -96,7 +96,8 @@ public class InventoryUseListener implements Listener {
                         Utils.transformCursorItem(heldItem, result, player.getInventory(), player);
                         player.updateInventory();
                     }
-                } else if (clickedItem != null && holdingBundle.isTrinket(clickedItem) && holdingBundle.hasItems(clickedItem)) {
+                } else if (clickedItem != null && holdingBundle.isTrinket(clickedItem) &&
+                        trinketManager.isOwnedBy(clickedItem, player) && holdingBundle.hasItems(clickedItem)) {
                     event.setCancelled(true);
                     ItemStack result = addItemsInBundle(clickedItem, heldItem, player);
                     if (result != null) {
