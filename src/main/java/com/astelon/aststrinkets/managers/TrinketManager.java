@@ -103,6 +103,7 @@ public class TrinketManager {
         addTrinket(new TrinketVulnerabilitySponge(plugin, keys));
         addTrinket(new ArcaneTome(plugin, keys));
         addTrinket(new PlayerMagnet(plugin, keys));
+        addTrinket(new AdamantineStrand(plugin, keys));
     }
 
     private void addTrinket(Trinket trinket) {
@@ -519,5 +520,9 @@ public class TrinketManager {
 
     public PlayerMagnet getPlayerMagnet() {
         return (PlayerMagnet) getTrinketExact("playerMagnet");
+    }
+
+    public AdamantineStrand getAdamantineStrand() {
+        return (AdamantineStrand) getTrinketExact("adamantineStrand");
     }
 }

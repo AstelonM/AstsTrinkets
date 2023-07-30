@@ -47,7 +47,8 @@ public enum Power {
     TRINKET_IMMUNITY("trinketImmunity"),
     TRINKET_VULNERABILITY("trinketVulnerability"),
     IMPROVE_RANDOM_ENCHANTMENT("improveRandomEnchantment"),
-    ATTRACT_PLAYERS("attractPlayers");
+    ATTRACT_PLAYERS("attractPlayers"),
+    MAKE_ARMOUR_UNBREAKABLE("makeArmourUnbreakable");
 
     private final String powerName;
 

@@ -15,6 +15,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.Damageable;
@@ -40,6 +41,7 @@ public class InventoryUseListener implements Listener {
     private final TrinketImmunitySponge trinketImmunitySponge;
     private final TrinketVulnerabilitySponge trinketVulnerabilitySponge;
     private final ArcaneTome arcaneTome;
+    private final AdamantineStrand adamantineStrand;
 
     public InventoryUseListener(AstsTrinkets plugin, TrinketManager trinketManager) {
         this.plugin = plugin;
@@ -56,6 +58,7 @@ public class InventoryUseListener implements Listener {
         trinketImmunitySponge = trinketManager.getTrinketImmunitySponge();
         trinketVulnerabilitySponge = trinketManager.getTrinketVulnerabilitySponge();
         arcaneTome = trinketManager.getArcaneTome();
+        adamantineStrand = trinketManager.getAdamantineStrand();
     }
 
     @EventHandler
@@ -314,6 +317,26 @@ public class InventoryUseListener implements Listener {
                 transformItem(clickedItem, result, slot, inventory, player);
                 heldItem.subtract();
                 player.updateInventory();
+            } else if (adamantineStrand.isEnabledTrinket(heldItem)) {
+                if (clickedItem == null)
+                    return;
+                if (trinketManager.isTrinketImmune(clickedItem)) {
+                    player.sendMessage(Component.text("Trinkets cannot be used on this item.", NamedTextColor.RED));
+                    return;
+                }
+                ItemMeta meta = clickedItem.getItemMeta();
+                if (meta != null && meta.isUnbreakable())
+                    return;
+                EquipmentSlot equipmentSlot = clickedItem.getType().getEquipmentSlot();
+                ItemStack result = switch (equipmentSlot) {
+                    case FEET, LEGS, CHEST, HEAD -> adamantineStrand.makeUnbreakable(clickedItem);
+                    default -> null;
+                };
+                if (result != null) {
+                    Utils.transformItem(clickedItem, result, event.getSlot(), event.getClickedInventory(), player);
+                    heldItem.subtract();
+                    player.updateInventory();
+                }
             }
         }
     }

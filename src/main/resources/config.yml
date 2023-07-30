@@ -337,3 +337,7 @@ playerMagnet:
   enabled: true
   # The distance in blocks in any direction from the player that players are attracted from. High values might affect performance.
   range: 4
+
+# A string that can be used on armour (or anything that can be worn in the armour slots) to make it unbreakable.
+adamantineStrand:
+  enabled: true
