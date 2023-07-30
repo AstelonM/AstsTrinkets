@@ -24,7 +24,7 @@ public final class Usages {
     public static final String SHULKER_BOX_UNIT = INVENTORY + "<br>" +
             "5. You can retrieve the shulker box by placing down the trinket or by right clicking air while sneaking " +
             "with the trinket in your hand.";
-    public static final String INTERACT_ENTITY = "Right click an entity that has a baby form using the trinket.";
+    public static final String INTERACT_ENTITY_WITH_BABY_FORM = "Right click an entity that has a baby form using the trinket.";
     public static final String HIT_AND_DAMAGE = "Hit a player or creature and damage them.";
     public static final String THROW = "Throw it somewhere with right click.";
     public static final String BAIT = "Hold in your other hand when fishing.";
