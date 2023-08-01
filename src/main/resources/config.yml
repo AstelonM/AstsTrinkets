@@ -345,3 +345,8 @@ adamantineStrand:
 # A kelp that can be eaten (shift right click air) or fed to a creature (right click it) to heal back to full health.
 healingHerb:
   enabled: true
+
+# A pair of leather pants that make the wearer not take any damage.
+# Requires the "aststrinkets.op" permission to give.
+invincibilityBelt:
+  enabled: true

@@ -7,6 +7,7 @@ import com.astelon.aststrinkets.trinkets.Souleater;
 import com.astelon.aststrinkets.trinkets.equipable.DivingHelmet;
 import com.astelon.aststrinkets.trinkets.equipable.FireproofVest;
 import com.astelon.aststrinkets.trinkets.equipable.HydraulicBoots;
+import com.astelon.aststrinkets.trinkets.equipable.InvincibilityBelt;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -25,6 +26,7 @@ public class EntityDamageListener implements Listener {
     private final HydraulicBoots hydraulicBoots;
     private final Souleater souleater;
     private final FireproofVest fireproofVest;
+    private final InvincibilityBelt invincibilityBelt;
 
     public EntityDamageListener(AstsTrinkets plugin, TrinketManager trinketManager, MobInfoManager mobInfoManager) {
         this.plugin = plugin;
@@ -34,6 +36,7 @@ public class EntityDamageListener implements Listener {
         hydraulicBoots = trinketManager.getHydraulicBoots();
         souleater = trinketManager.getSouleater();
         fireproofVest = trinketManager.getFireproofVest();
+        invincibilityBelt = trinketManager.getInvincibilityBelt();
     }
 
     @EventHandler(ignoreCancelled = true)
@@ -43,6 +46,9 @@ public class EntityDamageListener implements Listener {
         EntityEquipment equipment = entity.getEquipment();
         if (equipment == null)
             return;
+        ItemStack leggings = equipment.getLeggings();
+        if (invincibilityBelt.isEnabledTrinket(leggings) && trinketManager.isOwnedWithRestrictions(leggings, entity))
+            event.setCancelled(true);
         EntityDamageEvent.DamageCause cause = event.getCause();
         if (cause == EntityDamageEvent.DamageCause.DROWNING) {
             ItemStack helmet = equipment.getHelmet();

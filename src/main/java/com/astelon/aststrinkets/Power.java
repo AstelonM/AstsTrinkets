@@ -49,7 +49,8 @@ public enum Power {
     IMPROVE_RANDOM_ENCHANTMENT("improveRandomEnchantment"),
     ATTRACT_PLAYERS("attractPlayers"),
     MAKE_ARMOUR_UNBREAKABLE("makeArmourUnbreakable"),
-    RESTORE_FULL_HEALTH("restoreFullHealth");
+    RESTORE_FULL_HEALTH("restoreFullHealth"),
+    INVINCIBILITY("invincibility");
 
     private final String powerName;
 

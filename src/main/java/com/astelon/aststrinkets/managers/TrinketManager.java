@@ -105,6 +105,7 @@ public class TrinketManager {
         addTrinket(new PlayerMagnet(plugin, keys));
         addTrinket(new AdamantineStrand(plugin, keys));
         addTrinket(new HealingHerb(plugin, keys));
+        addTrinket(new InvincibilityBelt(plugin, keys));
     }
 
     private void addTrinket(Trinket trinket) {
@@ -545,5 +546,9 @@ public class TrinketManager {
 
     public HealingHerb getHealingHerb() {
         return (HealingHerb) getTrinketExact("healingHerb");
+    }
+
+    public InvincibilityBelt getInvincibilityBelt() {
+        return (InvincibilityBelt) getTrinketExact("invincibilityBelt");
     }
 }
