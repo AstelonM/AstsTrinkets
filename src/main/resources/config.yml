@@ -350,3 +350,14 @@ healingHerb:
 # Requires the "aststrinkets.op" permission to give.
 invincibilityBelt:
   enabled: true
+
+# A netherite sword that has a chance to absorb some of the damage dealt as health to the wielder.
+# Only triggered if the hit has at least 90% of the cooldown passed.
+vampiricSword:
+  enabled: true
+  # The minimum time between two uses, in seconds.
+  cooldown: 0
+  # The chance that the sword will absorb health.
+  useChance: 10.0
+  # Percentage of the damage dealt that is converted into health for the wielder.
+  percentageAbsorbed: 50.0

@@ -50,7 +50,8 @@ public enum Power {
     ATTRACT_PLAYERS("attractPlayers"),
     MAKE_ARMOUR_UNBREAKABLE("makeArmourUnbreakable"),
     RESTORE_FULL_HEALTH("restoreFullHealth"),
-    INVINCIBILITY("invincibility");
+    INVINCIBILITY("invincibility"),
+    ABSORB_HEALTH_ON_HIT("absorbHealthOnHit");
 
     private final String powerName;
 

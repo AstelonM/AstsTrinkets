@@ -156,6 +156,15 @@ public class AstsTrinkets extends JavaPlugin {
         PlayerMagnet playerMagnet = trinketManager.getPlayerMagnet();
         int playerMagnetRange = Utils.ensurePositive(configuration.getInt(playerMagnet.getName() + ".range", 4), 4);
         playerMagnet.setRange(playerMagnetRange);
+        VampiricSword vampiricSword = trinketManager.getVampiricSword();
+        cooldown = configuration.getInt(vampiricSword.getName() + ".cooldown", 60) * 1000;
+        vampiricSword.setCooldown(Utils.ensurePositive(cooldown, 60000));
+        double useChance = Utils.ensurePercentage(configuration.getDouble(vampiricSword.getName() + ".useChance", 1.0),
+                1.0);
+        vampiricSword.setUseChance(Utils.normalizeRate(useChance));
+        double percentageAbsorbed = Utils.ensurePercentage(configuration.getDouble(vampiricSword.getName() +
+                ".percentageAbsorbed", 10.0), 10.0);
+        vampiricSword.setPercentageAbsorbed(Utils.normalizeRate(percentageAbsorbed));
     }
 
     private HashSet<EntityType> getBlacklistedTypes(List<String> blacklist) {

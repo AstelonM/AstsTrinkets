@@ -106,6 +106,7 @@ public class TrinketManager {
         addTrinket(new AdamantineStrand(plugin, keys));
         addTrinket(new HealingHerb(plugin, keys));
         addTrinket(new InvincibilityBelt(plugin, keys));
+        addTrinket(new VampiricSword(plugin, keys));
     }
 
     private void addTrinket(Trinket trinket) {
@@ -550,5 +551,9 @@ public class TrinketManager {
 
     public InvincibilityBelt getInvincibilityBelt() {
         return (InvincibilityBelt) getTrinketExact("invincibilityBelt");
+    }
+
+    public VampiricSword getVampiricSword() {
+        return (VampiricSword) getTrinketExact("vampiricSword");
     }
 }
