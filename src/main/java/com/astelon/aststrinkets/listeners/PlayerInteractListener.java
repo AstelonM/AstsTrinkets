@@ -153,7 +153,7 @@ public class PlayerInteractListener implements Listener {
                     return;
                 }
                 event.setCancelled(true);
-                lifeWater.makeInvulnerable(mob, player);
+                lifeWater.makeInvulnerable(mob);
                 Utils.transformItem(itemStack, new ItemStack(Material.GLASS_BOTTLE), slot, inventory, player);
                 player.updateInventory();
                 plugin.getLogger().info("Life water used on " + mobInfoManager.getTypeAndName(mob) + " at " +
