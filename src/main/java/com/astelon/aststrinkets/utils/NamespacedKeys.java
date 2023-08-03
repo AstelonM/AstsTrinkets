@@ -4,11 +4,14 @@ import com.astelon.aststrinkets.AstsTrinkets;
 import org.bukkit.NamespacedKey;
 import org.bukkit.persistence.PersistentDataType;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.Map;
 
 public class NamespacedKeys {
 
-    private HashMap<NamespacedKey, PersistentDataType<?, ?>> keys;
+    private Map<String, KeyTypePair> keys;
 
     public final NamespacedKey nameKey;
     public final NamespacedKey powerKey;
@@ -60,30 +63,37 @@ public class NamespacedKeys {
 
     private void initKeyMap() {
         keys = new HashMap<>();
-        keys.put(nameKey, PersistentDataType.STRING);
-        keys.put(powerKey, PersistentDataType.STRING);
-        keys.put(ownerKey, PersistentDataType.STRING);
-        keys.put(trapKey, PersistentDataType.BYTE_ARRAY);
-        keys.put(failureChanceKey, PersistentDataType.DOUBLE);
-        keys.put(criticalFailureChanceKey, PersistentDataType.DOUBLE);
-        keys.put(shulkerBoxKey, PersistentDataType.BYTE_ARRAY);
-        keys.put(invulnerabilitySourceKey, PersistentDataType.STRING);
-        keys.put(lastUseKey, PersistentDataType.LONG);
-        keys.put(storedExperienceKey, PersistentDataType.INTEGER);
-        keys.put(trinketImmuneKey, PersistentDataType.BYTE);
-        keys.put(customIdKey, PersistentDataType.STRING);
-        keys.put(customNameKey, PersistentDataType.STRING);
-        keys.put(commandsKey, PersistentDataType.STRING);
-        keys.put(cooldownKey, PersistentDataType.INTEGER);
-        keys.put(remainingUsesKey, PersistentDataType.INTEGER);
-        keys.put(functionalCopiesKey, PersistentDataType.BYTE);
-        keys.put(locationKey, PersistentDataType.STRING);
-        keys.put(rangeKey, PersistentDataType.INTEGER);
-        keys.put(lockedKey, PersistentDataType.BYTE);
-        keys.put(amountKey, PersistentDataType.INTEGER);
+        keys.put(nameKey.getKey(), new KeyTypePair(nameKey, PersistentDataType.STRING));
+        keys.put(powerKey.getKey(), new KeyTypePair(powerKey, PersistentDataType.STRING));
+        keys.put(ownerKey.getKey(), new KeyTypePair(ownerKey, PersistentDataType.STRING));
+        keys.put(trapKey.getKey(), new KeyTypePair(trapKey, PersistentDataType.BYTE_ARRAY));
+        keys.put(failureChanceKey.getKey(), new KeyTypePair(failureChanceKey, PersistentDataType.DOUBLE));
+        keys.put(criticalFailureChanceKey.getKey(), new KeyTypePair(criticalFailureChanceKey, PersistentDataType.DOUBLE));
+        keys.put(shulkerBoxKey.getKey(), new KeyTypePair(shulkerBoxKey, PersistentDataType.BYTE_ARRAY));
+        keys.put(invulnerabilitySourceKey.getKey(), new KeyTypePair(invulnerabilitySourceKey, PersistentDataType.STRING));
+        keys.put(lastUseKey.getKey(), new KeyTypePair(lastUseKey, PersistentDataType.LONG));
+        keys.put(storedExperienceKey.getKey(), new KeyTypePair(storedExperienceKey, PersistentDataType.INTEGER));
+        keys.put(trinketImmuneKey.getKey(), new KeyTypePair(trinketImmuneKey, PersistentDataType.BYTE));
+        keys.put(customIdKey.getKey(), new KeyTypePair(customIdKey, PersistentDataType.STRING));
+        keys.put(customNameKey.getKey(), new KeyTypePair(customNameKey, PersistentDataType.STRING));
+        keys.put(commandsKey.getKey(), new KeyTypePair(commandsKey, PersistentDataType.STRING));
+        keys.put(cooldownKey.getKey(), new KeyTypePair(cooldownKey, PersistentDataType.INTEGER));
+        keys.put(remainingUsesKey.getKey(), new KeyTypePair(remainingUsesKey, PersistentDataType.INTEGER));
+        keys.put(functionalCopiesKey.getKey(), new KeyTypePair(functionalCopiesKey, PersistentDataType.BYTE));
+        keys.put(locationKey.getKey(), new KeyTypePair(locationKey, PersistentDataType.STRING));
+        keys.put(rangeKey.getKey(), new KeyTypePair(rangeKey, PersistentDataType.INTEGER));
+        keys.put(lockedKey.getKey(), new KeyTypePair(lockedKey, PersistentDataType.BYTE));
+        keys.put(amountKey.getKey(), new KeyTypePair(amountKey, PersistentDataType.INTEGER));
+        keys = Collections.unmodifiableMap(keys);
     }
 
-    public HashMap<NamespacedKey, PersistentDataType<?, ?>> getKeyMap() {
-        return keys;
+    public Collection<KeyTypePair> getKeys() {
+        return keys.values();
     }
+
+    public KeyTypePair getKeyTypePair(String keyName) {
+        return keys.get(keyName);
+    }
+
+    public record KeyTypePair(NamespacedKey key, PersistentDataType<?, ?> type) {}
 }

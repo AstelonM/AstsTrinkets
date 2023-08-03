@@ -35,6 +35,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class TrinketManager {
 
@@ -349,12 +350,20 @@ public class TrinketManager {
         if (meta == null)
             return result;
         PersistentDataContainer container = meta.getPersistentDataContainer();
-        for (Map.Entry<NamespacedKey, PersistentDataType<?, ?>> entry: keys.getKeyMap().entrySet()) {
-            if (container.has(entry.getKey(), entry.getValue())) {
-                result.put(entry.getKey().getKey(), container.get(entry.getKey(), entry.getValue()));
+        for (NamespacedKeys.KeyTypePair keyTypePair: keys.getKeys()) {
+            if (container.has(keyTypePair.key(), keyTypePair.type())) {
+                result.put(keyTypePair.key().getKey(), container.get(keyTypePair.key(), keyTypePair.type()));
             }
         }
         return result;
+    }
+
+    public List<NamespacedKey> getKeys() {
+        return keys.getKeys().stream().map(NamespacedKeys.KeyTypePair::key).collect(Collectors.toList());
+    }
+
+    public NamespacedKeys.KeyTypePair getKeyTypePair(String keyName) {
+        return keys.getKeyTypePair(keyName);
     }
 
     public FragileInvisibilityTunic getFragileInvisibilityTunic() {
