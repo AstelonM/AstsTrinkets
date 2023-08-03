@@ -271,6 +271,13 @@ public class PlayerInteractListener implements Listener {
             Player player = event.getPlayer();
             ItemStack itemStack = event.getItem();
             if (itemStack != null && trinketManager.isOwnedBy(itemStack, player)) {
+                if (holdingBundle.isEnabledTrinket(itemStack) && holdingBundle.hasItems(itemStack)) {
+                    ItemStack containedItem = holdingBundle.getItem(itemStack);
+                    Bukkit.getScheduler().runTask(plugin, () -> {
+                        holdingBundle.refillBundle(itemStack, containedItem);
+                        player.updateInventory();
+                    });
+                }
                 if (player.isSneaking()) {
                     PlayerInventory inventory = player.getInventory();
                     int slot = event.getHand() == EquipmentSlot.HAND ? inventory.getHeldItemSlot() : Utils.OFF_HAND_SLOT;
@@ -350,14 +357,6 @@ public class PlayerInteractListener implements Listener {
                         players.stream().filter(nearbyPlayer -> !players.equals(nearbyPlayer))
                                 .forEach(nearbyPlayer -> nearbyPlayer.teleport(player));
                         playerMagnet.use(itemStack);
-                    }
-                } else {
-                    if (holdingBundle.isEnabledTrinket(itemStack) && holdingBundle.hasItems(itemStack)) {
-                        ItemStack containedItem = holdingBundle.getItem(itemStack);
-                        Bukkit.getScheduler().runTask(plugin, () -> {
-                            holdingBundle.refillBundle(itemStack, containedItem);
-                            player.updateInventory();
-                        });
                     }
                 }
             }
