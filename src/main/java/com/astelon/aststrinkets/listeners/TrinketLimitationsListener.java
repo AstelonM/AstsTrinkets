@@ -1,24 +1,28 @@
 package com.astelon.aststrinkets.listeners;
 
 import com.astelon.aststrinkets.managers.TrinketManager;
+import com.astelon.aststrinkets.trinkets.SentientAxe;
 import com.astelon.aststrinkets.trinkets.Souleater;
 import com.astelon.aststrinkets.trinkets.VampiricSword;
 import com.destroystokyo.paper.event.inventory.PrepareResultEvent;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.enchantment.EnchantItemEvent;
 import org.bukkit.inventory.GrindstoneInventory;
 import org.bukkit.inventory.ItemStack;
 
-public class GrindstoneListener implements Listener {
+public class TrinketLimitationsListener implements Listener {
 
     private final TrinketManager trinketManager;
     private final Souleater souleater;
     private final VampiricSword vampiricSword;
+    private final SentientAxe sentientAxe;
 
-    public GrindstoneListener(TrinketManager trinketManager) {
+    public TrinketLimitationsListener(TrinketManager trinketManager) {
         this.trinketManager = trinketManager;
         souleater = trinketManager.getSouleater();
         vampiricSword = trinketManager.getVampiricSword();
+        sentientAxe = trinketManager.getSentientAxe();
     }
 
     @EventHandler
@@ -29,6 +33,15 @@ public class GrindstoneListener implements Listener {
                     !vampiricSword.isTrinket(itemStack)) {
                 event.setResult(new ItemStack(itemStack.getType()));
             }
+        }
+    }
+
+    @EventHandler(ignoreCancelled = true)
+    public void onEnchantItem(EnchantItemEvent event) {
+        ItemStack itemStack = event.getItem();
+        if (trinketManager.isTrinket(itemStack) && !souleater.isTrinket(itemStack) && !vampiricSword.isTrinket(itemStack) &&
+                !sentientAxe.isTrinket(itemStack)) { // Sentient Axe treated in its own listener
+            event.setCancelled(true);
         }
     }
 }
