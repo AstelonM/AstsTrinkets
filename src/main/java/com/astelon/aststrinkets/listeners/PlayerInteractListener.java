@@ -120,10 +120,6 @@ public class PlayerInteractListener implements Listener {
                     player.sendMessage(Component.text("You can't use this on someone else's pet.", NamedTextColor.RED));
                     return;
                 }
-                if (youthMilk.isInvulnerableToPlayer(ageable, player)) {
-                    player.sendMessage(Component.text("This creature is too strong to be affected.", NamedTextColor.RED));
-                    return;
-                }
                 event.setCancelled(true);
                 //TODO check ageLock?
                 ageable.setBaby();
@@ -190,10 +186,6 @@ public class PlayerInteractListener implements Listener {
                     player.sendMessage(Component.text("You can't trap someone else's pet.", NamedTextColor.RED));
                     return;
                 }
-                if (terrarium.isInvulnerableToPlayer(entity, player)) {
-                    player.sendMessage(Component.text("This creature is too strong to be trapped.", NamedTextColor.RED));
-                    return;
-                }
                 ItemStack result = terrarium.trapCreature(itemStack, entity);
                 if (result == null)
                     return;
@@ -246,10 +238,6 @@ public class PlayerInteractListener implements Listener {
         }
         if (trap.petOwnedByOtherPlayer(entity, player)) {
             player.sendMessage(Component.text("You can't trap someone else's pet.", NamedTextColor.RED));
-            return;
-        }
-        if (trap.isInvulnerableToPlayer(entity, player)) {
-            player.sendMessage(Component.text("This creature is too strong to be trapped.", NamedTextColor.RED));
             return;
         }
         ItemStack result = trap.trapCreature(item, entity);
