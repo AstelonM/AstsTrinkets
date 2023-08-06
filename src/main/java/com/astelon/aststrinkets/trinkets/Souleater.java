@@ -68,7 +68,7 @@ public class Souleater extends Trinket {
             enchantedSlots.add(EquipmentSlot.FEET);
         if (enchantedSlots.size() != 0) {
             double roll = random.nextDouble();
-            if (roll < useChance) {
+            if (roll < getUseChance(souleater)) {
                 EquipmentSlot randomSlot = enchantedSlots.get(random.nextInt(enchantedSlots.size()));
                 ItemStack randomItem = equipment.getItem(randomSlot);
                 removeEnchantment(randomItem);
@@ -78,6 +78,11 @@ public class Souleater extends Trinket {
             }
         }
         return false;
+    }
+
+    public double getUseChance(ItemStack souleater) {
+        PersistentDataContainer container = souleater.getItemMeta().getPersistentDataContainer();
+        return container.getOrDefault(keys.useChanceKey, PersistentDataType.DOUBLE, useChance);
     }
 
     private boolean hasEnchantments(ItemStack itemStack) {

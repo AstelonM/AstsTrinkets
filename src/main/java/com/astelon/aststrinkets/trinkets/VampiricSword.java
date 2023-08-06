@@ -46,12 +46,17 @@ public class VampiricSword extends Trinket {
         if (damage == 0)
             return;
         double roll = random.nextDouble();
-        if (roll < useChance) {
+        if (roll < getUseChance(vampiricSword)) {
             double health = percentageAbsorbed * damage;
             double maxHealth = Objects.requireNonNull(entity.getAttribute(Attribute.GENERIC_MAX_HEALTH)).getValue();
             entity.setHealth(Math.min(entity.getHealth() + health, maxHealth));
             setLastUse(vampiricSword);
         }
+    }
+
+    public double getUseChance(ItemStack vampiricSword) {
+        PersistentDataContainer container = vampiricSword.getItemMeta().getPersistentDataContainer();
+        return container.getOrDefault(keys.useChanceKey, PersistentDataType.DOUBLE, useChance);
     }
 
     public boolean canUse(ItemStack vampiricSword) {
