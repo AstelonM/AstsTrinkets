@@ -126,9 +126,9 @@ public class AstsTrinkets extends JavaPlugin {
         Souleater souleater = trinketManager.getSouleater();
         int cooldown = configuration.getInt(souleater.getName() + ".cooldown", 60) * 1000;
         souleater.setCooldown(Utils.ensurePositive(cooldown, 60000));
-        double eatChance = Utils.ensurePercentage(configuration.getDouble(souleater.getName() + ".eatChance", 1.0),
+        double eatChance = Utils.ensurePercentage(configuration.getDouble(souleater.getName() + ".useChance", 1.0),
                 1.0);
-        souleater.setEatChance(Utils.normalizeRate(eatChance));
+        souleater.setUseChance(Utils.normalizeRate(eatChance));
         MysteryEgg mysteryEgg = trinketManager.getMysteryEgg();
         List<String> blacklist = configuration.getStringList(mysteryEgg.getName() + ".blacklist");
         mysteryEgg.setAllowedEntities(getBlacklistedTypes(blacklist));

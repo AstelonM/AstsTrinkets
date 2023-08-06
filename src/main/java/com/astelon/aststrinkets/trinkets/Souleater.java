@@ -23,7 +23,7 @@ public class Souleater extends Trinket {
 
     private final Random random;
     private long cooldown;
-    private double eatChance;
+    private double useChance;
 
     public Souleater(AstsTrinkets plugin, NamespacedKeys keys) {
         super(plugin, keys, "souleater", Power.CONSUME_ENCHANTMENTS, false, Usages.HIT_AND_DAMAGE);
@@ -68,7 +68,7 @@ public class Souleater extends Trinket {
             enchantedSlots.add(EquipmentSlot.FEET);
         if (enchantedSlots.size() != 0) {
             double roll = random.nextDouble();
-            if (roll < eatChance) {
+            if (roll < useChance) {
                 EquipmentSlot randomSlot = enchantedSlots.get(random.nextInt(enchantedSlots.size()));
                 ItemStack randomItem = equipment.getItem(randomSlot);
                 removeEnchantment(randomItem);
@@ -107,7 +107,7 @@ public class Souleater extends Trinket {
         this.cooldown = cooldown;
     }
 
-    public void setEatChance(double eatChance) {
-        this.eatChance = eatChance;
+    public void setUseChance(double useChance) {
+        this.useChance = useChance;
     }
 }

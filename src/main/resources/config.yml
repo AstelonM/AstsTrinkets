@@ -216,7 +216,7 @@ souleater:
   # The minimum time between two uses, in seconds.
   cooldown: 60
   # The chance that the Souleater will consume one of the enchants of those it strikes.
-  eatChance: 1.0
+  useChance: 1.0
 
 # A random creature hatches from this egg when thrown.
 mysteryEgg:
