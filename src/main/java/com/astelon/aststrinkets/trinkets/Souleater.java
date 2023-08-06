@@ -66,7 +66,7 @@ public class Souleater extends Trinket {
             enchantedSlots.add(EquipmentSlot.LEGS);
         if (hasEnchantments(equipment.getBoots()))
             enchantedSlots.add(EquipmentSlot.FEET);
-        if (enchantedSlots.size() != 0) {
+        if (!enchantedSlots.isEmpty()) {
             double roll = random.nextDouble();
             if (roll < getUseChance(souleater)) {
                 EquipmentSlot randomSlot = enchantedSlots.get(random.nextInt(enchantedSlots.size()));
