@@ -165,7 +165,7 @@ public class Spellbook extends Trinket {
     private void parseAndAddCommand(ArrayList<String> commands, String text) {
         if (text.isEmpty() || text.isBlank())
             return;
-        if (text.matches("^(<[a-zA-Z:]+>)*/.+"))
+        if (text.matches("^(<[\\w-:]+>)*/.+"))
             commands.add(text);
     }
 

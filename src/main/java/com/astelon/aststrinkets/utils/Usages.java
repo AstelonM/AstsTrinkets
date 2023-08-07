@@ -51,6 +51,10 @@ public final class Usages {
             "6. <blockType> - replaced with the type of the block the player is targeting, if available.<br>" +
             "7. <otherHandItemType> - replaced with the type of the item the player is holding in the other hand. If nothing is held, " +
             "it defaults to AIR.<br>" +
+            "8. <x:(amount)>, <y:(amount)>, <z:(amount)> - replaced with the corresponding player coordinate to which the amount " +
+            "is added.<br>" +
+            "9. <targetX:(amount)>, <targetY:(amount)>, <targetZ:(amount)> - replaced with the corresponding target coordinate " +
+            "to which the amount is added.<br>"+
             "The following tokens should be written right before the command, with no spaces between:<br>" +
             "1. <playerRun> - the command is run by the player using the spellbook, instead of by console.<br>" +
             "2. <otherHandItem> - the command is run only if the player has an item in the other hand.<br>" +

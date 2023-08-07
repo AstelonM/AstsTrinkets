@@ -45,6 +45,13 @@ import java.util.regex.Pattern;
 public class PlayerInteractListener implements Listener {
 
     private static final Pattern WORLD_PATTERN = Pattern.compile("<world:(.+)>");
+    private static final Pattern X_COORD_PATTERN = Pattern.compile("<x:([0-9-]+)>");
+    private static final Pattern Y_COORD_PATTERN = Pattern.compile("<y:([0-9-]+)>");
+    private static final Pattern Z_COORD_PATTERN = Pattern.compile("<z:([0-9-]+)>");
+    private static final Pattern TARGET_X_COORD_PATTERN = Pattern.compile("<targetX:([0-9-]+)>");
+    private static final Pattern TARGET_Y_COORD_PATTERN = Pattern.compile("<targetY:([0-9-]+)>");
+    private static final Pattern TARGET_Z_COORD_PATTERN = Pattern.compile("<targetZ:([0-9-]+)>");
+
 
     private final AstsTrinkets plugin;
     private final MobInfoManager mobInfoManager;
@@ -162,10 +169,10 @@ public class PlayerInteractListener implements Listener {
                 placeholders.put("<targetCoords>", Utils.serializeCoordsCommand(entity.getLocation()));
                 if (entity instanceof Player targetPlayer) {
                     placeholders.put("<targetPlayerName>", targetPlayer.getName());
-                    useSpellbook(itemStack, player, placeholders, CommandEvent.INTERACT_PLAYER, slot);
+                    useSpellbook(itemStack, player, placeholders, CommandEvent.INTERACT_PLAYER, slot, targetPlayer.getLocation());
                 } else {
                     placeholders.put("<mobType>", entity.getType().name());
-                    useSpellbook(itemStack, player, placeholders, CommandEvent.INTERACT_MOB, slot);
+                    useSpellbook(itemStack, player, placeholders, CommandEvent.INTERACT_MOB, slot, entity.getLocation());
                 }
             } else if (terrarium.isEnabledTrinket(itemStack)) {
                 if (!terrarium.canUse(itemStack))
@@ -365,7 +372,7 @@ public class PlayerInteractListener implements Listener {
                 placeholders.put("<playerCoords>", Utils.serializeCoordsCommand(player.getLocation()));
                 placeholders.put("<blockType>", block.getType().name());
                 placeholders.put("<targetCoords>", Utils.serializeCoordsCommand(block.getLocation()));
-                useSpellbook(handItem, player, placeholders, CommandEvent.INTERACT_BLOCK, slot);
+                useSpellbook(handItem, player, placeholders, CommandEvent.INTERACT_BLOCK, slot, block.getLocation());
                 //TODO exclude other trinkets possibly held in the other hand?
                 return;
             }
@@ -447,7 +454,7 @@ public class PlayerInteractListener implements Listener {
                         placeholders.put("<otherHandItemType>", player.getInventory().getItemInMainHand().getType().name());
                     else
                         placeholders.put("<otherHandItemType>", player.getInventory().getItemInOffHand().getType().name());
-                    useSpellbook(itemStack, player, placeholders, null, slot);
+                    useSpellbook(itemStack, player, placeholders, null, slot, null);
                 } else if (gatewayAnchor.isEnabledTrinket(itemStack)) {
                     Location location = player.getLocation();
                     ItemStack result = gatewayAnchor.setLocation(itemStack, location);
@@ -537,8 +544,50 @@ public class PlayerInteractListener implements Listener {
         return above.getBlock().isPassable();
     }
 
+    private void parseCoords(String text, Map<String, String> placeholders, Location location) {
+        Matcher matcher = X_COORD_PATTERN.matcher(text);
+        if (matcher.find()) {
+            String placeholder = matcher.group(0);
+            int number = Integer.parseInt(matcher.group(1));
+            placeholders.put(placeholder, String.valueOf(location.getBlockX() + number));
+        }
+        matcher = Y_COORD_PATTERN.matcher(text);
+        if (matcher.find()) {
+            String placeholder = matcher.group(0);
+            int number = Integer.parseInt(matcher.group(1));
+            placeholders.put(placeholder, String.valueOf(location.getBlockY() + number));
+        }
+        matcher = Z_COORD_PATTERN.matcher(text);
+        if (matcher.find()) {
+            String placeholder = matcher.group(0);
+            int number = Integer.parseInt(matcher.group(1));
+            placeholders.put(placeholder, String.valueOf(location.getBlockZ() + number));
+        }
+    }
+
+    private void parseTargetCoords(String text, Map<String, String> placeholders, Location location) {
+        Matcher matcher = TARGET_X_COORD_PATTERN.matcher(text);
+        if (matcher.find()) {
+            String placeholder = matcher.group(0);
+            int number = Integer.parseInt(matcher.group(1));
+            placeholders.put(placeholder, String.valueOf(location.getBlockX() + number));
+        }
+        matcher = TARGET_Y_COORD_PATTERN.matcher(text);
+        if (matcher.find()) {
+            String placeholder = matcher.group(0);
+            int number = Integer.parseInt(matcher.group(1));
+            placeholders.put(placeholder, String.valueOf(location.getBlockY() + number));
+        }
+        matcher = TARGET_Z_COORD_PATTERN.matcher(text);
+        if (matcher.find()) {
+            String placeholder = matcher.group(0);
+            int number = Integer.parseInt(matcher.group(1));
+            placeholders.put(placeholder, String.valueOf(location.getBlockZ() + number));
+        }
+    }
+
     private void useSpellbook(ItemStack itemStack, Player player, Map<String, String> placeholders, CommandEvent actionEvent,
-                              int slot) {
+                              int slot, Location interactLocation) {
         if (spellbook.isEmpty(itemStack))
             return;
         String[] commands = spellbook.getCommands(itemStack);
@@ -569,7 +618,10 @@ public class PlayerInteractListener implements Listener {
                 neededEvent = CommandEvent.getCommandEvent(runConfig);
             if (!CommandEvent.matches(neededEvent, actionEvent))
                 continue;
-
+            parseCoords(toExecute, placeholders, player.getLocation());
+            if (interactLocation != null) {
+                parseTargetCoords(toExecute, placeholders, interactLocation);
+            }
             if (neededEvent == CommandEvent.TARGET_MOB) {
                 if (!targetEntityComputed) {
                     targetEntity = player.getTargetEntity(120);
@@ -579,6 +631,7 @@ public class PlayerInteractListener implements Listener {
                     continue;
                 placeholders.put("<mobType>", targetMob.getType().name());
                 placeholders.put("<targetCoords>", Utils.serializeCoordsCommand(targetMob.getLocation()));
+                parseTargetCoords(toExecute, placeholders, targetMob.getLocation());
             } else if (neededEvent == CommandEvent.TARGET_PLAYER) {
                 if (!targetEntityComputed) {
                     targetEntity = player.getTargetEntity(120);
@@ -588,6 +641,7 @@ public class PlayerInteractListener implements Listener {
                     continue;
                 placeholders.put("<targetPlayerName>", targetPlayer.getName());
                 placeholders.put("<targetCoords>", Utils.serializeCoordsCommand(targetPlayer.getLocation()));
+                parseTargetCoords(toExecute, placeholders, targetPlayer.getLocation());
             } else if (neededEvent == CommandEvent.TARGET_BLOCK) {
                 if (!targetBlockComputed) {
                     targetBlock = player.getTargetBlockExact(400);
@@ -597,6 +651,7 @@ public class PlayerInteractListener implements Listener {
                     continue;
                 placeholders.put("<blockType>", targetBlock.getType().name());
                 placeholders.put("<targetCoords>", Utils.serializeCoordsCommand(targetBlock.getLocation()));
+                parseTargetCoords(toExecute, placeholders, targetBlock.getLocation());
             }
             boolean playerRun = runConfig.contains("playerRun");
             boolean otherHandEmpty = Material.AIR.name().equals(placeholders.get("<otherHandItemType>"));
