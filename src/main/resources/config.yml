@@ -295,7 +295,7 @@ smitingArrow:
   # Whether arrows shot by a dispenser count as trinkets. Only works with unowned trinkets.
   dispenserAllowed: true
 
-# An arrow that creates an explosion wherever it lands. The explosion is half as strong as that of a tnt, and doesn't break blocks.
+# An arrow that creates an explosion wherever it lands.
 explosiveArrow:
   enabled: true
   # Whether the arrows can pierce if shot from a crossbow with Piercing enchantment.
@@ -305,6 +305,13 @@ explosiveArrow:
   multishotAllowed: true
   # Whether arrows shot by a dispenser count as trinkets. Only works with unowned trinkets.
   dispenserAllowed: true
+  # How strong the explosion is. 4 is equivalent to one tnt.
+  explosionPower: 2
+  # Whether the explosion will set fire to blocks.
+  setFire: false
+  # Whether the explosion breaks blocks.
+  breakBlocks: false
+
 
 # Leather tunic that prevents damage from fire. Entities can use it too. Does not prevent damage from direct contact with lava.
 fireproofVest:

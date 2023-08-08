@@ -153,6 +153,9 @@ public class AstsTrinkets extends JavaPlugin {
         explosiveArrow.setPiercingAllowed(configuration.getBoolean(explosiveArrow.getName() + ".piercingAllowed"));
         explosiveArrow.setMultishotAllowed(configuration.getBoolean(explosiveArrow.getName() + ".multishotAllowed"));
         explosiveArrow.setDispenserAllowed(configuration.getBoolean(explosiveArrow.getName() + ".dispenserAllowed"));
+        explosiveArrow.setExplosionPower((float) configuration.getDouble(explosiveArrow.getName() + ".explosionPower"));
+        explosiveArrow.setSetFire(configuration.getBoolean(explosiveArrow.getName() + ".setFire"));
+        explosiveArrow.setBreakBlocks(configuration.getBoolean(explosiveArrow.getName() + ".breakBlocks"));
         PlayerMagnet playerMagnet = trinketManager.getPlayerMagnet();
         int playerMagnetRange = Utils.ensurePositive(configuration.getInt(playerMagnet.getName() + ".range", 4), 4);
         playerMagnet.setRange(playerMagnetRange);

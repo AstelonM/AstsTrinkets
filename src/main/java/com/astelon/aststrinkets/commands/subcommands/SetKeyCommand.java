@@ -71,6 +71,8 @@ public class SetKeyCommand extends Subcommand {
                 container.set(key, PersistentDataType.INTEGER, Integer.parseInt(value));
             else if (type.equals(PersistentDataType.BYTE))
                 container.set(key, PersistentDataType.BYTE, Byte.parseByte(value));
+            else if (type.equals(PersistentDataType.FLOAT))
+                container.set(key, PersistentDataType.FLOAT, Float.parseFloat(value));
             else {
                 player.sendMessage(Component.text("Cannot assign the given value to this key.", NamedTextColor.RED));
                 return;

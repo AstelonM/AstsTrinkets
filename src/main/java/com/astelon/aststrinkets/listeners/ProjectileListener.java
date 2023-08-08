@@ -161,7 +161,8 @@ public class ProjectileListener implements Listener {
             } else if (explosiveArrow.isEnabledTrinket(arrow)) {
                 World world = projectile.getWorld();
                 Location location = projectile.getLocation();
-                world.createExplosion(location, 2f, false, false, shooterEntity);
+                world.createExplosion(location, explosiveArrow.getExplosionPower(arrow), explosiveArrow.isSetFire(arrow),
+                        explosiveArrow.isBreakBlocks(arrow), shooterEntity);
                 checkAndRemovePiercing(arrow);
             }
         }
