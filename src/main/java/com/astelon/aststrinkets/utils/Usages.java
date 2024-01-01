@@ -84,4 +84,5 @@ public final class Usages {
     public static final String INTERACT_ENTITY = "Right click an entity using the trinket.";
     public static final String USE_SELF_OR_ON_CREATURE = "How to use it on yourself:<br>" + SHIFT_RIGHT_CLICK +
             "<br>How to use it on other creatures:<br>" + INTERACT_ENTITY;
+    public static final String FIREWORK = "Use it like a regular firework.";
 }

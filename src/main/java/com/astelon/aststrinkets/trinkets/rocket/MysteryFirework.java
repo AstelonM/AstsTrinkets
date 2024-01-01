@@ -3,6 +3,7 @@ package com.astelon.aststrinkets.trinkets.rocket;
 import com.astelon.aststrinkets.AstsTrinkets;
 import com.astelon.aststrinkets.Power;
 import com.astelon.aststrinkets.utils.NamespacedKeys;
+import com.astelon.aststrinkets.utils.Usages;
 import com.astelon.aststrinkets.utils.Utils;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -32,7 +33,7 @@ public class MysteryFirework extends FireworkTrinket {
     private boolean allowCustomColours;
 
     public MysteryFirework(AstsTrinkets plugin, NamespacedKeys keys) {
-        super(plugin, keys, "mysteryFirework", Power.RANDOM_FIREWORK, false, "");
+        super(plugin, keys, "mysteryFirework", Power.RANDOM_FIREWORK, false, Usages.FIREWORK);
         setAllowUseAsFirework(true);
         random = new Random();
     }
