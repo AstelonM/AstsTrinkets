@@ -18,6 +18,7 @@ import com.astelon.aststrinkets.trinkets.projectile.arrow.DeathArrow;
 import com.astelon.aststrinkets.trinkets.projectile.arrow.ExplosiveArrow;
 import com.astelon.aststrinkets.trinkets.projectile.arrow.SmitingArrow;
 import com.astelon.aststrinkets.trinkets.projectile.arrow.TrueDeathArrow;
+import com.astelon.aststrinkets.trinkets.rocket.MysteryFirework;
 import com.astelon.aststrinkets.trinkets.rocket.PerfectedReignitableRocket;
 import com.astelon.aststrinkets.trinkets.rocket.ReignitableRocket;
 import com.astelon.aststrinkets.trinkets.rocket.ReignitableRocketPrototype;
@@ -168,6 +169,24 @@ public class AstsTrinkets extends JavaPlugin {
         double percentageAbsorbed = Utils.ensurePercentage(configuration.getDouble(vampiricSword.getName() +
                 ".percentageAbsorbed", 10.0), 10.0);
         vampiricSword.setPercentageAbsorbed(Utils.normalizeRate(percentageAbsorbed));
+        MysteryFirework mysteryFirework = trinketManager.getMysteryFirework();
+        mysteryFirework.setMinFlightDuration(Math.max(configuration.getInt(mysteryFirework.getName() +
+                ".minFlightDuration", 1), 1));
+        mysteryFirework.setMaxFlightDuration(Utils.ensurePositive(configuration.getInt(mysteryFirework.getName() +
+                ".maxFlightDuration", 3), 3));
+        mysteryFirework.setMinEffectAmount(Math.max(configuration.getInt(mysteryFirework.getName() +
+                ".minEffectAmount", 1), 1));
+        mysteryFirework.setMaxEffectAmount(Utils.ensurePositive(configuration.getInt(mysteryFirework.getName() +
+                ".maxEffectAmount", 3), 3));
+        mysteryFirework.setMinPrimaryColours(Math.max(configuration.getInt(mysteryFirework.getName() +
+                ".minPrimaryColours", 1), 1));
+        mysteryFirework.setMaxPrimaryColours(Utils.ensurePositive(configuration.getInt(mysteryFirework.getName() +
+                ".maxPrimaryColours", 3), 3));
+        mysteryFirework.setMinFadeColours(Math.max(configuration.getInt(mysteryFirework.getName() +
+                ".minPrimaryColours", 0), 0));
+        mysteryFirework.setMaxFadeColours(Utils.ensurePositive(configuration.getInt(mysteryFirework.getName() +
+                ".maxPrimaryColours", 3), 3));
+        mysteryFirework.setAllowCustomColours(configuration.getBoolean(mysteryFirework.getName() + ".allowCustomColours"));
     }
 
     private HashSet<EntityType> getBlacklistedTypes(List<String> blacklist) {

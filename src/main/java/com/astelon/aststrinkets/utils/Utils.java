@@ -2,19 +2,36 @@ package com.astelon.aststrinkets.utils;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.World;
+import org.bukkit.*;
 import org.bukkit.entity.*;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Random;
 import java.util.stream.Collectors;
 
 public class Utils {
+
+    private static final Color[] BASE_COLORS = new Color[] {
+            Color.fromRGB(16383998), // white
+            Color.fromRGB(10329495), // light gray
+            Color.fromRGB(4673362), // gray
+            Color.fromRGB(1908001), // black
+            Color.fromRGB(8606770), // brown
+            Color.fromRGB(11546150), // red
+            Color.fromRGB(16351261), // orange
+            Color.fromRGB(16701501), // yellow
+            Color.fromRGB(8439583), // lime
+            Color.fromRGB(6192150), // green
+            Color.fromRGB(1481884), // cyan
+            Color.fromRGB(3847130), // light blue
+            Color.fromRGB(3949738), // blue
+            Color.fromRGB(8991416), // purple
+            Color.fromRGB(13061821), // magenta
+            Color.fromRGB(15961002) // pink
+    };
 
     // For some reasons no way to get this through the API
     public static int OFF_HAND_SLOT = 40;
@@ -168,5 +185,16 @@ public class Utils {
             return (level * 5) - 38;
         else
             return (level * 9) - 158;
+    }
+
+    public static Color getRandomBaseColour(Random random) {
+        return BASE_COLORS[random.nextInt(BASE_COLORS.length)];
+    }
+
+    public static Color generateRandomColour(Random random) {
+        int red = random.nextInt(256);
+        int green = random.nextInt(256);
+        int blue = random.nextInt(256);
+        return Color.fromRGB(red, green, blue);
     }
 }

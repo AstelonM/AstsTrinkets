@@ -15,6 +15,10 @@ public abstract class FireworkTrinket extends Trinket {
         super(plugin, keys, name, infoColour, power, op, usage);
     }
 
+    public FireworkTrinket(AstsTrinkets plugin, NamespacedKeys keys, String name, Power power, boolean op, String usage) {
+        super(plugin, keys, name, power, op, usage);
+    }
+
     public boolean isAllowUseAsFirework() {
         return allowUseAsFirework;
     }

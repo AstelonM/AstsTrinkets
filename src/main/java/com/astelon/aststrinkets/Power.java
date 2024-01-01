@@ -51,7 +51,8 @@ public enum Power {
     MAKE_ARMOUR_UNBREAKABLE("makeArmourUnbreakable"),
     RESTORE_FULL_HEALTH("restoreFullHealth"),
     INVINCIBILITY("invincibility"),
-    ABSORB_HEALTH_ON_HIT("absorbHealthOnHit");
+    ABSORB_HEALTH_ON_HIT("absorbHealthOnHit"),
+    RANDOM_FIREWORK("randomFirework");
 
     private final String powerName;
 

@@ -15,6 +15,7 @@ import com.astelon.aststrinkets.trinkets.projectile.arrow.DeathArrow;
 import com.astelon.aststrinkets.trinkets.projectile.arrow.ExplosiveArrow;
 import com.astelon.aststrinkets.trinkets.projectile.arrow.SmitingArrow;
 import com.astelon.aststrinkets.trinkets.projectile.arrow.TrueDeathArrow;
+import com.astelon.aststrinkets.trinkets.rocket.MysteryFirework;
 import com.astelon.aststrinkets.trinkets.rocket.PerfectedReignitableRocket;
 import com.astelon.aststrinkets.trinkets.rocket.ReignitableRocket;
 import com.astelon.aststrinkets.trinkets.rocket.ReignitableRocketPrototype;
@@ -108,6 +109,7 @@ public class TrinketManager {
         addTrinket(new HealingHerb(plugin, keys));
         addTrinket(new InvincibilityBelt(plugin, keys));
         addTrinket(new VampiricSword(plugin, keys));
+        addTrinket(new MysteryFirework(plugin, keys));
     }
 
     private void addTrinket(Trinket trinket) {
@@ -564,5 +566,9 @@ public class TrinketManager {
 
     public VampiricSword getVampiricSword() {
         return (VampiricSword) getTrinketExact("vampiricSword");
+    }
+
+    public MysteryFirework getMysteryFirework() {
+        return (MysteryFirework) getTrinketExact("mysteryFirework");
     }
 }

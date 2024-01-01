@@ -8,6 +8,7 @@ import com.astelon.aststrinkets.trinkets.projectile.ExperienceBottle;
 import com.astelon.aststrinkets.trinkets.projectile.MysteryEgg;
 import com.astelon.aststrinkets.trinkets.projectile.ProjectileTrinket;
 import com.astelon.aststrinkets.trinkets.projectile.arrow.*;
+import com.astelon.aststrinkets.trinkets.rocket.MysteryFirework;
 import com.astelon.aststrinkets.utils.Utils;
 import com.destroystokyo.paper.event.entity.ProjectileCollideEvent;
 import com.destroystokyo.paper.event.entity.ThrownEggHatchEvent;
@@ -44,6 +45,7 @@ public class ProjectileListener implements Listener {
     private final ExplosiveArrow explosiveArrow;
     private final MysteryEgg mysteryEgg;
     private final ExperienceBottle experienceBottle;
+    private final MysteryFirework mysteryFirework;
 
     public ProjectileListener(AstsTrinkets plugin, TrinketManager trinketManager, MobInfoManager mobInfoManager) {
         this.plugin = plugin;
@@ -56,6 +58,7 @@ public class ProjectileListener implements Listener {
         explosiveArrow = trinketManager.getExplosiveArrow();
         mysteryEgg = trinketManager.getMysteryEgg();
         experienceBottle = trinketManager.getExperienceBottle();
+        mysteryFirework = trinketManager.getMysteryFirework();
     }
 
     @EventHandler(ignoreCancelled = true)
@@ -66,38 +69,42 @@ public class ProjectileListener implements Listener {
             EntityEquipment equipment = shooter.getEquipment();
             if (equipment != null) {
                 ItemStack offHand = equipment.getItemInOffHand();
-                if (offHand.getType().name().endsWith("ARROW"))
+                if (offHand.getType().name().endsWith("ARROW") || offHand.getType() == Material.FIREWORK_ROCKET)
                     itemStack = offHand;
                 else {
                     ItemStack mainHand = equipment.getItemInMainHand();
-                    if (mainHand.getType().name().endsWith("ARROW"))
+                    if (mainHand.getType().name().endsWith("ARROW") || mainHand.getType() == Material.FIREWORK_ROCKET)
                         itemStack = mainHand;
                 }
             }
         }
         Entity projectile = event.getProjectile();
-        if (!(projectile instanceof Arrow arrow))
-            return;
-        if (itemStack != null && trinketManager.isOwnedWithRestrictions(itemStack, shooter)) {
-            Trinket trinket = trinketManager.getTrinket(itemStack);
-            if (trinket instanceof ArrowTrinket arrowTrinket) {
-                ItemStack weapon = event.getBow();
-                if (weapon != null && weapon.getType() == Material.CROSSBOW) {
-                    if (!arrowTrinket.isMultishotAllowed() && weapon.containsEnchantment(Enchantment.MULTISHOT) &&
-                            arrow.getPickupStatus() == AbstractArrow.PickupStatus.CREATIVE_ONLY &&
-                            !(shooter instanceof Player player && player.getGameMode() == GameMode.CREATIVE))
-                        return;
+        if (projectile instanceof Arrow arrow) {
+            if (itemStack != null && trinketManager.isOwnedWithRestrictions(itemStack, shooter)) {
+                Trinket trinket = trinketManager.getTrinket(itemStack);
+                if (trinket instanceof ArrowTrinket arrowTrinket) {
+                    ItemStack weapon = event.getBow();
+                    if (weapon != null && weapon.getType() == Material.CROSSBOW) {
+                        if (!arrowTrinket.isMultishotAllowed() && weapon.containsEnchantment(Enchantment.MULTISHOT) &&
+                                arrow.getPickupStatus() == AbstractArrow.PickupStatus.CREATIVE_ONLY &&
+                                !(shooter instanceof Player player && player.getGameMode() == GameMode.CREATIVE))
+                            return;
+                    }
+                }
+
+                if (deathArrow.isEnabledTrinket(itemStack)) {
+                    deathArrow.setProjectileTrinket(arrow, itemStack);
+                } else if (trueDeathArrow.isEnabledTrinket(itemStack)) {
+                    trueDeathArrow.setProjectileTrinket(arrow, itemStack);
+                } else if (smitingArrow.isEnabledTrinket(itemStack)) {
+                    smitingArrow.setProjectileTrinket(arrow, itemStack);
+                } else if (explosiveArrow.isEnabledTrinket(itemStack)) {
+                    explosiveArrow.setProjectileTrinket(arrow, itemStack);
                 }
             }
-
-            if (deathArrow.isEnabledTrinket(itemStack)) {
-                deathArrow.setProjectileTrinket(arrow, itemStack);
-            } else if (trueDeathArrow.isEnabledTrinket(itemStack)) {
-                trueDeathArrow.setProjectileTrinket(arrow, itemStack);
-            } else if (smitingArrow.isEnabledTrinket(itemStack)) {
-                smitingArrow.setProjectileTrinket(arrow, itemStack);
-            } else if (explosiveArrow.isEnabledTrinket(itemStack)) {
-                explosiveArrow.setProjectileTrinket(arrow, itemStack);
+        } else if (projectile instanceof Firework firework) {
+            if (mysteryFirework.isEnabledTrinket(itemStack) && trinketManager.isOwnedWithRestrictions(itemStack, shooter)) {
+                mysteryFirework.setRandomEffects(firework);
             }
         }
     }
@@ -251,20 +258,30 @@ public class ProjectileListener implements Listener {
         }
     }
 
+    //TODO move to its own listener
     @EventHandler(ignoreCancelled = true)
     public void onBlockDispense(BlockDispenseEvent event) {
         ItemStack itemStack = event.getItem();
         Trinket trinket = trinketManager.getTrinket(itemStack);
-        if (!(trinket instanceof ProjectileTrinket projectileTrinket) || trinketManager.getOwner(itemStack) != null ||
-                !trinket.isEnabled() || !projectileTrinket.isDispenserAllowed())
-            return;
-        Block block = event.getBlock();
-        launchedTrinkets.put(block, itemStack);
+        if (trinket instanceof ProjectileTrinket projectileTrinket && projectileTrinket.isDispenserAllowed()) {
+            if (trinket.isEnabled() && trinketManager.getOwner(itemStack) == null){
+                Block block = event.getBlock();
+                launchedTrinkets.put(block, itemStack);
+            }
+        }
     }
 
     @EventHandler
     public void onProjectileLaunch(ProjectileLaunchEvent event) {
         Projectile projectile = event.getEntity();
+        // Workaround because paper 1.18.2 doesn't add projectile source to fireworks shot from dispenser
+        if (projectile instanceof Firework firework && firework.getSpawningEntity() == null) {
+            ItemStack itemStack = firework.getItem();
+            if (mysteryFirework.isEnabledTrinket(itemStack) && trinketManager.getOwner(itemStack) == null) {
+                mysteryFirework.setRandomEffects(firework);
+            }
+            return;
+        }
         ProjectileSource projectileSource = projectile.getShooter();
         if (!(projectileSource instanceof BlockProjectileSource blockProjectileSource))
             return;
@@ -274,9 +291,10 @@ public class ProjectileListener implements Listener {
             return;
         }
         ItemStack itemStack = launchedTrinkets.remove(block);
-        ProjectileTrinket trinket = (ProjectileTrinket) trinketManager.getTrinket(itemStack);
-        if (trinket != null) { //TODO check if it's enabled again in case it somehow gets disabled in the meantime?
-            trinket.setProjectileTrinket(projectile, itemStack);
+        Trinket trinket = trinketManager.getTrinket(itemStack);
+        if (trinket instanceof ProjectileTrinket projectileTrinket) {
+            //TODO check if it's enabled again in case it somehow gets disabled in the meantime?
+            projectileTrinket.setProjectileTrinket(projectile, itemStack);
         }
     }
 }

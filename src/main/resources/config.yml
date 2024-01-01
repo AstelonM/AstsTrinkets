@@ -368,3 +368,31 @@ vampiricSword:
   useChance: 10.0
   # Percentage of the damage dealt that is converted into health for the wielder.
   percentageAbsorbed: 50.0
+
+# A firework that has random shapes and colours when it explodes.
+mysteryFirework:
+  enabled: true
+  # Equivalent to the number of gunpowder used to create the firework.
+  # Minimum value is 1.
+  minFlightDuration: 1
+  # Maximum value allowed is 127, though it's recommended to not put it too higher than 3.
+  maxFlightDuration: 3
+  # The minimum and maximum amount of individual effects added to the firework.
+  # Minimum value is 1.
+  minEffectAmount: 1
+  # It's recommended to leave the maximum to 3, as more effects might pass the particle limit and reduce how good the
+  # fireworks look.
+  maxEffectAmount: 3
+  # The minimum and maximum number of colours of the explosion.
+  # Minimum value is 1.
+  minPrimaryColours: 1
+  # Technically, there is no limit to the maximum amount, but for clarity, you probably should keep this low.
+  maxPrimaryColours: 3
+  # The minimum and maximum number of colours of the fade effect.
+  # Minimum value is 0.
+  minFadeColours: 0
+  # Works just like the maximum of the primary colours.
+  maxFadeColours: 3
+  # If set to true, the plugin will create randomized colours along with using the primary colours defined through dyes.
+  # Note that the resulting colours might not be too appealing.
+  allowCustomColours: false

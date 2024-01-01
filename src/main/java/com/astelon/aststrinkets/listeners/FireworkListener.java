@@ -2,11 +2,14 @@ package com.astelon.aststrinkets.listeners;
 
 import com.astelon.aststrinkets.AstsTrinkets;
 import com.astelon.aststrinkets.managers.TrinketManager;
+import com.astelon.aststrinkets.trinkets.rocket.MysteryFirework;
 import com.astelon.aststrinkets.trinkets.rocket.PerfectedReignitableRocket;
 import com.astelon.aststrinkets.trinkets.rocket.ReignitableRocket;
 import com.astelon.aststrinkets.trinkets.rocket.ReignitableRocketPrototype;
 import com.destroystokyo.paper.event.player.PlayerElytraBoostEvent;
+import com.destroystokyo.paper.event.player.PlayerLaunchProjectileEvent;
 import org.bukkit.Location;
+import org.bukkit.entity.Firework;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
@@ -27,6 +30,7 @@ public class FireworkListener implements Listener {
     private final ReignitableRocketPrototype reignitableRocketPrototype;
     private final ReignitableRocket reignitableRocket;
     private final PerfectedReignitableRocket perfectedReignitableRocket;
+    private final MysteryFirework mysteryFirework;
 
     public FireworkListener(AstsTrinkets plugin, TrinketManager trinketManager) {
         random = new Random();
@@ -35,6 +39,7 @@ public class FireworkListener implements Listener {
         this.reignitableRocketPrototype = trinketManager.getReignitableRocketPrototype();
         this.reignitableRocket = trinketManager.getReignitableRocket();
         this.perfectedReignitableRocket = trinketManager.getPerfectedReignitableRocket();
+        this.mysteryFirework = trinketManager.getMysteryFirework();
     }
 
     @EventHandler
@@ -59,6 +64,10 @@ public class FireworkListener implements Listener {
                 }
             } else if (perfectedReignitableRocket.isEnabledTrinket(rocket)) {
                 event.setShouldConsume(false);
+            } else if (mysteryFirework.isEnabledTrinket(rocket)) {
+                Firework firework = event.getFirework();
+                //TODO is possible random duration an issue?
+                mysteryFirework.setRandomEffects(firework);
             }
         }
     }
@@ -73,6 +82,15 @@ public class FireworkListener implements Listener {
                     reignitableRocket.isTrinket(itemStack) && !reignitableRocket.isAllowUseAsFirework() ||
                     perfectedReignitableRocket.isTrinket(itemStack) && !perfectedReignitableRocket.isAllowUseAsFirework())
                 event.setUseItemInHand(Event.Result.DENY);
+        }
+    }
+
+    @EventHandler
+    public void onPlayerLaunchProjectile(PlayerLaunchProjectileEvent event) {
+        if (event.getProjectile() instanceof Firework firework) {
+            ItemStack itemStack = event.getItemStack();
+            if (mysteryFirework.isEnabledTrinket(itemStack) && trinketManager.isOwnedBy(itemStack, event.getPlayer()))
+                mysteryFirework.setRandomEffects(firework);
         }
     }
 }
