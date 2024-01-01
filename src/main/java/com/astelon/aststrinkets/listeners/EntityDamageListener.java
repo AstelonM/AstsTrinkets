@@ -5,10 +5,7 @@ import com.astelon.aststrinkets.managers.MobInfoManager;
 import com.astelon.aststrinkets.managers.TrinketManager;
 import com.astelon.aststrinkets.trinkets.Souleater;
 import com.astelon.aststrinkets.trinkets.VampiricSword;
-import com.astelon.aststrinkets.trinkets.equipable.DivingHelmet;
-import com.astelon.aststrinkets.trinkets.equipable.FireproofVest;
-import com.astelon.aststrinkets.trinkets.equipable.HydraulicBoots;
-import com.astelon.aststrinkets.trinkets.equipable.InvincibilityBelt;
+import com.astelon.aststrinkets.trinkets.equipable.*;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -29,6 +26,7 @@ public class EntityDamageListener implements Listener {
     private final FireproofVest fireproofVest;
     private final InvincibilityBelt invincibilityBelt;
     private final VampiricSword vampiricSword;
+    private final UnbreakableTurtleShell unbreakableTurtleShell;
 
     public EntityDamageListener(AstsTrinkets plugin, TrinketManager trinketManager, MobInfoManager mobInfoManager) {
         this.plugin = plugin;
@@ -40,6 +38,7 @@ public class EntityDamageListener implements Listener {
         fireproofVest = trinketManager.getFireproofVest();
         invincibilityBelt = trinketManager.getInvincibilityBelt();
         vampiricSword = trinketManager.getVampiricSword();
+        unbreakableTurtleShell = trinketManager.getUnbreakableTurtleShell();
     }
 
     @EventHandler(ignoreCancelled = true)
@@ -52,9 +51,11 @@ public class EntityDamageListener implements Listener {
         ItemStack leggings = equipment.getLeggings();
         if (invincibilityBelt.isEnabledTrinket(leggings) && trinketManager.isOwnedWithRestrictions(leggings, entity))
             event.setCancelled(true);
+        ItemStack helmet = equipment.getHelmet();
+        if (unbreakableTurtleShell.isEnabledTrinket(helmet) && trinketManager.isOwnedWithRestrictions(helmet, entity))
+            event.setCancelled(true);
         EntityDamageEvent.DamageCause cause = event.getCause();
         if (cause == EntityDamageEvent.DamageCause.DROWNING) {
-            ItemStack helmet = equipment.getHelmet();
             if (trinketManager.isOwnedWithRestrictions(helmet, entity)) {
                 if (divingHelmet.isEnabledTrinket(helmet)) {
                     event.setCancelled(true);

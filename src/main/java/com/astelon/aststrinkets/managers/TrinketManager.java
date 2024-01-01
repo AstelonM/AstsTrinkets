@@ -110,6 +110,7 @@ public class TrinketManager {
         addTrinket(new InvincibilityBelt(plugin, keys));
         addTrinket(new VampiricSword(plugin, keys));
         addTrinket(new MysteryFirework(plugin, keys));
+        addTrinket(new UnbreakableTurtleShell(plugin, keys));
     }
 
     private void addTrinket(Trinket trinket) {
@@ -570,5 +571,9 @@ public class TrinketManager {
 
     public MysteryFirework getMysteryFirework() {
         return (MysteryFirework) getTrinketExact("mysteryFirework");
+    }
+
+    public UnbreakableTurtleShell getUnbreakableTurtleShell() {
+        return (UnbreakableTurtleShell) getTrinketExact("unbreakableTurtleShell");
     }
 }

@@ -396,3 +396,8 @@ mysteryFirework:
   # If set to true, the plugin will create randomized colours along with using the primary colours defined through dyes.
   # Note that the resulting colours might not be too appealing.
   allowCustomColours: false
+
+# An unbreakable turtle helmet that makes the wearer not take any damage.
+# Requires the "aststrinkets.op" permission to give.
+unbreakableTurtleShell:
+  enabled: true
