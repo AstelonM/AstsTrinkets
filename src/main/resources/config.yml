@@ -402,3 +402,7 @@ mysteryFirework:
 # Requires the "aststrinkets.op" permission to give.
 unbreakableTurtleShell:
   enabled: true
+
+# A leather cap that gives the wearer night vision. The night vision is removed when the cap is taken off.
+nightVisionGoggles:
+  enabled: true

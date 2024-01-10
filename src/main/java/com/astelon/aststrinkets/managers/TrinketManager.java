@@ -111,6 +111,7 @@ public class TrinketManager {
         addTrinket(new VampiricSword(plugin, keys));
         addTrinket(new MysteryFirework(plugin, keys));
         addTrinket(new UnbreakableTurtleShell(plugin, keys));
+        addTrinket(new NightVisionGoggles(plugin, keys));
     }
 
     private void addTrinket(Trinket trinket) {
@@ -575,5 +576,9 @@ public class TrinketManager {
 
     public UnbreakableTurtleShell getUnbreakableTurtleShell() {
         return (UnbreakableTurtleShell) getTrinketExact("unbreakableTurtleShell");
+    }
+
+    public NightVisionGoggles getNightVisionGoggles() {
+        return (NightVisionGoggles) getTrinketExact("nightVisionGoggles");
     }
 }

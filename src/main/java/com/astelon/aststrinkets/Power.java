@@ -52,7 +52,8 @@ public enum Power {
     RESTORE_FULL_HEALTH("restoreFullHealth"),
     INVINCIBILITY("invincibility"),
     ABSORB_HEALTH_ON_HIT("absorbHealthOnHit"),
-    RANDOM_FIREWORK("randomFirework");
+    RANDOM_FIREWORK("randomFirework"),
+    NIGHT_VISION("nightVision");
 
     private final String powerName;
 
