@@ -251,8 +251,9 @@ sentientAxe:
 # A book in which you write commands to be run when interacting with the world. Supports any command available in the Paper
 # server, along with a set of tokens you can use to change how they are executed. For more info, check its usage.
 # To use a written spellbook, press right click while sneaking.
-# This trinket requires "aststrinkets.op" to give. I strongly advise you never allow an unwritten spellbook in the hands of
-# random players. It would be the equivalent of giving them op.
+# This trinket requires "aststrinkets.op" to give.
+# This trinket also requires "aststrinkets.trinket.createspellbook" (also added with "aststrinkets.op") to create one.
+# Without it, players are limited to only using already written spellbooks, and cannot write their own.
 spellbook:
   enabled: true
 

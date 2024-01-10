@@ -29,6 +29,7 @@ permissions:
       aststrinkets.trinket.ignorepetowner: true
       aststrinkets.trinket.ignoreinvulnerable: true
       aststrinkets.trinket.handleownedsentientaxe: true
+      aststrinkets.trinket.createspellbook: true
 
   # Command permissions
   aststrinkets.command.give:
@@ -58,3 +59,5 @@ permissions:
     description: Allows using state changing trinkets on any invulnerable creature. You probably shouldn't though.
   aststrinkets.trinket.handleownedsentientaxe:
     description: Allows handling sentient axes that are owned by a different player.
+  aststrinkets.trinket.createspellbook:
+    description: Allows creating spellbooks.

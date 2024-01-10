@@ -40,6 +40,10 @@ public class BookListener implements Listener {
             event.setCancelled(true);
             return;
         }
+        if (!player.hasPermission("aststrinkets.trinket.createspellbook")) {
+            event.setCancelled(true);
+            return;
+        }
         BookMeta bookMeta = event.getNewBookMeta();
         if (!bookMeta.hasPages()) {
             event.setCancelled(true);
