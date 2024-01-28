@@ -1,4 +1,4 @@
-package com.astelon.aststrinkets.trinkets.rocket;
+package com.astelon.aststrinkets.trinkets.projectile.rocket;
 
 import com.astelon.aststrinkets.AstsTrinkets;
 import com.astelon.aststrinkets.Power;

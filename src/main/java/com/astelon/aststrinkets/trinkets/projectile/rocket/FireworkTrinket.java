@@ -1,12 +1,12 @@
-package com.astelon.aststrinkets.trinkets.rocket;
+package com.astelon.aststrinkets.trinkets.projectile.rocket;
 
 import com.astelon.aststrinkets.AstsTrinkets;
 import com.astelon.aststrinkets.Power;
-import com.astelon.aststrinkets.trinkets.Trinket;
+import com.astelon.aststrinkets.trinkets.projectile.ProjectileTrinket;
 import com.astelon.aststrinkets.utils.NamespacedKeys;
 import net.kyori.adventure.text.format.TextColor;
 
-public abstract class FireworkTrinket extends Trinket {
+public abstract class FireworkTrinket extends ProjectileTrinket {
 
     private boolean allowUseAsFirework;
 

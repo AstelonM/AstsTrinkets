@@ -18,10 +18,7 @@ import com.astelon.aststrinkets.trinkets.projectile.arrow.DeathArrow;
 import com.astelon.aststrinkets.trinkets.projectile.arrow.ExplosiveArrow;
 import com.astelon.aststrinkets.trinkets.projectile.arrow.SmitingArrow;
 import com.astelon.aststrinkets.trinkets.projectile.arrow.TrueDeathArrow;
-import com.astelon.aststrinkets.trinkets.rocket.MysteryFirework;
-import com.astelon.aststrinkets.trinkets.rocket.PerfectedReignitableRocket;
-import com.astelon.aststrinkets.trinkets.rocket.ReignitableRocket;
-import com.astelon.aststrinkets.trinkets.rocket.ReignitableRocketPrototype;
+import com.astelon.aststrinkets.trinkets.projectile.rocket.*;
 import com.astelon.aststrinkets.utils.Utils;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -188,6 +185,11 @@ public class AstsTrinkets extends JavaPlugin {
         mysteryFirework.setMaxFadeColours(Utils.ensurePositive(configuration.getInt(mysteryFirework.getName() +
                 ".maxPrimaryColours", 3), 3));
         mysteryFirework.setAllowCustomColours(configuration.getBoolean(mysteryFirework.getName() + ".allowCustomColours"));
+        CloudSeeder cloudSeeder = trinketManager.getCloudSeeder();
+        cloudSeeder.setMinWeatherDuration(Utils.ensurePositive(configuration.getInt(cloudSeeder.getName() +
+                ".minWeatherDuration"), 600));
+        cloudSeeder.setMaxWeatherDuration(Utils.ensurePositive(configuration.getInt(cloudSeeder.getName() +
+                ".maxWeatherDuration"), 1200));
     }
 
     private HashSet<EntityType> getBlacklistedTypes(List<String> blacklist) {

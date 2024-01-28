@@ -53,7 +53,8 @@ public enum Power {
     INVINCIBILITY("invincibility"),
     ABSORB_HEALTH_ON_HIT("absorbHealthOnHit"),
     RANDOM_FIREWORK("randomFirework"),
-    NIGHT_VISION("nightVision");
+    NIGHT_VISION("nightVision"),
+    CREATE_RAIN("createRain");
 
     private final String powerName;
 

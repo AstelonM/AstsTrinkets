@@ -2,25 +2,27 @@ package com.astelon.aststrinkets.listeners;
 
 import com.astelon.aststrinkets.AstsTrinkets;
 import com.astelon.aststrinkets.managers.TrinketManager;
-import com.astelon.aststrinkets.trinkets.rocket.MysteryFirework;
-import com.astelon.aststrinkets.trinkets.rocket.PerfectedReignitableRocket;
-import com.astelon.aststrinkets.trinkets.rocket.ReignitableRocket;
-import com.astelon.aststrinkets.trinkets.rocket.ReignitableRocketPrototype;
+import com.astelon.aststrinkets.trinkets.projectile.rocket.*;
+import com.astelon.aststrinkets.utils.Utils;
 import com.destroystokyo.paper.event.player.PlayerElytraBoostEvent;
 import com.destroystokyo.paper.event.player.PlayerLaunchProjectileEvent;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Firework;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Projectile;
 import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.entity.FireworkExplodeEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 
 import java.util.Random;
+import java.util.UUID;
 
 public class FireworkListener implements Listener {
 
@@ -31,6 +33,7 @@ public class FireworkListener implements Listener {
     private final ReignitableRocket reignitableRocket;
     private final PerfectedReignitableRocket perfectedReignitableRocket;
     private final MysteryFirework mysteryFirework;
+    private final CloudSeeder cloudSeeder;
 
     public FireworkListener(AstsTrinkets plugin, TrinketManager trinketManager) {
         random = new Random();
@@ -40,6 +43,7 @@ public class FireworkListener implements Listener {
         this.reignitableRocket = trinketManager.getReignitableRocket();
         this.perfectedReignitableRocket = trinketManager.getPerfectedReignitableRocket();
         this.mysteryFirework = trinketManager.getMysteryFirework();
+        this.cloudSeeder = trinketManager.getCloudSeeder();
     }
 
     @EventHandler
@@ -89,8 +93,35 @@ public class FireworkListener implements Listener {
     public void onPlayerLaunchProjectile(PlayerLaunchProjectileEvent event) {
         if (event.getProjectile() instanceof Firework firework) {
             ItemStack itemStack = event.getItemStack();
-            if (mysteryFirework.isEnabledTrinket(itemStack) && trinketManager.isOwnedBy(itemStack, event.getPlayer()))
+            if (mysteryFirework.isEnabledTrinket(itemStack) && trinketManager.isOwnedBy(itemStack, event.getPlayer())) {
                 mysteryFirework.setRandomEffects(firework);
+            } else if (cloudSeeder.isEnabledTrinket(itemStack) && trinketManager.isOwnedBy(itemStack, event.getPlayer())) {
+                Projectile projectile = event.getProjectile();
+                cloudSeeder.setProjectileTrinket(projectile, itemStack);
+            }
+        }
+    }
+
+    @EventHandler
+    public void onFireworkExplode(FireworkExplodeEvent event) {
+        Firework firework = event.getEntity();
+        if (cloudSeeder.isEnabledTrinket(firework)) {
+            if (firework.getTicksFlown() >= firework.getTicksToDetonate()) {
+                cloudSeeder.seedClouds(firework.getWorld());
+                UUID uuid = firework.getSpawningEntity();
+                if (uuid != null) {
+                    Player player = Bukkit.getPlayer(firework.getSpawningEntity());
+                    if (player != null) {
+                        plugin.getLogger().info("Player " + player.getName() + " used a Cloud Seeder at " +
+                                Utils.serializeCoordsLogging(firework.getLocation()) + " and created rain for " +
+                                firework.getWorld().getWeatherDuration() + " seconds.");
+                    } else {
+                        plugin.getLogger().info("A Cloud Seeder was used at " +
+                                Utils.serializeCoordsLogging(firework.getLocation()) + " and created rain for " +
+                                firework.getWorld().getWeatherDuration() + " seconds.");
+                    }
+                }
+            }
         }
     }
 }

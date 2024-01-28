@@ -406,3 +406,11 @@ unbreakableTurtleShell:
 # A leather cap that gives the wearer night vision. The night vision is removed when the cap is taken off.
 nightVisionGoggles:
   enabled: true
+
+# A firework rocket that creates rain/snow for a random period of time.
+cloudSeeder:
+  enabled: true
+  # Minimum time in seconds that the weather will last. 600 seconds is the equivalent of half a day in Minecraft.
+  minWeatherDuration: 600
+  # Maximum time in seconds that the weather will last. 1200 seconds is the equivalent of a day in Minecraft.
+  maxWeatherDuration: 1200
