@@ -36,6 +36,8 @@ public class Utils {
     // For some reasons no way to get this through the API
     public static int OFF_HAND_SLOT = 40;
 
+    public static int TICKS_PER_SECOND = 20;
+
     public static String serializeCoords(Location location) {
         return location.getWorld().getName() + ";" + location.getBlockX() + ";" + location.getBlockY() + ";" +
                 location.getBlockZ();
@@ -196,5 +198,9 @@ public class Utils {
         int green = random.nextInt(256);
         int blue = random.nextInt(256);
         return Color.fromRGB(red, green, blue);
+    }
+
+    public static int secondsToTicks(int seconds) {
+        return seconds * TICKS_PER_SECOND;
     }
 }

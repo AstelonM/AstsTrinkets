@@ -4,6 +4,7 @@ import com.astelon.aststrinkets.AstsTrinkets;
 import com.astelon.aststrinkets.Power;
 import com.astelon.aststrinkets.utils.NamespacedKeys;
 import com.astelon.aststrinkets.utils.Usages;
+import com.astelon.aststrinkets.utils.Utils;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Color;
@@ -46,7 +47,7 @@ public class CloudSeeder extends FireworkTrinket {
     public void seedClouds(World world) {
         int duration = random.nextInt(minWeatherDuration, maxWeatherDuration + 1);
         world.setStorm(true);
-        world.setWeatherDuration(duration);
+        world.setWeatherDuration(Utils.secondsToTicks(duration));
     }
 
     public int getMinWeatherDuration() {
