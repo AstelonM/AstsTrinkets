@@ -19,6 +19,8 @@ import java.util.Base64;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static com.astelon.aststrinkets.utils.Utils.isNothing;
+
 public class SetKeyCommand extends Subcommand {
 
     public SetKeyCommand(AstsTrinkets plugin, TrinketManager trinketManager) {
@@ -33,9 +35,9 @@ public class SetKeyCommand extends Subcommand {
         }
         PlayerInventory inventory = player.getInventory();
         ItemStack itemStack = inventory.getItemInMainHand();
-        if (itemStack.getType() == Material.AIR)
+        if (isNothing(itemStack))
             itemStack = inventory.getItemInOffHand();
-        if (itemStack.getType() == Material.AIR) {
+        if (isNothing(itemStack)) {
             player.sendMessage(Component.text("You're not holding any item.", NamedTextColor.RED));
             return;
         }

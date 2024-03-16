@@ -17,6 +17,8 @@ import org.bukkit.persistence.PersistentDataContainer;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static com.astelon.aststrinkets.utils.Utils.isNothing;
+
 public class RemoveKeyCommand extends Subcommand {
 
     public RemoveKeyCommand(AstsTrinkets plugin, TrinketManager trinketManager) {
@@ -31,9 +33,9 @@ public class RemoveKeyCommand extends Subcommand {
         }
         PlayerInventory inventory = player.getInventory();
         ItemStack itemStack = inventory.getItemInMainHand();
-        if (itemStack.getType() == Material.AIR)
+        if (isNothing(itemStack))
             itemStack = inventory.getItemInOffHand();
-        if (itemStack.getType() == Material.AIR) {
+        if (isNothing(itemStack)) {
             player.sendMessage(Component.text("You're not holding any item.", NamedTextColor.RED));
             return;
         }

@@ -203,4 +203,8 @@ public class Utils {
     public static int secondsToTicks(int seconds) {
         return seconds * TICKS_PER_SECOND;
     }
+
+    public static boolean isNothing(ItemStack itemStack) {
+        return itemStack == null || itemStack.getType() == Material.AIR;
+    }
 }

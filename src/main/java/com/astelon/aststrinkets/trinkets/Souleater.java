@@ -19,6 +19,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import static com.astelon.aststrinkets.utils.Utils.isNothing;
+
 public class Souleater extends Trinket {
 
     private final Random random;
@@ -86,7 +88,7 @@ public class Souleater extends Trinket {
     }
 
     private boolean hasEnchantments(ItemStack itemStack) {
-        if (itemStack == null)
+        if (isNothing(itemStack))
             return false;
         return !itemStack.getEnchantments().isEmpty();
     }

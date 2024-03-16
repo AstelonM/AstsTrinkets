@@ -42,6 +42,8 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static com.astelon.aststrinkets.utils.Utils.isNothing;
+
 public class PlayerInteractListener implements Listener {
 
     private static final Pattern WORLD_PATTERN = Pattern.compile("<world:(.+)>");
@@ -265,7 +267,7 @@ public class PlayerInteractListener implements Listener {
         if (event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_BLOCK) {
             Player player = event.getPlayer();
             ItemStack itemStack = event.getItem();
-            if (itemStack != null && trinketManager.isOwnedBy(itemStack, player)) {
+            if (!isNothing(itemStack) && trinketManager.isOwnedBy(itemStack, player)) {
                 if (holdingBundle.isEnabledTrinket(itemStack) && holdingBundle.hasItems(itemStack)) {
                     ItemStack containedItem = holdingBundle.getItem(itemStack);
                     Bukkit.getScheduler().runTask(plugin, () -> {
@@ -429,7 +431,7 @@ public class PlayerInteractListener implements Listener {
             if (!player.isSneaking())
                 return;
             ItemStack itemStack = event.getItem();
-            if (itemStack == null)
+            if (isNothing(itemStack))
                 return;
             if (trinketManager.isOwnedBy(itemStack, player.getName())) {
                 PlayerInventory inventory = player.getInventory();

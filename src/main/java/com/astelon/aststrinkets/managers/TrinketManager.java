@@ -35,6 +35,8 @@ import org.jetbrains.annotations.Nullable;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static com.astelon.aststrinkets.utils.Utils.isNothing;
+
 public class TrinketManager {
 
     private final AstsTrinkets plugin;
@@ -345,7 +347,7 @@ public class TrinketManager {
     }
 
     public HashMap<String, Object> getPresentKeys(ItemStack itemStack) {
-        if (itemStack == null || itemStack.getType() == Material.AIR)
+        if (isNothing(itemStack))
             throw new IllegalArgumentException("ItemStack cannot be null or air.");
         ItemMeta meta = itemStack.getItemMeta();
         HashMap<String, Object> result = new HashMap<>();

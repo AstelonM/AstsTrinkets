@@ -17,6 +17,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static com.astelon.aststrinkets.utils.Utils.isNothing;
+
 public class DebugCommand extends Subcommand {
 
     private final MiniMessage miniMessage = MiniMessage.miniMessage();
@@ -52,7 +54,7 @@ public class DebugCommand extends Subcommand {
     }
 
     private HashMap<String, Object> getKeys(ItemStack itemStack) {
-        if (itemStack != null && itemStack.getType() != Material.AIR) {
+        if (!isNothing(itemStack)) {
             HashMap<String, Object> keys = trinketManager.getPresentKeys(itemStack);
             if (keys.isEmpty())
                 return null;
