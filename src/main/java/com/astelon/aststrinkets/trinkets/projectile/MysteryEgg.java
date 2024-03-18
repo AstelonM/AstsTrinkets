@@ -23,7 +23,7 @@ public class MysteryEgg extends ProjectileTrinket {
     private ArrayList<EntityType> entityTypes;
 
     public MysteryEgg(AstsTrinkets plugin, NamespacedKeys keys) {
-        super(plugin, keys, "mysteryEgg", Power.SPAWN_RANDOM_CREATURES, false, Usages.THROW);
+        super(plugin, keys, "mysteryEgg", Power.SPAWN_RANDOM_CREATURES, false, Usages.THROW_RIGHT_CLICK);
         random = new Random();
     }
 

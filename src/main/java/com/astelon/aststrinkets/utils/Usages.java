@@ -26,7 +26,7 @@ public final class Usages {
             "with the trinket in your hand.";
     public static final String INTERACT_ENTITY_WITH_BABY_FORM = "Right click an entity that has a baby form using the trinket.";
     public static final String HIT_AND_DAMAGE = "Hit a player or creature and damage them.";
-    public static final String THROW = "Throw it somewhere with right click.";
+    public static final String THROW_RIGHT_CLICK = "Throw it somewhere with right click.";
     public static final String BAIT = "Hold in your other hand when fishing.";
     public static final String SHIFT_RIGHT_CLICK = "Hold it in your hand, then right click while sneaking.";
     public static final String CUT_TREES = "You should cut some trees.";
@@ -86,4 +86,5 @@ public final class Usages {
             "<br>How to use it on other creatures:<br>" + INTERACT_ENTITY;
     public static final String FIREWORK = "Use it like a regular firework.";
     public static final String PLACED_FIREWORK = "Launch it to the sky like a regular firework.";
+    public static final String THROW_DROP_KEY = "Throw it with the drop item key.";
 }

@@ -22,10 +22,9 @@ import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.EnchantmentStorageMeta;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import static com.astelon.aststrinkets.utils.Utils.transformCursorItem;
-import static com.astelon.aststrinkets.utils.Utils.transformItem;
+import static com.astelon.aststrinkets.utils.Utils.*;
 
-public class InventoryUseListener implements Listener {
+public class InventoryCustomUseListener implements Listener {
 
     private final AstsTrinkets plugin;
     private final TrinketManager trinketManager;
@@ -37,13 +36,12 @@ public class InventoryUseListener implements Listener {
     private final InfinityItem infinityItem;
     private final ShulkerBoxContainmentUnit shulkerBoxContainmentUnit;
     private final BuddingSolution buddingSolution;
-    private final HoldingBundle holdingBundle;
     private final TrinketImmunitySponge trinketImmunitySponge;
     private final TrinketVulnerabilitySponge trinketVulnerabilitySponge;
     private final ArcaneTome arcaneTome;
     private final AdamantineStrand adamantineStrand;
 
-    public InventoryUseListener(AstsTrinkets plugin, TrinketManager trinketManager) {
+    public InventoryCustomUseListener(AstsTrinkets plugin, TrinketManager trinketManager) {
         this.plugin = plugin;
         this.trinketManager = trinketManager;
         mendingPowder = trinketManager.getMendingPowder();
@@ -54,7 +52,6 @@ public class InventoryUseListener implements Listener {
         infinityItem = trinketManager.getInfinityItem();
         shulkerBoxContainmentUnit = trinketManager.getShulkerBoxContainmentUnit();
         buddingSolution = trinketManager.getBuddingSolution();
-        holdingBundle = trinketManager.getHoldingBundle();
         trinketImmunitySponge = trinketManager.getTrinketImmunitySponge();
         trinketVulnerabilitySponge = trinketManager.getTrinketVulnerabilitySponge();
         arcaneTome = trinketManager.getArcaneTome();
@@ -65,53 +62,12 @@ public class InventoryUseListener implements Listener {
     public void onInventoryClick(InventoryClickEvent event) {
         ItemStack heldItem = event.getCursor();
         Player player = (Player) event.getView().getPlayer();
-        if (heldItem == null)
+        if (isNothing(heldItem))
             return;
         ItemStack clickedItem = event.getCurrentItem();
-        if (event.getClick() == ClickType.RIGHT) {
-            if (holdingBundle.isEnabled()) {
-                if (holdingBundle.isTrinket(heldItem) && trinketManager.isOwnedBy(heldItem, player)) {
-                    if (clickedItem != null && clickedItem.getType() != Material.AIR) {
-                        if (holdingBundle.hasItems(heldItem)) {
-                            event.setCancelled(true);
-                            ItemStack result = addItemsInBundle(heldItem, clickedItem, player);
-                            if (result != null) {
-                                Utils.transformCursorItem(heldItem, result, player.getInventory(), player);
-                                clickedItem.setAmount(0);
-                                player.updateInventory();
-                            }
-                        }
-                    } else {
-                        event.setCancelled(true);
-                        ItemStack containedItem = holdingBundle.getItem(heldItem);
-                        Inventory inventory = event.getClickedInventory();
-                        if (inventory == null)
-                            return;
-                        inventory.setItem(event.getSlot(), containedItem);
-                        ItemStack result = holdingBundle.removeItems(heldItem);
-                        if (result == null) {
-                            player.sendMessage(Component.text("This Bundle of Holding is corrupted.", NamedTextColor.RED));
-                            return;
-                        }
-                        Utils.transformCursorItem(heldItem, result, player.getInventory(), player);
-                        player.updateInventory();
-                    }
-                } else if (clickedItem != null && holdingBundle.isTrinket(clickedItem) &&
-                        trinketManager.isOwnedBy(clickedItem, player) && holdingBundle.hasItems(clickedItem)) {
-                    event.setCancelled(true);
-                    ItemStack result = addItemsInBundle(clickedItem, heldItem, player);
-                    if (result != null) {
-                        Utils.transformItem(clickedItem, result, event.getSlot(), event.getClickedInventory(), player);
-                        heldItem.setAmount(0);
-                        player.updateInventory();
-                    }
-                }
-                return;
-            }
-        }
         if (event.getClick() == ClickType.SHIFT_RIGHT && trinketManager.isOwnedBy(heldItem, player.getName())) {
             if (mendingPowder.isEnabledTrinket(heldItem)) {
-                if (clickedItem == null)
+                if (isNothing(clickedItem))
                     return;
                 if (trinketManager.isTrinketImmune(clickedItem)) {
                     player.sendMessage(Component.text("Trinkets cannot be used on this item.", NamedTextColor.RED));
@@ -131,7 +87,7 @@ public class InventoryUseListener implements Listener {
                     player.updateInventory();
                 }
             } else if (bindingPowder.isEnabledTrinket(heldItem)) {
-                if (clickedItem == null)
+                if (isNothing(clickedItem))
                     return;
                 if (trinketManager.isTrinketImmune(clickedItem)) {
                     player.sendMessage(Component.text("Trinkets cannot be used on this item.", NamedTextColor.RED));
@@ -151,7 +107,7 @@ public class InventoryUseListener implements Listener {
                     }
                 }
             } else if (unbindingPowder.isEnabledTrinket(heldItem)) {
-                if (clickedItem == null)
+                if (isNothing(clickedItem))
                     return;
                 if (trinketManager.isTrinketImmune(clickedItem)) {
                     player.sendMessage(Component.text("Trinkets cannot be used on this item.", NamedTextColor.RED));
@@ -171,7 +127,7 @@ public class InventoryUseListener implements Listener {
                     }
                 }
             } else if (homendirt.isEnabledTrinket(heldItem)) {
-                if (clickedItem == null)
+                if (isNothing(clickedItem))
                     return;
                 if (trinketManager.isTrinketImmune(clickedItem)) {
                     player.sendMessage(Component.text("Trinkets cannot be used on this item.", NamedTextColor.RED));
@@ -205,7 +161,7 @@ public class InventoryUseListener implements Listener {
                 transformCursorItem(heldItem, homendingdirtItem, inventory, player);
                 player.updateInventory();
             } else if (homendingdirt.isEnabledTrinket(heldItem)) {
-                if (clickedItem == null)
+                if (isNothing(clickedItem))
                     return;
                 if (trinketManager.isTrinketImmune(clickedItem)) {
                     player.sendMessage(Component.text("Trinkets cannot be used on this item.", NamedTextColor.RED));
@@ -234,7 +190,7 @@ public class InventoryUseListener implements Listener {
             } else if (infinityItem.isEnabledTrinket(heldItem)) {
                 if (infinityItem.hasBlock(heldItem))
                     return;
-                if (clickedItem == null)
+                if (isNothing(clickedItem))
                     return;
                 Material block = clickedItem.getType();
                 if (!infinityItem.isAllowedBlock(block, player)) {
@@ -275,7 +231,7 @@ public class InventoryUseListener implements Listener {
                 player.updateInventory();
                 event.setCancelled(true);
             } else if (trinketImmunitySponge.isEnabledTrinket(heldItem)) {
-                if (clickedItem == null)
+                if (isNothing(clickedItem))
                     return;
                 if (trinketManager.isTrinketImmune(clickedItem)) {
                     player.sendMessage(Component.text("This item stack is already trinket immune.", NamedTextColor.RED));
@@ -285,7 +241,7 @@ public class InventoryUseListener implements Listener {
                 trinketManager.makeTrinketImmune(clickedItem);
                 player.sendMessage(Component.text("The item stack is now trinket immune."));
             } else if (trinketVulnerabilitySponge.isEnabledTrinket(heldItem)) {
-                if (clickedItem == null)
+                if (isNothing(clickedItem))
                     return;
                 if (!trinketManager.isTrinketImmune(clickedItem)) {
                     player.sendMessage(Component.text("This item stack is not trinket immune.", NamedTextColor.RED));
@@ -295,7 +251,7 @@ public class InventoryUseListener implements Listener {
                 trinketManager.removeTrinketImmunity(clickedItem);
                 player.sendMessage(Component.text("The item stack is no longer trinket immune."));
             } else if (arcaneTome.isEnabledTrinket(heldItem)) {
-                if (clickedItem == null)
+                if (isNothing(clickedItem))
                     return;
                 if (trinketManager.isTrinketImmune(clickedItem)) {
                     player.sendMessage(Component.text("Trinkets cannot be used on this item.", NamedTextColor.RED));
@@ -319,7 +275,7 @@ public class InventoryUseListener implements Listener {
                 heldItem.subtract();
                 player.updateInventory();
             } else if (adamantineStrand.isEnabledTrinket(heldItem)) {
-                if (clickedItem == null)
+                if (isNothing(clickedItem))
                     return;
                 if (trinketManager.isTrinketImmune(clickedItem)) {
                     player.sendMessage(Component.text("Trinkets cannot be used on this item.", NamedTextColor.RED));
@@ -340,19 +296,5 @@ public class InventoryUseListener implements Listener {
                 }
             }
         }
-    }
-
-    private ItemStack addItemsInBundle(ItemStack bundle, ItemStack toAdd, Player player) {
-        ItemStack itemStack = holdingBundle.getItem(bundle);
-        if (itemStack == null) {
-            player.sendMessage(Component.text("This Bundle of Holding is corrupted.", NamedTextColor.RED));
-            return null;
-        }
-        if (itemStack.isSimilar(toAdd))
-            return holdingBundle.addItems(bundle, toAdd);
-        else {
-            player.sendMessage(Component.text("This bundle has items of a different kind.", NamedTextColor.RED));
-        }
-        return null;
     }
 }

@@ -414,3 +414,9 @@ cloudSeeder:
   minWeatherDuration: 600
   # Maximum time in seconds that the weather will last. 1200 seconds is the equivalent of a day in Minecraft.
   maxWeatherDuration: 1200
+
+# A button that selects a random number based on its sides (sets it in its lore) when thrown with the drop key.
+die:
+  enabled: true
+  # The number of sides the die has. Represents the maximum amount that can be obtained by throwing it.
+  sides: 6

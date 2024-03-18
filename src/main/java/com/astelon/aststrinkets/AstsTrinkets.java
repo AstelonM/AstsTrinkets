@@ -51,7 +51,7 @@ public class AstsTrinkets extends JavaPlugin {
         pluginManager.registerEvents(new ShapeShifterListener(this, trinketManager), this);
         pluginManager.registerEvents(new CakeListener(this, trinketManager, cakeManager), this);
         pluginManager.registerEvents(new BlockListener(this, trinketManager, mobInfoManager), this);
-        pluginManager.registerEvents(new InventoryUseListener(this, trinketManager), this);
+        pluginManager.registerEvents(new InventoryCustomUseListener(this, trinketManager), this);
         pluginManager.registerEvents(new PlayerInteractListener(this, mobInfoManager, trinketManager), this);
         pluginManager.registerEvents(new FireworkListener(this, trinketManager), this);
         pluginManager.registerEvents(new EntityDamageListener(this, trinketManager, mobInfoManager), this);
@@ -62,6 +62,8 @@ public class AstsTrinkets extends JavaPlugin {
                 sentientAxeTaskManager), this);
         pluginManager.registerEvents(new BookListener(this, trinketManager), this);
         pluginManager.registerEvents(new PotionListener(this, trinketManager), this);
+        pluginManager.registerEvents(new ItemListener(this, trinketManager), this);
+        pluginManager.registerEvents(new InventoryRegularUseListener(this, trinketManager), this);
         loadConfig();
         Objects.requireNonNull(getCommand("trinkets")).setExecutor(new TrinketCommand(this, trinketManager));
     }
@@ -190,6 +192,8 @@ public class AstsTrinkets extends JavaPlugin {
                 ".minWeatherDuration"), 600));
         cloudSeeder.setMaxWeatherDuration(Utils.ensurePositive(configuration.getInt(cloudSeeder.getName() +
                 ".maxWeatherDuration"), 1200));
+        Die die = trinketManager.getDie();
+        die.setSides(Utils.ensurePositive(configuration.getInt(die.getName() + ".sides"), 6));
     }
 
     private HashSet<EntityType> getBlacklistedTypes(List<String> blacklist) {

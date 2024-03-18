@@ -38,6 +38,7 @@ public class NamespacedKeys {
     public final NamespacedKey breakBlocksKey;
     public final NamespacedKey explosionPowerKey;
     public final NamespacedKey setFireKey;
+    public final NamespacedKey maxAmountKey;
 
     public NamespacedKeys(AstsTrinkets plugin) {
         //TODO should make these more uniform eventually + think how to deal with the obsolete versions
@@ -66,6 +67,7 @@ public class NamespacedKeys {
         breakBlocksKey = new NamespacedKey(plugin, "breakBlocks");
         explosionPowerKey = new NamespacedKey(plugin, "explosionPower");
         setFireKey = new NamespacedKey(plugin, "setFire");
+        maxAmountKey = new NamespacedKey(plugin, "maxAmount");
         initKeyMap();
     }
 
@@ -96,6 +98,7 @@ public class NamespacedKeys {
         keys.put(breakBlocksKey.getKey(), new KeyTypePair(breakBlocksKey, PersistentDataType.BYTE));
         keys.put(explosionPowerKey.getKey(), new KeyTypePair(explosionPowerKey, PersistentDataType.FLOAT));
         keys.put(setFireKey.getKey(), new KeyTypePair(setFireKey, PersistentDataType.BYTE));
+        keys.put(maxAmountKey.getKey(), new KeyTypePair(maxAmountKey, PersistentDataType.INTEGER));
         keys = Collections.unmodifiableMap(keys);
     }
 

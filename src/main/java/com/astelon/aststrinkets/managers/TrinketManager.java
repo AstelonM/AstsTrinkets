@@ -112,6 +112,7 @@ public class TrinketManager {
         addTrinket(new UnbreakableTurtleShell(plugin, keys));
         addTrinket(new NightVisionGoggles(plugin, keys));
         addTrinket(new CloudSeeder(plugin, keys));
+        addTrinket(new Die(plugin, keys));
     }
 
     private void addTrinket(Trinket trinket) {
@@ -584,5 +585,9 @@ public class TrinketManager {
 
     public CloudSeeder getCloudSeeder() {
         return (CloudSeeder) getTrinketExact("cloudSeeder");
+    }
+
+    public Die getDie() {
+        return (Die) getTrinketExact("die");
     }
 }

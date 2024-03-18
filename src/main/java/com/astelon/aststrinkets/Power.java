@@ -54,7 +54,8 @@ public enum Power {
     ABSORB_HEALTH_ON_HIT("absorbHealthOnHit"),
     RANDOM_FIREWORK("randomFirework"),
     NIGHT_VISION("nightVision"),
-    CREATE_RAIN("createRain");
+    CREATE_RAIN("createRain"),
+    SELECT_RANDOM_NUMBER_WHEN_THROWN("selectRandomNumberWhenThrown");
 
     private final String powerName;
 
