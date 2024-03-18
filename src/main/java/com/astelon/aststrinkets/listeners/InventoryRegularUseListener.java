@@ -83,7 +83,8 @@ public class InventoryRegularUseListener implements Listener {
             case LEFT -> {
                 if (isNothing(clickedItem) || isNothing(heldItem))
                     return;
-                if (die.isEnabled() && die.isTrinket(heldItem) && die.isTrinket(clickedItem)) {
+                if (die.isEnabled() && die.isTrinket(heldItem) && die.isTrinket(clickedItem) &&
+                        trinketManager.isOwnedBy(heldItem, player) && trinketManager.isOwnedBy(clickedItem, player)) {
                     die.removeRoll(heldItem);
                     die.removeRoll(clickedItem);
                     player.updateInventory();
@@ -93,15 +94,18 @@ public class InventoryRegularUseListener implements Listener {
                 if (!isNothing(clickedItem) || isNothing(heldItem))
                     return;
                 if (die.isEnabled() && die.isTrinket(heldItem)) {
-                    die.removeRoll(heldItem);
+                    if (trinketManager.isOwnedBy(heldItem, player))
+                        die.removeRoll(heldItem);
                     InventoryView inventoryView = event.getView();
                     for (ItemStack itemStack: inventoryView.getTopInventory()) {
-                        if (die.isTrinket(itemStack) && die.isSimilar(heldItem, itemStack)) {
+                        if (die.isTrinket(itemStack) && die.isSimilar(heldItem, itemStack) &&
+                                trinketManager.isOwnedBy(itemStack, player)) {
                             die.removeRoll(itemStack);
                         }
                     }
                     for (ItemStack itemStack: inventoryView.getBottomInventory()) {
-                        if (die.isTrinket(itemStack) && die.isSimilar(heldItem, itemStack)) {
+                        if (die.isTrinket(itemStack) && die.isSimilar(heldItem, itemStack) &&
+                                trinketManager.isOwnedBy(itemStack, player)) {
                             die.removeRoll(itemStack);
                         }
                     }
