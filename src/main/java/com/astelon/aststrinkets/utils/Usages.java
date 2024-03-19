@@ -86,5 +86,5 @@ public final class Usages {
             "<br>How to use it on other creatures:<br>" + INTERACT_ENTITY;
     public static final String FIREWORK = "Use it like a regular firework.";
     public static final String PLACED_FIREWORK = "Launch it to the sky like a regular firework.";
-    public static final String THROW_DROP_KEY = "Throw it with the drop item key.";
+    public static final String THROW_DROP_KEY_NO_SNEAKING = "Throw it with the drop item key while <b>not</b> sneaking.";
 }
