@@ -28,7 +28,7 @@ public class Die extends Trinket {
     private int sides;
 
     public Die(AstsTrinkets plugin, NamespacedKeys keys) {
-        super(plugin, keys, "die", Power.SELECT_RANDOM_NUMBER_WHEN_THROWN, false, Usages.THROW_DROP_KEY_NO_SNEAKING);
+        super(plugin, keys, "die", Power.SELECT_RANDOM_NUMBER_WHEN_THROWN, false, Usages.DIE);
         random = new Random();
     }
 
