@@ -12,8 +12,6 @@ public final class Usages {
             "2. Click on the trinket so that it's on your mouse.<br>" +
             "3. Do <b>NOT</b> close your inventory.<br>" +
             "4. Hold shift and right click on the item you want to use the trinket on.";
-    public static final String YOUTH_MILK = "Right click an entity that has a baby form " +
-            "using the trinket.";
     public static final String TRAP = "If the trap is empty, right click an entity. " +
             "Do note that not all entities can be caught in any trap.<br>" +
             "If the trap has an entity inside, right click on a block that has enough space above.";
