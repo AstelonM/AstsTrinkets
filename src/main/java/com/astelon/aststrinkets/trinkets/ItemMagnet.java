@@ -20,7 +20,7 @@ public class ItemMagnet extends Trinket {
 
     public ItemMagnet(AstsTrinkets plugin, NamespacedKeys keys) {
         super(plugin, keys, "itemMagnet", TextColor.fromHexString("#B0A7AC"), Power.ATTRACT_ITEMS, false,
-                Usages.SHIFT_RIGHT_CLICK_AND_HOLD_WHILE_MINING);
+                Usages.ITEM_MAGNET);
     }
 
     @Override
@@ -54,7 +54,7 @@ public class ItemMagnet extends Trinket {
             throw new IllegalArgumentException("Not a trinket.");
         PersistentDataContainer container = itemMagnet.getItemMeta().getPersistentDataContainer();
         if (!container.has(keys.rangeKey, PersistentDataType.INTEGER))
-            return 4;
+            return 4; //TODO replace with variable
         return container.getOrDefault(keys.rangeKey, PersistentDataType.INTEGER, 4);
     }
 

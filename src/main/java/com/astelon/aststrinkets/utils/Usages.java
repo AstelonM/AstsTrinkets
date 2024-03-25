@@ -87,4 +87,9 @@ public final class Usages {
     public static final String FIREWORK = "Use it like a regular firework.";
     public static final String PLACED_FIREWORK = "Launch it to the sky like a regular firework.";
     public static final String THROW_DROP_KEY_NO_SNEAKING = "Throw it with the drop item key while <b>not</b> sneaking.";
+    public static final String ITEM_MAGNET = SHIFT_RIGHT_CLICK_AND_HOLD_WHILE_MINING + " If you want to add it to a " +
+            "Bundle of Holding, follow these steps:<br>" + INVENTORY + "<br><red>Note: you cannot remove it once added.</red>";
+    public static final String BUNDLE_WITH_MAGNET = BUNDLE + " While there are items inside, hold it while picking similar " +
+            "items from the ground to automatically add them to the bundle. You can also double click the bundle in the " +
+            "inventory to collect all the similar items inside of it.";
 }

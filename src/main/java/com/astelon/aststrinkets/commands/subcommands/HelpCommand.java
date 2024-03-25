@@ -2,6 +2,7 @@ package com.astelon.aststrinkets.commands.subcommands;
 
 import com.astelon.aststrinkets.AstsTrinkets;
 import com.astelon.aststrinkets.managers.TrinketManager;
+import com.astelon.aststrinkets.trinkets.HoldingBundle;
 import com.astelon.aststrinkets.trinkets.Spellbook;
 import com.astelon.aststrinkets.trinkets.Trinket;
 import net.kyori.adventure.text.Component;
@@ -16,10 +17,12 @@ import java.util.List;
 public class HelpCommand extends Subcommand {
 
     private final Spellbook spellbook;
+    private final HoldingBundle holdingBundle;
 
     public HelpCommand(AstsTrinkets plugin, TrinketManager trinketManager) {
         super(plugin, trinketManager, "help", "aststrinkets.command.help");
         spellbook = trinketManager.getSpellbook();
+        holdingBundle = trinketManager.getHoldingBundle();
     }
 
     @Override
@@ -41,6 +44,8 @@ public class HelpCommand extends Subcommand {
         }
         if (trinket instanceof Spellbook)
             player.sendMessage(spellbook.getUsage(itemStack));
+        else if (trinket instanceof HoldingBundle)
+            player.sendMessage(holdingBundle.getUsage(itemStack));
         else
             player.sendMessage(trinket.getUsage());
     }

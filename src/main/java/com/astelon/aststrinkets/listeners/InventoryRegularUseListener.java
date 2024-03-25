@@ -7,7 +7,6 @@ import com.astelon.aststrinkets.trinkets.HoldingBundle;
 import com.astelon.aststrinkets.utils.Utils;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
-import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -46,7 +45,7 @@ public class InventoryRegularUseListener implements Listener {
                         if (!isNothing(clickedItem)) {
                             if (holdingBundle.hasItems(heldItem)) {
                                 event.setCancelled(true);
-                                ItemStack result = addItemsInBundle(heldItem, clickedItem, player);
+                                ItemStack result = holdingBundle.addItemsInBundle(heldItem, clickedItem, player);
                                 if (result != null) {
                                     Utils.transformCursorItem(heldItem, result, player.getInventory(), player);
                                     clickedItem.setAmount(0);
@@ -71,7 +70,7 @@ public class InventoryRegularUseListener implements Listener {
                     } else if (clickedItem != null && holdingBundle.isTrinket(clickedItem) &&
                             trinketManager.isOwnedBy(clickedItem, player) && holdingBundle.hasItems(clickedItem)) {
                         event.setCancelled(true);
-                        ItemStack result = addItemsInBundle(clickedItem, heldItem, player);
+                        ItemStack result = holdingBundle.addItemsInBundle(clickedItem, heldItem, player);
                         if (result != null) {
                             Utils.transformItem(clickedItem, result, event.getSlot(), event.getClickedInventory(), player);
                             heldItem.setAmount(0);
@@ -113,19 +112,5 @@ public class InventoryRegularUseListener implements Listener {
                 }
             }
         }
-    }
-
-    private ItemStack addItemsInBundle(ItemStack bundle, ItemStack toAdd, Player player) {
-        ItemStack itemStack = holdingBundle.getItem(bundle);
-        if (itemStack == null) {
-            player.sendMessage(Component.text("This Bundle of Holding is corrupted.", NamedTextColor.RED));
-            return null;
-        }
-        if (itemStack.isSimilar(toAdd))
-            return holdingBundle.addItems(bundle, toAdd);
-        else {
-            player.sendMessage(Component.text("This bundle has items of a different kind.", NamedTextColor.RED));
-        }
-        return null;
     }
 }
