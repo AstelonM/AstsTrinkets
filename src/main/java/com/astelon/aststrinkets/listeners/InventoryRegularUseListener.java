@@ -31,50 +31,88 @@ public class InventoryRegularUseListener implements Listener {
         die = trinketManager.getDie();
     }
 
-    @EventHandler
+    @EventHandler(ignoreCancelled = true)
     public void onInventoryClick(InventoryClickEvent event) {
         Player player = (Player) event.getView().getPlayer();
         ItemStack heldItem = event.getCursor();
         ItemStack clickedItem = event.getCurrentItem();
         switch (event.getClick()) {
             case RIGHT -> {
-                if (isNothing(heldItem))
-                    return;
                 if (holdingBundle.isEnabled()) {
-                    if (holdingBundle.isTrinket(heldItem) && trinketManager.isOwnedBy(heldItem, player)) {
-                        if (!isNothing(clickedItem)) {
+                    if (isNothing(heldItem)) {
+                        if (clickedItem != null && holdingBundle.isTrinket(clickedItem)) {
+                            if (holdingBundle.hasItems(clickedItem)) {
+                                event.setCancelled(true);
+                                if (trinketManager.isOwnedBy(clickedItem, player)) {
+                                    ItemStack containedItem = holdingBundle.getItem(clickedItem);
+                                    player.setItemOnCursor(containedItem);
+                                    ItemStack result = holdingBundle.removeItems(clickedItem);
+                                    if (result == null) {
+                                        player.sendMessage(Component.text("This Bundle of Holding is corrupted.",
+                                                NamedTextColor.RED));
+                                        return;
+                                    }
+                                    Utils.transformItem(clickedItem, result, event.getSlot(), event.getClickedInventory(),
+                                            player);
+                                    player.updateInventory();
+                                }
+                            }
+                        }
+                    } else if (holdingBundle.isTrinket(heldItem)) {
+                        if (isNothing(clickedItem)) {
                             if (holdingBundle.hasItems(heldItem)) {
                                 event.setCancelled(true);
-                                ItemStack result = holdingBundle.addItemsInBundle(heldItem, clickedItem, player);
-                                if (result != null) {
+                                if (trinketManager.isOwnedBy(heldItem, player)) {
+                                    ItemStack containedItem = holdingBundle.getItem(heldItem);
+                                    Inventory inventory = event.getClickedInventory();
+                                    if (inventory == null) {
+                                        plugin.getLogger().warning("Somehow the inventory was null when trying " +
+                                                "to remove an item from a bundle");
+                                        return;
+                                    }
+                                    inventory.setItem(event.getSlot(), containedItem);
+                                    ItemStack result = holdingBundle.removeItems(heldItem);
+                                    if (result == null) {
+                                        player.sendMessage(Component.text("This Bundle of Holding is corrupted.", NamedTextColor.RED));
+                                        return;
+                                    }
                                     Utils.transformCursorItem(heldItem, result, player.getInventory(), player);
-                                    clickedItem.setAmount(0);
                                     player.updateInventory();
                                 }
                             }
                         } else {
-                            event.setCancelled(true);
-                            ItemStack containedItem = holdingBundle.getItem(heldItem);
-                            Inventory inventory = event.getClickedInventory();
-                            if (inventory == null)
-                                return;
-                            inventory.setItem(event.getSlot(), containedItem);
-                            ItemStack result = holdingBundle.removeItems(heldItem);
-                            if (result == null) {
-                                player.sendMessage(Component.text("This Bundle of Holding is corrupted.", NamedTextColor.RED));
-                                return;
+                            if (holdingBundle.hasItems(heldItem)) {
+                                event.setCancelled(true);
+                                if (trinketManager.isOwnedBy(heldItem, player)) {
+                                    ItemStack result = holdingBundle.addItemsInBundle(heldItem, clickedItem, player);
+                                    if (result != null) {
+                                        Utils.transformCursorItem(heldItem, result, player.getInventory(), player);
+                                        clickedItem.setAmount(0);
+                                        player.updateInventory();
+                                    }
+                                }
+                            } else if (!trinketManager.isOwnedBy(heldItem, player)) {
+                                event.setCancelled(true);
                             }
-                            Utils.transformCursorItem(heldItem, result, player.getInventory(), player);
-                            player.updateInventory();
                         }
-                    } else if (clickedItem != null && holdingBundle.isTrinket(clickedItem) &&
-                            trinketManager.isOwnedBy(clickedItem, player) && holdingBundle.hasItems(clickedItem)) {
-                        event.setCancelled(true);
-                        ItemStack result = holdingBundle.addItemsInBundle(clickedItem, heldItem, player);
-                        if (result != null) {
-                            Utils.transformItem(clickedItem, result, event.getSlot(), event.getClickedInventory(), player);
-                            heldItem.setAmount(0);
-                            player.updateInventory();
+                    } else {
+                        if (!isNothing(clickedItem) && holdingBundle.isTrinket(clickedItem)) {
+                            if (holdingBundle.hasItems(clickedItem)) {
+                                event.setCancelled(true);
+                                if (trinketManager.isOwnedBy(clickedItem, player)) {
+                                    ItemStack result = holdingBundle.addItemsInBundle(clickedItem, heldItem, player);
+                                    if (result != null) {
+                                        Utils.transformItem(clickedItem, result, event.getSlot(),
+                                                event.getClickedInventory(), player);
+                                        heldItem.setAmount(0);
+                                        player.updateInventory();
+                                    }
+                                }
+                            } else {
+                                if (!trinketManager.isOwnedBy(clickedItem, player)) {
+                                    event.setCancelled(true);
+                                }
+                            }
                         }
                     }
                 }
