@@ -113,6 +113,8 @@ public class TrinketManager {
         addTrinket(new NightVisionGoggles(plugin, keys));
         addTrinket(new CloudSeeder(plugin, keys));
         addTrinket(new Die(plugin, keys));
+        addTrinket(new MysteryShell(plugin, keys));
+        addTrinket(new AbyssShell(plugin, keys));
     }
 
     private void addTrinket(Trinket trinket) {
@@ -589,5 +591,13 @@ public class TrinketManager {
 
     public Die getDie() {
         return (Die) getTrinketExact("die");
+    }
+
+    public MysteryShell getMysteryShell() {
+        return (MysteryShell) getTrinketExact("mysteryShell");
+    }
+
+    public AbyssShell getAbyssShell() {
+        return (AbyssShell) getTrinketExact("abyssShell");
     }
 }

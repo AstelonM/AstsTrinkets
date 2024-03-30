@@ -39,6 +39,14 @@ public class NamespacedKeys {
     public final NamespacedKey explosionPowerKey;
     public final NamespacedKey setFireKey;
     public final NamespacedKey maxAmountKey;
+    public final NamespacedKey useWorldDefaultKey;
+    public final NamespacedKey surfaceOnlyKey;
+    public final NamespacedKey minXKey;
+    public final NamespacedKey maxXKey;
+    public final NamespacedKey minYKey;
+    public final NamespacedKey maxYKey;
+    public final NamespacedKey minZKey;
+    public final NamespacedKey maxZKey;
 
     public NamespacedKeys(AstsTrinkets plugin) {
         //TODO should make these more uniform eventually + think how to deal with the obsolete versions
@@ -68,6 +76,14 @@ public class NamespacedKeys {
         explosionPowerKey = new NamespacedKey(plugin, "explosionPower");
         setFireKey = new NamespacedKey(plugin, "setFire");
         maxAmountKey = new NamespacedKey(plugin, "maxAmount");
+        useWorldDefaultKey = new NamespacedKey(plugin, "useWorldDefault");
+        surfaceOnlyKey = new NamespacedKey(plugin, "surfaceOnly");
+        minXKey = new NamespacedKey(plugin, "minX");
+        maxXKey = new NamespacedKey(plugin, "maxX");
+        minYKey = new NamespacedKey(plugin, "minY");
+        maxYKey = new NamespacedKey(plugin, "maxY");
+        minZKey = new NamespacedKey(plugin, "minZ");
+        maxZKey = new NamespacedKey(plugin, "maxZ");
         initKeyMap();
     }
 
@@ -99,6 +115,14 @@ public class NamespacedKeys {
         keys.put(explosionPowerKey.getKey(), new KeyTypePair(explosionPowerKey, PersistentDataType.FLOAT));
         keys.put(setFireKey.getKey(), new KeyTypePair(setFireKey, PersistentDataType.BYTE));
         keys.put(maxAmountKey.getKey(), new KeyTypePair(maxAmountKey, PersistentDataType.INTEGER));
+        keys.put(useWorldDefaultKey.getKey(), new KeyTypePair(useWorldDefaultKey, PersistentDataType.BYTE));
+        keys.put(surfaceOnlyKey.getKey(), new KeyTypePair(surfaceOnlyKey, PersistentDataType.BYTE));
+        keys.put(minXKey.getKey(), new KeyTypePair(minXKey, PersistentDataType.INTEGER));
+        keys.put(maxXKey.getKey(), new KeyTypePair(maxXKey, PersistentDataType.INTEGER));
+        keys.put(minYKey.getKey(), new KeyTypePair(minYKey, PersistentDataType.INTEGER));
+        keys.put(maxYKey.getKey(), new KeyTypePair(maxYKey, PersistentDataType.INTEGER));
+        keys.put(minZKey.getKey(), new KeyTypePair(minZKey, PersistentDataType.INTEGER));
+        keys.put(maxZKey.getKey(), new KeyTypePair(maxZKey, PersistentDataType.INTEGER));
         keys = Collections.unmodifiableMap(keys);
     }
 

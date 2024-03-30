@@ -194,6 +194,24 @@ public class AstsTrinkets extends JavaPlugin {
                 ".maxWeatherDuration"), 1200));
         Die die = trinketManager.getDie();
         die.setSides(Utils.ensurePositive(configuration.getInt(die.getName() + ".sides"), 6));
+        MysteryShell mysteryShell = trinketManager.getMysteryShell();
+        mysteryShell.setUseWorldDefault(configuration.getBoolean(mysteryShell.getName() + ".useWorldDefault", true));
+        mysteryShell.setSurfaceOnly(configuration.getBoolean(mysteryShell.getName() + ".surfaceOnly", true));
+        mysteryShell.setMinX(configuration.getInt(mysteryShell.getName() + ".minX"));
+        mysteryShell.setMaxX(configuration.getInt(mysteryShell.getName() + ".maxX"));
+        mysteryShell.setMinY(configuration.getInt(mysteryShell.getName() + ".minY"));
+        mysteryShell.setMaxY(configuration.getInt(mysteryShell.getName() + ".maxY"));
+        mysteryShell.setMinZ(configuration.getInt(mysteryShell.getName() + ".minZ"));
+        mysteryShell.setMaxZ(configuration.getInt(mysteryShell.getName() + ".maxZ"));
+        AbyssShell abyssShell = trinketManager.getAbyssShell();
+        abyssShell.setUseWorldDefault(configuration.getBoolean(abyssShell.getName() + ".useWorldDefault", true));
+        abyssShell.setSurfaceOnly(configuration.getBoolean(abyssShell.getName() + ".surfaceOnly", true));
+        abyssShell.setMinX(configuration.getInt(abyssShell.getName() + ".minX"));
+        abyssShell.setMaxX(configuration.getInt(abyssShell.getName() + ".maxX"));
+        abyssShell.setMinY(configuration.getInt(abyssShell.getName() + ".minY"));
+        abyssShell.setMaxY(configuration.getInt(abyssShell.getName() + ".maxY"));
+        abyssShell.setMinZ(configuration.getInt(abyssShell.getName() + ".minZ"));
+        abyssShell.setMaxZ(configuration.getInt(abyssShell.getName() + ".maxZ"));
     }
 
     private HashSet<EntityType> getBlacklistedTypes(List<String> blacklist) {

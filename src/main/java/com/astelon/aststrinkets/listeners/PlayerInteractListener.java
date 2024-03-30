@@ -13,10 +13,7 @@ import com.astelon.aststrinkets.utils.CommandEvent;
 import com.astelon.aststrinkets.utils.Utils;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.World;
+import org.bukkit.*;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeInstance;
 import org.bukkit.block.Block;
@@ -34,6 +31,8 @@ import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -80,6 +79,8 @@ public class PlayerInteractListener implements Listener {
     private final TrinketVulnerabilitySponge trinketVulnerabilitySponge;
     private final PlayerMagnet playerMagnet;
     private final HealingHerb healingHerb;
+    private final MysteryShell mysteryShell;
+    private final AbyssShell abyssShell;
 
     public PlayerInteractListener(AstsTrinkets plugin, MobInfoManager mobInfoManager, TrinketManager trinketManager) {
         this.plugin = plugin;
@@ -105,6 +106,8 @@ public class PlayerInteractListener implements Listener {
         trinketVulnerabilitySponge = trinketManager.getTrinketVulnerabilitySponge();
         playerMagnet = trinketManager.getPlayerMagnet();
         healingHerb = trinketManager.getHealingHerb();
+        mysteryShell = trinketManager.getMysteryShell();
+        abyssShell = trinketManager.getAbyssShell();
     }
 
     @EventHandler
@@ -354,6 +357,64 @@ public class PlayerInteractListener implements Listener {
                         players.stream().filter(nearbyPlayer -> !players.equals(nearbyPlayer))
                                 .forEach(nearbyPlayer -> nearbyPlayer.teleport(player));
                         playerMagnet.use(itemStack);
+                    } else if (mysteryShell.isEnabledTrinket(itemStack)) {
+                        long now = System.currentTimeMillis();
+                        if (now - cooldowns.getOrDefault(player, 0L) <= 1000)
+                            return;
+                        Location originalLocation = player.getLocation();
+                        Location result = mysteryShell.getRandomLocation(itemStack, player.getWorld());
+                        itemStack.subtract();
+                        player.updateInventory();
+                        if (result == null) {
+                            player.sendMessage(Component.text("The shell crumbles into dust, yet nothing happens.",
+                                    NamedTextColor.YELLOW));
+                            plugin.getLogger().warning("Player " + player.getName() + " used a Mystery Shell at " +
+                                    Utils.serializeCoordsLogging(originalLocation) + " but " +
+                                    "could not find a location.");
+                        } else {
+                            if (player.teleport(result)) {
+                                player.sendMessage(Component.text("The shell crumbles into dust.", NamedTextColor.GREEN));
+                                plugin.getLogger().info("Player " + player.getName() + " used a Mystery Shell and was " +
+                                        "teleported from " + Utils.serializeCoordsLogging(originalLocation) + " to " +
+                                        Utils.serializeCoordsLogging(result) + ".");
+                            } else {
+                                player.sendMessage(Component.text("The shell crumbles into dust, yet nothing happens.",
+                                        NamedTextColor.YELLOW));
+                                plugin.getLogger().warning("Player " + player.getName() + " used a Mystery Shell at " +
+                                        Utils.serializeCoordsLogging(originalLocation) + " but could not be teleported to " +
+                                        Utils.serializeCoordsLogging(result) + ".");
+                            }
+                        }
+                        cooldowns.put(player, now);
+                    } else if (abyssShell.isEnabledTrinket(itemStack)) {
+                        long now = System.currentTimeMillis();
+                        if (now - cooldowns.getOrDefault(player, 0L) <= 1000)
+                            return;
+                        Location originalLocation = player.getLocation();
+                        Location result = abyssShell.getRandomLocation(itemStack, player.getWorld());
+                        player.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, 240, 0));
+                        player.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 200, 0));
+                        if (result == null) {
+                            player.sendMessage(Component.text("You stare into the shell, yet nothing happens.",
+                                    NamedTextColor.YELLOW));
+                            plugin.getLogger().warning("Player " + player.getName() + " used an Abyss Shell at " +
+                                    Utils.serializeCoordsLogging(originalLocation) + " but " +
+                                    "could not find a location.");
+                        } else {
+                            if (player.teleport(result)) {
+                                player.sendMessage(Component.text("You stare into the shell.", NamedTextColor.GREEN));
+                                plugin.getLogger().info("Player " + player.getName() + " used an Abyss Shell and was " +
+                                        "teleported from " + Utils.serializeCoordsLogging(originalLocation) + " to " +
+                                        Utils.serializeCoordsLogging(result) + ".");
+                            } else {
+                                player.sendMessage(Component.text("You stare into the shell, yet nothing happens.",
+                                        NamedTextColor.YELLOW));
+                                plugin.getLogger().warning("Player " + player.getName() + " used an Abyss Shell at " +
+                                        Utils.serializeCoordsLogging(originalLocation) + " but could not be teleported to " +
+                                        Utils.serializeCoordsLogging(result) + ".");
+                            }
+                        }
+                        cooldowns.put(player, now);
                     }
                 }
             }
@@ -684,7 +745,6 @@ public class PlayerInteractListener implements Listener {
             else
                 Utils.transformItem(itemStack, result, slot, player.getInventory(), player);
             player.updateInventory();
-
         }
     }
 

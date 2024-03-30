@@ -55,7 +55,9 @@ public enum Power {
     RANDOM_FIREWORK("randomFirework"),
     NIGHT_VISION("nightVision"),
     CREATE_RAIN("createRain"),
-    SELECT_RANDOM_NUMBER_WHEN_THROWN("selectRandomNumberWhenThrown");
+    SELECT_RANDOM_NUMBER_WHEN_THROWN("selectRandomNumberWhenThrown"),
+    RANDOM_TELEPORTATION("randomTeleportation"),
+    REUSABLE_RANDOM_TELEPORTATION("reusableRandomTeleportation");
 
     private final String powerName;
 
