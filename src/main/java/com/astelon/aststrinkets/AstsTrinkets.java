@@ -78,6 +78,7 @@ public class AstsTrinkets extends JavaPlugin {
         for (Trinket trinket: trinketManager.getTrinkets()) {
             trinket.setEnabled(configuration.getBoolean(trinket.getName() + ".enabled"));
         }
+        getLogger().info("Loaded " + trinketManager.getTrinkets().size() + " trinkets.");
         ShapeShifter shapeShifter = trinketManager.getShapeShifter();
         shapeShifter.removeItems(configuration.getStringList(shapeShifter.getName() + ".itemBlacklist"));
         MysteryCake mysteryCake = trinketManager.getMysteryCake();
