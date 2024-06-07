@@ -7,6 +7,7 @@ import com.astelon.aststrinkets.trinkets.creature.CreatureAffectingTrinket;
 import com.astelon.aststrinkets.trinkets.inventory.BindingPowder;
 import com.astelon.aststrinkets.utils.NamespacedKeys;
 import com.astelon.aststrinkets.utils.Usages;
+import com.astelon.aststrinkets.utils.Utils;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
@@ -95,9 +96,7 @@ public class Terrarium extends CreatureAffectingTrinket {
         PersistentDataContainer container = terrarium.getItemMeta().getPersistentDataContainer();
         if (container.has(keys.trapKey, PersistentDataType.BYTE_ARRAY)) {
             byte[] serialized = container.get(keys.trapKey, PersistentDataType.BYTE_ARRAY);
-            // No better way to do it yet
-            //noinspection deprecation
-            return Bukkit.getUnsafe().deserializeEntity(serialized, world);
+            return Utils.deserializeEntity(plugin, serialized, world);
         }
         return null;
     }

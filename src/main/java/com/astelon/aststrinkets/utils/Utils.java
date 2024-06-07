@@ -1,5 +1,6 @@
 package com.astelon.aststrinkets.utils;
 
+import com.astelon.aststrinkets.AstsTrinkets;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.*;
@@ -10,6 +11,7 @@ import org.bukkit.inventory.ItemStack;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Random;
+import java.util.logging.Level;
 import java.util.stream.Collectors;
 
 public class Utils {
@@ -34,9 +36,11 @@ public class Utils {
     };
 
     // For some reasons no way to get this through the API
-    public static int OFF_HAND_SLOT = 40;
+    public static final int OFF_HAND_SLOT = 40;
 
-    public static int TICKS_PER_SECOND = 20;
+    public static final int TICKS_PER_SECOND = 20;
+
+    private static long lastLog;
 
     public static String serializeCoords(Location location) {
         return location.getWorld().getName() + ";" + location.getBlockX() + ";" + location.getBlockY() + ";" +
@@ -206,5 +210,20 @@ public class Utils {
 
     public static boolean isNothing(ItemStack itemStack) {
         return itemStack == null || itemStack.getType() == Material.AIR;
+    }
+
+    public static Entity deserializeEntity(AstsTrinkets plugin, byte[] data, World world) {
+        try {
+            // No better way to do it yet
+            //noinspection deprecation
+            return Bukkit.getUnsafe().deserializeEntity(data, world);
+        } catch (Exception e) {
+            if (System.currentTimeMillis() - lastLog > 10000)
+                plugin.getLogger().log(Level.WARNING, "Could not deserialize trapped entity.", e);
+            else
+                plugin.getLogger().warning("Could not deserialize trapped entity.");
+            lastLog = System.currentTimeMillis();
+            return null;
+        }
     }
 }
