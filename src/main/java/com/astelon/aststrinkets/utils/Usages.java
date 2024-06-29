@@ -52,7 +52,8 @@ public final class Usages {
             "8. <x:(amount)>, <y:(amount)>, <z:(amount)> - replaced with the corresponding player coordinate to which the amount " +
             "is added.<br>" +
             "9. <targetX:(amount)>, <targetY:(amount)>, <targetZ:(amount)> - replaced with the corresponding target coordinate " +
-            "to which the amount is added.<br>"+
+            "to which the amount is added.<br>" +
+            "10. <playerFacing> - replaced with the cardinal direction the player is facing.<br>"+
             "The following tokens should be written right before the command, with no spaces between:<br>" +
             "1. <playerRun> - the command is run by the player using the spellbook, instead of by console.<br>" +
             "2. <otherHandItem> - the command is run only if the player has an item in the other hand.<br>" +
