@@ -7,7 +7,8 @@ public enum CommandEvent {
     INTERACT_BLOCK("interactBlock", false),
     TARGET_PLAYER("targetPlayer", true),
     TARGET_MOB("targetMob", true),
-    TARGET_BLOCK("targetBlock", true);
+    TARGET_BLOCK("targetBlock", true),
+    ANY_USE("anyUse", false);
 
     private final String tag;
     private final boolean targetBased;
@@ -18,6 +19,8 @@ public enum CommandEvent {
     }
 
     public static boolean matches(CommandEvent commandEvent, CommandEvent actionEvent) {
+        if (commandEvent == ANY_USE)
+            return true;
         if (commandEvent == actionEvent)
             return true;
         else if (commandEvent == null) // Command event requires shift right click air, action event is an interaction

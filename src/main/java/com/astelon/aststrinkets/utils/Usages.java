@@ -65,7 +65,8 @@ public final class Usages {
             "120 blocks.<br>" +
             "8. <targetMob> - the command is run only if the player is looking at a mob. The maximum distance is 120 blocks.<br>" +
             "9. <targetBlock> - the command is run only if the player is looking at a block. The maximum distance is 400 blocks.<br>" +
-            "10. <world:(world name)> - the command is run only if the player is in the specified world.";
+            "10. <world:(world name)> - the command is run only if the player is in the specified world.<br>" +
+            "11. <anyUse> - the command is run on any use, regardless of the action.";
     public static final String LINK_AND_PLACE = "Right click air while sneaking and holding the trinket to link it to your " +
             "current location. After that, you can place it down like a block.";
     public static final String SHIFT_RIGHT_CLICK_AND_HOLD_WHILE_MINING = SHIFT_RIGHT_CLICK + " You can also hold it in the " +
