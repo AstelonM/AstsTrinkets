@@ -5,10 +5,12 @@ import com.astelon.aststrinkets.managers.TrinketManager;
 import com.astelon.aststrinkets.trinkets.Die;
 import com.astelon.aststrinkets.trinkets.HoldingBundle;
 import com.astelon.aststrinkets.utils.Utils;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.PlayerAttemptPickupItemEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.inventory.ItemStack;
@@ -33,11 +35,32 @@ public class ItemListener implements Listener {
     @EventHandler
     public void onPlayerDropItem(PlayerDropItemEvent event) {
         Item item = event.getItemDrop();
-        ItemStack itemStack = item.getItemStack();
+        ItemStack droppedItem = item.getItemStack();
         Player player = event.getPlayer();
+        InventoryType inventoryType = player.getOpenInventory().getType();
+        if (inventoryType == InventoryType.CRAFTING || inventoryType == InventoryType.CREATIVE) {
+            PlayerInventory inventory = player.getInventory();
+            ItemStack heldItem = inventory.getItemInMainHand();
+            if (!Utils.isBundle(heldItem))
+                heldItem = inventory.getItemInOffHand();
+            if (holdingBundle.isEnabledTrinket(heldItem)) {
+                if (!trinketManager.isOwnedBy(heldItem, player)) {
+                    event.setCancelled(true);
+                    return;
+                }
+                ItemStack containedItem = holdingBundle.getItem(heldItem);
+                if (droppedItem.equals(containedItem)) {
+                    ItemStack bundle = heldItem;
+                    Bukkit.getScheduler().runTask(plugin, () -> {
+                        holdingBundle.refillBundle(bundle, containedItem);
+                        player.updateInventory();
+                    });
+                }
+            }
+        }
         if (player.isSneaking())
             return;
-        if (die.isEnabledTrinket(itemStack) && trinketManager.isOwnedBy(itemStack, player)) {
+        if (die.isEnabledTrinket(droppedItem) && trinketManager.isOwnedBy(droppedItem, player)) {
             List<Integer> numbers = die.rollDie(item);
             plugin.getLogger().info("Player " + player.getName() + " threw a die and got " + numbers + ".");
         }

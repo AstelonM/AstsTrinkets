@@ -74,7 +74,6 @@ public class PlayerInteractListener implements Listener {
     private final ItemMagnet itemMagnet;
     private final Terrarium terrarium;
     private final TimeMachinePrototype timeMachinePrototype;
-    private final HoldingBundle holdingBundle;
     private final TrinketImmunitySponge trinketImmunitySponge;
     private final TrinketVulnerabilitySponge trinketVulnerabilitySponge;
     private final PlayerMagnet playerMagnet;
@@ -101,7 +100,6 @@ public class PlayerInteractListener implements Listener {
         itemMagnet = trinketManager.getItemMagnet();
         terrarium = trinketManager.getTerrarium();
         timeMachinePrototype = trinketManager.getTimeMachinePrototype();
-        holdingBundle = trinketManager.getHoldingBundle();
         trinketImmunitySponge = trinketManager.getTrinketImmunitySponge();
         trinketVulnerabilitySponge = trinketManager.getTrinketVulnerabilitySponge();
         playerMagnet = trinketManager.getPlayerMagnet();
@@ -272,13 +270,6 @@ public class PlayerInteractListener implements Listener {
             Player player = event.getPlayer();
             ItemStack itemStack = event.getItem();
             if (!isNothing(itemStack) && trinketManager.isOwnedBy(itemStack, player)) {
-                if (holdingBundle.isEnabledTrinket(itemStack) && holdingBundle.hasItems(itemStack)) {
-                    ItemStack containedItem = holdingBundle.getItem(itemStack);
-                    Bukkit.getScheduler().runTask(plugin, () -> {
-                        holdingBundle.refillBundle(itemStack, containedItem);
-                        player.updateInventory();
-                    });
-                }
                 if (player.isSneaking()) {
                     PlayerInventory inventory = player.getInventory();
                     int slot = event.getHand() == EquipmentSlot.HAND ? inventory.getHeldItemSlot() : Utils.OFF_HAND_SLOT;

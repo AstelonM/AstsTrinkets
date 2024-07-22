@@ -226,4 +226,8 @@ public class Utils {
             return null;
         }
     }
+
+    public static boolean isBundle(ItemStack itemStack) {
+        return itemStack != null && itemStack.getType() == Material.BUNDLE;
+    }
 }
