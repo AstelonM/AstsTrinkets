@@ -46,7 +46,7 @@ public class InventoryRegularUseListener implements Listener {
                                 if (trinketManager.isOwnedBy(clickedItem, player)) {
                                     ItemStack containedItem = holdingBundle.getItem(clickedItem);
                                     player.setItemOnCursor(containedItem);
-                                    ItemStack result = holdingBundle.removeItems(clickedItem);
+                                    ItemStack result = holdingBundle.removeItems(clickedItem, player);
                                     if (result == null) {
                                         player.sendMessage(Component.text("This Bundle of Holding is corrupted.",
                                                 NamedTextColor.RED));
@@ -71,7 +71,7 @@ public class InventoryRegularUseListener implements Listener {
                                         return;
                                     }
                                     inventory.setItem(event.getSlot(), containedItem);
-                                    ItemStack result = holdingBundle.removeItems(heldItem);
+                                    ItemStack result = holdingBundle.removeItems(heldItem, player);
                                     if (result == null) {
                                         player.sendMessage(Component.text("This Bundle of Holding is corrupted.", NamedTextColor.RED));
                                         return;

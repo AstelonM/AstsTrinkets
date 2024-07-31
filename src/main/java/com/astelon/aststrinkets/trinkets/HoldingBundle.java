@@ -71,7 +71,7 @@ public class HoldingBundle extends Trinket {
         return result;
     }
 
-    public ItemStack removeItems(ItemStack holdingBundle) {
+    public ItemStack removeItems(ItemStack holdingBundle, Player player) {
         ItemStack result = holdingBundle.asOne();
         BundleMeta meta = (BundleMeta) result.getItemMeta();
         if (!meta.hasItems())
@@ -84,20 +84,31 @@ public class HoldingBundle extends Trinket {
             return result;
         }
         ItemStack containedItem = meta.getItems().get(0);
-        restoreContents(result, meta, container, amount, containedItem);
+        restoreContents(result, meta, container, amount, containedItem, player, false);
         return result;
     }
 
-    public void refillBundle(ItemStack holdingBundle, ItemStack contained) {
+    public void refillBundle(ItemStack holdingBundle, ItemStack contained, Player player) {
         BundleMeta meta = (BundleMeta) holdingBundle.getItemMeta();
         PersistentDataContainer container = meta.getPersistentDataContainer();
         int amount = container.getOrDefault(keys.amountKey, PersistentDataType.INTEGER, 0);
         if (amount == 0)
             return;
-        restoreContents(holdingBundle, meta, container, amount, contained);
+        restoreContents(holdingBundle, meta, container, amount, contained, player, true);
     }
 
-    private void restoreContents(ItemStack result, BundleMeta meta, PersistentDataContainer container, int amount, ItemStack containedItem) {
+    private void restoreContents(ItemStack result, BundleMeta meta, PersistentDataContainer container, int amount,
+                                 ItemStack containedItem, Player player, boolean scheduled) {
+        if (scheduled && meta.hasItems()) {
+            List<ItemStack> contents = meta.getItems();
+            if (contents.size() == 1) {
+                ItemStack contentItem = contents.get(0);
+                if (containedItem.isSimilar(contentItem))
+                    return;
+            }
+            plugin.getLogger().warning("Holding bundle of player " + player.getName() + " has contents " + contents +
+                    " which differ from the intended " + containedItem.toString() + ". Overwriting them.");
+        }
         int maxStack = containedItem.getType().getMaxStackSize();
         int toRestore = Math.min(amount, maxStack);
         amount -= toRestore;

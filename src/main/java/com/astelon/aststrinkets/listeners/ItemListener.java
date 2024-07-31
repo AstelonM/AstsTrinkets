@@ -9,6 +9,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.PlayerAttemptPickupItemEvent;
@@ -32,7 +33,7 @@ public class ItemListener implements Listener {
         holdingBundle = trinketManager.getHoldingBundle();
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.LOWEST)
     public void onPlayerDropItem(PlayerDropItemEvent event) {
         Item item = event.getItemDrop();
         ItemStack droppedItem = item.getItemStack();
@@ -52,9 +53,30 @@ public class ItemListener implements Listener {
                 if (droppedItem.equals(containedItem)) {
                     ItemStack bundle = heldItem;
                     Bukkit.getScheduler().runTask(plugin, () -> {
-                        holdingBundle.refillBundle(bundle, containedItem);
+                        holdingBundle.refillBundle(bundle, containedItem, player);
                         player.updateInventory();
                     });
+                }
+            }
+        } else {
+            PlayerInventory inventory = player.getInventory();
+            ItemStack heldItem = inventory.getItemInMainHand();
+            if (!Utils.isBundle(heldItem))
+                heldItem = inventory.getItemInOffHand();
+            if (holdingBundle.isEnabledTrinket(heldItem)) {
+                if (holdingBundle.hasItems(heldItem)) {
+                    ItemStack containedItem = holdingBundle.getItem(heldItem);
+                    if (droppedItem.equals(containedItem)) {
+                        if (!trinketManager.isOwnedBy(heldItem, player)) {
+                            event.setCancelled(true);
+                            return;
+                        }
+                        ItemStack bundle = heldItem;
+                        Bukkit.getScheduler().runTask(plugin, () -> {
+                            holdingBundle.refillBundle(bundle, containedItem, player);
+                            player.updateInventory();
+                        });
+                    }
                 }
             }
         }
