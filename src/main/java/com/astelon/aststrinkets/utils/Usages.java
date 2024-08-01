@@ -94,4 +94,6 @@ public final class Usages {
     public static final String BUNDLE_WITH_MAGNET = BUNDLE + " While there are items inside, hold it while picking similar " +
             "items from the ground to automatically add them to the bundle. You can also double click the bundle in the " +
             "inventory to collect all the similar items inside of it.";
+    public static final String INTERACT_NETHER_ENTITY_CAN_ZOMBIFY = "Right click a Nether creature that can become a zombie " +
+            "outside the Nether using the trinket.";
 }

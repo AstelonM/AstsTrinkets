@@ -57,7 +57,8 @@ public enum Power {
     CREATE_RAIN("createRain"),
     SELECT_RANDOM_NUMBER_WHEN_THROWN("selectRandomNumberWhenThrown"),
     RANDOM_TELEPORTATION("randomTeleportation"),
-    REUSABLE_RANDOM_TELEPORTATION("reusableRandomTeleportation");
+    REUSABLE_RANDOM_TELEPORTATION("reusableRandomTeleportation"),
+    NETHER_ZOMBIFICATION_CURE("netherZombiFicationCure");
 
     private final String powerName;
 

@@ -115,6 +115,7 @@ public class TrinketManager {
         addTrinket(new Die(plugin, keys));
         addTrinket(new MysteryShell(plugin, keys));
         addTrinket(new AbyssShell(plugin, keys));
+        addTrinket(new SurfaceCure(plugin, keys));
     }
 
     private void addTrinket(Trinket trinket) {
@@ -599,5 +600,9 @@ public class TrinketManager {
 
     public AbyssShell getAbyssShell() {
         return (AbyssShell) getTrinketExact("abyssShell");
+    }
+
+    public SurfaceCure getSurfaceCure() {
+        return (SurfaceCure) getTrinketExact("surfaceCure");
     }
 }

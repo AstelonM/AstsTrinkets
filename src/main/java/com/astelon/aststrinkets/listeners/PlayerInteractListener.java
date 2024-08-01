@@ -80,6 +80,7 @@ public class PlayerInteractListener implements Listener {
     private final HealingHerb healingHerb;
     private final MysteryShell mysteryShell;
     private final AbyssShell abyssShell;
+    private final SurfaceCure surfaceCure;
 
     public PlayerInteractListener(AstsTrinkets plugin, MobInfoManager mobInfoManager, TrinketManager trinketManager) {
         this.plugin = plugin;
@@ -106,6 +107,7 @@ public class PlayerInteractListener implements Listener {
         healingHerb = trinketManager.getHealingHerb();
         mysteryShell = trinketManager.getMysteryShell();
         abyssShell = trinketManager.getAbyssShell();
+        surfaceCure = trinketManager.getSurfaceCure();
     }
 
     @EventHandler
@@ -227,8 +229,35 @@ public class PlayerInteractListener implements Listener {
                     return;
                 }
                 restoreHealth(entity, itemStack, player);
+            } else if (surfaceCure.isEnabledTrinket(itemStack)) {
+                if (!(entity instanceof PiglinAbstract || entity instanceof Hoglin))
+                    return;
+                if (isImmuneToZombification(entity))
+                    return;
+                if (trinketManager.isTrinketImmune(entity)) {
+                    player.sendMessage(Component.text("Trinkets cannot be used on this entity.", NamedTextColor.RED));
+                    return;
+                }
+                if (surfaceCure.petOwnedByOtherPlayer(entity, player)) {
+                    player.sendMessage(Component.text("You can't use this on someone else's pet.", NamedTextColor.RED));
+                    return;
+                }
+                event.setCancelled(true);
+                surfaceCure.makeImmuneToZombification(entity);
+                Utils.transformItem(itemStack, new ItemStack(Material.GLASS_BOTTLE), slot, inventory, player);
+                player.updateInventory();
+                plugin.getLogger().info("Surface cure used on " + mobInfoManager.getTypeAndName(entity) + " at " +
+                        Utils.locationToString(entity.getLocation()) + " by player " + player.getName() + ".");
             }
         }
+    }
+
+    private boolean isImmuneToZombification(LivingEntity entity) {
+        if (entity instanceof PiglinAbstract piglin)
+            return piglin.isImmuneToZombification();
+        else if (entity instanceof Hoglin hoglin)
+            return hoglin.isImmuneToZombification();
+        return true;
     }
 
     private void trapEntity(CrystalTrap trap, ItemStack item, Entity entity, int slot, Inventory inventory, Player player) {

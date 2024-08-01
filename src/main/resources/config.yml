@@ -465,3 +465,9 @@ abyssShell:
   minZ: 0
   # The maximum value of the z coordinate.
   maxZ: 0
+
+# Right click a piglin, piglin brute or hoglin with it to make it immune to zombification outside the Nether.
+surfaceCure:
+  enabled: true
+  # Whether only the owner of a pet can make it invulnerable. Bypassed with aststrinkets.trinket.ignorepetowner.
+  petOwnerOnly: false
