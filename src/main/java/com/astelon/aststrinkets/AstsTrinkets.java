@@ -139,6 +139,9 @@ public class AstsTrinkets extends JavaPlugin {
         double efficiency = Utils.ensurePercentage(configuration.getDouble(bait.getName() + ".efficiency", 50.0),
                 50.0);
         bait.setEfficiency(Utils.normalizeRate(efficiency));
+        double consumeChance = Utils.ensurePercentage(configuration.getDouble(bait.getName() + ".consumeChance", 10.0),
+                10.0);
+        bait.setConsumeChance(Utils.normalizeRate(consumeChance));
         ExperienceBottle experienceBottle = trinketManager.getExperienceBottle();
         experienceBottle.setDispenserAllowed(configuration.getBoolean(experienceBottle.getName() + ".dispenserAllowed"));
         ItemMagnet itemMagnet = trinketManager.getItemMagnet();

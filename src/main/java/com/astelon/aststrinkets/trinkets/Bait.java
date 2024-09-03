@@ -15,6 +15,7 @@ import java.util.List;
 public class Bait extends Trinket {
 
     private double efficiency;
+    private double consumeChance;
 
     public Bait(AstsTrinkets plugin, NamespacedKeys keys) {
         super(plugin, keys, "bait", Power.SPEED_UP_FISHING, false, Usages.BAIT);
@@ -37,5 +38,13 @@ public class Bait extends Trinket {
 
     public void setEfficiency(double efficiency) {
         this.efficiency = 1 - efficiency;
+    }
+
+    public double getConsumeChance() {
+        return consumeChance;
+    }
+
+    public void setConsumeChance(double consumeChance) {
+        this.consumeChance = consumeChance;
     }
 }

@@ -12,13 +12,18 @@ import org.bukkit.event.player.PlayerFishEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 
+import java.util.Random;
+
 public class FishingListener implements Listener {
+
+    private final Random random;
 
     private final AstsTrinkets plugin;
     private final TrinketManager trinketManager;
     private final Bait bait;
 
     public FishingListener(AstsTrinkets plugin, TrinketManager trinketManager) {
+        random = new Random();
         this.plugin = plugin;
         this.trinketManager = trinketManager;
         bait = trinketManager.getBait();
@@ -39,7 +44,8 @@ public class FishingListener implements Listener {
                 FishHook hook = event.getHook();
                 hook.setMinWaitTime((int) (hook.getMinWaitTime() * bait.getEfficiency()));
                 hook.setMaxWaitTime((int) (hook.getMaxWaitTime() * bait.getEfficiency()));
-                possibleTrinket.subtract();
+                if (random.nextDouble() < bait.getConsumeChance())
+                    possibleTrinket.subtract();
             }
         }
     }
