@@ -58,7 +58,8 @@ public enum Power {
     SELECT_RANDOM_NUMBER_WHEN_THROWN("selectRandomNumberWhenThrown"),
     RANDOM_TELEPORTATION("randomTeleportation"),
     REUSABLE_RANDOM_TELEPORTATION("reusableRandomTeleportation"),
-    NETHER_ZOMBIFICATION_CURE("netherZombiFicationCure");
+    NETHER_ZOMBIFICATION_CURE("netherZombiFicationCure"),
+    MAKE_ITEM_FRAMES_INVISIBLE("makeItemFramesInvisible");
 
     private final String powerName;
 

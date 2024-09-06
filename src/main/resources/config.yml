@@ -473,3 +473,8 @@ surfaceCure:
   enabled: true
   # Whether only the owner of a pet can make it invulnerable. Bypassed with aststrinkets.trinket.ignorepetowner.
   petOwnerOnly: false
+
+# A light gray dye that makes item frames and glow item frames invisible. Use it on placed item frames with the powder
+# in your main hand.
+invisibilityPowder:
+  enabled: true

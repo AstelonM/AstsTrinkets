@@ -96,4 +96,5 @@ public final class Usages {
             "inventory to collect all the similar items inside of it.";
     public static final String INTERACT_NETHER_ENTITY_CAN_ZOMBIFY = "Right click a Nether creature that can become a zombie " +
             "outside the Nether using the trinket.";
+    public static final String INTERACT_ITEM_FRAME_WITH_MAIN_HAND = "Right click an item frame with the trinket in your main hand.";
 }

@@ -116,6 +116,7 @@ public class TrinketManager {
         addTrinket(new MysteryShell(plugin, keys));
         addTrinket(new AbyssShell(plugin, keys));
         addTrinket(new SurfaceCure(plugin, keys));
+        addTrinket(new InvisibilityPowder(plugin, keys));
     }
 
     private void addTrinket(Trinket trinket) {
@@ -604,5 +605,9 @@ public class TrinketManager {
 
     public SurfaceCure getSurfaceCure() {
         return (SurfaceCure) getTrinketExact("surfaceCure");
+    }
+
+    public InvisibilityPowder getInvisibilityPowder() {
+        return (InvisibilityPowder) getTrinketExact("invisibilityPowder");
     }
 }

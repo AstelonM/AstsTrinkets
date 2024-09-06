@@ -8,9 +8,11 @@ import com.astelon.aststrinkets.trinkets.block.GatewayAnchor;
 import com.astelon.aststrinkets.trinkets.block.Terrarium;
 import com.astelon.aststrinkets.trinkets.creature.*;
 import com.astelon.aststrinkets.trinkets.creature.traps.*;
+import com.astelon.aststrinkets.trinkets.inventory.InvisibilityPowder;
 import com.astelon.aststrinkets.trinkets.projectile.ExperienceBottle;
 import com.astelon.aststrinkets.utils.CommandEvent;
 import com.astelon.aststrinkets.utils.Utils;
+import io.papermc.paper.event.player.PlayerItemFrameChangeEvent;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.*;
@@ -53,7 +55,6 @@ public class PlayerInteractListener implements Listener {
     private static final Pattern TARGET_Y_COORD_PATTERN = Pattern.compile("<targetY:([0-9-]+)>");
     private static final Pattern TARGET_Z_COORD_PATTERN = Pattern.compile("<targetZ:([0-9-]+)>");
 
-
     private final AstsTrinkets plugin;
     private final MobInfoManager mobInfoManager;
     private final TrinketManager trinketManager;
@@ -81,6 +82,7 @@ public class PlayerInteractListener implements Listener {
     private final MysteryShell mysteryShell;
     private final AbyssShell abyssShell;
     private final SurfaceCure surfaceCure;
+    private final InvisibilityPowder invisibilityPowder;
 
     public PlayerInteractListener(AstsTrinkets plugin, MobInfoManager mobInfoManager, TrinketManager trinketManager) {
         this.plugin = plugin;
@@ -108,6 +110,7 @@ public class PlayerInteractListener implements Listener {
         mysteryShell = trinketManager.getMysteryShell();
         abyssShell = trinketManager.getAbyssShell();
         surfaceCure = trinketManager.getSurfaceCure();
+        invisibilityPowder = trinketManager.getInvisibilityPowder();
     }
 
     @EventHandler
@@ -782,6 +785,22 @@ public class PlayerInteractListener implements Listener {
         entity.setHealth(maxHealth);
         itemStack.subtract();
         player.updateInventory();
+    }
+
+    @EventHandler(ignoreCancelled = true)
+    public void onPlayerItemFrameChange(PlayerItemFrameChangeEvent event) {
+        ItemFrame itemFrame = event.getItemFrame();
+        if (!itemFrame.isVisible())
+            return;
+        Player player = event.getPlayer();
+        PlayerInventory inventory = player.getInventory();
+        ItemStack itemStack = inventory.getItemInMainHand();
+        if (invisibilityPowder.isEnabledTrinket(itemStack) && trinketManager.isOwnedBy(itemStack, player)) {
+            event.setCancelled(true);
+            itemFrame.setVisible(false);
+            itemStack.subtract();
+            player.updateInventory();
+        }
     }
 
     @EventHandler
