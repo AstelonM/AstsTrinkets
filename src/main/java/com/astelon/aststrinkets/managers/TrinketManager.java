@@ -17,7 +17,6 @@ import com.astelon.aststrinkets.trinkets.projectile.arrow.SmitingArrow;
 import com.astelon.aststrinkets.trinkets.projectile.arrow.TrueDeathArrow;
 import com.astelon.aststrinkets.trinkets.projectile.rocket.*;
 import com.astelon.aststrinkets.utils.NamespacedKeys;
-import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Entity;

@@ -8,7 +8,7 @@ import com.astelon.aststrinkets.trinkets.block.GatewayAnchor;
 import com.astelon.aststrinkets.trinkets.block.Terrarium;
 import com.astelon.aststrinkets.trinkets.creature.*;
 import com.astelon.aststrinkets.trinkets.creature.traps.*;
-import com.astelon.aststrinkets.trinkets.inventory.InvisibilityPowder;
+import com.astelon.aststrinkets.trinkets.InvisibilityPowder;
 import com.astelon.aststrinkets.trinkets.projectile.ExperienceBottle;
 import com.astelon.aststrinkets.utils.CommandEvent;
 import com.astelon.aststrinkets.utils.Utils;
