@@ -84,6 +84,7 @@ public class BlockListener implements Listener {
                     if (shulkerItem == null) {
                         player.sendMessage(Component.text("This containment unit has become corrupted. The " +
                                 "shulker box within could not be retrieved.", NamedTextColor.RED));
+                        event.setCancelled(true);
                         return;
                     }
                     BlockStateMeta meta = (BlockStateMeta) shulkerItem.getItemMeta();
@@ -96,6 +97,8 @@ public class BlockListener implements Listener {
                     oldState.update(true);
                     oldState = (ShulkerBox) block.getState();
                     oldState.getInventory().setContents(shulkerInventory);
+                } else {
+                    event.setCancelled(true);
                 }
             } else if (gatewayAnchor.isEnabledTrinket(placedItem)) {
                 if (!gatewayAnchor.hasLocation(placedItem)) {
