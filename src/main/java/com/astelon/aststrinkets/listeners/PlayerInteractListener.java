@@ -170,6 +170,8 @@ public class PlayerInteractListener implements Listener {
                 plugin.getLogger().info("Life water used on " + mobInfoManager.getTypeAndName(mob) + " at " +
                         Utils.locationToString(mob.getLocation()) + " by player " + player.getName() + ".");
             } else if (spellbook.isEnabledTrinket(itemStack)) {
+                if (!player.isSneaking())
+                    return;
                 event.setCancelled(true);
                 HashMap<String, String> placeholders = new HashMap<>();
                 placeholders.put("<playerName>", player.getName());
@@ -453,6 +455,8 @@ public class PlayerInteractListener implements Listener {
             ItemStack handItem = event.getHand() == EquipmentSlot.HAND ? inventory.getItemInMainHand() : inventory.getItemInOffHand();
             int slot = event.getHand() == EquipmentSlot.HAND ? inventory.getHeldItemSlot() : Utils.OFF_HAND_SLOT;
             if (spellbook.isEnabledTrinket(handItem) && trinketManager.isOwnedBy(handItem, player)) {
+                if (!player.isSneaking())
+                    return;
                 event.setUseItemInHand(Event.Result.DENY);
                 HashMap<String, String> placeholders = new HashMap<>();
                 placeholders.put("<playerName>", player.getName());
