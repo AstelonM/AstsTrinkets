@@ -19,6 +19,7 @@ import com.astelon.aststrinkets.trinkets.projectile.arrow.ExplosiveArrow;
 import com.astelon.aststrinkets.trinkets.projectile.arrow.SmitingArrow;
 import com.astelon.aststrinkets.trinkets.projectile.arrow.TrueDeathArrow;
 import com.astelon.aststrinkets.trinkets.projectile.rocket.*;
+import com.astelon.aststrinkets.utils.NamespacedKeys;
 import com.astelon.aststrinkets.utils.Utils;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -43,7 +44,8 @@ public class AstsTrinkets extends JavaPlugin {
         CakeManager cakeManager = new CakeManager(this);
         cakeManager.init();
         SentientAxeMessageManager sentientAxeMessageManager = new SentientAxeMessageManager();
-        trinketManager = new TrinketManager(this, mobInfoManager, invisibilityManager);
+        NamespacedKeys keys = new NamespacedKeys(this);
+        trinketManager = new TrinketManager(this, mobInfoManager, invisibilityManager, keys);
         SentientAxeTaskManager sentientAxeTaskManager = new SentientAxeTaskManager(this, trinketManager,
                 sentientAxeMessageManager);
         PluginManager pluginManager = getServer().getPluginManager();

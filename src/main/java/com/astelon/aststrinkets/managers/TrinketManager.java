@@ -46,11 +46,11 @@ public class TrinketManager {
     private final ArrayList<Trinket> trinkets;
     private final HashMap<String, Trinket> trinketMap;
 
-    public TrinketManager(AstsTrinkets plugin, MobInfoManager mobInfoManager, InvisibilityManager invisibilityManager) {
+    public TrinketManager(AstsTrinkets plugin, MobInfoManager mobInfoManager, InvisibilityManager invisibilityManager, NamespacedKeys keys) {
         this.plugin = plugin;
         this.mobInfoManager = mobInfoManager;
         this.invisibilityManager = invisibilityManager;
-        this.keys = new NamespacedKeys(plugin);
+        this.keys = keys;
         trinkets = new ArrayList<>();
         trinketMap = new HashMap<>();
         initTrinkets();
