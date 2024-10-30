@@ -178,6 +178,10 @@ public class PlayerInteractListener implements Listener {
                 placeholders.put("<playerCoords>", Utils.serializeCoordsCommand(player.getLocation()));
                 placeholders.put("<targetCoords>", Utils.serializeCoordsCommand(entity.getLocation()));
                 placeholders.put("<playerFacing>", player.getFacing().name().toLowerCase());
+                if (slot == Utils.OFF_HAND_SLOT)
+                    placeholders.put("<otherHandItemType>", player.getInventory().getItemInMainHand().getType().name());
+                else
+                    placeholders.put("<otherHandItemType>", player.getInventory().getItemInOffHand().getType().name());
                 if (entity instanceof Player targetPlayer) {
                     placeholders.put("<targetPlayerName>", targetPlayer.getName());
                     useSpellbook(itemStack, player, placeholders, CommandEvent.INTERACT_PLAYER, slot, targetPlayer.getLocation());
@@ -464,6 +468,10 @@ public class PlayerInteractListener implements Listener {
                 placeholders.put("<blockType>", block.getType().name());
                 placeholders.put("<targetCoords>", Utils.serializeCoordsCommand(block.getLocation()));
                 placeholders.put("<playerFacing>", player.getFacing().name().toLowerCase());
+                if (slot == Utils.OFF_HAND_SLOT)
+                    placeholders.put("<otherHandItemType>", player.getInventory().getItemInMainHand().getType().name());
+                else
+                    placeholders.put("<otherHandItemType>", player.getInventory().getItemInOffHand().getType().name());
                 useSpellbook(handItem, player, placeholders, CommandEvent.INTERACT_BLOCK, slot, block.getLocation());
                 //TODO exclude other trinkets possibly held in the other hand?
                 return;
