@@ -47,6 +47,7 @@ public class NamespacedKeys {
     public final NamespacedKey maxYKey;
     public final NamespacedKey minZKey;
     public final NamespacedKey maxZKey;
+    public final NamespacedKey hideHelpKey;
 
     public NamespacedKeys(AstsTrinkets plugin) {
         //TODO should make these more uniform eventually + think how to deal with the obsolete versions
@@ -84,6 +85,7 @@ public class NamespacedKeys {
         maxYKey = new NamespacedKey(plugin, "maxY");
         minZKey = new NamespacedKey(plugin, "minZ");
         maxZKey = new NamespacedKey(plugin, "maxZ");
+        hideHelpKey = new NamespacedKey(plugin, "hideHelp");
         initKeyMap();
     }
 
@@ -123,6 +125,7 @@ public class NamespacedKeys {
         keys.put(maxYKey.getKey(), new KeyTypePair(maxYKey, PersistentDataType.INTEGER));
         keys.put(minZKey.getKey(), new KeyTypePair(minZKey, PersistentDataType.INTEGER));
         keys.put(maxZKey.getKey(), new KeyTypePair(maxZKey, PersistentDataType.INTEGER));
+        keys.put(hideHelpKey.getKey(), new KeyTypePair(hideHelpKey, PersistentDataType.BYTE));
         keys = Collections.unmodifiableMap(keys);
     }
 

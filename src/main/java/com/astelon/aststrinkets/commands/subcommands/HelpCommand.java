@@ -34,11 +34,11 @@ public class HelpCommand extends Subcommand {
         PlayerInventory inventory = player.getInventory();
         ItemStack itemStack = inventory.getItemInMainHand();
         Trinket trinket = trinketManager.getTrinket(itemStack);
-        if (trinket == null) {
+        if (noHelp(trinket, itemStack)) {
             itemStack = inventory.getItemInOffHand();
             trinket = trinketManager.getTrinket(itemStack);
         }
-        if (trinket == null) {
+        if (noHelp(trinket, itemStack)) {
             player.sendMessage(Component.text("You are not holding any trinket.", NamedTextColor.RED));
             return;
         }
@@ -48,6 +48,10 @@ public class HelpCommand extends Subcommand {
             player.sendMessage(holdingBundle.getUsage(itemStack));
         else
             player.sendMessage(trinket.getUsage());
+    }
+
+    private boolean noHelp(Trinket trinket, ItemStack itemStack) {
+        return trinket == null || !trinketManager.shouldShowHelp(itemStack);
     }
 
     @Override

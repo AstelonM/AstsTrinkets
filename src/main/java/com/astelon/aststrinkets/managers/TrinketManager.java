@@ -350,6 +350,14 @@ public class TrinketManager {
         container.remove(keys.trinketImmuneKey);
     }
 
+    public boolean shouldShowHelp(ItemStack itemStack) {
+        ItemMeta meta = itemStack.getItemMeta();
+        if (meta == null)
+            return false;
+        PersistentDataContainer container = meta.getPersistentDataContainer();
+        return !container.has(keys.hideHelpKey, PersistentDataType.BYTE);
+    }
+
     public HashMap<String, Object> getPresentKeys(ItemStack itemStack) {
         if (isNothing(itemStack))
             throw new IllegalArgumentException("ItemStack cannot be null or air.");
