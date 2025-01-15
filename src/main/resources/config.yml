@@ -492,3 +492,7 @@ spoiledEgg:
   maxSpread: 3
   # The chance that the spoiled egg will destroy itself.
   lethality: 10.0
+
+# A mundane potion that transforms up to a whole stack of copper based blocks that can oxidize into their next oxidation step.
+copperOxidationSolution:
+  enabled: true

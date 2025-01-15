@@ -42,6 +42,7 @@ public class InventoryCustomUseListener implements Listener {
     private final AdamantineStrand adamantineStrand;
     private final HoldingBundle holdingBundle;
     private final ItemMagnet itemMagnet;
+    private final CopperOxidationSolution copperOxidationSolution;
 
     public InventoryCustomUseListener(AstsTrinkets plugin, TrinketManager trinketManager) {
         this.plugin = plugin;
@@ -60,6 +61,7 @@ public class InventoryCustomUseListener implements Listener {
         adamantineStrand = trinketManager.getAdamantineStrand();
         holdingBundle = trinketManager.getHoldingBundle();
         itemMagnet = trinketManager.getItemMagnet();
+        copperOxidationSolution = trinketManager.getCopperOxidationSolution();
     }
 
     @EventHandler
@@ -346,6 +348,21 @@ public class InventoryCustomUseListener implements Listener {
                                         NamedTextColor.RED));
                             }
                         }
+                    } else if (copperOxidationSolution.isEnabledTrinket(heldItem)) {
+                        if (clickedItem == null)
+                            return;
+                        if (trinketManager.isTrinketImmune(clickedItem)) {
+                            player.sendMessage(Component.text("Trinkets cannot be used on this item.", NamedTextColor.RED));
+                            return;
+                        }
+                        ItemStack result = copperOxidationSolution.oxidize(clickedItem);
+                        if (result == null) {
+                            player.sendMessage(Component.text("This block cannot be oxidized with this solution.", NamedTextColor.RED));
+                            return;
+                        }
+                        heldItem.subtract();
+                        player.updateInventory();
+                        event.setCancelled(true);
                     }
                 }
             }

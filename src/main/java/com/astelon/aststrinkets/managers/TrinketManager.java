@@ -117,6 +117,7 @@ public class TrinketManager {
         addTrinket(new SurfaceCure(plugin, keys));
         addTrinket(new InvisibilityPowder(plugin, keys));
         addTrinket(new SpoiledEgg(plugin, keys));
+        addTrinket(new CopperOxidationSolution(plugin, keys));
     }
 
     private void addTrinket(Trinket trinket) {
@@ -625,5 +626,9 @@ public class TrinketManager {
 
     public SpoiledEgg getSpoiledEgg() {
         return (SpoiledEgg) getTrinketExact("spoiledEgg");
+    }
+
+    public CopperOxidationSolution getCopperOxidationSolution() {
+        return (CopperOxidationSolution) getTrinketExact("copperOxidationSolution");
     }
 }
