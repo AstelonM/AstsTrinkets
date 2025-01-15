@@ -172,6 +172,12 @@ public class Utils {
         return source;
     }
 
+    public static int ensureBoundsInclusive(int source, int min, int max) {
+        if (source <= min)
+            return min;
+        return Math.min(source, max);
+    }
+
     public static int getTotalExperience(Player player) {
         int currentLevel = player.getLevel();
         int experience = Math.round(getExpAtLevel(currentLevel) * player.getExp());

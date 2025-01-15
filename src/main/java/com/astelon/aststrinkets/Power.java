@@ -59,7 +59,8 @@ public enum Power {
     RANDOM_TELEPORTATION("randomTeleportation"),
     REUSABLE_RANDOM_TELEPORTATION("reusableRandomTeleportation"),
     NETHER_ZOMBIFICATION_CURE("netherZombiFicationCure"),
-    MAKE_ITEM_FRAMES_INVISIBLE("makeItemFramesInvisible");
+    MAKE_ITEM_FRAMES_INVISIBLE("makeItemFramesInvisible"),
+    VIRUS("virus");
 
     private final String powerName;
 

@@ -478,3 +478,17 @@ surfaceCure:
 # in your main hand.
 invisibilityPowder:
   enabled: true
+
+# An egg that, whenever you close an inventory containing it, it has a chance to spread to other egg stacks in that inventory
+# (make them spoiled eggs as well) or destroy itself. Basically eggs infected by a virus.
+# Because of how destructive this can be when mishandled, it requires the "aststrinkets.op" permission to give.
+spoiledEgg:
+  enabled: true
+  # The chance that the spoiled egg will spread.
+  infectivity: 25.0
+  # The minimum amount of item stacks it can spread to. Between 1 and 54 inclusive.
+  minSpread: 1
+  # The maximum amount of item stacks it can spread to. Between 1 and 54 inclusive.
+  maxSpread: 3
+  # The chance that the spoiled egg will destroy itself.
+  lethality: 10.0

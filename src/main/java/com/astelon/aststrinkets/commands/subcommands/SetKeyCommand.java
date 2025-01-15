@@ -5,7 +5,6 @@ import com.astelon.aststrinkets.managers.TrinketManager;
 import com.astelon.aststrinkets.utils.NamespacedKeys;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
-import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -13,9 +12,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
-import org.bukkit.persistence.PersistentDataType;
 
-import java.util.Base64;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -58,34 +55,15 @@ public class SetKeyCommand extends Subcommand {
         String value = rawValue.toString();
         ItemMeta meta = itemStack.getItemMeta();
         PersistentDataContainer container = meta.getPersistentDataContainer();
-        NamespacedKey key = keyTypePair.key();
-        PersistentDataType<?, ?> type = keyTypePair.type();
-        try {
-            if (type.equals(PersistentDataType.STRING))
-                container.set(key, PersistentDataType.STRING, value);
-            else if (type.equals(PersistentDataType.BYTE_ARRAY))
-                container.set(key, PersistentDataType.BYTE_ARRAY, Base64.getDecoder().decode(value));
-            else if (type.equals(PersistentDataType.DOUBLE))
-                container.set(key, PersistentDataType.DOUBLE, Double.parseDouble(value));
-            else if (type.equals(PersistentDataType.LONG))
-                container.set(key, PersistentDataType.LONG, Long.parseLong(value));
-            else if (type.equals(PersistentDataType.INTEGER))
-                container.set(key, PersistentDataType.INTEGER, Integer.parseInt(value));
-            else if (type.equals(PersistentDataType.BYTE))
-                container.set(key, PersistentDataType.BYTE, Byte.parseByte(value));
-            else if (type.equals(PersistentDataType.FLOAT))
-                container.set(key, PersistentDataType.FLOAT, Float.parseFloat(value));
-            else {
-                player.sendMessage(Component.text("Cannot assign the given value to this key.", NamedTextColor.RED));
-                return;
-            }
-        } catch (Exception e) {
+        if (!trinketManager.getNamespacedKeys().setKey(container, keyTypePair, value)) {
             player.sendMessage(Component.text("Cannot assign the given value to this key.", NamedTextColor.RED));
             return;
         }
         itemStack.setItemMeta(meta);
-        player.sendMessage(Component.text("Key " + key.getKey() + " assigned.", NamedTextColor.GOLD));
+        player.sendMessage(Component.text("Key " + keyTypePair.key().getKey() + " assigned.", NamedTextColor.GOLD));
     }
+
+
 
     @Override
     public List<String> getTabComplete(CommandSender sender, String[] args) {

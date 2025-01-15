@@ -66,6 +66,7 @@ public class AstsTrinkets extends JavaPlugin {
         pluginManager.registerEvents(new PotionListener(this, trinketManager), this);
         pluginManager.registerEvents(new ItemListener(this, trinketManager), this);
         pluginManager.registerEvents(new InventoryRegularUseListener(this, trinketManager), this);
+        pluginManager.registerEvents(new VirusListener(this, trinketManager), this);
         loadConfig();
         Objects.requireNonNull(getCommand("trinkets")).setExecutor(new TrinketCommand(this, trinketManager));
     }
@@ -218,6 +219,13 @@ public class AstsTrinkets extends JavaPlugin {
         abyssShell.setMaxY(configuration.getInt(abyssShell.getName() + ".maxY"));
         abyssShell.setMinZ(configuration.getInt(abyssShell.getName() + ".minZ"));
         abyssShell.setMaxZ(configuration.getInt(abyssShell.getName() + ".maxZ"));
+        SpoiledEgg spoiledEgg = trinketManager.getSpoiledEgg();
+        spoiledEgg.setInfectivity(Utils.normalizeRate(Utils
+                .ensurePercentage(configuration.getDouble(spoiledEgg.getName() + ".infectivity"), 25.0)));
+        spoiledEgg.setMinSpread(Utils.ensureBoundsInclusive(configuration.getInt(spoiledEgg.getName() + ".minSpread"), 1, 54));
+        spoiledEgg.setMaxSpread(Utils.ensureBoundsInclusive(configuration.getInt(spoiledEgg.getName() + ".maxSpread"), 1, 54));
+        spoiledEgg.setLethality(Utils.normalizeRate(Utils
+                .ensurePercentage(configuration.getDouble(spoiledEgg.getName() + ".lethality"), 10.0)));
     }
 
     private HashSet<EntityType> getBlacklistedTypes(List<String> blacklist) {

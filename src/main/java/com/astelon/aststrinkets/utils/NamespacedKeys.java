@@ -2,14 +2,16 @@ package com.astelon.aststrinkets.utils;
 
 import com.astelon.aststrinkets.AstsTrinkets;
 import org.bukkit.NamespacedKey;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class NamespacedKeys {
+
+    private final AstsTrinkets plugin;
 
     private Map<String, KeyTypePair> keys;
 
@@ -48,8 +50,13 @@ public class NamespacedKeys {
     public final NamespacedKey minZKey;
     public final NamespacedKey maxZKey;
     public final NamespacedKey hideHelpKey;
+    public final NamespacedKey virusInfectivityKey;
+    public final NamespacedKey virusMinSpreadKey;
+    public final NamespacedKey virusMaxSpreadKey;
+    public final NamespacedKey virusLethalityKey;
 
     public NamespacedKeys(AstsTrinkets plugin) {
+        this.plugin = plugin;
         //TODO should make these more uniform eventually + think how to deal with the obsolete versions
         nameKey = new NamespacedKey(plugin, "trinketName");
         powerKey = new NamespacedKey(plugin, "trinketPower");
@@ -86,6 +93,10 @@ public class NamespacedKeys {
         minZKey = new NamespacedKey(plugin, "minZ");
         maxZKey = new NamespacedKey(plugin, "maxZ");
         hideHelpKey = new NamespacedKey(plugin, "hideHelp");
+        virusInfectivityKey = new NamespacedKey(plugin, "virusInfectivity");
+        virusMinSpreadKey = new NamespacedKey(plugin, "virusMinSpread");
+        virusMaxSpreadKey = new NamespacedKey(plugin, "virusMaxSpread");
+        virusLethalityKey = new NamespacedKey(plugin, "virusLethality");
         initKeyMap();
     }
 
@@ -126,6 +137,10 @@ public class NamespacedKeys {
         keys.put(minZKey.getKey(), new KeyTypePair(minZKey, PersistentDataType.INTEGER));
         keys.put(maxZKey.getKey(), new KeyTypePair(maxZKey, PersistentDataType.INTEGER));
         keys.put(hideHelpKey.getKey(), new KeyTypePair(hideHelpKey, PersistentDataType.BYTE));
+        keys.put(virusInfectivityKey.getKey(), new KeyTypePair(virusInfectivityKey, PersistentDataType.DOUBLE));
+        keys.put(virusMinSpreadKey.getKey(), new KeyTypePair(virusMinSpreadKey, PersistentDataType.INTEGER));
+        keys.put(virusMaxSpreadKey.getKey(), new KeyTypePair(virusMaxSpreadKey, PersistentDataType.INTEGER));
+        keys.put(virusLethalityKey.getKey(), new KeyTypePair(virusLethalityKey, PersistentDataType.DOUBLE));
         keys = Collections.unmodifiableMap(keys);
     }
 
@@ -135,6 +150,78 @@ public class NamespacedKeys {
 
     public KeyTypePair getKeyTypePair(String keyName) {
         return keys.get(keyName);
+    }
+
+    public boolean setKey(PersistentDataContainer container, KeyTypePair keyTypePair, String value) {
+        NamespacedKey key = keyTypePair.key();
+        PersistentDataType<?, ?> type = keyTypePair.type();
+        try {
+            if (type.equals(PersistentDataType.STRING))
+                container.set(key, PersistentDataType.STRING, value);
+            else if (type.equals(PersistentDataType.BYTE_ARRAY))
+                container.set(key, PersistentDataType.BYTE_ARRAY, Base64.getDecoder().decode(value));
+            else if (type.equals(PersistentDataType.DOUBLE))
+                container.set(key, PersistentDataType.DOUBLE, Double.parseDouble(value));
+            else if (type.equals(PersistentDataType.LONG))
+                container.set(key, PersistentDataType.LONG, Long.parseLong(value));
+            else if (type.equals(PersistentDataType.INTEGER))
+                container.set(key, PersistentDataType.INTEGER, Integer.parseInt(value));
+            else if (type.equals(PersistentDataType.BYTE))
+                container.set(key, PersistentDataType.BYTE, Byte.parseByte(value));
+            else if (type.equals(PersistentDataType.FLOAT))
+                container.set(key, PersistentDataType.FLOAT, Float.parseFloat(value));
+            else
+                return false;
+        } catch (Exception e) {
+            return false;
+        }
+        return true;
+    }
+
+    public boolean setKey(PersistentDataContainer container, KeyTypePair keyTypePair, Object value) {
+        if (value == null)
+            return false;
+        NamespacedKey key = keyTypePair.key();
+        PersistentDataType<?, ?> type = keyTypePair.type();
+        try {
+            if (type.equals(PersistentDataType.STRING))
+                container.set(key, PersistentDataType.STRING, (String) value);
+            else if (type.equals(PersistentDataType.BYTE_ARRAY))
+                container.set(key, PersistentDataType.BYTE_ARRAY, (byte[]) value);
+            else if (type.equals(PersistentDataType.DOUBLE))
+                container.set(key, PersistentDataType.DOUBLE, (double) value);
+            else if (type.equals(PersistentDataType.LONG))
+                container.set(key, PersistentDataType.LONG, (long) value);
+            else if (type.equals(PersistentDataType.INTEGER))
+                container.set(key, PersistentDataType.INTEGER, (int) value);
+            else if (type.equals(PersistentDataType.BYTE))
+                container.set(key, PersistentDataType.BYTE, (byte) value);
+            else if (type.equals(PersistentDataType.FLOAT))
+                container.set(key, PersistentDataType.FLOAT, (float) value);
+            else
+                return false;
+        } catch (Exception e) {
+            return false;
+        }
+        return true;
+    }
+
+    public void transferKeys(ItemStack source, ItemStack destination) {
+        ItemMeta sourceMeta = source.getItemMeta();
+        if (sourceMeta == null)
+            return;
+        PersistentDataContainer sourceContainer = sourceMeta.getPersistentDataContainer();
+        ItemMeta destinationMeta = destination.getItemMeta();
+        if (destinationMeta == null)
+            destinationMeta = plugin.getServer().getItemFactory().getItemMeta(destination.getType());
+        PersistentDataContainer destinationContainer = destinationMeta.getPersistentDataContainer();
+        for (KeyTypePair keyTypePair : getKeys()) {
+            if (sourceContainer.has(keyTypePair.key, keyTypePair.type)) {
+                //TODO decide what to do if one of the keys could not be set
+                setKey(destinationContainer, keyTypePair, sourceContainer.get(keyTypePair.key, keyTypePair.type));
+            }
+        }
+        destination.setItemMeta(destinationMeta);
     }
 
     public record KeyTypePair(NamespacedKey key, PersistentDataType<?, ?> type) {}

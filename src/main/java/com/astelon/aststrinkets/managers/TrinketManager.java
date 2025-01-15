@@ -116,6 +116,7 @@ public class TrinketManager {
         addTrinket(new AbyssShell(plugin, keys));
         addTrinket(new SurfaceCure(plugin, keys));
         addTrinket(new InvisibilityPowder(plugin, keys));
+        addTrinket(new SpoiledEgg(plugin, keys));
     }
 
     private void addTrinket(Trinket trinket) {
@@ -374,6 +375,10 @@ public class TrinketManager {
         return result;
     }
 
+    public NamespacedKeys getNamespacedKeys() {
+        return keys;
+    }
+
     public List<NamespacedKey> getKeys() {
         return keys.getKeys().stream().map(NamespacedKeys.KeyTypePair::key).collect(Collectors.toList());
     }
@@ -616,5 +621,9 @@ public class TrinketManager {
 
     public InvisibilityPowder getInvisibilityPowder() {
         return (InvisibilityPowder) getTrinketExact("invisibilityPowder");
+    }
+
+    public SpoiledEgg getSpoiledEgg() {
+        return (SpoiledEgg) getTrinketExact("spoiledEgg");
     }
 }
