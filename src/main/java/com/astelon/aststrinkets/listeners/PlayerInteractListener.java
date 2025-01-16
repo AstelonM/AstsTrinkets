@@ -422,8 +422,10 @@ public class PlayerInteractListener implements Listener {
                             return;
                         Location originalLocation = player.getLocation();
                         Location result = abyssShell.getRandomLocation(itemStack, player.getWorld());
-                        player.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, 240, 0));
-                        player.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 200, 0));
+                        if (!trinketManager.isStrictlyOwnedBy(itemStack, player)) {
+                            player.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, 240, 0));
+                            player.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 200, 0));
+                        }
                         if (result == null) {
                             player.sendMessage(Component.text("You stare into the shell, yet nothing happens.",
                                     NamedTextColor.YELLOW));
