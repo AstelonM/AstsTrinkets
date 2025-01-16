@@ -8,6 +8,7 @@ import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.WorldBorder;
 import org.bukkit.block.Block;
+import org.bukkit.block.data.Waterlogged;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
@@ -86,7 +87,8 @@ public abstract class RandomTeleportationTrinket extends Trinket {
             return origin;
         Block block = origin.getBlock();
         boolean searchDown = true;
-        if (!block.isCollidable() && !block.isLiquid()) {
+        if (!block.isCollidable() && !block.isLiquid() &&
+                !(block.getBlockData() instanceof Waterlogged waterlogged && waterlogged.isWaterlogged())) {
             Location firstBelow = findFirstValidBelow(origin);
             if (firstBelow != null)
                 return firstBelow;
