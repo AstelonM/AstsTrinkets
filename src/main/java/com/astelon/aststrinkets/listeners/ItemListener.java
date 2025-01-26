@@ -11,7 +11,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.PlayerAttemptPickupItemEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.inventory.ItemStack;
@@ -38,47 +37,15 @@ public class ItemListener implements Listener {
         Item item = event.getItemDrop();
         ItemStack droppedItem = item.getItemStack();
         Player player = event.getPlayer();
-        InventoryType inventoryType = player.getOpenInventory().getType();
-        if (inventoryType == InventoryType.CRAFTING || inventoryType == InventoryType.CREATIVE) {
-            PlayerInventory inventory = player.getInventory();
-            ItemStack heldItem = inventory.getItemInMainHand();
-            if (!Utils.isBundle(heldItem))
-                heldItem = inventory.getItemInOffHand();
-            if (holdingBundle.isEnabledTrinket(heldItem)) {
-                if (!trinketManager.isOwnedBy(heldItem, player)) {
-                    event.setCancelled(true);
-                    return;
-                }
-                ItemStack containedItem = holdingBundle.getItem(heldItem);
-                if (droppedItem.equals(containedItem)) {
-                    ItemStack bundle = heldItem;
-                    Bukkit.getScheduler().runTask(plugin, () -> {
-                        holdingBundle.refillBundle(bundle, containedItem, player);
-                        player.updateInventory();
-                    });
-                }
-            }
-        } else {
-            PlayerInventory inventory = player.getInventory();
-            ItemStack heldItem = inventory.getItemInMainHand();
-            if (!Utils.isBundle(heldItem))
-                heldItem = inventory.getItemInOffHand();
-            if (holdingBundle.isEnabledTrinket(heldItem)) {
-                if (holdingBundle.hasItems(heldItem)) {
-                    ItemStack containedItem = holdingBundle.getItem(heldItem);
-                    if (droppedItem.equals(containedItem)) {
-                        if (!trinketManager.isOwnedBy(heldItem, player)) {
-                            event.setCancelled(true);
-                            return;
-                        }
-                        ItemStack bundle = heldItem;
-                        Bukkit.getScheduler().runTask(plugin, () -> {
-                            holdingBundle.refillBundle(bundle, containedItem, player);
-                            player.updateInventory();
-                        });
-                    }
-                }
-            }
+        PlayerInventory inventory = player.getInventory();
+        ItemStack heldItem = inventory.getItemInMainHand();
+        //TODO maybe split into this listener and another that ensures security and prevents exploits when trinkets are disabled
+        if (holdingBundle.isTrinket(heldItem)) {
+            checkBundleItemDrop(event, heldItem, droppedItem, player);
+        }
+        heldItem = inventory.getItemInOffHand();
+        if (holdingBundle.isTrinket(heldItem)) {
+            checkBundleItemDrop(event, heldItem, droppedItem, player);
         }
         if (player.isSneaking())
             return;
@@ -86,6 +53,20 @@ public class ItemListener implements Listener {
             List<Integer> numbers = die.rollDie(item);
             plugin.getLogger().info("Player " + player.getName() + " threw a die and got " + numbers + ".");
         }
+    }
+
+    private void checkBundleItemDrop(PlayerDropItemEvent event, ItemStack bundle, ItemStack droppedItem, Player player) {
+        if (!droppedItem.equals(holdingBundle.getItem(bundle)))
+            return;
+        if (!holdingBundle.isEnabled() || !trinketManager.isOwnedBy(bundle, player)) {
+            event.setCancelled(true);
+            return;
+        }
+        ItemStack containedItem = holdingBundle.getItem(bundle);
+        Bukkit.getScheduler().runTask(plugin, () -> {
+            holdingBundle.refillBundle(bundle, containedItem, player);
+            player.updateInventory();
+        });
     }
 
     @EventHandler

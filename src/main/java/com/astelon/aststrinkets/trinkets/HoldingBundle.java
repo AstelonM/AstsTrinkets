@@ -17,6 +17,7 @@ import org.bukkit.inventory.meta.BundleMeta;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,6 +52,7 @@ public class HoldingBundle extends Trinket {
         return bundleMeta.hasItems();
     }
 
+    @Nullable
     public ItemStack getItem(ItemStack holdingBundle) {
         BundleMeta bundleMeta = (BundleMeta) holdingBundle.getItemMeta();
         if (!bundleMeta.hasItems())
