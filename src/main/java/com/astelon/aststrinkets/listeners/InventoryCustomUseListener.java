@@ -8,7 +8,9 @@ import com.astelon.aststrinkets.trinkets.inventory.*;
 import com.astelon.aststrinkets.utils.Utils;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
+import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.World;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -21,6 +23,9 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.EnchantmentStorageMeta;
 import org.bukkit.inventory.meta.ItemMeta;
+
+import java.util.HashMap;
+import java.util.List;
 
 import static com.astelon.aststrinkets.utils.Utils.*;
 
@@ -77,23 +82,56 @@ public class InventoryCustomUseListener implements Listener {
                     return;
                 if (holdingBundle.isEnabledTrinket(heldItem) && trinketManager.isOwnedBy(heldItem, player)) {
                     ItemStack contained = holdingBundle.getItem(heldItem);
-                    InventoryView view = event.getView();
-                    int amount = 0;
-                    for (ItemStack itemStack: view.getTopInventory()) {
-                        if (contained.isSimilar(itemStack)) {
-                            amount += itemStack.getAmount();
-                            itemStack.setAmount(0);
+                    if (contained != null) {
+                        InventoryView view = event.getView();
+                        int amount = 0;
+                        for (ItemStack itemStack : view.getTopInventory()) {
+                            if (contained.isSimilar(itemStack)) {
+                                amount += itemStack.getAmount();
+                                itemStack.setAmount(0);
+                            }
+                        }
+                        for (ItemStack itemStack : view.getBottomInventory()) {
+                            if (contained.isSimilar(itemStack)) {
+                                amount += itemStack.getAmount();
+                                itemStack.setAmount(0);
+                            }
+                        }
+                        if (amount == 0) {
+                            Inventory inventory = event.getClickedInventory();
+                            if (inventory != null && holdingBundle.hasExtraItems(heldItem)) {
+                                ItemStack[] contents = inventory.getStorageContents();
+                                int emptySlots = 0;
+                                int stackSize = contained.getMaxStackSize();
+                                for (ItemStack itemStack : contents) {
+                                    if (itemStack == null)
+                                        emptySlots += stackSize;
+                                    else if (itemStack.isSimilar(contained))
+                                        emptySlots += stackSize - itemStack.getAmount();
+                                }
+                                int extraItems = holdingBundle.getExtraItemsAmount(heldItem);
+                                int amountToAdd = Math.min(emptySlots, extraItems);
+                                List<ItemStack> itemsToAdd = holdingBundle.getExtraItemsAsStacks(heldItem, amountToAdd);
+                                HashMap<Integer, ItemStack> remaining = inventory.addItem(itemsToAdd.toArray(new ItemStack[0]));
+                                // Just in case somehow the items don't fit
+                                if (!remaining.isEmpty()) {
+                                    World world = player.getWorld();
+                                    Location location = player.getLocation();
+                                    for (ItemStack itemStack : remaining.values()) {
+                                        world.dropItem(location, itemStack);
+                                    }
+                                }
+                                ItemStack bundleResult = holdingBundle.removeExtraItemsAmount(heldItem, amountToAdd);
+                                Utils.transformCursorItem(heldItem, bundleResult, inventory, player);
+                                player.updateInventory();
+                            }
+
+                        } else {
+                            ItemStack result = holdingBundle.addExtraAmountInBundle(heldItem, amount);
+                            Utils.transformCursorItem(heldItem, result, player.getInventory(), player);
+                            player.updateInventory();
                         }
                     }
-                    for (ItemStack itemStack: view.getBottomInventory()) {
-                        if (contained.isSimilar(itemStack)) {
-                            amount += itemStack.getAmount();
-                            itemStack.setAmount(0);
-                        }
-                    }
-                    ItemStack result = holdingBundle.addExtraAmountInBundle(heldItem, amount);
-                    Utils.transformCursorItem(heldItem, result, player.getInventory(), player);
-                    player.updateInventory();
                 }
             }
             case SHIFT_RIGHT -> {

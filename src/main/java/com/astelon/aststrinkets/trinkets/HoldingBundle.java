@@ -189,6 +189,46 @@ public class HoldingBundle extends Trinket {
         return result;
     }
 
+    public int getExtraItemsAmount(ItemStack holdingBundle) {
+        PersistentDataContainer container = holdingBundle.getItemMeta().getPersistentDataContainer();
+        return container.getOrDefault(keys.amountKey, PersistentDataType.INTEGER, 0);
+    }
+
+    public boolean hasExtraItems(ItemStack holdingBundle) {
+        PersistentDataContainer container = holdingBundle.getItemMeta().getPersistentDataContainer();
+        return container.getOrDefault(keys.amountKey, PersistentDataType.INTEGER, 0) != 0;
+    }
+
+    public List<ItemStack> getExtraItemsAsStacks(ItemStack holdingBundle, int amount) {
+        ItemStack containedItem = getItem(holdingBundle);
+        if (containedItem == null)
+            return List.of();
+        int stackSize = containedItem.getMaxStackSize();
+        int stackAmount = amount / stackSize;
+        List<ItemStack> result = new ArrayList<>();
+        for (int i = 0; i < stackAmount; i++) {
+            result.add(containedItem.asQuantity(stackSize));
+        }
+        int remaining = amount % stackSize;
+        if (remaining != 0) {
+            result.add(containedItem.asQuantity(remaining));
+        }
+        return result;
+    }
+
+    public ItemStack removeExtraItemsAmount(ItemStack holdingBundle, int amount) {
+        ItemStack result = holdingBundle.asOne();
+        ItemMeta meta = result.getItemMeta();
+        PersistentDataContainer container = meta.getPersistentDataContainer();
+        int extraAmount = container.getOrDefault(keys.amountKey, PersistentDataType.INTEGER, 0);
+        if (extraAmount == 0)
+            return holdingBundle;
+        container.set(keys.amountKey, PersistentDataType.INTEGER, Math.max(0, extraAmount - amount));
+        meta.lore(buildLore(container));
+        result.setItemMeta(meta);
+        return result;
+    }
+
     public Component getUsage(ItemStack holdingBundle) {
         if (hasMagnet(holdingBundle))
             return magnetUsage;
