@@ -110,6 +110,10 @@ public class MobInfoManager {
         }
         if (entity.isInvulnerable())
             result.add("- Invulnerable");
+        if (entity instanceof PiglinAbstract piglin && piglin.isImmuneToZombification() ||
+                entity instanceof Hoglin hoglin && hoglin.isImmuneToZombification())
+            result.add("- Immune to zombification");
+
         if (result.isEmpty())
             result.add(getNoInfoText(entityType));
         return result;
