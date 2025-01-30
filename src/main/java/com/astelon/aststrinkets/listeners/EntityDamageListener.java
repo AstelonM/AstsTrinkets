@@ -48,31 +48,42 @@ public class EntityDamageListener implements Listener {
         EntityEquipment equipment = entity.getEquipment();
         if (equipment == null)
             return;
-        ItemStack leggings = equipment.getLeggings();
-        if (invincibilityBelt.isEnabledTrinket(leggings) && trinketManager.isOwnedWithRestrictions(leggings, entity))
+        ItemStack itemStack = equipment.getHelmet();
+        if (itemStack != null)
+            checkEquipmentTrinkets(itemStack, event, entity);
+        itemStack = equipment.getChestplate();
+        if (itemStack != null)
+            checkEquipmentTrinkets(itemStack, event, entity);
+        itemStack = equipment.getLeggings();
+        if (itemStack != null)
+            checkEquipmentTrinkets(itemStack, event, entity);
+        itemStack = equipment.getBoots();
+        if (itemStack != null)
+            checkEquipmentTrinkets(itemStack, event, entity);
+    }
+
+    private void checkEquipmentTrinkets(ItemStack equipment, EntityDamageEvent event, LivingEntity entity) {
+        if (invincibilityBelt.isEnabledTrinket(equipment) && trinketManager.isOwnedWithRestrictions(equipment, entity))
             event.setCancelled(true);
-        ItemStack helmet = equipment.getHelmet();
-        if (unbreakableTurtleShell.isEnabledTrinket(helmet) && trinketManager.isOwnedWithRestrictions(helmet, entity))
+        if (unbreakableTurtleShell.isEnabledTrinket(equipment) && trinketManager.isOwnedWithRestrictions(equipment, entity))
             event.setCancelled(true);
         EntityDamageEvent.DamageCause cause = event.getCause();
         if (cause == EntityDamageEvent.DamageCause.DROWNING) {
-            if (trinketManager.isOwnedWithRestrictions(helmet, entity)) {
-                if (divingHelmet.isEnabledTrinket(helmet)) {
+            if (trinketManager.isOwnedWithRestrictions(equipment, entity)) {
+                if (divingHelmet.isEnabledTrinket(equipment)) {
                     event.setCancelled(true);
                     entity.setRemainingAir(entity.getMaximumAir());
                 }
             }
         } else if (cause == EntityDamageEvent.DamageCause.FALL) {
-            ItemStack boots = equipment.getBoots();
-            if (trinketManager.isOwnedWithRestrictions(boots, entity)) {
-                if (hydraulicBoots.isEnabledTrinket(boots)) {
+            if (trinketManager.isOwnedWithRestrictions(equipment, entity)) {
+                if (hydraulicBoots.isEnabledTrinket(equipment)) {
                     event.setCancelled(true);
                 }
             }
         } else if (cause == EntityDamageEvent.DamageCause.FIRE || cause == EntityDamageEvent.DamageCause.FIRE_TICK) {
-            ItemStack chestplate = equipment.getChestplate();
-            if (trinketManager.isOwnedWithRestrictions(chestplate, entity)) {
-                if (fireproofVest.isEnabledTrinket(chestplate)) {
+            if (trinketManager.isOwnedWithRestrictions(equipment, entity)) {
+                if (fireproofVest.isEnabledTrinket(equipment)) {
                     event.setCancelled(true);
                 }
             }
