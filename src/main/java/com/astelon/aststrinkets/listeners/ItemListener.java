@@ -116,7 +116,7 @@ public class ItemListener implements Listener {
         return false;
     }
 
-    @EventHandler(ignoreCancelled = true)
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
     public void onBlockDropItem(BlockDropItemEvent event) {
         if (itemMagnet.isEnabled()) {
             List<Item> items = event.getItems();
@@ -139,7 +139,7 @@ public class ItemListener implements Listener {
         }
     }
 
-    @EventHandler(ignoreCancelled = true)
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
     public void onEntityDeath(EntityDeathEvent event) {
         if (itemMagnet.isEnabled()) {
             List<ItemStack> items = event.getDrops();
