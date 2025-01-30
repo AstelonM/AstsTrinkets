@@ -44,7 +44,6 @@ public class BlockListener implements Listener {
     private final InfinityItem infinityItem;
     private final ShulkerBoxContainmentUnit shulkerBoxContainmentUnit;
     private final GatewayAnchor gatewayAnchor;
-    private final ItemMagnet itemMagnet;
     private final Terrarium terrarium;
 
     public BlockListener(AstsTrinkets plugin, TrinketManager trinketManager, MobInfoManager mobInfoManager) {
@@ -55,7 +54,6 @@ public class BlockListener implements Listener {
         infinityItem = trinketManager.getInfinityItem();
         shulkerBoxContainmentUnit = trinketManager.getShulkerBoxContainmentUnit();
         gatewayAnchor = trinketManager.getGatewayAnchor();
-        itemMagnet = trinketManager.getItemMagnet();
         terrarium = trinketManager.getTerrarium();
     }
 
@@ -159,33 +157,6 @@ public class BlockListener implements Listener {
             if (spinneret.isEnabledTrinket(otherItem)) {
                 if (event.getItemInHand().getType() == Material.STRING)
                     event.getBlock().setType(Material.COBWEB);
-            }
-        }
-    }
-
-    @EventHandler(ignoreCancelled = true)
-    public void onBlockDropItem(BlockDropItemEvent event) {
-        if (itemMagnet.isEnabled()) {
-            List<Item> items = event.getItems();
-            if (items.isEmpty())
-                return;
-            Player player = event.getPlayer();
-            PlayerInventory inventory = player.getInventory();
-            ItemStack itemStack = inventory.getItemInMainHand();
-            if (!itemMagnet.isTrinket(itemStack) || !trinketManager.isOwnedBy(itemStack, player.getName())) {
-                itemStack = inventory.getItemInOffHand();
-                if (!itemMagnet.isTrinket(itemStack) || !trinketManager.isOwnedBy(itemStack, player.getName()))
-                    return;
-            }
-            Location location = player.getLocation();
-            Iterator<Item> iterator = items.iterator();
-            while (iterator.hasNext()) {
-                Item item = iterator.next();
-                ItemStack toAdd = item.getItemStack();
-                iterator.remove();
-                HashMap<Integer, ItemStack> notAdded = inventory.addItem(toAdd);
-                for (ItemStack remaining: notAdded.values())
-                    player.getWorld().dropItem(location, remaining);
             }
         }
     }
