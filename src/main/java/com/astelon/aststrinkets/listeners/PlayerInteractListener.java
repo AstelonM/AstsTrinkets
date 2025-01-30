@@ -208,6 +208,10 @@ public class PlayerInteractListener implements Listener {
                     player.sendMessage(Component.text("You can't trap someone else's pet.", NamedTextColor.RED));
                     return;
                 }
+                Entity vehicle = entity.getVehicle();
+                if (vehicle != null) {
+                    vehicle.removePassenger(entity);
+                }
                 ItemStack result = terrarium.trapCreature(itemStack, entity);
                 if (result == null)
                     return;
@@ -288,6 +292,10 @@ public class PlayerInteractListener implements Listener {
         if (trap.petOwnedByOtherPlayer(entity, player)) {
             player.sendMessage(Component.text("You can't trap someone else's pet.", NamedTextColor.RED));
             return;
+        }
+        Entity vehicle = entity.getVehicle();
+        if (vehicle != null) {
+            vehicle.removePassenger(entity);
         }
         ItemStack result = trap.trapCreature(item, entity);
         if (result == null)
