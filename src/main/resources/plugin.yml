@@ -23,6 +23,7 @@ permissions:
       aststrinkets.command.debug: true
       aststrinkets.command.setkey: true
       aststrinkets.command.removekey: true
+      aststrinkets.command.copykeys: true
 
       aststrinkets.trinket.seeinvisible: true
       aststrinkets.trinket.unboundinfinityitem: true
@@ -47,6 +48,8 @@ permissions:
     description: Allows using the setkey command.
   aststrinkets.command.removekey:
     description: Allows using the removekey command.
+  aststrinkets.command.copykeys:
+    description: Allows using the copykeys command.
 
   # Trinket permissions
   aststrinkets.trinket.seeinvisible:
