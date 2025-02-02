@@ -118,6 +118,7 @@ public class TrinketManager {
         addTrinket(new InvisibilityPowder(plugin, keys));
         addTrinket(new SpoiledEgg(plugin, keys));
         addTrinket(new CopperOxidationSolution(plugin, keys));
+        addTrinket(new Flippers(plugin, keys));
     }
 
     private void addTrinket(Trinket trinket) {
@@ -630,5 +631,9 @@ public class TrinketManager {
 
     public CopperOxidationSolution getCopperOxidationSolution() {
         return (CopperOxidationSolution) getTrinketExact("copperOxidationSolution");
+    }
+
+    public Flippers getFlippers() {
+        return (Flippers) getTrinketExact("flippers");
     }
 }

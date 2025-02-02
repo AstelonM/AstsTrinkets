@@ -496,3 +496,7 @@ spoiledEgg:
 # A mundane potion that transforms up to a whole stack of copper based blocks that can oxidize into their next oxidation step.
 copperOxidationSolution:
   enabled: true
+
+# Leather boots that give Dolphin's Grace when worn. The effect is removed when they're taken off.
+flippers:
+  enabled: true

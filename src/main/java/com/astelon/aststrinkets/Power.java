@@ -61,7 +61,8 @@ public enum Power {
     NETHER_ZOMBIFICATION_CURE("netherZombiFicationCure"),
     MAKE_ITEM_FRAMES_INVISIBLE("makeItemFramesInvisible"),
     VIRUS("virus"),
-    OXIDIZE_COPPER("oxidizeCopper");
+    OXIDIZE_COPPER("oxidizeCopper"),
+    DOLPHIN_GRACE("dolphinGrace");
 
     private final String powerName;
 

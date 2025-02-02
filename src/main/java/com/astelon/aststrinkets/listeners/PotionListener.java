@@ -2,6 +2,9 @@ package com.astelon.aststrinkets.listeners;
 
 import com.astelon.aststrinkets.AstsTrinkets;
 import com.astelon.aststrinkets.managers.TrinketManager;
+import com.astelon.aststrinkets.trinkets.Trinket;
+import com.astelon.aststrinkets.trinkets.equipable.EffectGivingTrinket;
+import com.astelon.aststrinkets.trinkets.equipable.Flippers;
 import com.astelon.aststrinkets.trinkets.equipable.NightVisionGoggles;
 import com.destroystokyo.paper.event.player.PlayerArmorChangeEvent;
 import org.bukkit.entity.Player;
@@ -18,11 +21,13 @@ public class PotionListener implements Listener {
     private final AstsTrinkets plugin;
     private final TrinketManager trinketManager;
     private final NightVisionGoggles nightVisionGoggles;
+    private final Flippers flippers;
 
     public PotionListener(AstsTrinkets plugin, TrinketManager trinketManager) {
         this.plugin = plugin;
         this.trinketManager = trinketManager;
         nightVisionGoggles = trinketManager.getNightVisionGoggles();
+        flippers = trinketManager.getFlippers();
     }
 
     @EventHandler
@@ -32,15 +37,17 @@ public class PotionListener implements Listener {
         ItemStack chestplate = player.getInventory().getChestplate();
         ItemStack leggings = player.getInventory().getLeggings();
         ItemStack boots = player.getInventory().getBoots();
-        addNightVisionOnJoin(helmet, player);
-        addNightVisionOnJoin(chestplate, player);
-        addNightVisionOnJoin(leggings, player);
-        addNightVisionOnJoin(boots, player);
+        addEffectOnJoin(helmet, player);
+        addEffectOnJoin(chestplate, player);
+        addEffectOnJoin(leggings, player);
+        addEffectOnJoin(boots, player);
     }
 
-    private void addNightVisionOnJoin(ItemStack itemStack, Player player) {
-        if (nightVisionGoggles.isEnabledTrinket(itemStack) && trinketManager.isOwnedBy(itemStack, player)) {
-            nightVisionGoggles.addNightVision(player);
+    private void addEffectOnJoin(ItemStack itemStack, Player player) {
+        Trinket trinket = trinketManager.getTrinket(itemStack);
+        if (trinket instanceof EffectGivingTrinket effectGivingTrinket) {
+            if (trinket.isEnabled() && trinketManager.isOwnedBy(itemStack, player))
+                effectGivingTrinket.addEffect(player);
         }
     }
 
@@ -48,40 +55,49 @@ public class PotionListener implements Listener {
     public void onEntityPotionEffect(EntityPotionEffectEvent event) {
         if (!(event.getEntity() instanceof Player player))
             return;
-        if (!nightVisionGoggles.isEnabled())
-            return;
-        if (nightVisionGoggles.isNightVision(event.getOldEffect()) && event.getAction() != EntityPotionEffectEvent.Action.ADDED) {
-            ItemStack helmet = player.getInventory().getHelmet();
-            ItemStack chestplate = player.getInventory().getChestplate();
-            ItemStack leggings = player.getInventory().getLeggings();
-            ItemStack boots = player.getInventory().getBoots();
-            checkNightVisionOnAdd(helmet, player, event);
-            checkNightVisionOnAdd(chestplate, player, event);
-            checkNightVisionOnAdd(leggings, player, event);
-            checkNightVisionOnAdd(boots, player, event);
+        checkTrinketOnAdd(event, player, nightVisionGoggles);
+        checkTrinketOnAdd(event, player, flippers);
+    }
+
+    private void checkTrinketOnAdd(EntityPotionEffectEvent event, Player player, EffectGivingTrinket effectGivingTrinket) {
+        if (effectGivingTrinket.isEnabled()) {
+            if (effectGivingTrinket.isEffect(event.getOldEffect()) && event.getAction() != EntityPotionEffectEvent.Action.ADDED) {
+                ItemStack helmet = player.getInventory().getHelmet();
+                ItemStack chestplate = player.getInventory().getChestplate();
+                ItemStack leggings = player.getInventory().getLeggings();
+                ItemStack boots = player.getInventory().getBoots();
+                checkEffectOnAdd(helmet, player, event, effectGivingTrinket);
+                checkEffectOnAdd(chestplate, player, event, effectGivingTrinket);
+                checkEffectOnAdd(leggings, player, event, effectGivingTrinket);
+                checkEffectOnAdd(boots, player, event, effectGivingTrinket);
+            }
         }
     }
 
-    private void checkNightVisionOnAdd(ItemStack itemStack, Player player, EntityPotionEffectEvent event) {
-        if (nightVisionGoggles.isEnabledTrinket(itemStack) && trinketManager.isOwnedBy(itemStack, player)) {
+    private void checkEffectOnAdd(ItemStack itemStack, Player player, EntityPotionEffectEvent event,
+                                  EffectGivingTrinket effectGivingTrinket) {
+        if (effectGivingTrinket.isEnabledTrinket(itemStack) && trinketManager.isOwnedBy(itemStack, player)) {
             event.setCancelled(true);
         }
     }
 
     @EventHandler
     public void onPlayerArmorChange(PlayerArmorChangeEvent event) {
-        if (!nightVisionGoggles.isEnabled())
-            return;
         ItemStack oldItem = event.getOldItem();
         ItemStack newItem = event.getNewItem();
         Player player = event.getPlayer();
-        if (nightVisionGoggles.isEnabledTrinket(oldItem) && trinketManager.isOwnedBy(oldItem, player)) {
-            if ((!nightVisionGoggles.isEnabledTrinket(newItem) || !trinketManager.isOwnedBy(newItem, player)) &&
-                    nightVisionGoggles.hasNightVision(player)) {
-                nightVisionGoggles.removeNightVision(player);
+        checkArmourChange(oldItem, newItem, player, nightVisionGoggles);
+        checkArmourChange(oldItem, newItem, player, flippers);
+    }
+
+    private void checkArmourChange(ItemStack oldItem, ItemStack newItem, Player player, EffectGivingTrinket trinket) {
+        if (trinket.isEnabledTrinket(oldItem) && trinketManager.isOwnedBy(oldItem, player)) {
+            if ((!trinket.isEnabledTrinket(newItem) || !trinketManager.isOwnedBy(newItem, player)) &&
+                    trinket.hasEffect(player)) {
+                trinket.removeEffect(player);
             }
-        } else if (nightVisionGoggles.isEnabledTrinket(newItem) && trinketManager.isOwnedBy(newItem, player)) {
-            nightVisionGoggles.addNightVision(player);
+        } else if (trinket.isEnabledTrinket(newItem) && trinketManager.isOwnedBy(newItem, player)) {
+            trinket.addEffect(player);
         }
     }
 
@@ -92,16 +108,17 @@ public class PotionListener implements Listener {
         ItemStack chestplate = player.getInventory().getChestplate();
         ItemStack leggings = player.getInventory().getLeggings();
         ItemStack boots = player.getInventory().getBoots();
-        removeNightVisionOnLeave(helmet, player);
-        removeNightVisionOnLeave(chestplate, player);
-        removeNightVisionOnLeave(leggings, player);
-        removeNightVisionOnLeave(boots, player);
+        removeEffectOnLeave(helmet, player);
+        removeEffectOnLeave(chestplate, player);
+        removeEffectOnLeave(leggings, player);
+        removeEffectOnLeave(boots, player);
     }
 
-    private void removeNightVisionOnLeave(ItemStack itemStack, Player player) {
-        if (nightVisionGoggles.isEnabledTrinket(itemStack) && trinketManager.isOwnedBy(itemStack, player) &&
-                nightVisionGoggles.hasNightVision(player)) {
-            nightVisionGoggles.removeNightVision(player);
+    private void removeEffectOnLeave(ItemStack itemStack, Player player) {
+        Trinket trinket = trinketManager.getTrinket(itemStack);
+        if (trinket instanceof EffectGivingTrinket effectTrinket && effectTrinket.isEnabledTrinket(itemStack) &&
+                trinketManager.isOwnedBy(itemStack, player) && effectTrinket.hasEffect(player)) {
+            effectTrinket.removeEffect(player);
         }
     }
 }
