@@ -500,3 +500,13 @@ copperOxidationSolution:
 # Leather boots that give Dolphin's Grace when worn. The effect is removed when they're taken off.
 flippers:
   enabled: true
+
+# An enchanted golden apple that can cure zombie Nether creatures like golden apples can cure zombie villagers.
+curingApple:
+  enabled: true
+  # The minimum time in seconds that it takes for the zombie to cure. Defaults to zombie villager value of 180 (3 minutes).
+  minDuration: 180
+  # The maximum time in seconds that it takes for the zombie to cure. Defaults to zombie villager value of 300 (5 minutes).
+  maxDuration: 300
+  # Chance that a piglin brute will appear when curing a zombified piglin that spawned directly.
+  bruteChance: 0.1

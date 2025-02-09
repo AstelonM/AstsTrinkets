@@ -48,6 +48,7 @@ public class AstsTrinkets extends JavaPlugin {
         trinketManager = new TrinketManager(this, mobInfoManager, invisibilityManager, keys);
         SentientAxeTaskManager sentientAxeTaskManager = new SentientAxeTaskManager(this, trinketManager,
                 sentientAxeMessageManager);
+        ZombieCuringManager zombieCuringManager = new ZombieCuringManager(this, trinketManager, mobInfoManager);
         PluginManager pluginManager = getServer().getPluginManager();
         pluginManager.registerEvents(new InvisibilityListener(this, trinketManager, invisibilityManager), this);
         pluginManager.registerEvents(new ShapeShifterListener(this, trinketManager), this);
@@ -67,6 +68,7 @@ public class AstsTrinkets extends JavaPlugin {
         pluginManager.registerEvents(new ItemListener(this, trinketManager), this);
         pluginManager.registerEvents(new InventoryRegularUseListener(this, trinketManager), this);
         pluginManager.registerEvents(new VirusListener(this, trinketManager), this);
+        pluginManager.registerEvents(new NetherZombieReversalListener(this, trinketManager, zombieCuringManager), this);
         loadConfig();
         Objects.requireNonNull(getCommand("trinkets")).setExecutor(new TrinketCommand(this, trinketManager));
     }
@@ -226,6 +228,13 @@ public class AstsTrinkets extends JavaPlugin {
         spoiledEgg.setMaxSpread(Utils.ensureBoundsInclusive(configuration.getInt(spoiledEgg.getName() + ".maxSpread"), 1, 54));
         spoiledEgg.setLethality(Utils.normalizeRate(Utils
                 .ensurePercentage(configuration.getDouble(spoiledEgg.getName() + ".lethality"), 10.0)));
+        CuringApple curingApple = trinketManager.getCuringApple();
+        curingApple.setMinDuration(Utils.ensurePositive(configuration.getInt(curingApple.getName() + ".minDuration", 180),
+                180));
+        curingApple.setMaxDuration(Utils.ensurePositive(configuration.getInt(curingApple.getName() + ".maxDuration", 300),
+                300));
+        curingApple.setBruteChance(Utils.normalizeRate(
+                Utils.ensurePercentage(configuration.getDouble(curingApple.getName() + ".bruteChance", 0.1), 0.1)));
     }
 
     private HashSet<EntityType> getBlacklistedTypes(List<String> blacklist) {

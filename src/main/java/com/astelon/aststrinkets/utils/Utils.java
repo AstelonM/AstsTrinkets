@@ -5,6 +5,8 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.*;
 import org.bukkit.entity.*;
+import org.bukkit.inventory.EntityEquipment;
+import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
@@ -235,5 +237,18 @@ public class Utils {
 
     public static boolean isBundle(ItemStack itemStack) {
         return itemStack != null && itemStack.getType() == Material.BUNDLE;
+    }
+
+    public static boolean isNotNetherZombie(Entity entity) {
+        return !(entity instanceof PigZombie) && !(entity instanceof Zoglin);
+    }
+
+    public static void copyEquipment(Mob source, Mob destination) {
+        EntityEquipment sourceEquipment = source.getEquipment();
+        EntityEquipment destinationEquipment = destination.getEquipment();
+        for (EquipmentSlot slot: EquipmentSlot.values()) {
+            ItemStack item = sourceEquipment.getItem(slot);
+            destinationEquipment.setItem(slot, item.clone());
+        }
     }
 }

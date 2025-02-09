@@ -119,6 +119,7 @@ public class TrinketManager {
         addTrinket(new SpoiledEgg(plugin, keys));
         addTrinket(new CopperOxidationSolution(plugin, keys));
         addTrinket(new Flippers(plugin, keys));
+        addTrinket(new CuringApple(plugin, keys));
     }
 
     private void addTrinket(Trinket trinket) {
@@ -635,5 +636,9 @@ public class TrinketManager {
 
     public Flippers getFlippers() {
         return (Flippers) getTrinketExact("flippers");
+    }
+
+    public CuringApple getCuringApple() {
+        return (CuringApple) getTrinketExact("curingApple");
     }
 }

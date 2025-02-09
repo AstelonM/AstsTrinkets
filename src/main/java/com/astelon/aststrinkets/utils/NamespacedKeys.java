@@ -54,6 +54,8 @@ public class NamespacedKeys {
     public final NamespacedKey virusMinSpreadKey;
     public final NamespacedKey virusMaxSpreadKey;
     public final NamespacedKey virusLethalityKey;
+    public final NamespacedKey endTimeKey;
+    public final NamespacedKey wasBruteKey;
 
     public NamespacedKeys(AstsTrinkets plugin) {
         this.plugin = plugin;
@@ -97,6 +99,8 @@ public class NamespacedKeys {
         virusMinSpreadKey = new NamespacedKey(plugin, "virusMinSpread");
         virusMaxSpreadKey = new NamespacedKey(plugin, "virusMaxSpread");
         virusLethalityKey = new NamespacedKey(plugin, "virusLethality");
+        endTimeKey = new NamespacedKey(plugin, "endTime");
+        wasBruteKey = new NamespacedKey(plugin, "wasBrute");
         initKeyMap();
     }
 
@@ -141,6 +145,8 @@ public class NamespacedKeys {
         keys.put(virusMinSpreadKey.getKey(), new KeyTypePair(virusMinSpreadKey, PersistentDataType.INTEGER));
         keys.put(virusMaxSpreadKey.getKey(), new KeyTypePair(virusMaxSpreadKey, PersistentDataType.INTEGER));
         keys.put(virusLethalityKey.getKey(), new KeyTypePair(virusLethalityKey, PersistentDataType.DOUBLE));
+        keys.put(endTimeKey.getKey(), new KeyTypePair(endTimeKey, PersistentDataType.LONG));
+        keys.put(wasBruteKey.getKey(), new KeyTypePair(wasBruteKey, PersistentDataType.BYTE));
         keys = Collections.unmodifiableMap(keys);
     }
 
