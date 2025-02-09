@@ -1,5 +1,6 @@
 package com.astelon.aststrinkets;
 
+import com.astelon.aststrinkets.api.TrinketApi;
 import com.astelon.aststrinkets.commands.TrinketCommand;
 import com.astelon.aststrinkets.listeners.*;
 import com.astelon.aststrinkets.managers.*;
@@ -34,6 +35,7 @@ import java.util.Objects;
 public class AstsTrinkets extends JavaPlugin {
 
     private TrinketManager trinketManager;
+    private TrinketApi trinketApi;
 
     @Override
     public void onEnable() {
@@ -46,6 +48,7 @@ public class AstsTrinkets extends JavaPlugin {
         SentientAxeMessageManager sentientAxeMessageManager = new SentientAxeMessageManager();
         NamespacedKeys keys = new NamespacedKeys(this);
         trinketManager = new TrinketManager(this, mobInfoManager, invisibilityManager, keys);
+        trinketApi = new TrinketApi(trinketManager, keys, mobInfoManager);
         SentientAxeTaskManager sentientAxeTaskManager = new SentientAxeTaskManager(this, trinketManager,
                 sentientAxeMessageManager);
         ZombieCuringManager zombieCuringManager = new ZombieCuringManager(this, trinketManager, mobInfoManager);
@@ -76,6 +79,10 @@ public class AstsTrinkets extends JavaPlugin {
     public void reload() {
         reloadConfig();
         loadConfig();
+    }
+
+    public TrinketApi getTrinketApi() {
+        return trinketApi;
     }
 
     private void loadConfig() {
