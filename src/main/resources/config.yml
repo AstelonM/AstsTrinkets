@@ -22,7 +22,7 @@ trueInvisibilityTunic:
 shapeShifter:
   enabled: true
   # This list allows you to add more items to the blacklist.
-  # You can find them here https://jd.papermc.io/paper/1.16/org/bukkit/Material.html (or at the page corresponding to
+  # You can find them here https://jd.papermc.io/paper/1.18.2/org/bukkit/Material.html (or at the page corresponding to
   # the version you use).
   itemBlacklist: []
 
@@ -118,7 +118,7 @@ netherStarTrap:
 # Players with permission aststrinkets.trinket.unboundinfinityitem are able to use this trinket on any block.
 infinityItem:
   enabled: true
-  # List of blocks you can add can be found here https://jd.papermc.io/paper/1.18/org/bukkit/Material.html
+  # List of blocks you can add can be found here https://jd.papermc.io/paper/1.18.2/org/bukkit/Material.html
   # The trinket can only be used on the blocks specified here.
   allowedBlocks: [DIRT, STONE, COBBLESTONE, OAK_LOG, BIRCH_LOG, SPRUCE_LOG, JUNGLE_LOG, ACACIA_LOG, DARK_OAK_LOG,
                   CRIMSON_STEM, WARPED_STEM, DEEPSLATE, COBBLED_DEEPSLATE]
@@ -222,7 +222,7 @@ souleater:
 mysteryEgg:
   enabled: true
   # These mobs should not spawn from the eggs.
-  # A complete list of options can be found here: https://jd.papermc.io/paper/1.18/org/bukkit/entity/EntityType.html
+  # A complete list of options can be found here: https://jd.papermc.io/paper/1.18.2/org/bukkit/entity/EntityType.html
   blacklist: [WITHER, ENDER_DRAGON]
   # Whether eggs shot by a dispenser count as trinkets. Only works with unowned trinkets.
   dispenserAllowed: true
