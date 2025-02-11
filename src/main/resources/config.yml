@@ -538,3 +538,7 @@ eternalYouthCookie:
   enabled: true
   # Whether only the owner of a pet can turn it into a baby. Bypassed with aststrinkets.trinket.ignorepetowner.
   petOwnerOnly: true
+
+# A wheat that can turn cows into red mooshrooms.
+infestedWheat:
+  enabled: true

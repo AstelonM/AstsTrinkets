@@ -258,4 +258,16 @@ public class Utils {
         Location above = new Location(location.getWorld(), location.getBlockX(), location.getBlockY() + 1, location.getBlockZ());
         return !above.getBlock().isPassable();
     }
+
+    public static void copyCommonEntityAttributes(Mob source, Mob destination) {
+        destination.customName(source.customName());
+        destination.setCustomNameVisible(source.isCustomNameVisible());
+        destination.setInvulnerable(source.isInvulnerable());
+        destination.setRemoveWhenFarAway(source.getRemoveWhenFarAway());
+        if (source instanceof Ageable sourceAgeable && destination instanceof Ageable destinationAgeable)
+            destinationAgeable.setAge(sourceAgeable.getAge());
+        if (source instanceof Tameable sourceTameable && destination instanceof Tameable destinationTameable)
+            destinationTameable.setOwner(sourceTameable.getOwner());
+        copyEquipment(source, destination);
+    }
 }

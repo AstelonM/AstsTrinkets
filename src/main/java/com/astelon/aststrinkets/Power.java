@@ -68,7 +68,8 @@ public enum Power {
     BUILD_SNOW_GOLEM("buildSnowGolem"),
     REMOVE_INVULNERABILITY("removeInvulnerability"),
     MAKE_ADULT("makeAdult"),
-    ETERNAL_YOUTH("eternalYouth"),;
+    ETERNAL_YOUTH("eternalYouth"),
+    TURN_COWS_INTO_MOOSHROOMS("turnCowsIntoMooshrooms"),;
 
     private final String powerName;
 

@@ -87,6 +87,7 @@ public class PlayerInteractListener implements Listener {
     private final TaintedLifeWater taintedLifeWater;
     private final SpoiledYouthMilk spoiledYouthMilk;
     private final EternalYouthCookie eternalYouthCookie;
+    private final InfestedWheat infestedWheat;
 
     public PlayerInteractListener(AstsTrinkets plugin, MobInfoManager mobInfoManager, TrinketManager trinketManager) {
         this.plugin = plugin;
@@ -119,6 +120,7 @@ public class PlayerInteractListener implements Listener {
         taintedLifeWater = trinketManager.getTaintedLifeWater();
         spoiledYouthMilk = trinketManager.getSpoiledYouthMilk();
         eternalYouthCookie = trinketManager.getEternalYouthCookie();
+        infestedWheat = trinketManager.getInfestedWheat();
     }
 
     @EventHandler
@@ -324,6 +326,21 @@ public class PlayerInteractListener implements Listener {
                 player.updateInventory();
                 plugin.getLogger().info("Eternal youth cookie used on " + mobInfoManager.getTypeAndName(ageable) + " at " +
                         Utils.locationToString(ageable.getLocation()) + " by player " + player.getName() + ".");
+            } else if (infestedWheat.isEnabledTrinket(itemStack) && event.getRightClicked() instanceof Cow cow) {
+                if (trinketManager.isTrinketImmune(cow)) {
+                    player.sendMessage(Component.text("Trinkets cannot be used on this entity.", NamedTextColor.RED));
+                    return;
+                }
+                event.setCancelled(true);
+                Location location = cow.getLocation();
+                MushroomCow mooshroom = location.getWorld().spawn(location, MushroomCow.class);
+                if (mooshroom.isValid()) {
+                    Utils.copyCommonEntityAttributes(cow, mooshroom);
+                    cow.remove();
+                    itemStack.subtract();
+                } else {
+                    player.sendMessage(Component.text("Could not transform this creature.", NamedTextColor.RED));
+                }
             }
         }
     }

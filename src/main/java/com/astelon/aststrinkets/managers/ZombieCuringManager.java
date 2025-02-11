@@ -107,9 +107,7 @@ public class ZombieCuringManager {
             }
         };
         piglin.setImmuneToZombification(true);
-        piglin.customName(zombiePiglin.customName());
-        piglin.setCustomNameVisible(zombiePiglin.isCustomNameVisible());
-        Utils.copyEquipment(zombiePiglin, piglin);
+        Utils.copyCommonEntityAttributes(zombiePiglin, piglin);
         zombiePiglin.remove();
         piglin.getWorld().playSound(piglin, Sound.ENTITY_ZOMBIE_VILLAGER_CONVERTED, SoundCategory.HOSTILE, 2.0f,
                 random.nextFloat(0.8f, 1.2f));
@@ -119,8 +117,7 @@ public class ZombieCuringManager {
         Location location = zoglin.getLocation();
         Hoglin hoglin = zoglin.getWorld().spawn(location, Hoglin.class);
         hoglin.setImmuneToZombification(true);
-        hoglin.customName(zoglin.customName());
-        hoglin.setCustomNameVisible(zoglin.isCustomNameVisible());
+        Utils.copyCommonEntityAttributes(zoglin, hoglin);
         zoglin.remove();
     }
 }
