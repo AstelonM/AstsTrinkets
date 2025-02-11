@@ -65,7 +65,9 @@ public enum Power {
     DOLPHIN_GRACE("dolphinGrace"),
     NETHER_ZOMBIFICATION_REVERSAL("netherZombificationReversal"),
     BUILD_SNOW_GOLEM_FROM_INVENTORY("buildSnowGolemFromInventory"),
-    BUILD_SNOW_GOLEM("buildSnowGolem"),;
+    BUILD_SNOW_GOLEM("buildSnowGolem"),
+    REMOVE_INVULNERABILITY("removeInvulnerability"),
+    MAKE_ADULT("makeAdult"),;
 
     private final String powerName;
 

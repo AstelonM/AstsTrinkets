@@ -122,6 +122,8 @@ public class TrinketManager {
         addTrinket(new CuringApple(plugin, keys));
         addTrinket(new SnowGolemBlueprint(plugin, keys));
         addTrinket(new SnowGolemKit(plugin, keys));
+        addTrinket(new TaintedLifeWater(plugin, keys));
+        addTrinket(new SpoiledYouthMilk(plugin, keys));
     }
 
     private void addTrinket(Trinket trinket) {
@@ -650,5 +652,13 @@ public class TrinketManager {
 
     public SnowGolemKit getSnowGolemKit() {
         return (SnowGolemKit) getTrinketExact("snowGolemKit");
+    }
+
+    public TaintedLifeWater getTaintedLifeWater() {
+        return (TaintedLifeWater) getTrinketExact("taintedLifeWater");
+    }
+
+    public SpoiledYouthMilk getSpoiledYouthMilk() {
+        return (SpoiledYouthMilk) getTrinketExact("spoiledYouthMilk");
     }
 }

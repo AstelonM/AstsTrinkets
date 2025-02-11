@@ -101,4 +101,5 @@ public final class Usages {
     public static final String RIGHT_CLICK_ON_BLOCK_WITH_SPACE = "Right click on top of a block with enough free space above" +
             " using the trinket.";
     public static final String PLACE_WITH_SPACE = "Place it down with enough free space above.";
+    public static final String INTERACT_WITH_BABY = "Right click a baby creature to turn it into an adult.";
 }

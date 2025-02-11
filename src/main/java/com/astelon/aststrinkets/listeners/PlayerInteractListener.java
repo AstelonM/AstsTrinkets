@@ -84,6 +84,8 @@ public class PlayerInteractListener implements Listener {
     private final SurfaceCure surfaceCure;
     private final InvisibilityPowder invisibilityPowder;
     private final SnowGolemBlueprint snowGolemBlueprint;
+    private final TaintedLifeWater taintedLifeWater;
+    private final SpoiledYouthMilk spoiledYouthMilk;
 
     public PlayerInteractListener(AstsTrinkets plugin, MobInfoManager mobInfoManager, TrinketManager trinketManager) {
         this.plugin = plugin;
@@ -113,6 +115,8 @@ public class PlayerInteractListener implements Listener {
         surfaceCure = trinketManager.getSurfaceCure();
         invisibilityPowder = trinketManager.getInvisibilityPowder();
         snowGolemBlueprint = trinketManager.getSnowGolemBlueprint();
+        taintedLifeWater = trinketManager.getTaintedLifeWater();
+        spoiledYouthMilk = trinketManager.getSpoiledYouthMilk();
     }
 
     @EventHandler
@@ -263,6 +267,43 @@ public class PlayerInteractListener implements Listener {
                 player.updateInventory();
                 plugin.getLogger().info("Surface cure used on " + mobInfoManager.getTypeAndName(entity) + " at " +
                         Utils.locationToString(entity.getLocation()) + " by player " + player.getName() + ".");
+            } else if (taintedLifeWater.isEnabledTrinket(itemStack)) {
+                if (!(entity instanceof Mob mob))
+                    return;
+                if (!mob.isInvulnerable())
+                    return;
+                if (trinketManager.isTrinketImmune(mob)) {
+                    player.sendMessage(Component.text("Trinkets cannot be used on this entity.", NamedTextColor.RED));
+                    return;
+                }
+                if (taintedLifeWater.petOwnedByOtherPlayer(mob, player)) {
+                    player.sendMessage(Component.text("You can't use this on someone else's pet.", NamedTextColor.RED));
+                    return;
+                }
+                event.setCancelled(true);
+                taintedLifeWater.removeInvulnerability(mob);
+                Utils.transformItem(itemStack, new ItemStack(Material.GLASS_BOTTLE), slot, inventory, player);
+                player.updateInventory();
+                plugin.getLogger().info("Tainted life water used on " + mobInfoManager.getTypeAndName(mob) + " at " +
+                        Utils.locationToString(mob.getLocation()) + " by player " + player.getName() + ".");
+            } else if (spoiledYouthMilk.isEnabledTrinket(itemStack) && event.getRightClicked() instanceof Ageable ageable) {
+                if (ageable.isAdult())
+                    return;
+                if (trinketManager.isTrinketImmune(ageable)) {
+                    player.sendMessage(Component.text("Trinkets cannot be used on this entity.", NamedTextColor.RED));
+                    return;
+                }
+                if (spoiledYouthMilk.petOwnedByOtherPlayer(ageable, player)) {
+                    player.sendMessage(Component.text("You can't use this on someone else's pet.", NamedTextColor.RED));
+                    return;
+                }
+                event.setCancelled(true);
+                //TODO check ageLock?
+                ageable.setAdult();
+                Utils.transformItem(itemStack, new ItemStack(Material.BUCKET), slot, inventory, player);
+                player.updateInventory();
+                plugin.getLogger().info("Spoiled youth milk used on " + mobInfoManager.getTypeAndName(ageable) + " at " +
+                        Utils.locationToString(ageable.getLocation()) + " by player " + player.getName() + ".");
             }
         }
     }

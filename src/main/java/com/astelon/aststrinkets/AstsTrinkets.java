@@ -9,10 +9,6 @@ import com.astelon.aststrinkets.trinkets.block.InfinityItem;
 import com.astelon.aststrinkets.trinkets.block.MysteryCake;
 import com.astelon.aststrinkets.trinkets.block.Terrarium;
 import com.astelon.aststrinkets.trinkets.creature.*;
-import com.astelon.aststrinkets.trinkets.creature.traps.AmethystTrap;
-import com.astelon.aststrinkets.trinkets.creature.traps.DiamondTrap;
-import com.astelon.aststrinkets.trinkets.creature.traps.EmeraldTrap;
-import com.astelon.aststrinkets.trinkets.creature.traps.NetherStarTrap;
 import com.astelon.aststrinkets.trinkets.projectile.ExperienceBottle;
 import com.astelon.aststrinkets.trinkets.projectile.MysteryEgg;
 import com.astelon.aststrinkets.trinkets.projectile.arrow.DeathArrow;
@@ -91,6 +87,9 @@ public class AstsTrinkets extends JavaPlugin {
         FileConfiguration configuration = getConfig();
         for (Trinket trinket: trinketManager.getTrinkets()) {
             trinket.setEnabled(configuration.getBoolean(trinket.getName() + ".enabled"));
+            if (trinket instanceof CreatureAffectingTrinket creatureAffectingTrinket) {
+                creatureAffectingTrinket.setPetOwnerOnly(configuration.getBoolean(trinket.getName() + ".petOwnerOnly"));
+            }
         }
         getLogger().info("Loaded " + trinketManager.getTrinkets().size() + " trinkets.");
         ShapeShifter shapeShifter = trinketManager.getShapeShifter();
@@ -104,16 +103,6 @@ public class AstsTrinkets extends JavaPlugin {
         List<Material> allowedBlocks = configuration.getStringList(infinityItem.getName() + ".allowedBlocks")
                 .stream().map(Material::valueOf).filter(Material::isBlock).filter(Material::isItem).toList();
         infinityItem.setAllowedBlocks(allowedBlocks);
-        YouthMilk youthMilk = trinketManager.getYouthMilk();
-        youthMilk.setPetOwnerOnly(configuration.getBoolean(youthMilk.getName() + ".petOwnerOnly"));
-        DiamondTrap diamondTrap = trinketManager.getDiamondTrap();
-        diamondTrap.setPetOwnerOnly(configuration.getBoolean(diamondTrap.getName() + ".petOwnerOnly"));
-        EmeraldTrap emeraldTrap = trinketManager.getEmeraldTrap();
-        emeraldTrap.setPetOwnerOnly(configuration.getBoolean(emeraldTrap.getName() + ".petOwnerOnly"));
-        AmethystTrap amethystTrap = trinketManager.getAmethystTrap();
-        amethystTrap.setPetOwnerOnly(configuration.getBoolean(amethystTrap.getName() + ".petOwnerOnly"));
-        NetherStarTrap netherStarTrap = trinketManager.getNetherStarTrap();
-        netherStarTrap.setPetOwnerOnly(configuration.getBoolean(netherStarTrap.getName() + ".petOwnerOnly"));
         ReignitableRocketPrototype reignitableRocketPrototype = trinketManager.getReignitableRocketPrototype();
         double failureChancePrototype = configuration.getDouble(reignitableRocketPrototype.getName() + ".failureChance", 33.33);
         double criticalFailureChance = configuration.getDouble(reignitableRocketPrototype.getName() + ".criticalFailureChance", 1.0);
@@ -163,7 +152,6 @@ public class AstsTrinkets extends JavaPlugin {
         itemMagnet.setRange(itemMagnetRange);
         Terrarium terrarium = trinketManager.getTerrarium();
         terrarium.setAllowEnderDragonCapture(configuration.getBoolean(terrarium.getName() + ".allowEnderDragonCapture"));
-        terrarium.setPetOwnerOnly(configuration.getBoolean(terrarium.getName() + ".petOwnerOnly"));
         SmitingArrow smitingArrow = trinketManager.getSmitingArrow();
         smitingArrow.setPiercingAllowed(configuration.getBoolean(smitingArrow.getName() + ".piercingAllowed"));
         smitingArrow.setMultishotAllowed(configuration.getBoolean(smitingArrow.getName() + ".multishotAllowed"));
