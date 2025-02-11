@@ -200,8 +200,7 @@ hydraulicBoots:
   enabled: true
 
 # Right click a creature with it to make it invulnerable to most forms of damage. Can still be damaged by players in creative
-# mode. Creatures made invulnerable using this trinket can be trapped or affected by similar trinkets, by the player that
-# made them invulnerable.
+# mode.
 # This trinket requires "aststrinkets.op" permission to give.
 lifeWater:
   enabled: true
