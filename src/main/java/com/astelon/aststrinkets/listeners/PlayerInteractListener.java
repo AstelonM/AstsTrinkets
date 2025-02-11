@@ -300,8 +300,9 @@ public class PlayerInteractListener implements Listener {
                     return;
                 }
                 event.setCancelled(true);
-                //TODO check ageLock?
                 ageable.setAdult();
+                if (ageable instanceof Breedable breedable)
+                    breedable.setAgeLock(false);
                 Utils.transformItem(itemStack, new ItemStack(Material.BUCKET), slot, inventory, player);
                 player.updateInventory();
                 plugin.getLogger().info("Spoiled youth milk used on " + mobInfoManager.getTypeAndName(ageable) + " at " +
@@ -316,7 +317,6 @@ public class PlayerInteractListener implements Listener {
                     return;
                 }
                 event.setCancelled(true);
-                //TODO check ageLock?
                 ageable.setBaby();
                 if (ageable instanceof Breedable breedable)
                     breedable.setAgeLock(true);
