@@ -30,8 +30,6 @@ public class FireproofVest extends Trinket {
         meta.displayName(Component.text("Fireproof Vest", TextColor.fromHexString("#FFA500")));
         meta.lore(List.of(Component.text("Standard issue for those who don't"),
                 Component.text("want to get burnt.")));
-        Repairable repairableMeta = (Repairable) meta;
-        repairableMeta.setRepairCost(100);
         itemStack.setItemMeta(meta);
         return itemStack;
     }

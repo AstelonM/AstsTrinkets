@@ -29,7 +29,6 @@ public class HydraulicBoots extends Trinket {
                 Component.text("hydraulic system that acts as a"),
                 Component.text("shock absorber, so you don't take"),
                 Component.text("fall damage while wearing them.")));
-        meta.setRepairCost(100);
         itemStack.setItemMeta(meta);
         return itemStack;
     }

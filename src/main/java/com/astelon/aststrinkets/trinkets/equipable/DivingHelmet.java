@@ -28,7 +28,6 @@ public class DivingHelmet extends Trinket {
         meta.lore(List.of(Component.text("This helmet is able to stop you from"),
                 Component.text("drowning. Just don't ask where the"),
                 Component.text("air comes from.")));
-        meta.setRepairCost(100);
         itemStack.setItemMeta(meta);
         return itemStack;
     }

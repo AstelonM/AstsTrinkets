@@ -5,8 +5,7 @@ import com.astelon.aststrinkets.trinkets.Die;
 import com.astelon.aststrinkets.trinkets.SentientAxe;
 import com.astelon.aststrinkets.trinkets.Souleater;
 import com.astelon.aststrinkets.trinkets.VampiricSword;
-import com.astelon.aststrinkets.trinkets.equipable.Flippers;
-import com.astelon.aststrinkets.trinkets.equipable.NightVisionGoggles;
+import com.astelon.aststrinkets.trinkets.equipable.*;
 import com.destroystokyo.paper.event.inventory.PrepareResultEvent;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -24,6 +23,9 @@ public class TrinketLimitationsListener implements Listener {
     private final NightVisionGoggles nightVisionGoggles;
     private final Die die;
     private final Flippers flippers;
+    private final DivingHelmet divingHelmet;
+    private final FireproofVest fireproofVest;
+    private final HydraulicBoots hydraulicBoots;
 
     public TrinketLimitationsListener(TrinketManager trinketManager) {
         this.trinketManager = trinketManager;
@@ -33,6 +35,9 @@ public class TrinketLimitationsListener implements Listener {
         nightVisionGoggles = trinketManager.getNightVisionGoggles();
         die = trinketManager.getDie();
         flippers = trinketManager.getFlippers();
+        divingHelmet = trinketManager.getDivingHelmet();
+        fireproofVest = trinketManager.getFireproofVest();
+        hydraulicBoots = trinketManager.getHydraulicBoots();
     }
 
     @EventHandler
@@ -40,7 +45,8 @@ public class TrinketLimitationsListener implements Listener {
         if (event.getInventory() instanceof GrindstoneInventory inventory) {
             ItemStack itemStack = inventory.getResult();
             if (itemStack != null && trinketManager.isTrinket(itemStack) && !souleater.isTrinket(itemStack) &&
-                    !vampiricSword.isTrinket(itemStack) && !nightVisionGoggles.isTrinket(itemStack) && !flippers.isTrinket(itemStack)) {
+                    !vampiricSword.isTrinket(itemStack) && !nightVisionGoggles.isTrinket(itemStack) && !flippers.isTrinket(itemStack) &&
+                    !divingHelmet.isTrinket(itemStack) && !fireproofVest.isTrinket(itemStack) && !hydraulicBoots.isTrinket(itemStack)) {
                 event.setResult(new ItemStack(itemStack.getType()));
             }
         }
@@ -51,7 +57,8 @@ public class TrinketLimitationsListener implements Listener {
         ItemStack itemStack = event.getItem();
         if (trinketManager.isTrinket(itemStack) && !souleater.isTrinket(itemStack) && !vampiricSword.isTrinket(itemStack) &&
                 !sentientAxe.isTrinket(itemStack) && !nightVisionGoggles.isTrinket(itemStack) &&
-                !flippers.isTrinket(itemStack)) { // Sentient Axe treated in its own listener
+                !flippers.isTrinket(itemStack) && !divingHelmet.isTrinket(itemStack) &&
+                !fireproofVest.isTrinket(itemStack) && !hydraulicBoots.isTrinket(itemStack)) { // Sentient Axe treated in its own listener
             event.setCancelled(true);
         }
     }
