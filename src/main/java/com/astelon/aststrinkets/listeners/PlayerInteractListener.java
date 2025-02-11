@@ -83,6 +83,7 @@ public class PlayerInteractListener implements Listener {
     private final AbyssShell abyssShell;
     private final SurfaceCure surfaceCure;
     private final InvisibilityPowder invisibilityPowder;
+    private final SnowGolemBlueprint snowGolemBlueprint;
 
     public PlayerInteractListener(AstsTrinkets plugin, MobInfoManager mobInfoManager, TrinketManager trinketManager) {
         this.plugin = plugin;
@@ -111,6 +112,7 @@ public class PlayerInteractListener implements Listener {
         abyssShell = trinketManager.getAbyssShell();
         surfaceCure = trinketManager.getSurfaceCure();
         invisibilityPowder = trinketManager.getInvisibilityPowder();
+        snowGolemBlueprint = trinketManager.getSnowGolemBlueprint();
     }
 
     @EventHandler
@@ -507,7 +509,7 @@ public class PlayerInteractListener implements Listener {
                     Location originalLocation = block.getLocation();
                     Location spawnLocation = new Location(originalLocation.getWorld(), originalLocation.getBlockX() + 0.5,
                             originalLocation.getBlockY() + 1, originalLocation.getBlockZ() + 0.5);
-                    if (!hasEnoughSpace(spawnLocation)) {
+                    if (Utils.hasNoSpace(spawnLocation)) {
                         player.sendMessage(Component.text("You need at least two blocks of free space to release the creature.",
                                 NamedTextColor.RED));
                         return;
@@ -607,6 +609,33 @@ public class PlayerInteractListener implements Listener {
                 releaseEntity(amethystTrap, itemStack, block, player, slot);
             } else if (netherStarTrap.isEnabledTrinket(itemStack)) {
                 releaseEntity(netherStarTrap, itemStack, block, player, slot);
+            } else if (snowGolemBlueprint.isEnabledTrinket(itemStack)) {
+                long now = System.currentTimeMillis();
+                if (now - cooldowns.getOrDefault(player, 0L) <= 1000)
+                    return;
+                Location originalLocation = block.getLocation();
+                Location spawnLocation = new Location(originalLocation.getWorld(), originalLocation.getBlockX() + 0.5,
+                        originalLocation.getBlockY() + 1, originalLocation.getBlockZ() + 0.5);
+                if (Utils.hasNoSpace(spawnLocation)) {
+                    player.sendMessage(Component.text("You need at least two blocks of free space.", NamedTextColor.RED));
+                    return;
+                }
+                ItemStack[] materials = snowGolemBlueprint.getMaterials(player);
+                if (materials == null) {
+                    player.sendMessage(Component.text("You don't have enough materials.", NamedTextColor.RED));
+                    return;
+                }
+                Entity result = player.getWorld().spawn(spawnLocation, Snowman.class);
+                if (result.isValid()) {
+                    for (ItemStack material : materials) {
+                        material.subtract();
+                    }
+                    plugin.getLogger().info("Player " + player.getName() + " built a snow golem using a blueprint at " +
+                            Utils.serializeCoordsLogging(spawnLocation));
+                } else {
+                    player.sendMessage(Component.text("Could not create the snow golem there.", NamedTextColor.RED));
+                }
+                cooldowns.put(player, now);
             }
         }
     }
@@ -620,7 +649,7 @@ public class PlayerInteractListener implements Listener {
         Location originalLocation = block.getLocation();
         Location spawnLocation = new Location(originalLocation.getWorld(), originalLocation.getBlockX() + 0.5,
                 originalLocation.getBlockY() + 1, originalLocation.getBlockZ() + 0.5);
-        if (!hasEnoughSpace(spawnLocation)) {
+        if (Utils.hasNoSpace(spawnLocation)) {
             player.sendMessage(Component.text("You need at least two blocks of free space to release the creature.",
                     NamedTextColor.RED));
             return;
@@ -646,13 +675,6 @@ public class PlayerInteractListener implements Listener {
         plugin.getLogger().info(mobName + " released from a crystal trap at " +
                 Utils.locationToString(entity.getLocation()) + " by player " + player.getName() + ".");
         cooldowns.put(player, now);
-    }
-
-    private boolean hasEnoughSpace(Location location) {
-        if (!location.getBlock().isPassable())
-            return false;
-        Location above = new Location(location.getWorld(), location.getBlockX(), location.getBlockY() + 1, location.getBlockZ());
-        return above.getBlock().isPassable();
     }
 
     private void parseCoords(String text, Map<String, String> placeholders, Location location) {

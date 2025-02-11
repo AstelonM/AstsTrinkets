@@ -98,4 +98,7 @@ public final class Usages {
             "outside the Nether using the trinket.";
     public static final String INTERACT_ITEM_FRAME_WITH_MAIN_HAND = "Right click an item frame with the trinket in your main hand.";
     public static final String INTERACT_NETHER_ZOMBIE = "Right click a zombified Nether creature using the trinket.";
+    public static final String RIGHT_CLICK_ON_BLOCK_WITH_SPACE = "Right click on top of a block with enough free space above" +
+            " using the trinket.";
+    public static final String PLACE_WITH_SPACE = "Place it down with enough free space above.";
 }

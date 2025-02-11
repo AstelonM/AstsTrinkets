@@ -9,6 +9,7 @@ import com.astelon.aststrinkets.trinkets.block.InfinityItem;
 import com.astelon.aststrinkets.trinkets.ShulkerBoxContainmentUnit;
 import com.astelon.aststrinkets.trinkets.block.Spinneret;
 import com.astelon.aststrinkets.trinkets.block.Terrarium;
+import com.astelon.aststrinkets.trinkets.creature.SnowGolemKit;
 import com.astelon.aststrinkets.utils.Utils;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -18,10 +19,7 @@ import org.bukkit.block.Block;
 import org.bukkit.block.CreatureSpawner;
 import org.bukkit.block.EndGateway;
 import org.bukkit.block.ShulkerBox;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.EntityType;
-import org.bukkit.entity.Item;
-import org.bukkit.entity.Player;
+import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockDropItemEvent;
@@ -45,6 +43,7 @@ public class BlockListener implements Listener {
     private final ShulkerBoxContainmentUnit shulkerBoxContainmentUnit;
     private final GatewayAnchor gatewayAnchor;
     private final Terrarium terrarium;
+    private final SnowGolemKit snowGolemKit;
 
     public BlockListener(AstsTrinkets plugin, TrinketManager trinketManager, MobInfoManager mobInfoManager) {
         this.plugin = plugin;
@@ -55,6 +54,7 @@ public class BlockListener implements Listener {
         shulkerBoxContainmentUnit = trinketManager.getShulkerBoxContainmentUnit();
         gatewayAnchor = trinketManager.getGatewayAnchor();
         terrarium = trinketManager.getTerrarium();
+        snowGolemKit = trinketManager.getSnowGolemKit();
     }
 
     @EventHandler(ignoreCancelled = true)
@@ -151,6 +151,24 @@ public class BlockListener implements Listener {
                 spawner.update(true);
                 plugin.getLogger().info("Player " + player.getName() + " created a " + mobInfoManager.getTypeName(entityType) +
                         " spawner at " + Utils.serializeCoords(block.getLocation()) + " using a Terrarium.");
+            } else if (snowGolemKit.isEnabledTrinket(placedItem)) {
+                event.setCancelled(true);
+                Location location = event.getBlock().getLocation();
+                Location above = location.add(0, 1, 0);
+                if (!above.getBlock().isPassable()) {
+                    player.sendMessage(Component.text("There's not enough space at this location.", NamedTextColor.RED));
+                    return;
+                }
+                Location spawnLocation = new Location(location.getWorld(), location.getBlockX() + 0.5,
+                        location.getBlockY() - 1, location.getBlockZ() + 0.5);
+                Entity result = location.getWorld().spawn(spawnLocation, Snowman.class);
+                if (result.isValid()) {
+                    placedItem.subtract();
+                    plugin.getLogger().info("Player " + player.getName() + " built a snow golem using a kit at " +
+                            Utils.serializeCoordsLogging(spawnLocation));
+                } else {
+                    player.sendMessage(Component.text("Could not create the snow golem here.", NamedTextColor.RED));
+                }
             }
         }
         if (trinketManager.isOwnedBy(otherItem, player.getName())) {

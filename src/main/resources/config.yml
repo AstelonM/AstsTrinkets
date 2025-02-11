@@ -510,3 +510,13 @@ curingApple:
   maxDuration: 300
   # Chance that a piglin brute will appear when curing a zombified piglin that spawned directly.
   bruteChance: 0.1
+
+# A paper that lets you instantly build snow golems on a given block while you have the materials in your inventory.
+snowGolemBlueprint:
+  enabled: true
+  # The materials that can be used as heads. Defaults to [PUMPKIN, CARVED_PUMPKIN, JACK_O_LANTERN].
+  allowedHeads: [PUMPKIN, CARVED_PUMPKIN, JACK_O_LANTERN]
+
+# A barrel that lets you build a snow golem where it's placed.
+snowGolemKit:
+  enabled: true

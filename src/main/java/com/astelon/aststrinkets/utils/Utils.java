@@ -251,4 +251,11 @@ public class Utils {
             destinationEquipment.setItem(slot, item.clone());
         }
     }
+
+    public static boolean hasNoSpace(Location location) {
+        if (!location.getBlock().isPassable())
+            return true;
+        Location above = new Location(location.getWorld(), location.getBlockX(), location.getBlockY() + 1, location.getBlockZ());
+        return !above.getBlock().isPassable();
+    }
 }

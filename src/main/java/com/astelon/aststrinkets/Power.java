@@ -63,7 +63,9 @@ public enum Power {
     VIRUS("virus"),
     OXIDIZE_COPPER("oxidizeCopper"),
     DOLPHIN_GRACE("dolphinGrace"),
-    NETHER_ZOMBIFICATION_REVERSAL("netherZombificationReversal"),;
+    NETHER_ZOMBIFICATION_REVERSAL("netherZombificationReversal"),
+    BUILD_SNOW_GOLEM_FROM_INVENTORY("buildSnowGolemFromInventory"),
+    BUILD_SNOW_GOLEM("buildSnowGolem"),;
 
     private final String powerName;
 

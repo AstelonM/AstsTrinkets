@@ -31,6 +31,8 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 public class AstsTrinkets extends JavaPlugin {
 
@@ -242,6 +244,20 @@ public class AstsTrinkets extends JavaPlugin {
                 300));
         curingApple.setBruteChance(Utils.normalizeRate(
                 Utils.ensurePercentage(configuration.getDouble(curingApple.getName() + ".bruteChance", 0.1), 0.1)));
+        SnowGolemBlueprint snowGolemBlueprint = trinketManager.getSnowGolemBlueprint();
+        List<String> allowedHeads = configuration.getStringList(snowGolemBlueprint.getName() + ".allowedHeads");
+        Set<Material> allowedHeadMaterials;
+        if (allowedHeads.isEmpty()) {
+            allowedHeadMaterials = Set.of(Material.PUMPKIN, Material.CARVED_PUMPKIN, Material.JACK_O_LANTERN);
+        } else {
+            try {
+                allowedHeadMaterials = allowedHeads.stream().map(head -> Material.valueOf(head.toUpperCase())).collect(Collectors.toSet());
+            } catch (IllegalArgumentException e) {
+                getLogger().warning("One or more of the head materials for the Snow Golem Blueprint are invalid.");
+                allowedHeadMaterials = Set.of();
+            }
+        }
+        snowGolemBlueprint.setAllowedHeads(allowedHeadMaterials);
     }
 
     private HashSet<EntityType> getBlacklistedTypes(List<String> blacklist) {

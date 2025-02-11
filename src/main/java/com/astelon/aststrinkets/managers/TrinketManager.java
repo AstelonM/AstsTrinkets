@@ -120,6 +120,8 @@ public class TrinketManager {
         addTrinket(new CopperOxidationSolution(plugin, keys));
         addTrinket(new Flippers(plugin, keys));
         addTrinket(new CuringApple(plugin, keys));
+        addTrinket(new SnowGolemBlueprint(plugin, keys));
+        addTrinket(new SnowGolemKit(plugin, keys));
     }
 
     private void addTrinket(Trinket trinket) {
@@ -640,5 +642,13 @@ public class TrinketManager {
 
     public CuringApple getCuringApple() {
         return (CuringApple) getTrinketExact("curingApple");
+    }
+
+    public SnowGolemBlueprint getSnowGolemBlueprint() {
+        return (SnowGolemBlueprint) getTrinketExact("snowGolemBlueprint");
+    }
+
+    public SnowGolemKit getSnowGolemKit() {
+        return (SnowGolemKit) getTrinketExact("snowGolemKit");
     }
 }
