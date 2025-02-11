@@ -542,3 +542,11 @@ eternalYouthCookie:
 # A wheat that can turn cows into red mooshrooms.
 infestedWheat:
   enabled: true
+
+# A firework rocket that creates a thunderstorm for a random period of time while it's raining/snowing.
+cloudElectrifier:
+  enabled: true
+  # Minimum time in seconds that the weather will last.
+  minWeatherDuration: 180
+  # Maximum time in seconds that the weather will last.
+  maxWeatherDuration: 780

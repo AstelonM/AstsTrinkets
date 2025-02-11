@@ -34,16 +34,18 @@ public class FireworkListener implements Listener {
     private final PerfectedReignitableRocket perfectedReignitableRocket;
     private final MysteryFirework mysteryFirework;
     private final CloudSeeder cloudSeeder;
+    private final CloudElectrifier cloudElectrifier;
 
     public FireworkListener(AstsTrinkets plugin, TrinketManager trinketManager) {
         random = new Random();
         this.plugin = plugin;
         this.trinketManager = trinketManager;
-        this.reignitableRocketPrototype = trinketManager.getReignitableRocketPrototype();
-        this.reignitableRocket = trinketManager.getReignitableRocket();
-        this.perfectedReignitableRocket = trinketManager.getPerfectedReignitableRocket();
-        this.mysteryFirework = trinketManager.getMysteryFirework();
-        this.cloudSeeder = trinketManager.getCloudSeeder();
+        reignitableRocketPrototype = trinketManager.getReignitableRocketPrototype();
+        reignitableRocket = trinketManager.getReignitableRocket();
+        perfectedReignitableRocket = trinketManager.getPerfectedReignitableRocket();
+        mysteryFirework = trinketManager.getMysteryFirework();
+        cloudSeeder = trinketManager.getCloudSeeder();
+        cloudElectrifier = trinketManager.getCloudElectrifier();
     }
 
     @EventHandler
@@ -98,6 +100,9 @@ public class FireworkListener implements Listener {
             } else if (cloudSeeder.isEnabledTrinket(itemStack) && trinketManager.isOwnedBy(itemStack, event.getPlayer())) {
                 Projectile projectile = event.getProjectile();
                 cloudSeeder.setProjectileTrinket(projectile, itemStack);
+            } else if (cloudElectrifier.isEnabledTrinket(itemStack) && trinketManager.isOwnedBy(itemStack, event.getPlayer())) {
+                Projectile projectile = event.getProjectile();
+                cloudElectrifier.setProjectileTrinket(projectile, itemStack);
             }
         }
     }
@@ -118,6 +123,23 @@ public class FireworkListener implements Listener {
                     } else {
                         plugin.getLogger().info("A Cloud Seeder was used at " +
                                 Utils.serializeCoordsLogging(firework.getLocation()) + " and created rain for " +
+                                firework.getWorld().getWeatherDuration() + " seconds.");
+                    }
+                }
+            }
+        } else if (cloudElectrifier.isEnabledTrinket(firework)) {
+            if (firework.getTicksFlown() >= firework.getTicksToDetonate()) {
+                cloudElectrifier.electrifyClouds(firework.getWorld());
+                UUID uuid = firework.getSpawningEntity();
+                if (uuid != null) {
+                    Player player = Bukkit.getPlayer(firework.getSpawningEntity());
+                    if (player != null) {
+                        plugin.getLogger().info("Player " + player.getName() + " used a Cloud Electrifier at " +
+                                Utils.serializeCoordsLogging(firework.getLocation()) + " and created a thunderstorm for " +
+                                firework.getWorld().getWeatherDuration() + " seconds.");
+                    } else {
+                        plugin.getLogger().info("A Cloud Electrifier was used at " +
+                                Utils.serializeCoordsLogging(firework.getLocation()) + " and created a thunderstorm for " +
                                 firework.getWorld().getWeatherDuration() + " seconds.");
                     }
                 }

@@ -90,6 +90,12 @@ public class AstsTrinkets extends JavaPlugin {
             if (trinket instanceof CreatureAffectingTrinket creatureAffectingTrinket) {
                 creatureAffectingTrinket.setPetOwnerOnly(configuration.getBoolean(trinket.getName() + ".petOwnerOnly"));
             }
+            if (trinket instanceof WeatherRocketTrinket weatherRocketTrinket) {
+                weatherRocketTrinket.setMinWeatherDuration(Utils.ensurePositive(configuration.getInt(weatherRocketTrinket.getName() +
+                        ".minWeatherDuration"), 600));
+                weatherRocketTrinket.setMaxWeatherDuration(Utils.ensurePositive(configuration.getInt(weatherRocketTrinket.getName() +
+                        ".maxWeatherDuration"), 1200));
+            }
         }
         getLogger().info("Loaded " + trinketManager.getTrinkets().size() + " trinkets.");
         ShapeShifter shapeShifter = trinketManager.getShapeShifter();
@@ -193,11 +199,6 @@ public class AstsTrinkets extends JavaPlugin {
         mysteryFirework.setMaxFadeColours(Utils.ensurePositive(configuration.getInt(mysteryFirework.getName() +
                 ".maxPrimaryColours", 3), 3));
         mysteryFirework.setAllowCustomColours(configuration.getBoolean(mysteryFirework.getName() + ".allowCustomColours"));
-        CloudSeeder cloudSeeder = trinketManager.getCloudSeeder();
-        cloudSeeder.setMinWeatherDuration(Utils.ensurePositive(configuration.getInt(cloudSeeder.getName() +
-                ".minWeatherDuration"), 600));
-        cloudSeeder.setMaxWeatherDuration(Utils.ensurePositive(configuration.getInt(cloudSeeder.getName() +
-                ".maxWeatherDuration"), 1200));
         Die die = trinketManager.getDie();
         die.setSides(Utils.ensurePositive(configuration.getInt(die.getName() + ".sides"), 6));
         MysteryShell mysteryShell = trinketManager.getMysteryShell();

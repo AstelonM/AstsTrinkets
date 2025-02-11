@@ -17,10 +17,10 @@ import org.bukkit.inventory.meta.FireworkMeta;
 import java.util.List;
 import java.util.Random;
 
-public class CloudSeeder extends WeatherRocketTrinket {
+public class CloudElectrifier extends WeatherRocketTrinket {
 
-    public CloudSeeder(AstsTrinkets plugin, NamespacedKeys keys) {
-        super(plugin, keys, "cloudSeeder", Power.CREATE_RAIN, false, Usages.PLACED_FIREWORK);
+    public CloudElectrifier(AstsTrinkets plugin, NamespacedKeys keys) {
+        super(plugin, keys, "cloudElectrifier", Power.CREATE_THUNDERSTORMS, false, Usages.PLACED_FIREWORK);
     }
 
     @Override
@@ -28,19 +28,20 @@ public class CloudSeeder extends WeatherRocketTrinket {
         ItemStack itemStack = new ItemStack(Material.FIREWORK_ROCKET);
         FireworkMeta meta = (FireworkMeta) itemStack.getItemMeta();
         meta.setPower(4);
-        meta.displayName(Component.text("Cloud Seeder", NamedTextColor.GOLD));
-        meta.lore(List.of(Component.text("Particles within this rocket allow"),
-                Component.text("water from the clouds to condense"),
-                Component.text("on them and form water droplets."),
-                Component.text("Now with no health hazards!")));
-        meta.addEffect(FireworkEffect.builder().with(FireworkEffect.Type.BALL_LARGE).withColor(Color.WHITE).withTrail().build());
+        meta.displayName(Component.text("Cloud Electrifier", NamedTextColor.GOLD));
+        meta.lore(List.of(Component.text("Contrary to its name, this rocket"),
+                Component.text("doesn't actually electrify clouds."),
+                Component.text("It merely creates the conditions for"),
+                Component.text("a thunderstorm to happen while it's"),
+                Component.text("raining.")));
+        meta.addEffect(FireworkEffect.builder().with(FireworkEffect.Type.BALL_LARGE).withColor(Color.SILVER).withTrail().build());
         itemStack.setItemMeta(meta);
         return itemStack;
     }
 
-    public void seedClouds(World world) {
+    public void electrifyClouds(World world) {
         int duration = getWeatherDuration();
-        world.setStorm(true);
-        world.setWeatherDuration(Utils.secondsToTicks(duration));
+        world.setThundering(true);
+        world.setThunderDuration(Utils.secondsToTicks(duration));
     }
 }
