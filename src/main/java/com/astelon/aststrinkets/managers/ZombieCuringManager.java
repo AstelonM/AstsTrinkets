@@ -106,6 +106,12 @@ public class ZombieCuringManager {
                     yield zombiePiglin.getWorld().spawn(location, Piglin.class);
             }
         };
+        if (!piglin.isValid()) {
+            container.remove(keys.endTimeKey);
+            plugin.getLogger().warning("A zombie piglin " + mobInfoManager.getTypeAndName(zombiePiglin) +
+                    " could not be transformed into a piglin at " + Utils.serializeCoordsLogging(location));
+            return;
+        }
         piglin.setImmuneToZombification(true);
         Utils.copyCommonEntityAttributes(zombiePiglin, piglin);
         zombiePiglin.remove();
@@ -116,6 +122,13 @@ public class ZombieCuringManager {
     private void cureZoglin(Zoglin zoglin) {
         Location location = zoglin.getLocation();
         Hoglin hoglin = zoglin.getWorld().spawn(location, Hoglin.class);
+        if (!hoglin.isValid()) {
+            PersistentDataContainer container = zoglin.getPersistentDataContainer();
+            container.remove(keys.endTimeKey);
+            plugin.getLogger().warning("A zoglin " + mobInfoManager.getTypeAndName(zoglin) +
+                    " could not be transformed into a hoglin at " + Utils.serializeCoordsLogging(location));
+            return;
+        }
         hoglin.setImmuneToZombification(true);
         Utils.copyCommonEntityAttributes(zoglin, hoglin);
         zoglin.remove();
