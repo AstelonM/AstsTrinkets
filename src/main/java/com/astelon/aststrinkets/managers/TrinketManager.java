@@ -124,6 +124,7 @@ public class TrinketManager {
         addTrinket(new SnowGolemKit(plugin, keys));
         addTrinket(new TaintedLifeWater(plugin, keys));
         addTrinket(new SpoiledYouthMilk(plugin, keys));
+        addTrinket(new EternalYouthCookie(plugin, keys));
     }
 
     private void addTrinket(Trinket trinket) {
@@ -660,5 +661,9 @@ public class TrinketManager {
 
     public SpoiledYouthMilk getSpoiledYouthMilk() {
         return (SpoiledYouthMilk) getTrinketExact("spoiledYouthMilk");
+    }
+
+    public EternalYouthCookie getEternalYouthCookie() {
+        return (EternalYouthCookie) getTrinketExact("eternalYouthCookie");
     }
 }

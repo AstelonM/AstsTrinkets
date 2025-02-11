@@ -86,6 +86,7 @@ public class PlayerInteractListener implements Listener {
     private final SnowGolemBlueprint snowGolemBlueprint;
     private final TaintedLifeWater taintedLifeWater;
     private final SpoiledYouthMilk spoiledYouthMilk;
+    private final EternalYouthCookie eternalYouthCookie;
 
     public PlayerInteractListener(AstsTrinkets plugin, MobInfoManager mobInfoManager, TrinketManager trinketManager) {
         this.plugin = plugin;
@@ -117,6 +118,7 @@ public class PlayerInteractListener implements Listener {
         snowGolemBlueprint = trinketManager.getSnowGolemBlueprint();
         taintedLifeWater = trinketManager.getTaintedLifeWater();
         spoiledYouthMilk = trinketManager.getSpoiledYouthMilk();
+        eternalYouthCookie = trinketManager.getEternalYouthCookie();
     }
 
     @EventHandler
@@ -303,6 +305,24 @@ public class PlayerInteractListener implements Listener {
                 Utils.transformItem(itemStack, new ItemStack(Material.BUCKET), slot, inventory, player);
                 player.updateInventory();
                 plugin.getLogger().info("Spoiled youth milk used on " + mobInfoManager.getTypeAndName(ageable) + " at " +
+                        Utils.locationToString(ageable.getLocation()) + " by player " + player.getName() + ".");
+            } else if (eternalYouthCookie.isEnabledTrinket(itemStack) && event.getRightClicked() instanceof Ageable ageable) {
+                if (trinketManager.isTrinketImmune(ageable)) {
+                    player.sendMessage(Component.text("Trinkets cannot be used on this entity.", NamedTextColor.RED));
+                    return;
+                }
+                if (eternalYouthCookie.petOwnedByOtherPlayer(ageable, player)) {
+                    player.sendMessage(Component.text("You can't use this on someone else's pet.", NamedTextColor.RED));
+                    return;
+                }
+                event.setCancelled(true);
+                //TODO check ageLock?
+                ageable.setBaby();
+                if (ageable instanceof Breedable breedable)
+                    breedable.setAgeLock(true);
+                itemStack.subtract();
+                player.updateInventory();
+                plugin.getLogger().info("Eternal youth cookie used on " + mobInfoManager.getTypeAndName(ageable) + " at " +
                         Utils.locationToString(ageable.getLocation()) + " by player " + player.getName() + ".");
             }
         }

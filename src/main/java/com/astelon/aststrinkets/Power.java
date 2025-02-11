@@ -67,7 +67,8 @@ public enum Power {
     BUILD_SNOW_GOLEM_FROM_INVENTORY("buildSnowGolemFromInventory"),
     BUILD_SNOW_GOLEM("buildSnowGolem"),
     REMOVE_INVULNERABILITY("removeInvulnerability"),
-    MAKE_ADULT("makeAdult"),;
+    MAKE_ADULT("makeAdult"),
+    ETERNAL_YOUTH("eternalYouth"),;
 
     private final String powerName;
 

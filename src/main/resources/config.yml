@@ -532,3 +532,9 @@ spoiledYouthMilk:
   enabled: true
   # Whether only the owner of a pet can turn it into a baby. Bypassed with aststrinkets.trinket.ignorepetowner.
   petOwnerOnly: true
+
+# Right click an entity that has a baby form to turn it into a baby and prevent it from growing.
+eternalYouthCookie:
+  enabled: true
+  # Whether only the owner of a pet can turn it into a baby. Bypassed with aststrinkets.trinket.ignorepetowner.
+  petOwnerOnly: true
