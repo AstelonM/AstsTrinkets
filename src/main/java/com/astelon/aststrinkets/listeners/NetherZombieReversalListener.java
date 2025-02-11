@@ -57,6 +57,10 @@ public class NetherZombieReversalListener implements Listener {
         PlayerInventory inventory = player.getInventory();
         ItemStack itemStack = hand == EquipmentSlot.HAND ? inventory.getItemInMainHand() : inventory.getItemInOffHand();
         if (curingApple.isEnabledTrinket(itemStack) && trinketManager.isOwnedBy(itemStack, player)) {
+            if (trinketManager.isTrinketImmune(entity)) {
+                player.sendMessage(Component.text("Trinkets cannot be used on this entity.", NamedTextColor.RED));
+                return;
+            }
             if (Utils.isNotNetherZombie(entity)) {
                 player.sendMessage(Component.text("This creature can't be cured.", NamedTextColor.RED));
                 return;
