@@ -2,6 +2,7 @@ package com.astelon.aststrinkets.api;
 
 import com.astelon.aststrinkets.managers.MobInfoManager;
 import com.astelon.aststrinkets.managers.TrinketManager;
+import com.astelon.aststrinkets.trinkets.Trinket;
 import com.astelon.aststrinkets.utils.NamespacedKeys;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Entity;
@@ -9,6 +10,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
+import org.jetbrains.annotations.Nullable;
 
 public class TrinketApi {
 
@@ -20,6 +22,11 @@ public class TrinketApi {
         this.trinketManager = trinketManager;
         this.keys = keys;
         this.mobInfoManager = mobInfoManager;
+    }
+
+    @Nullable
+    public Trinket getTrinket(String name) {
+        return trinketManager.getTrinket(name);
     }
 
     public MobInfoManager getMobInfoManager() {
