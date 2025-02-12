@@ -4,6 +4,7 @@ import com.astelon.aststrinkets.AstsTrinkets;
 import com.astelon.aststrinkets.Power;
 import com.astelon.aststrinkets.utils.NamespacedKeys;
 import com.astelon.aststrinkets.utils.Usages;
+import com.astelon.aststrinkets.utils.Utils;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Color;
@@ -26,7 +27,7 @@ public class AdvancedFlippers extends EffectGivingTrinket {
     protected ItemStack createItemStack() {
         ItemStack itemStack = new ItemStack(Material.LEATHER_BOOTS);
         LeatherArmorMeta meta = (LeatherArmorMeta) itemStack.getItemMeta();
-        meta.setColor(Color.fromRGB(0x263265));
+        meta.setColor(Color.YELLOW);
         meta.displayName(Component.text("Advanced Flippers", NamedTextColor.GOLD));
         meta.lore(List.of(Component.text("The fins of these flippers are"),
                 Component.text("retractable, allowing you to walk on"),

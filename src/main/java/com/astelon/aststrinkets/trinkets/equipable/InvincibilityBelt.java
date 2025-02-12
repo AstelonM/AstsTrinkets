@@ -5,10 +5,10 @@ import com.astelon.aststrinkets.Power;
 import com.astelon.aststrinkets.trinkets.Trinket;
 import com.astelon.aststrinkets.utils.NamespacedKeys;
 import com.astelon.aststrinkets.utils.Usages;
+import com.astelon.aststrinkets.utils.Utils;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextColor;
-import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
@@ -26,7 +26,7 @@ public class InvincibilityBelt extends Trinket {
         ItemStack itemStack = new ItemStack(Material.LEATHER_LEGGINGS);
         LeatherArmorMeta meta = (LeatherArmorMeta) itemStack.getItemMeta();
         meta.setUnbreakable(true);
-        meta.setColor(Color.fromRGB(44, 48, 101));
+        meta.setColor(Utils.PERSONAL_COLOUR);
         meta.displayName(Component.text("Belt of Invincibility", TextColor.fromHexString("#2C3065")));
         meta.lore(List.of(Component.text("It is said that those who wear the"),
                 Component.text("belt cannot be harmed in any way."),

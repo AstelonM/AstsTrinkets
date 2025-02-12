@@ -37,6 +37,8 @@ public class Utils {
             Color.fromRGB(15961002) // pink
     };
 
+    public static final Color PERSONAL_COLOUR = Color.fromRGB(0x263265);
+
     // For some reasons no way to get this through the API
     public static final int OFF_HAND_SLOT = 40;
 
