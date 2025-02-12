@@ -492,7 +492,7 @@ spoiledEgg:
 copperOxidationSolution:
   enabled: true
 
-# Leather boots that give Dolphin's Grace when worn. The effect is removed when they're taken off.
+# Leather boots that give Dolphin's Grace and Slowness when worn. The effects are removed when they're taken off.
 flippers:
   enabled: true
 
