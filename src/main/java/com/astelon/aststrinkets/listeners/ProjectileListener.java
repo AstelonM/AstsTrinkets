@@ -3,6 +3,7 @@ package com.astelon.aststrinkets.listeners;
 import com.astelon.aststrinkets.AstsTrinkets;
 import com.astelon.aststrinkets.managers.MobInfoManager;
 import com.astelon.aststrinkets.managers.TrinketManager;
+import com.astelon.aststrinkets.trinkets.HuntingBow;
 import com.astelon.aststrinkets.trinkets.Trinket;
 import com.astelon.aststrinkets.trinkets.projectile.ExperienceBottle;
 import com.astelon.aststrinkets.trinkets.projectile.MysteryEgg;
@@ -29,7 +30,10 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.projectiles.BlockProjectileSource;
 import org.bukkit.projectiles.ProjectileSource;
 
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Random;
 
 public class ProjectileListener implements Listener {
 
@@ -46,6 +50,7 @@ public class ProjectileListener implements Listener {
     private final MysteryEgg mysteryEgg;
     private final ExperienceBottle experienceBottle;
     private final MysteryFirework mysteryFirework;
+    private final HuntingBow huntingBow;
 
     public ProjectileListener(AstsTrinkets plugin, TrinketManager trinketManager, MobInfoManager mobInfoManager) {
         this.plugin = plugin;
@@ -59,29 +64,34 @@ public class ProjectileListener implements Listener {
         mysteryEgg = trinketManager.getMysteryEgg();
         experienceBottle = trinketManager.getExperienceBottle();
         mysteryFirework = trinketManager.getMysteryFirework();
+        huntingBow = trinketManager.getHuntingBow();
     }
 
     @EventHandler(ignoreCancelled = true)
     public void onEntityShootBow(EntityShootBowEvent event) {
         LivingEntity shooter = event.getEntity();
-        ItemStack itemStack = event.getConsumable();
+        ItemStack bow = event.getBow();
+        ItemStack arrowItem = event.getConsumable();
         if (!(shooter instanceof Player)) {
             EntityEquipment equipment = shooter.getEquipment();
             if (equipment != null) {
                 ItemStack offHand = equipment.getItemInOffHand();
                 if (offHand.getType().name().endsWith("ARROW") || offHand.getType() == Material.FIREWORK_ROCKET)
-                    itemStack = offHand;
+                    arrowItem = offHand;
                 else {
                     ItemStack mainHand = equipment.getItemInMainHand();
                     if (mainHand.getType().name().endsWith("ARROW") || mainHand.getType() == Material.FIREWORK_ROCKET)
-                        itemStack = mainHand;
+                        arrowItem = mainHand;
                 }
             }
         }
         Entity projectile = event.getProjectile();
         if (projectile instanceof Arrow arrow) {
-            if (itemStack != null && trinketManager.isOwnedWithRestrictions(itemStack, shooter)) {
-                Trinket trinket = trinketManager.getTrinket(itemStack);
+            if (huntingBow.isEnabledTrinket(bow) && trinketManager.isOwnedWithRestrictions(bow, shooter)) {
+                huntingBow.setHuntingArrow(arrow);
+            }
+            if (arrowItem != null && trinketManager.isOwnedWithRestrictions(arrowItem, shooter)) {
+                Trinket trinket = trinketManager.getTrinket(arrowItem);
                 if (trinket instanceof ArrowTrinket arrowTrinket) {
                     ItemStack weapon = event.getBow();
                     if (weapon != null && weapon.getType() == Material.CROSSBOW) {
@@ -92,18 +102,18 @@ public class ProjectileListener implements Listener {
                     }
                 }
 
-                if (deathArrow.isEnabledTrinket(itemStack)) {
-                    deathArrow.setProjectileTrinket(arrow, itemStack);
-                } else if (trueDeathArrow.isEnabledTrinket(itemStack)) {
-                    trueDeathArrow.setProjectileTrinket(arrow, itemStack);
-                } else if (smitingArrow.isEnabledTrinket(itemStack)) {
-                    smitingArrow.setProjectileTrinket(arrow, itemStack);
-                } else if (explosiveArrow.isEnabledTrinket(itemStack)) {
-                    explosiveArrow.setProjectileTrinket(arrow, itemStack);
+                if (deathArrow.isEnabledTrinket(arrowItem)) {
+                    deathArrow.setProjectileTrinket(arrow, arrowItem);
+                } else if (trueDeathArrow.isEnabledTrinket(arrowItem)) {
+                    trueDeathArrow.setProjectileTrinket(arrow, arrowItem);
+                } else if (smitingArrow.isEnabledTrinket(arrowItem)) {
+                    smitingArrow.setProjectileTrinket(arrow, arrowItem);
+                } else if (explosiveArrow.isEnabledTrinket(arrowItem)) {
+                    explosiveArrow.setProjectileTrinket(arrow, arrowItem);
                 }
             }
         } else if (projectile instanceof Firework firework) {
-            if (mysteryFirework.isEnabledTrinket(itemStack) && trinketManager.isOwnedWithRestrictions(itemStack, shooter)) {
+            if (mysteryFirework.isEnabledTrinket(arrowItem) && trinketManager.isOwnedWithRestrictions(arrowItem, shooter)) {
                 mysteryFirework.setRandomEffects(firework);
             }
         }
@@ -295,6 +305,22 @@ public class ProjectileListener implements Listener {
         if (trinket instanceof ProjectileTrinket projectileTrinket) {
             //TODO check if it's enabled again in case it somehow gets disabled in the meantime?
             projectileTrinket.setProjectileTrinket(projectile, itemStack);
+        }
+    }
+
+    @EventHandler
+    public void onEntityDeath(EntityDeathEvent event) {
+        Entity entity = event.getEntity();
+        if (!(entity instanceof Mob mob))
+            return;
+        EntityDamageEvent cause = mob.getLastDamageCause();
+        if (cause instanceof EntityDamageByEntityEvent damageEvent) {
+            Entity damager = damageEvent.getDamager();
+            if (damager instanceof Arrow arrow && huntingBow.isHuntingArrow(arrow)) {
+                Collection<ItemStack> extraItems = huntingBow.getExtraLoot(mob);
+                List<ItemStack> drops = event.getDrops();
+                drops.addAll(extraItems);
+            }
         }
     }
 }

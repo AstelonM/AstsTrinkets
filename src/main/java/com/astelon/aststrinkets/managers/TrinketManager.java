@@ -127,6 +127,7 @@ public class TrinketManager {
         addTrinket(new EternalYouthCookie(plugin, keys));
         addTrinket(new InfestedWheat(plugin, keys));
         addTrinket(new CloudElectrifier(plugin, keys));
+        addTrinket(new HuntingBow(plugin, keys));
     }
 
     private void addTrinket(Trinket trinket) {
@@ -675,5 +676,9 @@ public class TrinketManager {
 
     public CloudElectrifier getCloudElectrifier() {
         return (CloudElectrifier) getTrinketExact("cloudElectrifier");
+    }
+
+    public HuntingBow getHuntingBow() {
+        return (HuntingBow) getTrinketExact("huntingBow");
     }
 }

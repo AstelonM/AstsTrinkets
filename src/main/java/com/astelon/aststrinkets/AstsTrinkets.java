@@ -247,6 +247,9 @@ public class AstsTrinkets extends JavaPlugin {
             }
         }
         snowGolemBlueprint.setAllowedHeads(allowedHeadMaterials);
+        HuntingBow huntingBow = trinketManager.getHuntingBow();
+        huntingBow.setLootingLevel(Utils.ensurePositive(configuration.getInt(huntingBow.getName() + ".lootingLevel", 3), 3));
+        huntingBow.setLuckLevel(Utils.ensurePositive(configuration.getInt(huntingBow.getName() + ".luckLevel", 0), 0));
     }
 
     private HashSet<EntityType> getBlacklistedTypes(List<String> blacklist) {

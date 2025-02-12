@@ -102,4 +102,5 @@ public final class Usages {
             " using the trinket.";
     public static final String PLACE_WITH_SPACE = "Place it down with enough free space above.";
     public static final String INTERACT_WITH_BABY = "Right click a baby creature to turn it into an adult.";
+    public static final String SHOOT = "Shoot with it.";
 }

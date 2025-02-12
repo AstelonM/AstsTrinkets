@@ -70,7 +70,8 @@ public enum Power {
     MAKE_ADULT("makeAdult"),
     ETERNAL_YOUTH("eternalYouth"),
     TURN_COWS_INTO_MOOSHROOMS("turnCowsIntoMooshrooms"),
-    CREATE_THUNDERSTORMS("createThunderstorms"),;
+    CREATE_THUNDERSTORMS("createThunderstorms"),
+    MULTIPLY_MOB_LOOT("multiplyMobLoot"),;
 
     private final String powerName;
 

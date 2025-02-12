@@ -56,6 +56,7 @@ public class NamespacedKeys {
     public final NamespacedKey virusLethalityKey;
     public final NamespacedKey endTimeKey;
     public final NamespacedKey wasBruteKey;
+    public final NamespacedKey huntingArrowKey;
 
     public NamespacedKeys(AstsTrinkets plugin) {
         this.plugin = plugin;
@@ -101,6 +102,7 @@ public class NamespacedKeys {
         virusLethalityKey = new NamespacedKey(plugin, "virusLethality");
         endTimeKey = new NamespacedKey(plugin, "endTime");
         wasBruteKey = new NamespacedKey(plugin, "wasBrute");
+        huntingArrowKey = new NamespacedKey(plugin, "huntingArrow");
         initKeyMap();
     }
 
@@ -147,6 +149,7 @@ public class NamespacedKeys {
         keys.put(virusLethalityKey.getKey(), new KeyTypePair(virusLethalityKey, PersistentDataType.DOUBLE));
         keys.put(endTimeKey.getKey(), new KeyTypePair(endTimeKey, PersistentDataType.LONG));
         keys.put(wasBruteKey.getKey(), new KeyTypePair(wasBruteKey, PersistentDataType.BYTE));
+        keys.put(huntingArrowKey.getKey(), new KeyTypePair(huntingArrowKey, PersistentDataType.BYTE));
         keys = Collections.unmodifiableMap(keys);
     }
 

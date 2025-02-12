@@ -91,7 +91,6 @@ diamondTrap:
 
 # Right click an animal to trap it within the emerald. Able to trap any animal, even the aggressive ones, but not
 # undead animals.
-
 emeraldTrap:
   enabled: true
   # Whether only the owner of a pet can trap it. Bypassed with aststrinkets.trinket.ignorepetowner.
@@ -99,7 +98,6 @@ emeraldTrap:
 
 # Right click a monster to trap it within the amethyst. Able to trap any monster excluding those with implied or obvious
 # sentience (eg. illagers, endermen) and boss monsters (wither, ender dragon).
-
 amethystTrap:
   enabled: true
   # Whether only the owner of a pet can trap it. Bypassed with aststrinkets.trinket.ignorepetowner.
@@ -107,7 +105,6 @@ amethystTrap:
 
 # Right click a mob to trap it within the nether star. Able to trap any mob apart from the ender dragons. Unlike the
 # others, it is not destroyed when the trapped creature is released.
-
 netherStarTrap:
   enabled: true
   # Whether only the owner of a pet can trap it. Bypassed with aststrinkets.trinket.ignorepetowner.
@@ -313,7 +310,6 @@ explosiveArrow:
   setFire: false
   # Whether the explosion breaks blocks.
   breakBlocks: false
-
 
 # Leather tunic that prevents damage from fire. Entities can use it too. Does not prevent damage from direct contact with lava.
 fireproofVest:
@@ -550,3 +546,11 @@ cloudElectrifier:
   minWeatherDuration: 180
   # Maximum time in seconds that the weather will last.
   maxWeatherDuration: 780
+
+# A bow that makes mobs killed with it drop extra loot. It works by adding generating loot for the given creature a second time.
+huntingBow:
+  enabled: true
+  # The looting level used for generating the second loot.
+  lootingLevel: 3
+  # The luck level used for generating the second loot.
+  luckLevel: 0
