@@ -37,6 +37,8 @@ public abstract class EffectGivingTrinket extends Trinket {
     }
 
     public boolean isEffect(PotionEffect otherEffect) {
+        if (otherEffect == null)
+            return false;
         return effects.contains(otherEffect);
     }
 
