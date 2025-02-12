@@ -21,8 +21,7 @@ public class NightVisionGoggles extends EffectGivingTrinket {
 
     public NightVisionGoggles(AstsTrinkets plugin, NamespacedKeys keys) {
         super(plugin, keys, "nightVisionGoggles", Power.NIGHT_VISION, false, Usages.WEAR,
-                new PotionEffect(PotionEffectType.NIGHT_VISION, -1, 4,
-                        false, false));
+                List.of(new PotionEffect(PotionEffectType.NIGHT_VISION, -1, 4, false, false)));
     }
 
     @Override

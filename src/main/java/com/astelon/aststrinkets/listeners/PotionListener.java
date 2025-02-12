@@ -37,17 +37,17 @@ public class PotionListener implements Listener {
         ItemStack chestplate = player.getInventory().getChestplate();
         ItemStack leggings = player.getInventory().getLeggings();
         ItemStack boots = player.getInventory().getBoots();
-        addEffectOnJoin(helmet, player);
-        addEffectOnJoin(chestplate, player);
-        addEffectOnJoin(leggings, player);
-        addEffectOnJoin(boots, player);
+        addEffectsOnJoin(helmet, player);
+        addEffectsOnJoin(chestplate, player);
+        addEffectsOnJoin(leggings, player);
+        addEffectsOnJoin(boots, player);
     }
 
-    private void addEffectOnJoin(ItemStack itemStack, Player player) {
+    private void addEffectsOnJoin(ItemStack itemStack, Player player) {
         Trinket trinket = trinketManager.getTrinket(itemStack);
         if (trinket instanceof EffectGivingTrinket effectGivingTrinket) {
             if (trinket.isEnabled() && trinketManager.isOwnedBy(itemStack, player))
-                effectGivingTrinket.addEffect(player);
+                effectGivingTrinket.addEffects(player);
         }
     }
 
@@ -93,11 +93,11 @@ public class PotionListener implements Listener {
     private void checkArmourChange(ItemStack oldItem, ItemStack newItem, Player player, EffectGivingTrinket trinket) {
         if (trinket.isEnabledTrinket(oldItem) && trinketManager.isOwnedBy(oldItem, player)) {
             if ((!trinket.isEnabledTrinket(newItem) || !trinketManager.isOwnedBy(newItem, player)) &&
-                    trinket.hasEffect(player)) {
-                trinket.removeEffect(player);
+                    trinket.hasEffects(player)) {
+                trinket.removeEffects(player);
             }
         } else if (trinket.isEnabledTrinket(newItem) && trinketManager.isOwnedBy(newItem, player)) {
-            trinket.addEffect(player);
+            trinket.addEffects(player);
         }
     }
 
@@ -117,8 +117,8 @@ public class PotionListener implements Listener {
     private void removeEffectOnLeave(ItemStack itemStack, Player player) {
         Trinket trinket = trinketManager.getTrinket(itemStack);
         if (trinket instanceof EffectGivingTrinket effectTrinket && effectTrinket.isEnabledTrinket(itemStack) &&
-                trinketManager.isOwnedBy(itemStack, player) && effectTrinket.hasEffect(player)) {
-            effectTrinket.removeEffect(player);
+                trinketManager.isOwnedBy(itemStack, player) && effectTrinket.hasEffects(player)) {
+            effectTrinket.removeEffects(player);
         }
     }
 }

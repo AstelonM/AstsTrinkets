@@ -18,9 +18,11 @@ import java.util.List;
 public class Flippers extends EffectGivingTrinket {
 
     public Flippers(AstsTrinkets plugin, NamespacedKeys keys) {
-        super(plugin, keys, "flippers", Power.DOLPHIN_GRACE, false, Usages.WEAR,
-                new PotionEffect(PotionEffectType.DOLPHINS_GRACE, -1, 1,
-                        false, false));
+        super(plugin, keys, "flippers", Power.DOLPHIN_GRACE_AND_SLOWNESS, false, Usages.WEAR, List.of(
+                new PotionEffect(PotionEffectType.DOLPHINS_GRACE, -1, 1, false, false),
+                new PotionEffect(PotionEffectType.SLOW, -1, 0, false, false)
+                )
+        );
     }
 
     @Override

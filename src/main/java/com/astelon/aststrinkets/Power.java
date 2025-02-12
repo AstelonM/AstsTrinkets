@@ -71,7 +71,8 @@ public enum Power {
     ETERNAL_YOUTH("eternalYouth"),
     TURN_COWS_INTO_MOOSHROOMS("turnCowsIntoMooshrooms"),
     CREATE_THUNDERSTORMS("createThunderstorms"),
-    MULTIPLY_MOB_LOOT("multiplyMobLoot"),;
+    MULTIPLY_MOB_LOOT("multiplyMobLoot"),
+    DOLPHIN_GRACE_AND_SLOWNESS("dolphinGraceAndSlowness"),;
 
     private final String powerName;
 
