@@ -128,6 +128,7 @@ public class TrinketManager {
         addTrinket(new InfestedWheat(plugin, keys));
         addTrinket(new CloudElectrifier(plugin, keys));
         addTrinket(new HuntingBow(plugin, keys));
+        addTrinket(new AdvancedFlippers(plugin, keys));
     }
 
     private void addTrinket(Trinket trinket) {
@@ -680,5 +681,9 @@ public class TrinketManager {
 
     public HuntingBow getHuntingBow() {
         return (HuntingBow) getTrinketExact("huntingBow");
+    }
+
+    public AdvancedFlippers getAdvancedFlippers() {
+        return (AdvancedFlippers) getTrinketExact("advancedFlippers");
     }
 }

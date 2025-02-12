@@ -24,6 +24,7 @@ public class TrinketLimitationsListener implements Listener {
     private final FireproofVest fireproofVest;
     private final HydraulicBoots hydraulicBoots;
     private final HuntingBow huntingBow;
+    private final AdvancedFlippers advancedFlippers;
 
     public TrinketLimitationsListener(TrinketManager trinketManager) {
         this.trinketManager = trinketManager;
@@ -37,6 +38,7 @@ public class TrinketLimitationsListener implements Listener {
         fireproofVest = trinketManager.getFireproofVest();
         hydraulicBoots = trinketManager.getHydraulicBoots();
         huntingBow = trinketManager.getHuntingBow();
+        advancedFlippers = trinketManager.getAdvancedFlippers();
     }
 
     @EventHandler
@@ -46,7 +48,7 @@ public class TrinketLimitationsListener implements Listener {
             if (itemStack != null && trinketManager.isTrinket(itemStack) && !souleater.isTrinket(itemStack) &&
                     !vampiricSword.isTrinket(itemStack) && !nightVisionGoggles.isTrinket(itemStack) && !flippers.isTrinket(itemStack) &&
                     !divingHelmet.isTrinket(itemStack) && !fireproofVest.isTrinket(itemStack) && !hydraulicBoots.isTrinket(itemStack) &&
-                    !huntingBow.isTrinket(itemStack)) {
+                    !huntingBow.isTrinket(itemStack) && !advancedFlippers.isTrinket(itemStack)) {
                 event.setResult(new ItemStack(itemStack.getType()));
             }
         }
@@ -59,7 +61,7 @@ public class TrinketLimitationsListener implements Listener {
                 !sentientAxe.isTrinket(itemStack) && !nightVisionGoggles.isTrinket(itemStack) &&
                 !flippers.isTrinket(itemStack) && !divingHelmet.isTrinket(itemStack) &&
                 !fireproofVest.isTrinket(itemStack) && !hydraulicBoots.isTrinket(itemStack) &&
-                !huntingBow.isTrinket(itemStack)) { // Sentient Axe treated in its own listener
+                !huntingBow.isTrinket(itemStack) && !advancedFlippers.isTrinket(itemStack)) { // Sentient Axe treated in its own listener
             event.setCancelled(true);
         }
     }

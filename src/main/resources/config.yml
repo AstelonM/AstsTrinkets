@@ -554,3 +554,7 @@ huntingBow:
   lootingLevel: 3
   # The luck level used for generating the second loot.
   luckLevel: 0
+
+# Leather boots that give Dolphin's Grace when worn. The effects are removed when they're taken off.
+advancedFlippers:
+  enabled: true

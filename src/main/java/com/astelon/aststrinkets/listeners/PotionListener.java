@@ -3,6 +3,7 @@ package com.astelon.aststrinkets.listeners;
 import com.astelon.aststrinkets.AstsTrinkets;
 import com.astelon.aststrinkets.managers.TrinketManager;
 import com.astelon.aststrinkets.trinkets.Trinket;
+import com.astelon.aststrinkets.trinkets.equipable.AdvancedFlippers;
 import com.astelon.aststrinkets.trinkets.equipable.EffectGivingTrinket;
 import com.astelon.aststrinkets.trinkets.equipable.Flippers;
 import com.astelon.aststrinkets.trinkets.equipable.NightVisionGoggles;
@@ -22,12 +23,14 @@ public class PotionListener implements Listener {
     private final TrinketManager trinketManager;
     private final NightVisionGoggles nightVisionGoggles;
     private final Flippers flippers;
+    private final AdvancedFlippers advancedFlippers;
 
     public PotionListener(AstsTrinkets plugin, TrinketManager trinketManager) {
         this.plugin = plugin;
         this.trinketManager = trinketManager;
         nightVisionGoggles = trinketManager.getNightVisionGoggles();
         flippers = trinketManager.getFlippers();
+        advancedFlippers = trinketManager.getAdvancedFlippers();
     }
 
     @EventHandler
@@ -57,6 +60,7 @@ public class PotionListener implements Listener {
             return;
         checkTrinketOnAdd(event, player, nightVisionGoggles);
         checkTrinketOnAdd(event, player, flippers);
+        checkTrinketOnAdd(event, player, advancedFlippers);
     }
 
     private void checkTrinketOnAdd(EntityPotionEffectEvent event, Player player, EffectGivingTrinket effectGivingTrinket) {
@@ -88,6 +92,7 @@ public class PotionListener implements Listener {
         Player player = event.getPlayer();
         checkArmourChange(oldItem, newItem, player, nightVisionGoggles);
         checkArmourChange(oldItem, newItem, player, flippers);
+        checkArmourChange(oldItem, newItem, player, advancedFlippers);
     }
 
     private void checkArmourChange(ItemStack oldItem, ItemStack newItem, Player player, EffectGivingTrinket trinket) {
