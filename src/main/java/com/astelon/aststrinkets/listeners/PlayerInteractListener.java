@@ -88,6 +88,7 @@ public class PlayerInteractListener implements Listener {
     private final SpoiledYouthMilk spoiledYouthMilk;
     private final EternalYouthCookie eternalYouthCookie;
     private final InfestedWheat infestedWheat;
+    private final Treats treats;
 
     public PlayerInteractListener(AstsTrinkets plugin, MobInfoManager mobInfoManager, TrinketManager trinketManager) {
         this.plugin = plugin;
@@ -121,6 +122,7 @@ public class PlayerInteractListener implements Listener {
         spoiledYouthMilk = trinketManager.getSpoiledYouthMilk();
         eternalYouthCookie = trinketManager.getEternalYouthCookie();
         infestedWheat = trinketManager.getInfestedWheat();
+        treats = trinketManager.getTreats();
     }
 
     @EventHandler
@@ -134,7 +136,7 @@ public class PlayerInteractListener implements Listener {
             return;
         int slot = hand == EquipmentSlot.HAND ? inventory.getHeldItemSlot() : Utils.OFF_HAND_SLOT;
         if (trinketManager.isOwnedBy(itemStack, player.getName())) {
-            if (youthMilk.isEnabledTrinket(itemStack) && event.getRightClicked() instanceof Ageable ageable) {
+            if (youthMilk.isEnabledTrinket(itemStack) && entity instanceof Ageable ageable) {
                 if (!ageable.isAdult())
                     return;
                 if (trinketManager.isTrinketImmune(ageable)) {
@@ -290,7 +292,7 @@ public class PlayerInteractListener implements Listener {
                 player.updateInventory();
                 plugin.getLogger().info("Tainted life water used on " + mobInfoManager.getTypeAndName(mob) + " at " +
                         Utils.locationToString(mob.getLocation()) + " by player " + player.getName() + ".");
-            } else if (spoiledYouthMilk.isEnabledTrinket(itemStack) && event.getRightClicked() instanceof Ageable ageable) {
+            } else if (spoiledYouthMilk.isEnabledTrinket(itemStack) && entity instanceof Ageable ageable) {
                 if (ageable.isAdult())
                     return;
                 if (trinketManager.isTrinketImmune(ageable)) {
@@ -309,7 +311,7 @@ public class PlayerInteractListener implements Listener {
                 player.updateInventory();
                 plugin.getLogger().info("Spoiled youth milk used on " + mobInfoManager.getTypeAndName(ageable) + " at " +
                         Utils.locationToString(ageable.getLocation()) + " by player " + player.getName() + ".");
-            } else if (eternalYouthCookie.isEnabledTrinket(itemStack) && event.getRightClicked() instanceof Ageable ageable) {
+            } else if (eternalYouthCookie.isEnabledTrinket(itemStack) && entity instanceof Ageable ageable) {
                 if (trinketManager.isTrinketImmune(ageable)) {
                     player.sendMessage(Component.text("Trinkets cannot be used on this entity.", NamedTextColor.RED));
                     return;
@@ -332,7 +334,6 @@ public class PlayerInteractListener implements Listener {
                     player.sendMessage(Component.text("Trinkets cannot be used on this entity.", NamedTextColor.RED));
                     return;
                 }
-                event.setCancelled(true);
                 Location location = cow.getLocation();
                 MushroomCow mooshroom = location.getWorld().spawn(location, MushroomCow.class);
                 if (mooshroom.isValid()) {
@@ -341,6 +342,45 @@ public class PlayerInteractListener implements Listener {
                     itemStack.subtract();
                 } else {
                     player.sendMessage(Component.text("Could not transform this creature.", NamedTextColor.RED));
+                }
+            } else if (treats.isEnabledTrinket(itemStack)) {
+                event.setCancelled(true);
+                if (trinketManager.isTrinketImmune(entity)) {
+                    player.sendMessage(Component.text("Trinkets cannot be used on this entity.", NamedTextColor.RED));
+                    return;
+                }
+                if (entity instanceof Tameable tameable) {
+                    if (tameable.getOwnerUniqueId() != null) {
+                        player.sendMessage(Component.text("This creature is already tamed.", NamedTextColor.RED));
+                        return;
+                    }
+                    tameable.setOwner(player);
+                    itemStack.subtract();
+                    player.getWorld().spawnParticle(Particle.HEART, tameable.getLocation(), 3);
+                } else if (entity instanceof Fox fox) {
+                    if (fox.getFirstTrustedPlayer() == null) {
+                        fox.setFirstTrustedPlayer(player);
+                        itemStack.subtract();
+                        player.getWorld().spawnParticle(Particle.HEART, fox.getLocation(), 3);
+                    } else {
+                        if (fox.getSecondTrustedPlayer() == null) {
+                            fox.setSecondTrustedPlayer(player);
+                            itemStack.subtract();
+                            player.getWorld().spawnParticle(Particle.HEART, fox.getLocation(), 3);
+                        } else {
+                            player.sendMessage(Component.text("This fox already trusts others.", NamedTextColor.RED));
+                        }
+                    }
+                } else if (entity instanceof Ocelot ocelot) {
+                    if (ocelot.isTrusting()) {
+                        player.sendMessage(Component.text("This ocelot is already trusting.", NamedTextColor.RED));
+                        return;
+                    }
+                    ocelot.setTrusting(true);
+                    itemStack.subtract();
+                    player.getWorld().spawnParticle(Particle.HEART, ocelot.getLocation(), 3);
+                } else {
+                    player.sendMessage(Component.text("This creature cannot be tamed.", NamedTextColor.RED));
                 }
             }
         }

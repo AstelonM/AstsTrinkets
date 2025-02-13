@@ -104,4 +104,5 @@ public final class Usages {
     public static final String INTERACT_WITH_BABY = "Right click a baby creature to turn it into an adult.";
     public static final String SHOOT = "Shoot with it.";
     public static final String MINE = "Mine with it.";
+    public static final String INTERACT_WITH_TAMEABLE = "Right click a tameable creature using the trinket.";
 }

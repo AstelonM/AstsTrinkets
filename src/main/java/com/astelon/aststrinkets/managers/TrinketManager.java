@@ -130,6 +130,7 @@ public class TrinketManager {
         addTrinket(new HuntingBow(plugin, keys));
         addTrinket(new AdvancedFlippers(plugin, keys));
         addTrinket(new RudimentaryRockCrusher(plugin, keys));
+        addTrinket(new Treats(plugin, keys));
     }
 
     private void addTrinket(Trinket trinket) {
@@ -690,5 +691,9 @@ public class TrinketManager {
 
     public RudimentaryRockCrusher getRockCrusher() {
         return (RudimentaryRockCrusher) getTrinketExact("rudimentaryRockCrusher");
+    }
+
+    public Treats getTreats() {
+        return (Treats) getTrinketExact("treats");
     }
 }

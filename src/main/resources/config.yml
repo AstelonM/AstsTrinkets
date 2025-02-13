@@ -562,3 +562,7 @@ advancedFlippers:
 # A stone pickaxe that makes stone and cobblestone drop gravel when mined with it.
 rudimentaryRockCrusher:
   enabled: true
+
+# Cocoa beans that instantly tame a creature when fed.
+treats:
+  enabled: true

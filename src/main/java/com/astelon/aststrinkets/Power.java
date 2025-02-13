@@ -73,7 +73,8 @@ public enum Power {
     CREATE_THUNDERSTORMS("createThunderstorms"),
     MULTIPLY_MOB_LOOT("multiplyMobLoot"),
     DOLPHIN_GRACE_AND_SLOWNESS("dolphinGraceAndSlowness"),
-    TURN_STONE_INTO_GRAVEL("turnStoneIntoGravel"),;
+    TURN_STONE_INTO_GRAVEL("turnStoneIntoGravel"),
+    TAME_ANIMALS("tameAnimals"),;
 
     private final String powerName;
 
