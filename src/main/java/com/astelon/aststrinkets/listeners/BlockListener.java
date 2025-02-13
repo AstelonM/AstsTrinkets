@@ -3,7 +3,7 @@ package com.astelon.aststrinkets.listeners;
 import com.astelon.aststrinkets.AstsTrinkets;
 import com.astelon.aststrinkets.managers.MobInfoManager;
 import com.astelon.aststrinkets.managers.TrinketManager;
-import com.astelon.aststrinkets.trinkets.ItemMagnet;
+import com.astelon.aststrinkets.trinkets.RudimentaryRockCrusher;
 import com.astelon.aststrinkets.trinkets.block.GatewayAnchor;
 import com.astelon.aststrinkets.trinkets.block.InfinityItem;
 import com.astelon.aststrinkets.trinkets.ShulkerBoxContainmentUnit;
@@ -29,8 +29,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.BlockStateMeta;
 
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 
 public class BlockListener implements Listener {
@@ -44,6 +42,7 @@ public class BlockListener implements Listener {
     private final GatewayAnchor gatewayAnchor;
     private final Terrarium terrarium;
     private final SnowGolemKit snowGolemKit;
+    private final RudimentaryRockCrusher rudimentaryRockCrusher;
 
     public BlockListener(AstsTrinkets plugin, TrinketManager trinketManager, MobInfoManager mobInfoManager) {
         this.plugin = plugin;
@@ -55,6 +54,7 @@ public class BlockListener implements Listener {
         gatewayAnchor = trinketManager.getGatewayAnchor();
         terrarium = trinketManager.getTerrarium();
         snowGolemKit = trinketManager.getSnowGolemKit();
+        rudimentaryRockCrusher = trinketManager.getRockCrusher();
     }
 
     @EventHandler(ignoreCancelled = true)
@@ -177,5 +177,28 @@ public class BlockListener implements Listener {
                     event.getBlock().setType(Material.COBWEB);
             }
         }
+    }
+
+    @EventHandler(ignoreCancelled = true)
+    public void onBlockDropItem(BlockDropItemEvent event) {
+        Material material = event.getBlockState().getType();
+        if (isStone(material)) {
+            Player player = event.getPlayer();
+            PlayerInventory inventory = player.getInventory();
+            ItemStack mainHand = inventory.getItemInMainHand();
+            if (rudimentaryRockCrusher.isEnabledTrinket(mainHand) && trinketManager.isOwnedBy(mainHand, player)) {
+                List<Item> drops = event.getItems();
+                for (Item item : drops) {
+                    ItemStack itemStack = item.getItemStack();
+                    if (isStone(itemStack.getType())) {
+                        itemStack.setType(Material.GRAVEL);
+                    }
+                }
+            }
+        }
+    }
+
+    private boolean isStone(Material material) {
+        return material == Material.STONE || material == Material.COBBLESTONE;
     }
 }

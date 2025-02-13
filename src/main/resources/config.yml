@@ -558,3 +558,7 @@ huntingBow:
 # Leather boots that give Dolphin's Grace when worn. The effects are removed when they're taken off.
 advancedFlippers:
   enabled: true
+
+# A stone pickaxe that makes stone and cobblestone drop gravel when mined with it.
+rudimentaryRockCrusher:
+  enabled: true
