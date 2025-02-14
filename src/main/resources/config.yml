@@ -466,7 +466,7 @@ abyssShell:
 # Right click a piglin, piglin brute or hoglin with it to make it immune to zombification outside the Nether.
 surfaceCure:
   enabled: true
-  # Whether only the owner of a pet can make it invulnerable. Bypassed with aststrinkets.trinket.ignorepetowner.
+  # Whether only the owner of a pet can make it immune to zombification. Bypassed with aststrinkets.trinket.ignorepetowner.
   petOwnerOnly: false
 
 # A light gray dye that makes item frames and glow item frames invisible. Use it on placed item frames with the powder
@@ -520,13 +520,13 @@ snowGolemKit:
 # This trinket requires "aststrinkets.op" permission to give, for obvious reasons.
 taintedLifeWater:
   enabled: true
-  # Whether only the owner of a pet can make it invulnerable. Bypassed with aststrinkets.trinket.ignorepetowner.
+  # Whether only the owner of a pet can make it vulnerable again. Bypassed with aststrinkets.trinket.ignorepetowner.
   petOwnerOnly: false
 
 # Right click a baby creature to turn it into an adult.
 spoiledYouthMilk:
   enabled: true
-  # Whether only the owner of a pet can turn it into a baby. Bypassed with aststrinkets.trinket.ignorepetowner.
+  # Whether only the owner of a pet can turn it into an adult. Bypassed with aststrinkets.trinket.ignorepetowner.
   petOwnerOnly: true
 
 # Right click an entity that has a baby form to turn it into a baby and prevent it from growing.
