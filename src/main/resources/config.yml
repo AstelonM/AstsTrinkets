@@ -516,7 +516,7 @@ snowGolemBlueprint:
 snowGolemKit:
   enabled: true
 
-# Right click an invulnerable creature with it to remove its vulnerability.
+# Right click an invulnerable creature with it to remove its invulnerability.
 # This trinket requires "aststrinkets.op" permission to give, for obvious reasons.
 taintedLifeWater:
   enabled: true
