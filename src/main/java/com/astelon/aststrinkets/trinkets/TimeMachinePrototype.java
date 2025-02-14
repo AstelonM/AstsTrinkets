@@ -32,11 +32,10 @@ public class TimeMachinePrototype extends Trinket {
         ItemStack itemStack = new ItemStack(Material.CLOCK);
         ItemMeta meta = itemStack.getItemMeta();
         meta.displayName(Component.text("Time Machine Prototype", NamedTextColor.YELLOW));
-        meta.lore(List.of(Component.text("A functional time machine that can"),
-                Component.text("send you back in time to a set"),
-                Component.text("moment. It only works once though,"),
-                Component.text("and you can't bring any item"),
-                Component.text("with you.")));
+        meta.lore(List.of(Component.text("A failed attempt at creating a time"),
+                Component.text("machine, all this does is send you"),
+                Component.text("to a specific location without"),
+                Component.text("any belongings.")));
         itemStack.setItemMeta(meta);
         return itemStack;
     }
