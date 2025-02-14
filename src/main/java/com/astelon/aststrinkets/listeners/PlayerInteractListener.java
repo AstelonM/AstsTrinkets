@@ -89,6 +89,7 @@ public class PlayerInteractListener implements Listener {
     private final EternalYouthCookie eternalYouthCookie;
     private final InfestedWheat infestedWheat;
     private final Treats treats;
+    private final MagicBerries magicBerries;
 
     public PlayerInteractListener(AstsTrinkets plugin, MobInfoManager mobInfoManager, TrinketManager trinketManager) {
         this.plugin = plugin;
@@ -123,6 +124,7 @@ public class PlayerInteractListener implements Listener {
         eternalYouthCookie = trinketManager.getEternalYouthCookie();
         infestedWheat = trinketManager.getInfestedWheat();
         treats = trinketManager.getTreats();
+        magicBerries = trinketManager.getMagicBerries();
     }
 
     @EventHandler
@@ -377,6 +379,24 @@ public class PlayerInteractListener implements Listener {
                     player.getWorld().spawnParticle(Particle.HEART, ocelot.getLocation(), 3);
                 } else {
                     player.sendMessage(Component.text("This creature cannot be tamed.", NamedTextColor.RED));
+                }
+            } else if (magicBerries.isEnabledTrinket(itemStack)) {
+                event.setCancelled(true);
+                if (trinketManager.isTrinketImmune(entity)) {
+                    player.sendMessage(Component.text("Trinkets cannot be used on this entity.", NamedTextColor.RED));
+                    return;
+                }
+                if (magicBerries.petOwnedByOtherPlayer(entity, player)) {
+                    player.sendMessage(Component.text("You can't use this on someone else's pet.", NamedTextColor.RED));
+                    return;
+                }
+                String originalName = mobInfoManager.getTypeAndName(entity);
+                if (magicBerries.transformCreature(entity)) {
+                    itemStack.subtract();
+                    plugin.getLogger().info("Player " + player.getName() + " used Magic Berries on " + originalName +
+                            " at " + Utils.serializeCoordsLogging(entity.getLocation()));
+                } else {
+                    player.sendMessage(Component.text("This creature cannot be transformed.", NamedTextColor.RED));
                 }
             }
         }

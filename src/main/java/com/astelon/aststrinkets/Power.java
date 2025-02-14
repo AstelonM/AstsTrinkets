@@ -75,7 +75,8 @@ public enum Power {
     DOLPHIN_GRACE_AND_SLOWNESS("dolphinGraceAndSlowness"),
     TURN_STONE_INTO_GRAVEL("turnStoneIntoGravel"),
     TAME_ANIMALS("tameAnimals"),
-    ADVANCE_TIME_TO_SUNRISE("advanceTimeToSunrise"),;
+    ADVANCE_TIME_TO_SUNRISE("advanceTimeToSunrise"),
+    CHANGE_CREATURE_TYPE("changeCreatureType"),;
 
     private final String powerName;
 

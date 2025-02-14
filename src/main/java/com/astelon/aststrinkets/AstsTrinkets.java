@@ -251,6 +251,15 @@ public class AstsTrinkets extends JavaPlugin {
         HuntingBow huntingBow = trinketManager.getHuntingBow();
         huntingBow.setLootingLevel(Utils.ensurePositive(configuration.getInt(huntingBow.getName() + ".lootingLevel", 3), 3));
         huntingBow.setLuckLevel(Utils.ensurePositive(configuration.getInt(huntingBow.getName() + ".luckLevel", 0), 0));
+        MagicBerries magicBerries = trinketManager.getMagicBerries();
+        magicBerries.setAllowCreepers(configuration.getBoolean(magicBerries.getName() + ".allowCreepers", true));
+        magicBerries.setAllowFoxes(configuration.getBoolean(magicBerries.getName() + ".allowFoxes", true));
+        magicBerries.setAllowGoats(configuration.getBoolean(magicBerries.getName() + ".allowGoats", true));
+        magicBerries.setAllowMooshrooms(configuration.getBoolean(magicBerries.getName() + ".allowMooshrooms", true));
+        magicBerries.setAllowPandas(configuration.getBoolean(magicBerries.getName() + ".allowPandas", true));
+        magicBerries.setAllowKillerBunnies(configuration.getBoolean(magicBerries.getName() + ".allowKillerBunnies", true));
+        magicBerries.setAllowVillagers(configuration.getBoolean(magicBerries.getName() + ".allowVillagers", true));
+        magicBerries.setAllowZombieVillagers(configuration.getBoolean(magicBerries.getName() + ".allowZombieVillagers", true));
     }
 
     private HashSet<EntityType> getBlacklistedTypes(List<String> blacklist) {

@@ -106,4 +106,5 @@ public final class Usages {
     public static final String MINE = "Mine with it.";
     public static final String INTERACT_WITH_TAMEABLE = "Right click a tameable creature using the trinket.";
     public static final String SACRIFICE = "While holding it, die or kill another player.";
+    public static final String INTERACT_WITH_MULTIPLE_TYPES = "Right click a creature that has multiple types using the trinket.";
 }

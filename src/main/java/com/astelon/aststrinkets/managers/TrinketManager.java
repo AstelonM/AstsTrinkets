@@ -132,6 +132,7 @@ public class TrinketManager {
         addTrinket(new RudimentaryRockCrusher(plugin, keys));
         addTrinket(new Treats(plugin, keys));
         addTrinket(new SunTotem(plugin, keys));
+        addTrinket(new MagicBerries(plugin, keys));
     }
 
     private void addTrinket(Trinket trinket) {
@@ -700,5 +701,9 @@ public class TrinketManager {
 
     public SunTotem getSunTotem() {
         return (SunTotem) getTrinketExact("sunTotem");
+    }
+
+    public MagicBerries getMagicBerries() {
+        return (MagicBerries) getTrinketExact("magicBerries");
     }
 }

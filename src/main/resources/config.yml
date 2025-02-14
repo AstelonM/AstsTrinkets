@@ -570,3 +570,27 @@ treats:
 # Because it can change the time of the world, this trinket requires "aststrinkets.op" permission to give.
 sunTotem:
   enabled: true
+
+# Sweet berries that change the type of a creature to a randomly selected one.
+magicBerries:
+  enabled: true
+  # Whether only the owner of a pet can change its type. Bypassed with aststrinkets.trinket.ignorepetowner.
+  petOwnerOnly: true
+  # Because the lore of the trinket implies only the appearance is changed, below are options for cases where the behaviour
+  # of the creature would change too.
+  # Charged creeper explosion is much stronger than regular ones.
+  allowCreepers: true
+  # The two fox kinds hunt different prey.
+  allowFoxes: true
+  # The appearance of goats doesn't even change, it's whether they scream that does.
+  allowGoats: true
+  # Brown mooshrooms produce suspicious stews.
+  allowMooshrooms: true
+  # Panda behaviour is incompatible with their colour.
+  allowPandas: true
+  # Killer bunnies are aggressive, unlike regular ones.
+  allowKillerBunnies: true
+  # Villager trades might end up different depending on type in future versions.
+  allowVillagers: true
+  # Mostly matters for the villager type they turn into.
+  allowZombieVillagers: true
