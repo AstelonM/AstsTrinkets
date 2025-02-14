@@ -74,7 +74,8 @@ public enum Power {
     MULTIPLY_MOB_LOOT("multiplyMobLoot"),
     DOLPHIN_GRACE_AND_SLOWNESS("dolphinGraceAndSlowness"),
     TURN_STONE_INTO_GRAVEL("turnStoneIntoGravel"),
-    TAME_ANIMALS("tameAnimals"),;
+    TAME_ANIMALS("tameAnimals"),
+    ADVANCE_TIME_TO_SUNRISE("advanceTimeToSunrise"),;
 
     private final String powerName;
 

@@ -566,3 +566,9 @@ rudimentaryRockCrusher:
 # Cocoa beans that instantly tame a creature when fed.
 treats:
   enabled: true
+
+# A totem that advances the time to the next day when the player who holds it dies or kills another player. No resurrection
+# happens.
+# Because it can change the time of the world, this trinket requires "aststrinkets.op" permission to give.
+sunTotem:
+  enabled: true

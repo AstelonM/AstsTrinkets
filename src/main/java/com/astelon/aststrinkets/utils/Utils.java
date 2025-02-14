@@ -44,6 +44,8 @@ public class Utils {
 
     public static final int TICKS_PER_SECOND = 20;
 
+    public static final long DAY_TIME = 0;
+
     private static long lastLog;
 
     public static String serializeCoords(Location location) {

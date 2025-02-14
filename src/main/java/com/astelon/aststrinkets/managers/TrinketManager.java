@@ -131,6 +131,7 @@ public class TrinketManager {
         addTrinket(new AdvancedFlippers(plugin, keys));
         addTrinket(new RudimentaryRockCrusher(plugin, keys));
         addTrinket(new Treats(plugin, keys));
+        addTrinket(new SunTotem(plugin, keys));
     }
 
     private void addTrinket(Trinket trinket) {
@@ -695,5 +696,9 @@ public class TrinketManager {
 
     public Treats getTreats() {
         return (Treats) getTrinketExact("treats");
+    }
+
+    public SunTotem getSunTotem() {
+        return (SunTotem) getTrinketExact("sunTotem");
     }
 }
