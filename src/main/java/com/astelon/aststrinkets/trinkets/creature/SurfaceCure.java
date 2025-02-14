@@ -2,6 +2,7 @@ package com.astelon.aststrinkets.trinkets.creature;
 
 import com.astelon.aststrinkets.AstsTrinkets;
 import com.astelon.aststrinkets.Power;
+import com.astelon.aststrinkets.trinkets.Trinket;
 import com.astelon.aststrinkets.utils.NamespacedKeys;
 import com.astelon.aststrinkets.utils.Usages;
 import net.kyori.adventure.text.Component;
@@ -18,7 +19,7 @@ import org.bukkit.potion.PotionType;
 
 import java.util.List;
 
-public class SurfaceCure extends CreatureAffectingTrinket {
+public class SurfaceCure extends Trinket {
 
     public SurfaceCure(AstsTrinkets plugin, NamespacedKeys keys) {
         super(plugin, keys, "surfaceCure", Power.NETHER_ZOMBIFICATION_CURE, false, Usages.INTERACT_NETHER_ENTITY_CAN_ZOMBIFY);

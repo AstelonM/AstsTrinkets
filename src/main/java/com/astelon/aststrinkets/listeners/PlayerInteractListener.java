@@ -263,10 +263,6 @@ public class PlayerInteractListener implements Listener {
                     player.sendMessage(Component.text("Trinkets cannot be used on this entity.", NamedTextColor.RED));
                     return;
                 }
-                if (surfaceCure.petOwnedByOtherPlayer(entity, player)) {
-                    player.sendMessage(Component.text("You can't use this on someone else's pet.", NamedTextColor.RED));
-                    return;
-                }
                 event.setCancelled(true);
                 surfaceCure.makeImmuneToZombification(entity);
                 Utils.transformItem(itemStack, new ItemStack(Material.GLASS_BOTTLE), slot, inventory, player);
