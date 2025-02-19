@@ -746,8 +746,14 @@ public class PlayerInteractListener implements Listener {
                 releaseEntity(netherStarTrap, itemStack, block, player, slot);
             } else if (snowGolemBlueprint.isEnabledTrinket(itemStack)) {
                 long now = System.currentTimeMillis();
-                if (now - cooldowns.getOrDefault(player, 0L) <= 1000)
-                    return;
+                int cooldownAmount = snowGolemBlueprint.getCooldown(itemStack);
+                if (cooldownAmount == -1) {
+                    if (now - cooldowns.getOrDefault(player, 0L) <= 1000)
+                        return;
+                } else {
+                    if (now - cooldowns.getOrDefault(player, 0L) <= cooldownAmount * 1000L)
+                        return;
+                }
                 Location originalLocation = block.getLocation();
                 Location spawnLocation = new Location(originalLocation.getWorld(), originalLocation.getBlockX() + 0.5,
                         originalLocation.getBlockY() + 1, originalLocation.getBlockZ() + 0.5);

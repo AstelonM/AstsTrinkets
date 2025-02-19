@@ -8,10 +8,13 @@ import com.astelon.aststrinkets.utils.Usages;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextColor;
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.persistence.PersistentDataContainer;
+import org.bukkit.persistence.PersistentDataType;
 
 import java.util.List;
 import java.util.Set;
@@ -68,6 +71,13 @@ public class SnowGolemBlueprint extends Trinket {
             }
         }
         return null;
+    }
+
+    //TODO generalize for all trinkets probably
+    public int getCooldown(ItemStack blueprint) {
+        ItemMeta meta = blueprint.getItemMeta();
+        PersistentDataContainer container = meta.getPersistentDataContainer();
+        return container.getOrDefault(keys.cooldownKey, PersistentDataType.INTEGER, -1);
     }
 
     public Set<Material> getAllowedHeads() {
