@@ -220,6 +220,10 @@ public class Utils {
         return seconds * TICKS_PER_SECOND;
     }
 
+    public static double ticksToSeconds(int ticks) {
+        return (double) ticks / TICKS_PER_SECOND;
+    }
+
     public static boolean isNothing(ItemStack itemStack) {
         return itemStack == null || itemStack.getType() == Material.AIR;
     }

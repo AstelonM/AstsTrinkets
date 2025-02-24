@@ -116,14 +116,15 @@ public class FireworkListener implements Listener {
                 UUID uuid = firework.getSpawningEntity();
                 if (uuid != null) {
                     Player player = Bukkit.getPlayer(firework.getSpawningEntity());
+                    double duration = Utils.ticksToSeconds(firework.getWorld().getWeatherDuration());
                     if (player != null) {
                         plugin.getLogger().info("Player " + player.getName() + " used a Cloud Seeder at " +
                                 Utils.serializeCoordsLogging(firework.getLocation()) + " and created rain for " +
-                                firework.getWorld().getWeatherDuration() + " seconds.");
+                                duration + " seconds.");
                     } else {
                         plugin.getLogger().info("A Cloud Seeder was used at " +
                                 Utils.serializeCoordsLogging(firework.getLocation()) + " and created rain for " +
-                                firework.getWorld().getWeatherDuration() + " seconds.");
+                                duration + " seconds.");
                     }
                 }
             }
@@ -133,14 +134,15 @@ public class FireworkListener implements Listener {
                 UUID uuid = firework.getSpawningEntity();
                 if (uuid != null) {
                     Player player = Bukkit.getPlayer(firework.getSpawningEntity());
+                    double duration = Utils.ticksToSeconds(firework.getWorld().getWeatherDuration());
                     if (player != null) {
                         plugin.getLogger().info("Player " + player.getName() + " used a Cloud Electrifier at " +
                                 Utils.serializeCoordsLogging(firework.getLocation()) + " and created a thunderstorm for " +
-                                firework.getWorld().getWeatherDuration() + " seconds.");
+                                duration + " seconds.");
                     } else {
                         plugin.getLogger().info("A Cloud Electrifier was used at " +
                                 Utils.serializeCoordsLogging(firework.getLocation()) + " and created a thunderstorm for " +
-                                firework.getWorld().getWeatherDuration() + " seconds.");
+                                duration + " seconds.");
                     }
                 }
             }
