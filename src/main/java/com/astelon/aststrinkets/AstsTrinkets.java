@@ -9,6 +9,7 @@ import com.astelon.aststrinkets.trinkets.block.InfinityItem;
 import com.astelon.aststrinkets.trinkets.block.MysteryCake;
 import com.astelon.aststrinkets.trinkets.block.Terrarium;
 import com.astelon.aststrinkets.trinkets.creature.*;
+import com.astelon.aststrinkets.trinkets.inventory.EnchantmentChangingTrinket;
 import com.astelon.aststrinkets.trinkets.projectile.ExperienceBottle;
 import com.astelon.aststrinkets.trinkets.projectile.MysteryEgg;
 import com.astelon.aststrinkets.trinkets.projectile.arrow.DeathArrow;
@@ -96,6 +97,9 @@ public class AstsTrinkets extends JavaPlugin {
                         ".minWeatherDuration"), 600));
                 weatherRocketTrinket.setMaxWeatherDuration(Utils.ensurePositive(configuration.getInt(weatherRocketTrinket.getName() +
                         ".maxWeatherDuration"), 1200));
+            }
+            if (trinket instanceof EnchantmentChangingTrinket enchantmentTrinket) {
+                enchantmentTrinket.setIgnoreMaxLevels(configuration.getBoolean(enchantmentTrinket.getName() + ".ignoreMaxLevels"));
             }
         }
         getLogger().info("Loaded " + trinketManager.getTrinkets().size() + " trinkets.");

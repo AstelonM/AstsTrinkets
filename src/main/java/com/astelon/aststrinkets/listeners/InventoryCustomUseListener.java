@@ -338,7 +338,11 @@ public class InventoryCustomUseListener implements Listener {
                             return;
                         }
                         event.setCancelled(true);
-                        ItemStack result = arcaneTome.improveEnchantment(clickedItem);
+                        ItemStack result = arcaneTome.improveEnchantment(heldItem, clickedItem);
+                        if (result == null) {
+                            player.sendMessage(Component.text("It doesn't have enough power to modify this item.", NamedTextColor.RED));
+                            return;
+                        }
                         int slot = event.getSlot();
                         Inventory inventory = event.getClickedInventory();
                         transformItem(clickedItem, result, slot, inventory, player);
