@@ -57,7 +57,10 @@ public class NamespacedKeys {
     public final NamespacedKey endTimeKey;
     public final NamespacedKey wasBruteKey;
     public final NamespacedKey huntingArrowKey;
-    public final NamespacedKey ignoreMaxLevelsKey;
+    public final NamespacedKey behaviourKey;
+    public final NamespacedKey maxIncreaseKey;
+    public final NamespacedKey customMaxLevelsKey;
+
 
     public NamespacedKeys(AstsTrinkets plugin) {
         this.plugin = plugin;
@@ -104,7 +107,9 @@ public class NamespacedKeys {
         endTimeKey = new NamespacedKey(plugin, "endTime");
         wasBruteKey = new NamespacedKey(plugin, "wasBrute");
         huntingArrowKey = new NamespacedKey(plugin, "huntingArrow");
-        ignoreMaxLevelsKey = new NamespacedKey(plugin, "ignoreMaxLevels");
+        behaviourKey = new NamespacedKey(plugin, "behaviour");
+        maxIncreaseKey = new NamespacedKey(plugin, "maxIncrease");
+        customMaxLevelsKey = new NamespacedKey(plugin, "customMaxLevels");
         initKeyMap();
     }
 
@@ -152,7 +157,9 @@ public class NamespacedKeys {
         keys.put(endTimeKey.getKey(), new KeyTypePair(endTimeKey, PersistentDataType.LONG));
         keys.put(wasBruteKey.getKey(), new KeyTypePair(wasBruteKey, PersistentDataType.BYTE));
         keys.put(huntingArrowKey.getKey(), new KeyTypePair(huntingArrowKey, PersistentDataType.BYTE));
-        keys.put(ignoreMaxLevelsKey.getKey(), new KeyTypePair(ignoreMaxLevelsKey, PersistentDataType.BYTE));
+        keys.put(behaviourKey.getKey(), new KeyTypePair(behaviourKey, PersistentDataType.STRING));
+        keys.put(maxIncreaseKey.getKey(), new KeyTypePair(maxIncreaseKey, PersistentDataType.INTEGER));
+        keys.put(customMaxLevelsKey.getKey(), new KeyTypePair(customMaxLevelsKey, PersistentDataType.STRING));
         keys = Collections.unmodifiableMap(keys);
     }
 

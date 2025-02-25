@@ -335,9 +335,22 @@ trinketVulnerabilitySponge:
 # An enchanted book that increases the level of one random enchantment on an item.
 arcaneTome:
   enabled: true
-  # Whether the max levels of enchantments should be ignored. If set to false, only enchantments that are still below their
-  # max level will be considered. If none available, nothing will happen.
-  ignoreMaxLevels: true
+  # Defines how the tome will interact with enchantments based on their level.
+  # "default" - enchantments will only be increased to their default max level
+  # "boundWithExceptions" - enchantments will only be increased to their default max level, unless a different level is specified below
+  # "unboundWithExceptions" - enchantments will be increased freely except those specified below
+  # "unbound" - enchantments will be increased freely with no limit
+  behaviour: "boundWithExceptions"
+  # A simpler way of increasing the max level of all enchantments by this amount. If there are custom max levels defined below,
+  # this will not apply to them. Used exclusively with "boundWithExceptions" mode. Set to 0 to ignore.
+  maxLevelIncrease: 2
+  # Custom max levels that are to be used instead of the default ones. How are they used is described above. Names are the original
+  # ones, with _ instead of spaces. Capitalization ignored.
+  # When set manually on a trinket, add them as enchantment:level, comma separated.
+  customMaxLevels:
+    fortune: 3
+    looting: 3
+    luck_of_the_sea: 3
 
 # A netherite ingot that makes all players in the given radius teleport to the player using it.
 # Needless to say, it requires the "aststrinkets.op" permission to give.
