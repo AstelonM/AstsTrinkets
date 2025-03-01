@@ -48,6 +48,7 @@ public class InventoryCustomUseListener implements Listener {
     private final HoldingBundle holdingBundle;
     private final ItemMagnet itemMagnet;
     private final CopperOxidationSolution copperOxidationSolution;
+    private final ForbiddenTome forbiddenTome;
 
     public InventoryCustomUseListener(AstsTrinkets plugin, TrinketManager trinketManager) {
         this.plugin = plugin;
@@ -67,6 +68,7 @@ public class InventoryCustomUseListener implements Listener {
         holdingBundle = trinketManager.getHoldingBundle();
         itemMagnet = trinketManager.getItemMagnet();
         copperOxidationSolution = trinketManager.getCopperOxidationSolution();
+        forbiddenTome = trinketManager.getForbiddenTome();
     }
 
     @EventHandler
@@ -320,34 +322,9 @@ public class InventoryCustomUseListener implements Listener {
                         event.setCancelled(true);
                         trinketManager.removeTrinketImmunity(clickedItem);
                         player.sendMessage(Component.text("The item stack is no longer trinket immune."));
-                    } else if (arcaneTome.isEnabledTrinket(heldItem)) {
-                        if (isNothing(clickedItem))
-                            return;
-                        if (trinketManager.isTrinketImmune(clickedItem)) {
-                            player.sendMessage(Component.text("Trinkets cannot be used on this item.", NamedTextColor.RED));
-                            return;
-                        }
-                        if (clickedItem.getType() == Material.ENCHANTED_BOOK) {
-                            EnchantmentStorageMeta meta = (EnchantmentStorageMeta) clickedItem.getItemMeta();
-                            if (meta == null || !meta.hasStoredEnchants() && clickedItem.getEnchantments().isEmpty()) {
-                                player.sendMessage(Component.text("This item has no enchantments.", NamedTextColor.RED));
-                                return;
-                            }
-                        } else if (clickedItem.getEnchantments().isEmpty()) {
-                            player.sendMessage(Component.text("This item has no enchantments.", NamedTextColor.RED));
-                            return;
-                        }
-                        event.setCancelled(true);
-                        ItemStack result = arcaneTome.improveEnchantment(heldItem, clickedItem);
-                        if (result == null) {
-                            player.sendMessage(Component.text("It doesn't have enough power to modify this item.", NamedTextColor.RED));
-                            return;
-                        }
-                        int slot = event.getSlot();
-                        Inventory inventory = event.getClickedInventory();
-                        transformItem(clickedItem, result, slot, inventory, player);
-                        heldItem.subtract();
-                        player.updateInventory();
+                    } else if (arcaneTome.isEnabledTrinket(heldItem) || forbiddenTome.isEnabledTrinket(heldItem)) {
+                        EnchantmentChangingTrinket trinket = arcaneTome.isTrinket(heldItem) ? arcaneTome : forbiddenTome;
+                        useEnchantmentChangingTrinket(trinket, heldItem, clickedItem, player, event);
                     } else if (adamantineStrand.isEnabledTrinket(heldItem)) {
                         if (isNothing(clickedItem))
                             return;
@@ -409,5 +386,36 @@ public class InventoryCustomUseListener implements Listener {
                 }
             }
         }
+    }
+
+    private void useEnchantmentChangingTrinket(EnchantmentChangingTrinket trinket, ItemStack heldItem, ItemStack clickedItem,
+                                               Player player, InventoryClickEvent event) {
+        if (isNothing(clickedItem))
+            return;
+        if (trinketManager.isTrinketImmune(clickedItem)) {
+            player.sendMessage(Component.text("Trinkets cannot be used on this item.", NamedTextColor.RED));
+            return;
+        }
+        if (clickedItem.getType() == Material.ENCHANTED_BOOK) {
+            EnchantmentStorageMeta meta = (EnchantmentStorageMeta) clickedItem.getItemMeta();
+            if (meta == null || !meta.hasStoredEnchants() && clickedItem.getEnchantments().isEmpty()) {
+                player.sendMessage(Component.text("This item has no enchantments.", NamedTextColor.RED));
+                return;
+            }
+        } else if (clickedItem.getEnchantments().isEmpty()) {
+            player.sendMessage(Component.text("This item has no enchantments.", NamedTextColor.RED));
+            return;
+        }
+        event.setCancelled(true);
+        ItemStack result = trinket.improveEnchantment(heldItem, clickedItem);
+        if (result == null) {
+            player.sendMessage(Component.text("It doesn't have enough power to modify this item.", NamedTextColor.RED));
+            return;
+        }
+        int slot = event.getSlot();
+        Inventory inventory = event.getClickedInventory();
+        transformItem(clickedItem, result, slot, inventory, player);
+        heldItem.subtract();
+        player.updateInventory();
     }
 }

@@ -133,6 +133,7 @@ public class TrinketManager {
         addTrinket(new Treats(plugin, keys));
         addTrinket(new SunTotem(plugin, keys));
         addTrinket(new MagicBerries(plugin, keys));
+        addTrinket(new ForbiddenTome(plugin, keys));
     }
 
     private void addTrinket(Trinket trinket) {
@@ -705,5 +706,9 @@ public class TrinketManager {
 
     public MagicBerries getMagicBerries() {
         return (MagicBerries) getTrinketExact("magicBerries");
+    }
+
+    public ForbiddenTome getForbiddenTome() {
+        return (ForbiddenTome) getTrinketExact("forbiddenTome");
     }
 }

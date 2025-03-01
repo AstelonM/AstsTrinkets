@@ -610,3 +610,8 @@ magicBerries:
   allowVillagers: true
   # Mostly matters for the villager type they turn into.
   allowZombieVillagers: true
+
+# A simple version of the Arcane Tome that can increase enchantment levels unrestricted.
+# Requires "aststrinkets.op" to give.
+forbiddenTome:
+  enabled: true

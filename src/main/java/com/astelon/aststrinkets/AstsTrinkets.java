@@ -9,7 +9,7 @@ import com.astelon.aststrinkets.trinkets.block.InfinityItem;
 import com.astelon.aststrinkets.trinkets.block.MysteryCake;
 import com.astelon.aststrinkets.trinkets.block.Terrarium;
 import com.astelon.aststrinkets.trinkets.creature.*;
-import com.astelon.aststrinkets.trinkets.inventory.EnchantmentChangingTrinket;
+import com.astelon.aststrinkets.trinkets.inventory.ArcaneTome;
 import com.astelon.aststrinkets.trinkets.projectile.ExperienceBottle;
 import com.astelon.aststrinkets.trinkets.projectile.MysteryEgg;
 import com.astelon.aststrinkets.trinkets.projectile.arrow.DeathArrow;
@@ -98,39 +98,6 @@ public class AstsTrinkets extends JavaPlugin {
                         ".minWeatherDuration"), 600));
                 weatherRocketTrinket.setMaxWeatherDuration(Utils.ensurePositive(configuration.getInt(weatherRocketTrinket.getName() +
                         ".maxWeatherDuration"), 1200));
-            }
-            if (trinket instanceof EnchantmentChangingTrinket enchantmentTrinket) {
-                MaxLevelBehaviour behaviour = MaxLevelBehaviour.getBehaviourByName(
-                        configuration.getString(trinket.getName() + ".behaviour"));
-                if (behaviour == null) {
-                    getLogger().warning("Field behaviour in " + trinket.getName() + " is invalid. Disabling the trinket.");
-                    trinket.setEnabled(false);
-                }
-                int basicMaxLevelIncrease = Utils.ensurePositive(configuration.getInt(trinket.getName() + ".maxLevelIncrease"), 0);
-                ConfigurationSection customMaxLevelsSection = configuration.getConfigurationSection(trinket.getName() + ".customMaxLevels");
-                Map<Enchantment, Integer> customMaxLevels = new HashMap<>();
-                if (customMaxLevelsSection != null) {
-                    for (String key : customMaxLevelsSection.getKeys(false)) {
-                        Enchantment enchantment = Enchantment.getByKey(NamespacedKey.minecraft(key.toLowerCase()));
-                        if (enchantment == null) {
-                            getLogger().warning("Enchantment + " + key + " in " + trinket.getName() + " is invalid. " +
-                                    "Disabling the trinket.");
-                            trinket.setEnabled(false);
-                        } else {
-                            int level = customMaxLevelsSection.getInt(key, -1);
-                            if (level == -1) {
-                                getLogger().warning("Enchantment + " + key + " in " + trinket.getName() + " has an invalid level. " +
-                                        "Disabling the trinket.");
-                                trinket.setEnabled(false);
-                            } else {
-                                customMaxLevels.put(enchantment, level);
-                            }
-                        }
-                    }
-                }
-                enchantmentTrinket.setMaxLevelBehaviour(behaviour);
-                enchantmentTrinket.setBasicMaxLevelIncrease(basicMaxLevelIncrease);
-                enchantmentTrinket.setCustomMaxLevels(customMaxLevels);
             }
         }
         getLogger().info("Loaded " + trinketManager.getTrinkets().size() + " trinkets.");
@@ -295,6 +262,7 @@ public class AstsTrinkets extends JavaPlugin {
         magicBerries.setAllowKillerBunnies(configuration.getBoolean(magicBerries.getName() + ".allowKillerBunnies", true));
         magicBerries.setAllowVillagers(configuration.getBoolean(magicBerries.getName() + ".allowVillagers", true));
         magicBerries.setAllowZombieVillagers(configuration.getBoolean(magicBerries.getName() + ".allowZombieVillagers", true));
+        readArcaneTomeConfig(configuration);
     }
 
     private HashSet<EntityType> getBlacklistedTypes(List<String> blacklist) {
@@ -307,5 +275,41 @@ public class AstsTrinkets extends JavaPlugin {
             }
         }
         return result;
+    }
+
+    private void readArcaneTomeConfig(FileConfiguration configuration) {
+        // Split for now
+        ArcaneTome arcaneTome = trinketManager.getArcaneTome();
+        MaxLevelBehaviour behaviour = MaxLevelBehaviour.getBehaviourByName(
+                configuration.getString(arcaneTome.getName() + ".behaviour"));
+        if (behaviour == null) {
+            getLogger().warning("Field behaviour in " + arcaneTome.getName() + " is invalid. Disabling the trinket.");
+            arcaneTome.setEnabled(false);
+        }
+        int basicMaxLevelIncrease = Utils.ensurePositive(configuration.getInt(arcaneTome.getName() + ".maxLevelIncrease"), 0);
+        ConfigurationSection customMaxLevelsSection = configuration.getConfigurationSection(arcaneTome.getName() + ".customMaxLevels");
+        Map<Enchantment, Integer> customMaxLevels = new HashMap<>();
+        if (customMaxLevelsSection != null) {
+            for (String key : customMaxLevelsSection.getKeys(false)) {
+                Enchantment enchantment = Enchantment.getByKey(NamespacedKey.minecraft(key.toLowerCase()));
+                if (enchantment == null) {
+                    getLogger().warning("Enchantment + " + key + " in " + arcaneTome.getName() + " is invalid. " +
+                            "Disabling the trinket.");
+                    arcaneTome.setEnabled(false);
+                } else {
+                    int level = customMaxLevelsSection.getInt(key, -1);
+                    if (level == -1) {
+                        getLogger().warning("Enchantment + " + key + " in " + arcaneTome.getName() + " has an invalid level. " +
+                                "Disabling the trinket.");
+                        arcaneTome.setEnabled(false);
+                    } else {
+                        customMaxLevels.put(enchantment, level);
+                    }
+                }
+            }
+        }
+        arcaneTome.setMaxLevelBehaviour(behaviour);
+        arcaneTome.setBasicMaxLevelIncrease(basicMaxLevelIncrease);
+        arcaneTome.setCustomMaxLevels(customMaxLevels);
     }
 }
