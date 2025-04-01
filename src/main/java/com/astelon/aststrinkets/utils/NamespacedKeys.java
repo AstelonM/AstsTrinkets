@@ -60,7 +60,7 @@ public class NamespacedKeys {
     public final NamespacedKey behaviourKey;
     public final NamespacedKey maxIncreaseKey;
     public final NamespacedKey customMaxLevelsKey;
-
+    public final NamespacedKey worldWhitelistKey;
 
     public NamespacedKeys(AstsTrinkets plugin) {
         this.plugin = plugin;
@@ -110,6 +110,7 @@ public class NamespacedKeys {
         behaviourKey = new NamespacedKey(plugin, "behaviour");
         maxIncreaseKey = new NamespacedKey(plugin, "maxIncrease");
         customMaxLevelsKey = new NamespacedKey(plugin, "customMaxLevels");
+        worldWhitelistKey = new NamespacedKey(plugin, "worldWhitelist");
         initKeyMap();
     }
 
@@ -160,6 +161,7 @@ public class NamespacedKeys {
         keys.put(behaviourKey.getKey(), new KeyTypePair(behaviourKey, PersistentDataType.STRING));
         keys.put(maxIncreaseKey.getKey(), new KeyTypePair(maxIncreaseKey, PersistentDataType.INTEGER));
         keys.put(customMaxLevelsKey.getKey(), new KeyTypePair(customMaxLevelsKey, PersistentDataType.STRING));
+        keys.put(worldWhitelistKey.getKey(), new KeyTypePair(worldWhitelistKey, PersistentDataType.STRING));
         keys = Collections.unmodifiableMap(keys);
     }
 

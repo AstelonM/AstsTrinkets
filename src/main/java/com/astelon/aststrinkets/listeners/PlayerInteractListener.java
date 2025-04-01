@@ -874,6 +874,10 @@ public class PlayerInteractListener implements Listener {
             player.sendMessage(Component.text("You can't use this spellbook yet.", NamedTextColor.YELLOW));
             return;
         }
+        if (!spellbook.canUseHere(itemStack, player.getWorld())) {
+            player.sendMessage(Component.text("You can't use this spellbook in this world.", NamedTextColor.RED));
+            return;
+        }
         if (!spellbook.isFunctional(itemStack)) {
             player.sendMessage(Component.text("This spellbook copy cannot be used.", NamedTextColor.RED));
             return;

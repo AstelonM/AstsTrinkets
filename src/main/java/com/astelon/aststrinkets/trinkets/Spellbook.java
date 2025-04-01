@@ -11,6 +11,7 @@ import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
 import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import org.bukkit.Material;
+import org.bukkit.World;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BookMeta;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -28,6 +29,7 @@ public class Spellbook extends Trinket {
     private static final Pattern USES_PATTERN = Pattern.compile("<uses:([1-9]\\d*)>");
     private static final Pattern TITLE_PATTERN = Pattern.compile("<title:(.+)>");
     private static final Pattern FUNCTIONAL_COPIES_PATTERN = Pattern.compile("<functionalCopies:(original|copy)>");
+    private static final Pattern WORLD_PATTERN = Pattern.compile("<world:(.+)>");
 
     private final Component useUsage;
 
@@ -62,6 +64,7 @@ public class Spellbook extends Trinket {
         String customTitle = null;
         boolean noCopy = false;
         byte functionalCopies = -1;
+        List<String> worlds = new ArrayList<>();
         for (int i = 0; i < pages.size() && displayIndex == -1; i++) {
             String[] lines = pages.get(i).split("\n");
             for (int j = 0; j < lines.length; j++) {
@@ -100,6 +103,10 @@ public class Spellbook extends Trinket {
                     else if (copyOf.equalsIgnoreCase("copy"))
                         functionalCopies = 1;
                 }
+                matcher = WORLD_PATTERN.matcher(line);
+                if (matcher.matches()) {
+                    worlds.add(matcher.group(1));
+                }
                 if (line.startsWith("/") || line.startsWith("<")) {
                     parseAndAddCommand(commands, nextCommand.toString());
                     nextCommand = new StringBuilder(line);
@@ -137,6 +144,8 @@ public class Spellbook extends Trinket {
             container.set(keys.remainingUsesKey, PersistentDataType.INTEGER, uses);
         if (functionalCopies != -1)
             container.set(keys.functionalCopiesKey, PersistentDataType.BYTE, (byte) functionalCopies);
+        if (!worlds.isEmpty())
+            container.set(keys.worldWhitelistKey, PersistentDataType.STRING, String.join(",", worlds));
         ArrayList<Component> newLore = createLore(originalContainer, bookMeta, uses);
         result.lore(newLore);
         Component bookName = bookMeta.title();
@@ -200,6 +209,15 @@ public class Spellbook extends Trinket {
             cooldown = 1;
         long lastUse = container.getOrDefault(keys.lastUseKey, PersistentDataType.LONG, 0L);
         return System.currentTimeMillis() - lastUse >= cooldown * 1000L;
+    }
+
+    public boolean canUseHere(ItemStack spellbook, World world) {
+        PersistentDataContainer container = spellbook.getItemMeta().getPersistentDataContainer();
+        String worldList = container.get(keys.worldWhitelistKey, PersistentDataType.STRING);
+        if (worldList == null)
+            return true;
+        //TODO are commas allowed in world names?
+        return worldList.contains(world.getName());
     }
 
     public boolean isFunctional(ItemStack spellbook) {
