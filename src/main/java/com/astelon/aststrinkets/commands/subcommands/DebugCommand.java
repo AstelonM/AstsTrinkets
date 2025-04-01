@@ -3,19 +3,18 @@ package com.astelon.aststrinkets.commands.subcommands;
 import com.astelon.aststrinkets.AstsTrinkets;
 import com.astelon.aststrinkets.managers.TrinketManager;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.event.ClickEvent;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.minimessage.MiniMessage;
+import net.kyori.adventure.text.minimessage.tag.Tag;
 import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
-import org.bukkit.Material;
+import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 
-import java.util.Base64;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static com.astelon.aststrinkets.utils.Utils.isNothing;
 
@@ -45,13 +44,24 @@ public class DebugCommand extends Subcommand {
             }
         }
         StringBuilder result = new StringBuilder("<gold>Keys present on <itemstack>:");
+        List<String> values = new ArrayList<>();
         for (Map.Entry<String, Object> entry: keys.entrySet()) {
             String value = getValueAsString(entry.getValue());
-            result.append("<br><green>").append(entry.getKey()).append(": <yellow><click:copy_to_clipboard:").append(value)
-                    .append(">").append(value).append("</click>");
+            result.append("<br><green>").append(entry.getKey()).append(": <yellow><content:").append(values.size())
+                    .append(">");
+            values.add(value);
         }
+        TagResolver resolver = TagResolver.resolver("content", (arg, context) -> {
+            if (arg.hasNext()) {
+                int index = Integer.parseInt(arg.pop().value());
+                String value = values.get(index);
+                return Tag.selfClosingInserting(Component.text(value).clickEvent(ClickEvent.copyToClipboard(value)));
+            }
+            return Tag.selfClosingInserting(Component.text());
+        });
         player.sendMessage(miniMessage.deserialize(result.toString(),
-                Placeholder.component("itemstack", itemStack.displayName().hoverEvent(itemStack.asHoverEvent()))));
+                Placeholder.component("itemstack", itemStack.displayName().hoverEvent(itemStack.asHoverEvent())),
+                resolver));
     }
 
     private HashMap<String, Object> getKeys(ItemStack itemStack) {
