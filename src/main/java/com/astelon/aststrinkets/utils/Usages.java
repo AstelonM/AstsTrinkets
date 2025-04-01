@@ -40,6 +40,8 @@ public final class Usages {
             "5. <noCopy> - makes the spellbook impossible to copy.<br>" +
             "6. <functionalCopies:(original or copy)> - if set to 'original', makes copies of original work as spellbooks. " +
             "If set to 'copy', makes copies of a copy work as spellbooks. By default, copies can be created, but not used.<br>" +
+            "7. <world:(world name)> - the command is run only if the player is in the specified world. Can be added multiple " +
+            "times to allow more worlds.<br>" +
             "The following tokens should be written inside the actual command and act as placeholders:<br>" +
             "1. <playerName> - replaced with the name of the player that uses the spellbook.<br>" +
             "2. <playerCoords> - replaced with the coordinates of the player using the spellbook, written as x y z.<br>" +
@@ -65,8 +67,7 @@ public final class Usages {
             "120 blocks.<br>" +
             "8. <targetMob> - the command is run only if the player is looking at a mob. The maximum distance is 120 blocks.<br>" +
             "9. <targetBlock> - the command is run only if the player is looking at a block. The maximum distance is 400 blocks.<br>" +
-            "10. <world:(world name)> - the command is run only if the player is in the specified world. Can be added multiple " +
-            "times to allow more worlds.<br>" +
+            "10. <world:(world name)> - the command is run only if the player is in the specified world.<br>" +
             "11. <anyUse> - the command is run on any use, regardless of the action.";
     public static final String LINK_AND_PLACE = "Right click air while sneaking and holding the trinket to link it to your " +
             "current location. After that, you can place it down like a block.";
