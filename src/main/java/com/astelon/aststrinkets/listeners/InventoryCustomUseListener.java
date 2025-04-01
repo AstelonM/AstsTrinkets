@@ -16,6 +16,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryView;
@@ -26,6 +27,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 
 import static com.astelon.aststrinkets.utils.Utils.*;
 
@@ -49,6 +51,9 @@ public class InventoryCustomUseListener implements Listener {
     private final ItemMagnet itemMagnet;
     private final CopperOxidationSolution copperOxidationSolution;
     private final ForbiddenTome forbiddenTome;
+
+    private final Set<InventoryType> allowedInventories = Set.of(InventoryType.CHEST, InventoryType.DISPENSER, InventoryType.DROPPER,
+            InventoryType.PLAYER, InventoryType.ENDER_CHEST, InventoryType.HOPPER, InventoryType.SHULKER_BOX, InventoryType.BARREL);
 
     public InventoryCustomUseListener(AstsTrinkets plugin, TrinketManager trinketManager) {
         this.plugin = plugin;
@@ -86,19 +91,7 @@ public class InventoryCustomUseListener implements Listener {
                     ItemStack contained = holdingBundle.getItem(heldItem);
                     if (contained != null) {
                         InventoryView view = event.getView();
-                        int amount = 0;
-                        for (ItemStack itemStack : view.getTopInventory()) {
-                            if (contained.isSimilar(itemStack)) {
-                                amount += itemStack.getAmount();
-                                itemStack.setAmount(0);
-                            }
-                        }
-                        for (ItemStack itemStack : view.getBottomInventory()) {
-                            if (contained.isSimilar(itemStack)) {
-                                amount += itemStack.getAmount();
-                                itemStack.setAmount(0);
-                            }
-                        }
+                        int amount = takeSimilarItems(contained, view) + takeSimilarItems(contained, view);
                         if (amount == 0) {
                             Inventory inventory = event.getClickedInventory();
                             if (inventory != null && holdingBundle.hasExtraItems(heldItem)) {
@@ -386,6 +379,20 @@ public class InventoryCustomUseListener implements Listener {
                 }
             }
         }
+    }
+
+    private int takeSimilarItems(ItemStack contained, InventoryView view) {
+        Inventory topInventory = view.getTopInventory();
+        int amount = 0;
+        if (allowedInventories.contains(topInventory.getType())) {
+            for (ItemStack itemStack : topInventory.getStorageContents()) {
+                if (itemStack != null && contained.isSimilar(itemStack)) {
+                    amount += itemStack.getAmount();
+                    itemStack.setAmount(0);
+                }
+            }
+        }
+        return amount;
     }
 
     private void useEnchantmentChangingTrinket(EnchantmentChangingTrinket trinket, ItemStack heldItem, ItemStack clickedItem,
