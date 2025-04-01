@@ -47,7 +47,8 @@ public class DebugCommand extends Subcommand {
         StringBuilder result = new StringBuilder("<gold>Keys present on <itemstack>:");
         for (Map.Entry<String, Object> entry: keys.entrySet()) {
             String value = getValueAsString(entry.getValue());
-            result.append("<br><green>").append(entry.getKey()).append(": <yellow>").append(value);
+            result.append("<br><green>").append(entry.getKey()).append(": <yellow><click:copy_to_clipboard:").append(value)
+                    .append(">").append(value).append("</click>");
         }
         player.sendMessage(miniMessage.deserialize(result.toString(),
                 Placeholder.component("itemstack", itemStack.displayName().hoverEvent(itemStack.asHoverEvent()))));
