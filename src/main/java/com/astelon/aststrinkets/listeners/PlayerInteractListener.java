@@ -43,6 +43,7 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static com.astelon.aststrinkets.utils.Utils.TICKS_PER_SECOND;
 import static com.astelon.aststrinkets.utils.Utils.isNothing;
 
 public class PlayerInteractListener implements Listener {
@@ -54,6 +55,7 @@ public class PlayerInteractListener implements Listener {
     private static final Pattern TARGET_X_COORD_PATTERN = Pattern.compile("<targetX:([0-9-]+)>");
     private static final Pattern TARGET_Y_COORD_PATTERN = Pattern.compile("<targetY:([0-9-]+)>");
     private static final Pattern TARGET_Z_COORD_PATTERN = Pattern.compile("<targetZ:([0-9-]+)>");
+    private static final Pattern DELAY_PATTERN = Pattern.compile("<delay:(\\d+)>");
 
     private final AstsTrinkets plugin;
     private final MobInfoManager mobInfoManager;
@@ -946,10 +948,27 @@ public class PlayerInteractListener implements Listener {
                 if (worldName != null && !player.getWorld().getName().equals(worldName))
                     continue;
             }
+            int delay = 0;
+            matcher = DELAY_PATTERN.matcher(runConfig);
+            if (matcher.find()) {
+                String delayText = matcher.group(1);
+                try {
+                    delay = Integer.parseInt(delayText);
+                } catch (NumberFormatException ignore) {} //TODO perhaps do something if this happens one day
+            }
             try {
                 CommandSender sender = playerRun ? player : Bukkit.getConsoleSender();
-                plugin.getLogger().info("Player " + player.getName() + " used a spellbook that ran the command: /" + toExecute);
-                Bukkit.dispatchCommand(sender, toExecute);
+                if (delay > 0) {
+                    String finalToExecute = toExecute;
+                    plugin.getLogger().info("Player " + player.getName() + " used a spellbook that will run the command" +
+                            "with a " + delay + " seconds delay: /" + finalToExecute);
+                    Bukkit.getScheduler().runTaskLater(plugin, () -> {
+                        Bukkit.dispatchCommand(sender, finalToExecute);
+                    }, (long) delay * TICKS_PER_SECOND);
+                } else {
+                    plugin.getLogger().info("Player " + player.getName() + " used a spellbook that ran the command: /" + toExecute);
+                    Bukkit.dispatchCommand(sender, toExecute);
+                }
                 used = true;
             } catch (CommandException ignore) {}
         }
