@@ -91,7 +91,7 @@ public class InventoryCustomUseListener implements Listener {
                     ItemStack contained = holdingBundle.getItem(heldItem);
                     if (contained != null) {
                         InventoryView view = event.getView();
-                        int amount = takeSimilarItems(contained, view) + takeSimilarItems(contained, view);
+                        int amount = takeSimilarItems(contained, view.getTopInventory()) + takeSimilarItems(contained, view.getBottomInventory());
                         if (amount == 0) {
                             Inventory inventory = event.getClickedInventory();
                             if (inventory != null && holdingBundle.hasExtraItems(heldItem)) {
@@ -381,11 +381,10 @@ public class InventoryCustomUseListener implements Listener {
         }
     }
 
-    private int takeSimilarItems(ItemStack contained, InventoryView view) {
-        Inventory topInventory = view.getTopInventory();
+    private int takeSimilarItems(ItemStack contained, Inventory inventory) {
         int amount = 0;
-        if (allowedInventories.contains(topInventory.getType())) {
-            for (ItemStack itemStack : topInventory.getStorageContents()) {
+        if (allowedInventories.contains(inventory.getType())) {
+            for (ItemStack itemStack : inventory.getStorageContents()) {
                 if (itemStack != null && contained.isSimilar(itemStack)) {
                     amount += itemStack.getAmount();
                     itemStack.setAmount(0);
