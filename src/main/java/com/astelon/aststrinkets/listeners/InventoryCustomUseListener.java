@@ -382,6 +382,8 @@ public class InventoryCustomUseListener implements Listener {
     }
 
     private int takeSimilarItems(ItemStack contained, Inventory inventory) {
+        if (inventory.getHolder() == null && !holdingBundle.isAllowVirtualInventories())
+            return 0;
         int amount = 0;
         if (allowedInventories.contains(inventory.getType())) {
             for (ItemStack itemStack : inventory.getStorageContents()) {

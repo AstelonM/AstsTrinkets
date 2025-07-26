@@ -323,6 +323,9 @@ timeMachinePrototype:
 # A bundle that can hold an effectively limitless amount of a singly item kind.
 holdingBundle:
   enabled: true
+  # Whether the bundle will take items from virtual inventories (those that don't exist in the world, created by plugins)
+  # when double clicked to autofill it.
+  allowVirtualInventories: false
 
 # A wet sponge that lets you manually mark item stacks and creatures as trinket immune.
 trinketImmunitySponge:

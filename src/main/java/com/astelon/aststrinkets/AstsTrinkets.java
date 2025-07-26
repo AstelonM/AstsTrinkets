@@ -263,6 +263,8 @@ public class AstsTrinkets extends JavaPlugin {
         magicBerries.setAllowVillagers(configuration.getBoolean(magicBerries.getName() + ".allowVillagers", true));
         magicBerries.setAllowZombieVillagers(configuration.getBoolean(magicBerries.getName() + ".allowZombieVillagers", true));
         readArcaneTomeConfig(configuration);
+        HoldingBundle holdingBundle = trinketManager.getHoldingBundle();
+        holdingBundle.setAllowVirtualInventories(configuration.getBoolean(holdingBundle.getName() + ".allowVirtualInventories", false));
     }
 
     private HashSet<EntityType> getBlacklistedTypes(List<String> blacklist) {

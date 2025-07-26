@@ -24,6 +24,7 @@ import java.util.List;
 
 public class HoldingBundle extends Trinket {
 
+    private boolean allowVirtualInventories;
     private Component magnetUsage;
 
     public HoldingBundle(AstsTrinkets plugin, NamespacedKeys keys) {
@@ -233,5 +234,13 @@ public class HoldingBundle extends Trinket {
         if (hasMagnet(holdingBundle))
             return magnetUsage;
         return super.getUsage();
+    }
+
+    public boolean isAllowVirtualInventories() {
+        return allowVirtualInventories;
+    }
+
+    public void setAllowVirtualInventories(boolean allowVirtualInventories) {
+        this.allowVirtualInventories = allowVirtualInventories;
     }
 }
