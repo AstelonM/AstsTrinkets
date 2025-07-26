@@ -260,11 +260,47 @@ public class Utils {
         }
     }
 
-    public static boolean hasNoSpace(Location location) {
-        if (!location.getBlock().isPassable())
-            return true;
-        Location above = new Location(location.getWorld(), location.getBlockX(), location.getBlockY() + 1, location.getBlockZ());
-        return !above.getBlock().isPassable();
+    /**
+     * Returns whether the column of blocks above the given location (inclusive) is passable.
+     * @param origin the origin of the area to be checked, located at the bottom of it
+     * @param height the height of the area checked, including origin
+     * @param checkOrigin whether the origin block should be checked
+     * @return <code>true</code> if any block within the checked area is not passable
+     */
+    public static boolean hasNoSpaceAbove(Location origin, int height, boolean checkOrigin) {
+        int start = checkOrigin ? 0 : 1;
+        for (int i = start; i < height; i++) {
+            Location location = new Location(origin.getWorld(), origin.getBlockX(), origin.getBlockY() + i, origin.getBlockZ());
+            if (!location.getBlock().isPassable())
+                return true;
+        }
+        return false;
+    }
+
+    /**
+     * Returns whether a cuboid area with a given origin and length is passable.
+     * @param origin the origin of the cube to be checked, located at the bottom middle block
+     * @param length the length of the sides of the cube. May only be an odd number
+     * @param checkOrigin whether the origin block should be checked
+     * @return <code>true</code> if any block within the checked area is not passable
+     */
+    public static boolean hasNoSpaceCuboid(Location origin, int length, boolean checkOrigin) {
+        if (length % 2 == 0)
+            throw new IllegalArgumentException("The length cannot be even.");
+        for (int y = 0; y < length; y++) {
+            int halfLength = length / 2;
+            for (int x = -halfLength; x <= halfLength; x++) {
+                for (int z = -halfLength; z <= halfLength; z++) {
+                    if (!checkOrigin && x == 0 && y == 0 && z == 0)
+                        continue;
+                    Location location =  new Location(origin.getWorld(), origin.getBlockX() + x,
+                            origin.getBlockY() + y, origin.getBlockZ() + z);
+                    if (!location.getBlock().isPassable())
+                        return true;
+                }
+            }
+        }
+        return false;
     }
 
     public static void copyCommonEntityAttributes(Mob source, Mob destination) {

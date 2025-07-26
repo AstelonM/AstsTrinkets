@@ -618,3 +618,13 @@ magicBerries:
 # Requires "aststrinkets.op" to give.
 forbiddenTome:
   enabled: true
+
+# A paper that lets you instantly build iron golems on a given block while you have the materials in your inventory.
+ironGolemBlueprint:
+  enabled: true
+  # The materials that can be used as heads. Defaults to [PUMPKIN, CARVED_PUMPKIN, JACK_O_LANTERN].
+  allowedHeads: [PUMPKIN, CARVED_PUMPKIN, JACK_O_LANTERN]
+
+# A barrel that lets you build a iron golem where it's placed.
+ironGolemKit:
+  enabled: true

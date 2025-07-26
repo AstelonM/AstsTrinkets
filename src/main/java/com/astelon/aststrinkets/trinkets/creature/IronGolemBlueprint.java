@@ -14,10 +14,10 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.List;
 
-public class SnowGolemBlueprint extends GolemBlueprintTrinket {
+public class IronGolemBlueprint extends GolemBlueprintTrinket {
 
-    public SnowGolemBlueprint(AstsTrinkets plugin, NamespacedKeys keys) {
-        super(plugin, keys, "snowGolemBlueprint", TextColor.fromHexString("#18AD99"), Power.BUILD_SNOW_GOLEM_FROM_INVENTORY,
+    public IronGolemBlueprint(AstsTrinkets plugin, NamespacedKeys keys) {
+        super(plugin, keys, "ironGolemBlueprint", TextColor.fromHexString("#18AD99"), Power.BUILD_SNOW_GOLEM_FROM_INVENTORY,
                 false, Usages.RIGHT_CLICK_ON_BLOCK_WITH_SPACE);
     }
 
@@ -25,10 +25,12 @@ public class SnowGolemBlueprint extends GolemBlueprintTrinket {
     protected ItemStack createItemStack() {
         ItemStack itemStack = new ItemStack(Material.PAPER);
         ItemMeta meta = itemStack.getItemMeta();
-        meta.displayName(Component.text("Snow Golem Blueprint", TextColor.fromHexString("#007AD1")));
-        meta.lore(List.of(Component.text("A list of detailed instructions"),
-                Component.text("on how to build a snowman."),
-                Component.text("Now with less than 100 steps!")));
+        meta.displayName(Component.text("Iron Golem Blueprint", TextColor.fromHexString("#007AD1")));
+        meta.lore(List.of(Component.text("A successor to the critically"),
+                Component.text("acclaimed Snow Golem Blueprint, the"),
+                Component.text("Iron Golem Blueprint provides you"),
+                Component.text("with a step by step guide on"),
+                Component.text("building your very own iron golem.")));
         itemStack.setItemMeta(meta);
         return itemStack;
     }
@@ -36,31 +38,29 @@ public class SnowGolemBlueprint extends GolemBlueprintTrinket {
     /**
      * Collects the item stacks that are required for the golem in an array.
      * @param player the Player who supplies the materials
-     * @return an ItemStack array with 3 elements where the first two are ItemStacks containing snow (possibly the same one)
+     * @return an ItemStack array with 5 elements where the first four are ItemStacks containing iron (possibly the same one)
      * and the last one contains the head material, or null if not enough materials are available
      */
     @Override
     public ItemStack[] getMaterials(Player player) {
         PlayerInventory inventory = player.getInventory();
-        ItemStack[] materials = new ItemStack[3];
-        int snow = 0;
+        ItemStack[] materials = new ItemStack[5];
+        int iron = 0;
         boolean pumpkin = false;
         for (ItemStack item: inventory.getStorageContents()) {
             //TODO do I avoid materials that are modified? Custom names, lores etc.
             if (item != null) {
-                if (snow < 2 && item.getType() == Material.SNOW_BLOCK) {
-                    materials[snow] = item;
-                    snow++;
-                    if (snow < 2 && item.getAmount() > 1) {
-                        materials[snow] = item;
-                        snow++;
+                if (iron < 4 && item.getType() == Material.IRON_BLOCK) {
+                    for (int i = item.getAmount(); i > 0 && iron < 4; i--) {
+                        materials[iron] = item;
+                        iron++;
                     }
                 }
                 if (!pumpkin && getAllowedHeads().contains(item.getType())) {
-                    materials[2] = item;
+                    materials[4] = item;
                     pumpkin = true;
                 }
-                if (snow >= 2 && pumpkin)
+                if (iron >= 4 && pumpkin)
                     return materials;
             }
         }

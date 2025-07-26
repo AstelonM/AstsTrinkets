@@ -92,6 +92,7 @@ public class PlayerInteractListener implements Listener {
     private final InfestedWheat infestedWheat;
     private final Treats treats;
     private final MagicBerries magicBerries;
+    private final IronGolemBlueprint ironGolemBlueprint;
 
     public PlayerInteractListener(AstsTrinkets plugin, MobInfoManager mobInfoManager, TrinketManager trinketManager) {
         this.plugin = plugin;
@@ -127,6 +128,7 @@ public class PlayerInteractListener implements Listener {
         infestedWheat = trinketManager.getInfestedWheat();
         treats = trinketManager.getTreats();
         magicBerries = trinketManager.getMagicBerries();
+        ironGolemBlueprint = trinketManager.getIronGolemBlueprint();
     }
 
     @EventHandler
@@ -646,7 +648,7 @@ public class PlayerInteractListener implements Listener {
                     Location originalLocation = block.getLocation();
                     Location spawnLocation = new Location(originalLocation.getWorld(), originalLocation.getBlockX() + 0.5,
                             originalLocation.getBlockY() + 1, originalLocation.getBlockZ() + 0.5);
-                    if (Utils.hasNoSpace(spawnLocation)) {
+                    if (Utils.hasNoSpaceAbove(spawnLocation, 2, true)) {
                         player.sendMessage(Component.text("You need at least two blocks of free space to release the creature.",
                                 NamedTextColor.RED));
                         return;
@@ -759,7 +761,7 @@ public class PlayerInteractListener implements Listener {
                 Location originalLocation = block.getLocation();
                 Location spawnLocation = new Location(originalLocation.getWorld(), originalLocation.getBlockX() + 0.5,
                         originalLocation.getBlockY() + 1, originalLocation.getBlockZ() + 0.5);
-                if (Utils.hasNoSpace(spawnLocation)) {
+                if (Utils.hasNoSpaceAbove(spawnLocation, 2, true)) {
                     player.sendMessage(Component.text("You need at least two blocks of free space.", NamedTextColor.RED));
                     return;
                 }
@@ -779,6 +781,41 @@ public class PlayerInteractListener implements Listener {
                     player.sendMessage(Component.text("Could not create the snow golem there.", NamedTextColor.RED));
                 }
                 cooldowns.put(player, now);
+            } else if (ironGolemBlueprint.isEnabledTrinket(itemStack)) {
+                long now = System.currentTimeMillis();
+                int cooldownAmount = ironGolemBlueprint.getCooldown(itemStack);
+                if (cooldownAmount == -1) {
+                    if (now - cooldowns.getOrDefault(player, 0L) <= 1000)
+                        return;
+                } else {
+                    if (now - cooldowns.getOrDefault(player, 0L) <= cooldownAmount * 1000L)
+                        return;
+                }
+                Location originalLocation = block.getLocation();
+                int y = originalLocation.getBlock().isPassable() ? originalLocation.getBlockY() : originalLocation.getBlockY() + 1;
+                Location spawnLocation = new Location(originalLocation.getWorld(), originalLocation.getBlockX() + 0.5,
+                        y, originalLocation.getBlockZ() + 0.5);
+                if (Utils.hasNoSpaceCuboid(spawnLocation, 3, true)) {
+                    player.sendMessage(Component.text("You need a 3x3x3 free area above the location to create a golem there.",
+                            NamedTextColor.RED));
+                    return;
+                }
+                ItemStack[] materials = ironGolemBlueprint.getMaterials(player);
+                if (materials == null) {
+                    player.sendMessage(Component.text("You don't have enough materials.", NamedTextColor.RED));
+                    return;
+                }
+                Entity result = player.getWorld().spawn(spawnLocation, IronGolem.class);
+                if (result.isValid()) {
+                    for (ItemStack material : materials) {
+                        material.subtract();
+                    }
+                    plugin.getLogger().info("Player " + player.getName() + " built an iron golem using a blueprint at " +
+                            Utils.serializeCoordsLogging(spawnLocation));
+                } else {
+                    player.sendMessage(Component.text("Could not create the iron golem there.", NamedTextColor.RED));
+                }
+                cooldowns.put(player, now);
             }
         }
     }
@@ -792,7 +829,7 @@ public class PlayerInteractListener implements Listener {
         Location originalLocation = block.getLocation();
         Location spawnLocation = new Location(originalLocation.getWorld(), originalLocation.getBlockX() + 0.5,
                 originalLocation.getBlockY() + 1, originalLocation.getBlockZ() + 0.5);
-        if (Utils.hasNoSpace(spawnLocation)) {
+        if (Utils.hasNoSpaceAbove(spawnLocation, 2, true)) {
             player.sendMessage(Component.text("You need at least two blocks of free space to release the creature.",
                     NamedTextColor.RED));
             return;

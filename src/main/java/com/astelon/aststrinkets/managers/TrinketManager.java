@@ -134,6 +134,8 @@ public class TrinketManager {
         addTrinket(new SunTotem(plugin, keys));
         addTrinket(new MagicBerries(plugin, keys));
         addTrinket(new ForbiddenTome(plugin, keys));
+        addTrinket(new IronGolemBlueprint(plugin, keys));
+        addTrinket(new IronGolemKit(plugin, keys));
     }
 
     private void addTrinket(Trinket trinket) {
@@ -710,5 +712,13 @@ public class TrinketManager {
 
     public ForbiddenTome getForbiddenTome() {
         return (ForbiddenTome) getTrinketExact("forbiddenTome");
+    }
+
+    public IronGolemBlueprint getIronGolemBlueprint() {
+        return (IronGolemBlueprint) getTrinketExact("ironGolemBlueprint");
+    }
+
+    public IronGolemKit getIronGolemKit() {
+        return (IronGolemKit) getTrinketExact("ironGolemKit");
     }
 }

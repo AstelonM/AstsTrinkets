@@ -99,6 +99,21 @@ public class AstsTrinkets extends JavaPlugin {
                 weatherRocketTrinket.setMaxWeatherDuration(Utils.ensurePositive(configuration.getInt(weatherRocketTrinket.getName() +
                         ".maxWeatherDuration"), 1200));
             }
+            if (trinket instanceof GolemBlueprintTrinket golemTrinket) {
+                List<String> allowedHeads = configuration.getStringList(golemTrinket.getName() + ".allowedHeads");
+                Set<Material> allowedHeadMaterials;
+                if (allowedHeads.isEmpty()) {
+                    allowedHeadMaterials = Set.of(Material.PUMPKIN, Material.CARVED_PUMPKIN, Material.JACK_O_LANTERN);
+                } else {
+                    try {
+                        allowedHeadMaterials = allowedHeads.stream().map(head -> Material.valueOf(head.toUpperCase())).collect(Collectors.toSet());
+                    } catch (IllegalArgumentException e) {
+                        getLogger().warning("One or more of the head materials for the Snow Golem Blueprint are invalid.");
+                        allowedHeadMaterials = Set.of();
+                    }
+                }
+                golemTrinket.setAllowedHeads(allowedHeadMaterials);
+            }
         }
         getLogger().info("Loaded " + trinketManager.getTrinkets().size() + " trinkets.");
         ShapeShifter shapeShifter = trinketManager.getShapeShifter();
@@ -236,20 +251,6 @@ public class AstsTrinkets extends JavaPlugin {
                 300));
         curingApple.setBruteChance(Utils.normalizeRate(
                 Utils.ensurePercentage(configuration.getDouble(curingApple.getName() + ".bruteChance", 0.1), 0.1)));
-        SnowGolemBlueprint snowGolemBlueprint = trinketManager.getSnowGolemBlueprint();
-        List<String> allowedHeads = configuration.getStringList(snowGolemBlueprint.getName() + ".allowedHeads");
-        Set<Material> allowedHeadMaterials;
-        if (allowedHeads.isEmpty()) {
-            allowedHeadMaterials = Set.of(Material.PUMPKIN, Material.CARVED_PUMPKIN, Material.JACK_O_LANTERN);
-        } else {
-            try {
-                allowedHeadMaterials = allowedHeads.stream().map(head -> Material.valueOf(head.toUpperCase())).collect(Collectors.toSet());
-            } catch (IllegalArgumentException e) {
-                getLogger().warning("One or more of the head materials for the Snow Golem Blueprint are invalid.");
-                allowedHeadMaterials = Set.of();
-            }
-        }
-        snowGolemBlueprint.setAllowedHeads(allowedHeadMaterials);
         HuntingBow huntingBow = trinketManager.getHuntingBow();
         huntingBow.setLootingLevel(Utils.ensurePositive(configuration.getInt(huntingBow.getName() + ".lootingLevel", 3), 3));
         huntingBow.setLuckLevel(Utils.ensurePositive(configuration.getInt(huntingBow.getName() + ".luckLevel", 0), 0));

@@ -9,6 +9,7 @@ import com.astelon.aststrinkets.trinkets.block.InfinityItem;
 import com.astelon.aststrinkets.trinkets.ShulkerBoxContainmentUnit;
 import com.astelon.aststrinkets.trinkets.block.Spinneret;
 import com.astelon.aststrinkets.trinkets.block.Terrarium;
+import com.astelon.aststrinkets.trinkets.creature.IronGolemKit;
 import com.astelon.aststrinkets.trinkets.creature.SnowGolemKit;
 import com.astelon.aststrinkets.utils.Utils;
 import net.kyori.adventure.text.Component;
@@ -43,6 +44,7 @@ public class BlockListener implements Listener {
     private final Terrarium terrarium;
     private final SnowGolemKit snowGolemKit;
     private final RudimentaryRockCrusher rudimentaryRockCrusher;
+    private final IronGolemKit ironGolemKit;
 
     public BlockListener(AstsTrinkets plugin, TrinketManager trinketManager, MobInfoManager mobInfoManager) {
         this.plugin = plugin;
@@ -55,6 +57,7 @@ public class BlockListener implements Listener {
         terrarium = trinketManager.getTerrarium();
         snowGolemKit = trinketManager.getSnowGolemKit();
         rudimentaryRockCrusher = trinketManager.getRockCrusher();
+        ironGolemKit = trinketManager.getIronGolemKit();
     }
 
     @EventHandler(ignoreCancelled = true)
@@ -154,13 +157,12 @@ public class BlockListener implements Listener {
             } else if (snowGolemKit.isEnabledTrinket(placedItem)) {
                 event.setCancelled(true);
                 Location location = event.getBlock().getLocation();
-                Location above = location.add(0, 1, 0);
-                if (!above.getBlock().isPassable()) {
-                    player.sendMessage(Component.text("There's not enough space at this location.", NamedTextColor.RED));
+                if (Utils.hasNoSpaceAbove(location, 2, false)) {
+                    player.sendMessage(Component.text("You need at least two blocks of free space.", NamedTextColor.RED));
                     return;
                 }
                 Location spawnLocation = new Location(location.getWorld(), location.getBlockX() + 0.5,
-                        location.getBlockY() - 1, location.getBlockZ() + 0.5);
+                        location.getBlockY(), location.getBlockZ() + 0.5);
                 Entity result = location.getWorld().spawn(spawnLocation, Snowman.class);
                 if (result.isValid()) {
                     placedItem.subtract();
@@ -168,6 +170,24 @@ public class BlockListener implements Listener {
                             Utils.serializeCoordsLogging(spawnLocation));
                 } else {
                     player.sendMessage(Component.text("Could not create the snow golem here.", NamedTextColor.RED));
+                }
+            } else if (ironGolemKit.isEnabledTrinket(placedItem)) {
+                event.setCancelled(true);
+                Location location = event.getBlock().getLocation();
+                if (Utils.hasNoSpaceCuboid(location, 3, false)) {
+                    player.sendMessage(Component.text("You need a 3x3x3 free area above the location to create a golem there.",
+                            NamedTextColor.RED));
+                    return;
+                }
+                Location spawnLocation = new Location(location.getWorld(), location.getBlockX() + 0.5,
+                        location.getBlockY(), location.getBlockZ() + 0.5);
+                Entity result = location.getWorld().spawn(spawnLocation, IronGolem.class);
+                if (result.isValid()) {
+                    placedItem.subtract();
+                    plugin.getLogger().info("Player " + player.getName() + " built an iron golem using a kit at " +
+                            Utils.serializeCoordsLogging(spawnLocation));
+                } else {
+                    player.sendMessage(Component.text("Could not create the iron golem here.", NamedTextColor.RED));
                 }
             }
         }

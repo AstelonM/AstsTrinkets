@@ -76,7 +76,9 @@ public enum Power {
     TURN_STONE_INTO_GRAVEL("turnStoneIntoGravel"),
     TAME_ANIMALS("tameAnimals"),
     ADVANCE_TIME_TO_SUNRISE("advanceTimeToSunrise"),
-    CHANGE_CREATURE_TYPE("changeCreatureType"),;
+    CHANGE_CREATURE_TYPE("changeCreatureType"),
+    BUILD_IRON_GOLEM_FROM_INVENTORY("buildIronGolemFromInventory"),
+    BUILD_IRON_GOLEM("buildIronGolem"),;
 
     private final String powerName;
 
