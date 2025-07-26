@@ -646,8 +646,9 @@ public class PlayerInteractListener implements Listener {
                     if (!terrarium.hasTrappedCreature(handItem))
                         return;
                     Location originalLocation = block.getLocation();
+                    int y = originalLocation.getBlock().isPassable() ? originalLocation.getBlockY() : originalLocation.getBlockY() + 1;
                     Location spawnLocation = new Location(originalLocation.getWorld(), originalLocation.getBlockX() + 0.5,
-                            originalLocation.getBlockY() + 1, originalLocation.getBlockZ() + 0.5);
+                            y, originalLocation.getBlockZ() + 0.5);
                     if (Utils.hasNoSpaceAbove(spawnLocation, 2, true)) {
                         player.sendMessage(Component.text("You need at least two blocks of free space to release the creature.",
                                 NamedTextColor.RED));
@@ -759,8 +760,9 @@ public class PlayerInteractListener implements Listener {
                         return;
                 }
                 Location originalLocation = block.getLocation();
+                int y = originalLocation.getBlock().isPassable() ? originalLocation.getBlockY() : originalLocation.getBlockY() + 1;
                 Location spawnLocation = new Location(originalLocation.getWorld(), originalLocation.getBlockX() + 0.5,
-                        originalLocation.getBlockY() + 1, originalLocation.getBlockZ() + 0.5);
+                        y, originalLocation.getBlockZ() + 0.5);
                 if (Utils.hasNoSpaceAbove(spawnLocation, 2, true)) {
                     player.sendMessage(Component.text("You need at least two blocks of free space.", NamedTextColor.RED));
                     return;
@@ -827,8 +829,9 @@ public class PlayerInteractListener implements Listener {
         if (!trap.hasTrappedCreature(itemStack))
             return;
         Location originalLocation = block.getLocation();
+        int y = originalLocation.getBlock().isPassable() ? originalLocation.getBlockY() : originalLocation.getBlockY() + 1;
         Location spawnLocation = new Location(originalLocation.getWorld(), originalLocation.getBlockX() + 0.5,
-                originalLocation.getBlockY() + 1, originalLocation.getBlockZ() + 0.5);
+                y, originalLocation.getBlockZ() + 0.5);
         if (Utils.hasNoSpaceAbove(spawnLocation, 2, true)) {
             player.sendMessage(Component.text("You need at least two blocks of free space to release the creature.",
                     NamedTextColor.RED));
