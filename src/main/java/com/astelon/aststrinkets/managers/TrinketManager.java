@@ -136,6 +136,7 @@ public class TrinketManager {
         addTrinket(new ForbiddenTome(plugin, keys));
         addTrinket(new IronGolemBlueprint(plugin, keys));
         addTrinket(new IronGolemKit(plugin, keys));
+        addTrinket(new Lasso(plugin, keys));
     }
 
     private void addTrinket(Trinket trinket) {
@@ -720,5 +721,9 @@ public class TrinketManager {
 
     public IronGolemKit getIronGolemKit() {
         return (IronGolemKit) getTrinketExact("ironGolemKit");
+    }
+
+    public Lasso getLasso() {
+        return (Lasso)  getTrinketExact("lasso");
     }
 }

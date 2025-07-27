@@ -73,6 +73,7 @@ public class AstsTrinkets extends JavaPlugin {
         pluginManager.registerEvents(new VirusListener(this, trinketManager), this);
         pluginManager.registerEvents(new NetherZombieReversalListener(this, trinketManager, zombieCuringManager), this);
         pluginManager.registerEvents(new PlayerDeathListener(this, trinketManager), this);
+        pluginManager.registerEvents(new LeashListener(this, trinketManager), this);
         loadConfig();
         Objects.requireNonNull(getCommand("trinkets")).setExecutor(new TrinketCommand(this, trinketManager));
     }

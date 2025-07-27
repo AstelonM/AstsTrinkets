@@ -78,7 +78,8 @@ public enum Power {
     ADVANCE_TIME_TO_SUNRISE("advanceTimeToSunrise"),
     CHANGE_CREATURE_TYPE("changeCreatureType"),
     BUILD_IRON_GOLEM_FROM_INVENTORY("buildIronGolemFromInventory"),
-    BUILD_IRON_GOLEM("buildIronGolem"),;
+    BUILD_IRON_GOLEM("buildIronGolem"),
+    LEASH_EVERYTHING("leashEverything"),;
 
     private final String powerName;
 

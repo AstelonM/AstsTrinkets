@@ -628,3 +628,7 @@ ironGolemBlueprint:
 # A barrel that lets you build a iron golem where it's placed.
 ironGolemKit:
   enabled: true
+
+# A lead that lets you rope almost any creature. Exception are bats, ender dragons and withers.
+lasso:
+  enabled: true
