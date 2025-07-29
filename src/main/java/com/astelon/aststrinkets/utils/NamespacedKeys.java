@@ -239,13 +239,17 @@ public class NamespacedKeys {
         if (destinationMeta == null)
             destinationMeta = plugin.getServer().getItemFactory().getItemMeta(destination.getType());
         PersistentDataContainer destinationContainer = destinationMeta.getPersistentDataContainer();
+        transferKeys(sourceContainer, destinationContainer);
+        destination.setItemMeta(destinationMeta);
+    }
+
+    public void transferKeys(PersistentDataContainer source, PersistentDataContainer destination) {
         for (KeyTypePair keyTypePair : getKeys()) {
-            if (sourceContainer.has(keyTypePair.key, keyTypePair.type)) {
+            if (source.has(keyTypePair.key, keyTypePair.type)) {
                 //TODO decide what to do if one of the keys could not be set
-                setKey(destinationContainer, keyTypePair, sourceContainer.get(keyTypePair.key, keyTypePair.type));
+                setKey(destination, keyTypePair, source.get(keyTypePair.key, keyTypePair.type));
             }
         }
-        destination.setItemMeta(destinationMeta);
     }
 
     public record KeyTypePair(NamespacedKey key, PersistentDataType<?, ?> type) {}

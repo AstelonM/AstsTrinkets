@@ -12,7 +12,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.List;
 
-public class AbyssShell extends RandomTeleportationTrinket {
+public class AbyssShell extends RandomTeleportationItemTrinket {
 
     public AbyssShell(AstsTrinkets plugin, NamespacedKeys keys) {
         super(plugin, keys, "abyssShell", TextColor.fromHexString("#CE3574"), Power.REUSABLE_RANDOM_TELEPORTATION,

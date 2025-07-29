@@ -640,3 +640,34 @@ ironGolemKit:
 # A lead that lets you rope almost any creature. Exception are bats, ender dragons and withers.
 lasso:
   enabled: true
+
+# A respawn anchor that transforms into an end gateway when placed, which teleports players and other entities to random
+# locations when entered, like the Mystery and Abyss Shells.
+# Because it places an unbreakable block, this trinket requires the "aststrinkets.op" permission to give.
+voidGateway:
+  enabled: true
+  # The coordinates that Void Gateways will lead to by default, if, for example, they are disabled.
+  defaultX: 0
+  defaultY: 64
+  defaultZ: 0
+  # Whether entities will also be teleported to random locations when entering the gateway. If set to false, they will
+  # be sent to the default coordinates.
+  allowEntities: true
+  # The location will be chosen based on the world's border and the min and max heights of the world instead of the configured
+  # values.
+  useWorldDefault: true
+  # The location will be on the highest solid block at a random location, ignoring y coordinate constraints.
+  # Overrides useWorldDefault, such that if this is set, it will ignore world defaults for y coordinates.
+  surfaceOnly: true
+  # The minimum value of the x coordinate.
+  minX: 0
+  # The maximum value of the x coordinate.
+  maxX: 0
+  # The minimum value of the y coordinate.
+  minY: 0
+  # The maximum value of the y coordinate.
+  maxY: 0
+  # The minimum value of the z coordinate.
+  minZ: 0
+  # The maximum value of the z coordinate.
+  maxZ: 0

@@ -137,6 +137,7 @@ public class TrinketManager {
         addTrinket(new IronGolemBlueprint(plugin, keys));
         addTrinket(new IronGolemKit(plugin, keys));
         addTrinket(new Lasso(plugin, keys));
+        addTrinket(new VoidGateway(plugin, keys));
     }
 
     private void addTrinket(Trinket trinket) {
@@ -725,5 +726,9 @@ public class TrinketManager {
 
     public Lasso getLasso() {
         return (Lasso)  getTrinketExact("lasso");
+    }
+
+    public VoidGateway getVoidGateway() {
+        return (VoidGateway) getTrinketExact("voidGateway");
     }
 }

@@ -12,7 +12,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.List;
 
-public class MysteryShell extends RandomTeleportationTrinket {
+public class MysteryShell extends RandomTeleportationItemTrinket {
 
     public MysteryShell(AstsTrinkets plugin, NamespacedKeys keys) {
         super(plugin, keys, "mysteryShell", Power.RANDOM_TELEPORTATION, false, Usages.SHIFT_RIGHT_CLICK);

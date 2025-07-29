@@ -8,6 +8,7 @@ import net.kyori.adventure.text.format.TextColor;
 import net.kyori.adventure.text.format.TextDecoration;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
+import org.bukkit.block.TileState;
 import org.bukkit.entity.Projectile;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -74,6 +75,13 @@ public abstract class Trinket {
         return isTrinket(container);
     }
 
+    public boolean isTrinket(TileState tileState) {
+        if (tileState == null)
+            return false;
+        PersistentDataContainer container = tileState.getPersistentDataContainer();
+        return isTrinket(container);
+    }
+
     private boolean isTrinket(PersistentDataContainer container) {
         if (container.has(keys.nameKey, PersistentDataType.STRING)) {
             String trinketName = container.get(keys.nameKey, PersistentDataType.STRING);
@@ -101,6 +109,17 @@ public abstract class Trinket {
     public boolean isEnabledTrinket(Projectile projectile) {
         if (enabled)
             return isTrinket(projectile);
+        return false;
+    }
+
+    /**
+     * Checks whether this trinket is enabled, and the given {@code TileState} is an instance of it.
+     * @param tileState the {@code TileState} to check
+     * @return {@code true} if this trinket is enabled and the given {@code TileState} is an instance of it, {@code false} otherwise
+     */
+    public boolean isEnabledTrinket(TileState tileState) {
+        if (enabled)
+            return  isTrinket(tileState);
         return false;
     }
 

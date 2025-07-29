@@ -8,6 +8,7 @@ import com.astelon.aststrinkets.trinkets.*;
 import com.astelon.aststrinkets.trinkets.block.InfinityItem;
 import com.astelon.aststrinkets.trinkets.block.MysteryCake;
 import com.astelon.aststrinkets.trinkets.block.Terrarium;
+import com.astelon.aststrinkets.trinkets.block.VoidGateway;
 import com.astelon.aststrinkets.trinkets.creature.*;
 import com.astelon.aststrinkets.trinkets.inventory.ArcaneTome;
 import com.astelon.aststrinkets.trinkets.projectile.ExperienceBottle;
@@ -74,6 +75,7 @@ public class AstsTrinkets extends JavaPlugin {
         pluginManager.registerEvents(new NetherZombieReversalListener(this, trinketManager, zombieCuringManager), this);
         pluginManager.registerEvents(new PlayerDeathListener(this, trinketManager), this);
         pluginManager.registerEvents(new LeashListener(this, trinketManager), this);
+        pluginManager.registerEvents(new TeleportationListener(this, trinketManager), this);
         loadConfig();
         Objects.requireNonNull(getCommand("trinkets")).setExecutor(new TrinketCommand(this, trinketManager));
     }
@@ -114,6 +116,18 @@ public class AstsTrinkets extends JavaPlugin {
                     }
                 }
                 golemTrinket.setAllowedHeads(allowedHeadMaterials);
+            }
+            if (trinket instanceof RandomTeleportationTrinket teleportationTrinket) {
+                teleportationTrinket.setUseWorldDefault(configuration.getBoolean(teleportationTrinket.getName() +
+                        ".useWorldDefault", true));
+                teleportationTrinket.setSurfaceOnly(configuration.getBoolean(teleportationTrinket.getName() +
+                        ".surfaceOnly", true));
+                teleportationTrinket.setMinX(configuration.getInt(teleportationTrinket.getName() + ".minX"));
+                teleportationTrinket.setMaxX(configuration.getInt(teleportationTrinket.getName() + ".maxX"));
+                teleportationTrinket.setMinY(configuration.getInt(teleportationTrinket.getName() + ".minY"));
+                teleportationTrinket.setMaxY(configuration.getInt(teleportationTrinket.getName() + ".maxY"));
+                teleportationTrinket.setMinZ(configuration.getInt(teleportationTrinket.getName() + ".minZ"));
+                teleportationTrinket.setMaxZ(configuration.getInt(teleportationTrinket.getName() + ".maxZ"));
             }
         }
         getLogger().info("Loaded " + trinketManager.getTrinkets().size() + " trinkets.");
@@ -220,24 +234,6 @@ public class AstsTrinkets extends JavaPlugin {
         mysteryFirework.setAllowCustomColours(configuration.getBoolean(mysteryFirework.getName() + ".allowCustomColours"));
         Die die = trinketManager.getDie();
         die.setSides(Utils.ensurePositive(configuration.getInt(die.getName() + ".sides"), 6));
-        MysteryShell mysteryShell = trinketManager.getMysteryShell();
-        mysteryShell.setUseWorldDefault(configuration.getBoolean(mysteryShell.getName() + ".useWorldDefault", true));
-        mysteryShell.setSurfaceOnly(configuration.getBoolean(mysteryShell.getName() + ".surfaceOnly", true));
-        mysteryShell.setMinX(configuration.getInt(mysteryShell.getName() + ".minX"));
-        mysteryShell.setMaxX(configuration.getInt(mysteryShell.getName() + ".maxX"));
-        mysteryShell.setMinY(configuration.getInt(mysteryShell.getName() + ".minY"));
-        mysteryShell.setMaxY(configuration.getInt(mysteryShell.getName() + ".maxY"));
-        mysteryShell.setMinZ(configuration.getInt(mysteryShell.getName() + ".minZ"));
-        mysteryShell.setMaxZ(configuration.getInt(mysteryShell.getName() + ".maxZ"));
-        AbyssShell abyssShell = trinketManager.getAbyssShell();
-        abyssShell.setUseWorldDefault(configuration.getBoolean(abyssShell.getName() + ".useWorldDefault", true));
-        abyssShell.setSurfaceOnly(configuration.getBoolean(abyssShell.getName() + ".surfaceOnly", true));
-        abyssShell.setMinX(configuration.getInt(abyssShell.getName() + ".minX"));
-        abyssShell.setMaxX(configuration.getInt(abyssShell.getName() + ".maxX"));
-        abyssShell.setMinY(configuration.getInt(abyssShell.getName() + ".minY"));
-        abyssShell.setMaxY(configuration.getInt(abyssShell.getName() + ".maxY"));
-        abyssShell.setMinZ(configuration.getInt(abyssShell.getName() + ".minZ"));
-        abyssShell.setMaxZ(configuration.getInt(abyssShell.getName() + ".maxZ"));
         SpoiledEgg spoiledEgg = trinketManager.getSpoiledEgg();
         spoiledEgg.setInfectivity(Utils.normalizeRate(Utils
                 .ensurePercentage(configuration.getDouble(spoiledEgg.getName() + ".infectivity"), 25.0)));
@@ -266,7 +262,13 @@ public class AstsTrinkets extends JavaPlugin {
         magicBerries.setAllowZombieVillagers(configuration.getBoolean(magicBerries.getName() + ".allowZombieVillagers", true));
         readArcaneTomeConfig(configuration);
         HoldingBundle holdingBundle = trinketManager.getHoldingBundle();
-        holdingBundle.setAllowVirtualInventories(configuration.getBoolean(holdingBundle.getName() + ".allowVirtualInventories", false));
+        holdingBundle.setAllowVirtualInventories(configuration.getBoolean(holdingBundle.getName() + ".allowVirtualInventories",
+                false));
+        VoidGateway voidGateway = trinketManager.getVoidGateway();
+        voidGateway.setDefaultX(configuration.getInt(voidGateway.getName() + ".defaultX", 0));
+        voidGateway.setDefaultY(configuration.getInt(voidGateway.getName() + ".defaultY", 64));
+        voidGateway.setDefaultZ(configuration.getInt(voidGateway.getName() + ".defaultZ", 0));
+        voidGateway.setAllowEntities(configuration.getBoolean(voidGateway.getName() + ".allowEntities", false));
     }
 
     private HashSet<EntityType> getBlacklistedTypes(List<String> blacklist) {

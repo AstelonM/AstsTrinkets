@@ -79,7 +79,8 @@ public enum Power {
     CHANGE_CREATURE_TYPE("changeCreatureType"),
     BUILD_IRON_GOLEM_FROM_INVENTORY("buildIronGolemFromInventory"),
     BUILD_IRON_GOLEM("buildIronGolem"),
-    LEASH_EVERYTHING("leashEverything"),;
+    LEASH_EVERYTHING("leashEverything"),
+    CREATE_RANDOM_GATEWAYS("createRandomGateways"),;
 
     private final String powerName;
 

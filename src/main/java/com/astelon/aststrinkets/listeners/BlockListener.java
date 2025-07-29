@@ -4,11 +4,8 @@ import com.astelon.aststrinkets.AstsTrinkets;
 import com.astelon.aststrinkets.managers.MobInfoManager;
 import com.astelon.aststrinkets.managers.TrinketManager;
 import com.astelon.aststrinkets.trinkets.RudimentaryRockCrusher;
-import com.astelon.aststrinkets.trinkets.block.GatewayAnchor;
-import com.astelon.aststrinkets.trinkets.block.InfinityItem;
+import com.astelon.aststrinkets.trinkets.block.*;
 import com.astelon.aststrinkets.trinkets.ShulkerBoxContainmentUnit;
-import com.astelon.aststrinkets.trinkets.block.Spinneret;
-import com.astelon.aststrinkets.trinkets.block.Terrarium;
 import com.astelon.aststrinkets.trinkets.creature.IronGolemKit;
 import com.astelon.aststrinkets.trinkets.creature.SnowGolemKit;
 import com.astelon.aststrinkets.utils.Utils;
@@ -45,6 +42,7 @@ public class BlockListener implements Listener {
     private final SnowGolemKit snowGolemKit;
     private final RudimentaryRockCrusher rudimentaryRockCrusher;
     private final IronGolemKit ironGolemKit;
+    private final VoidGateway voidGateway;
 
     public BlockListener(AstsTrinkets plugin, TrinketManager trinketManager, MobInfoManager mobInfoManager) {
         this.plugin = plugin;
@@ -58,6 +56,7 @@ public class BlockListener implements Listener {
         snowGolemKit = trinketManager.getSnowGolemKit();
         rudimentaryRockCrusher = trinketManager.getRockCrusher();
         ironGolemKit = trinketManager.getIronGolemKit();
+        voidGateway = trinketManager.getVoidGateway();
     }
 
     @EventHandler(ignoreCancelled = true)
@@ -189,6 +188,17 @@ public class BlockListener implements Listener {
                 } else {
                     player.sendMessage(Component.text("Could not create the iron golem here.", NamedTextColor.RED));
                 }
+            } else if (voidGateway.isEnabledTrinket(placedItem)) {
+                Block block = event.getBlock();
+                block.setType(Material.END_GATEWAY);
+                EndGateway gateway = (EndGateway) block.getState();
+                gateway.setAge(Long.MIN_VALUE);
+                gateway.setExactTeleport(true);
+                gateway.setExitLocation(voidGateway.getDefaultLocation(block.getWorld()));
+                voidGateway.transferKeys(placedItem, gateway);
+                gateway.update(true);
+                plugin.getLogger().info("Player " + player.getName() + " created an end gateway at " +
+                        Utils.serializeCoordsLogging(block.getLocation()) + " using a Void Gateway.");
             }
         }
         if (trinketManager.isOwnedBy(otherItem, player.getName())) {
