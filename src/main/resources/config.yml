@@ -439,12 +439,16 @@ die:
 
 # A nautilus shell that attempts to teleport the player to a random location in the world. The location will never be inside
 # solid blocks or liquids. Only 16 attempts will be made to find a valid location. The shell is always consumed on use.
+# Unlike other trinkets, the config values are taken in batch. If there is at least one value set in a trinket, none of
+# the default values set here will be used.
+# In trinket configurations, missing min and max values will be replaced with the world border equivalent.
 mysteryShell:
   enabled: true
   # The location will be chosen based on the world's border and the min and max heights of the world instead of the configured
   # values.
   useWorldDefault: true
   # The location will be on the highest solid block at a random location, ignoring y coordinate constraints.
+  # Overrides useWorldDefault, such that if this is set, it will ignore world defaults for y coordinates.
   surfaceOnly: true
   # The minimum value of the x coordinate.
   minX: 0
@@ -462,12 +466,16 @@ mysteryShell:
 # A nautilus shell that attempts to teleport the player to a random location in the world, it works the same as the
 # Mystery Shell, except it's reusable and gives you nausea and blindness when used.
 # Requires the "aststrinkets.op" permission to give.
+# Unlike other trinkets, the config values are taken in batch. If there is at least one value set in a trinket, none of
+# the default values set here will be used.
+# In trinket configurations, missing min and max values will be replaced with the world border equivalent.
 abyssShell:
   enabled: true
   # The location will be chosen based on the world's border and the min and max heights of the world instead of the configured
   # values.
   useWorldDefault: true
   # The location will be on the highest solid block at a random location, ignoring y coordinate constraints.
+  # Overrides useWorldDefault, such that if this is set, it will ignore world defaults for y coordinates.
   surfaceOnly: true
   # The minimum value of the x coordinate.
   minX: 0

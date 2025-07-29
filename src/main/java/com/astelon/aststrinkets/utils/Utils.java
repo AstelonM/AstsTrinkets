@@ -16,7 +16,7 @@ import java.util.Random;
 import java.util.logging.Level;
 import java.util.stream.Collectors;
 
-public class Utils {
+public final class Utils {
 
     private static final Color[] BASE_COLORS = new Color[] {
             Color.fromRGB(16383998), // white
@@ -313,5 +313,11 @@ public class Utils {
         if (source instanceof Tameable sourceTameable && destination instanceof Tameable destinationTameable)
             destinationTameable.setOwner(sourceTameable.getOwner());
         copyEquipment(source, destination);
+    }
+
+    public static int nextIntInclusive(Random random, int min, int max) {
+        if (max == Integer.MAX_VALUE)
+            throw new IllegalArgumentException("Max value cannot be the integer maximum.");
+        return random.nextInt(min, max + 1);
     }
 }

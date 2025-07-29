@@ -541,7 +541,7 @@ public class PlayerInteractListener implements Listener {
                         if (now - cooldowns.getOrDefault(player, 0L) <= 1000)
                             return;
                         Location originalLocation = player.getLocation();
-                        Location result = mysteryShell.getRandomLocation(itemStack, player.getWorld());
+                        Location result = mysteryShell.findLocation(itemStack, player.getWorld());
                         itemStack.subtract();
                         player.updateInventory();
                         if (result == null) {
@@ -570,7 +570,7 @@ public class PlayerInteractListener implements Listener {
                         if (now - cooldowns.getOrDefault(player, 0L) <= 1000)
                             return;
                         Location originalLocation = player.getLocation();
-                        Location result = abyssShell.getRandomLocation(itemStack, player.getWorld());
+                        Location result = abyssShell.findLocation(itemStack, player.getWorld());
                         if (!trinketManager.isStrictlyOwnedBy(itemStack, player)) {
                             player.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, 240, 0));
                             player.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 200, 0));
