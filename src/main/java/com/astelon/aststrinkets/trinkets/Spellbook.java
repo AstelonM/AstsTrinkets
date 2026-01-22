@@ -4,6 +4,7 @@ import com.astelon.aststrinkets.AstsTrinkets;
 import com.astelon.aststrinkets.Power;
 import com.astelon.aststrinkets.utils.NamespacedKeys;
 import com.astelon.aststrinkets.utils.Usages;
+import com.astelon.aststrinkets.utils.Utils;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextColor;
 import net.kyori.adventure.text.format.TextDecoration;
@@ -20,6 +21,7 @@ import org.bukkit.persistence.PersistentDataType;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -30,6 +32,9 @@ public class Spellbook extends Trinket {
     private static final Pattern TITLE_PATTERN = Pattern.compile("<title:(.+)>");
     private static final Pattern FUNCTIONAL_COPIES_PATTERN = Pattern.compile("<functionalCopies:(original|copy)>");
     private static final Pattern WORLD_PATTERN = Pattern.compile("<world:(.+)>");
+    private static final Pattern USE_CHANCE_PATTERN = Pattern.compile("<useChance:([1-9]\\d*\\.\\d+|[1-9]\\d*)>");
+
+    private final Random random;
 
     private final Component useUsage;
 
@@ -38,6 +43,7 @@ public class Spellbook extends Trinket {
         useUsage = MiniMessage.miniMessage().deserialize("<gold>How to use: <trinketname></gold><br><trinketusage>",
                 Placeholder.component("trinketname", this.itemStack.displayName().hoverEvent(this.itemStack.asHoverEvent())),
                 Placeholder.parsed("trinketusage", "<green>" + Usages.SPELLBOOK_USE));
+        random = new Random();
     }
 
     @Override
@@ -61,6 +67,7 @@ public class Spellbook extends Trinket {
         StringBuilder nextCommand = new StringBuilder();
         int cooldown = -1;
         int uses = -1;
+        double useChance = -1;
         String customTitle = null;
         boolean noCopy = false;
         byte functionalCopies = -1;
@@ -69,7 +76,7 @@ public class Spellbook extends Trinket {
             String[] lines = pages.get(i).split("\n");
             for (int j = 0; j < lines.length; j++) {
                 String line = lines[j];
-                if (line.isEmpty() || line.isBlank())
+                if (line.isBlank())
                     continue;
                 if (line.equalsIgnoreCase("<display>")) {
                     displayIndex = i + 1;
@@ -107,6 +114,14 @@ public class Spellbook extends Trinket {
                 if (matcher.matches()) {
                     worlds.add(matcher.group(1));
                 }
+                matcher = USE_CHANCE_PATTERN.matcher(line);
+                if (matcher.matches()) {
+                    String useChanceGroup = matcher.group(1);
+                    if (useChanceGroup != null) {
+                        useChance = Double.parseDouble(useChanceGroup);
+                        useChance = Utils.normalizeRate(Utils.ensurePercentage(useChance, 0));
+                    }
+                }
                 if (line.startsWith("/") || line.startsWith("<")) {
                     parseAndAddCommand(commands, nextCommand.toString());
                     nextCommand = new StringBuilder(line);
@@ -142,6 +157,8 @@ public class Spellbook extends Trinket {
             container.set(keys.cooldownKey, PersistentDataType.INTEGER, cooldown);
         if (uses != -1)
             container.set(keys.remainingUsesKey, PersistentDataType.INTEGER, uses);
+        if (useChance != -1)
+            container.set(keys.useChanceKey, PersistentDataType.DOUBLE, useChance);
         if (functionalCopies != -1)
             container.set(keys.functionalCopiesKey, PersistentDataType.BYTE, (byte) functionalCopies);
         if (!worlds.isEmpty())
@@ -187,19 +204,22 @@ public class Spellbook extends Trinket {
         int uses = container.getOrDefault(keys.remainingUsesKey, PersistentDataType.INTEGER, -1);
         if (uses == -1) {
             result.setItemMeta(meta);
-            return result;
         } else {
-            if (uses == 1)
-                return null;
-            else {
-                uses--;
-                container.set(keys.remainingUsesKey, PersistentDataType.INTEGER, uses);
-                ArrayList<Component> newLore = createLore(container, meta, uses);
-                meta.lore(newLore);
-                result.setItemMeta(meta);
-                return result;
+            double chance = container.getOrDefault(keys.useChanceKey, PersistentDataType.DOUBLE, -1.0);
+            if (chance == -1 || random.nextDouble() < chance) {
+                if (uses == 1)
+                    return null;
+                else {
+                    uses--;
+                    container.set(keys.remainingUsesKey, PersistentDataType.INTEGER, uses);
+                    ArrayList<Component> newLore = createLore(container, meta, uses);
+                    meta.lore(newLore);
+                    result.setItemMeta(meta);
+                    return result;
+                }
             }
         }
+        return result;
     }
 
     public boolean canUse(ItemStack spellbook) {

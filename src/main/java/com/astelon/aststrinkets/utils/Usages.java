@@ -36,11 +36,13 @@ public final class Usages {
             "1. <display> - add this at the end of a page to make all the pages after it the only ones displayed.<br>" +
             "2. <cooldown:(cooldown in seconds)> - change the cooldown of the spellbook. By default, it is 1 second.<br>" +
             "3. <uses:(number of uses)> - set how many times the spellbook can be uses. By default, it can be used infinitely.<br>" +
-            "4. <title:(custom title here)> - set the title of the signed book to this one.<br>" +
-            "5. <noCopy> - makes the spellbook impossible to copy.<br>" +
-            "6. <functionalCopies:(original or copy)> - if set to 'original', makes copies of original work as spellbooks. " +
+            "4. <useChance:(percentage)> - only used if uses is set, it represents the chance that one of the uses of the " +
+            "spellbook will be consumed.<br>" +
+            "5. <title:(custom title here)> - set the title of the signed book to this one.<br>" +
+            "6. <noCopy> - makes the spellbook impossible to copy.<br>" +
+            "7. <functionalCopies:(original or copy)> - if set to 'original', makes copies of original work as spellbooks. " +
             "If set to 'copy', makes copies of a copy work as spellbooks. By default, copies can be created, but not used.<br>" +
-            "7. <world:(world name)> - the command is run only if the player is in the specified world. Can be added multiple " +
+            "8. <world:(world name)> - the command is run only if the player is in the specified world. Can be added multiple " +
             "times to allow more worlds.<br>" +
             "The following tokens should be written inside the actual command and act as placeholders:<br>" +
             "1. <playerName> - replaced with the name of the player that uses the spellbook.<br>" +
