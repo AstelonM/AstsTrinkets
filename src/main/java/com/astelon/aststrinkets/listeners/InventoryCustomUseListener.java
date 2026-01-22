@@ -14,6 +14,7 @@ import org.bukkit.World;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryType;
@@ -76,7 +77,7 @@ public class InventoryCustomUseListener implements Listener {
         forbiddenTome = trinketManager.getForbiddenTome();
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onInventoryClick(InventoryClickEvent event) {
         ItemStack heldItem = event.getCursor();
         Player player = (Player) event.getView().getPlayer();
