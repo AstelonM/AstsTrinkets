@@ -21,6 +21,9 @@ import java.util.List;
 public class ReignitableRocketPrototype extends FireworkTrinket {
 
     private boolean pluginExplosion;
+    private float explosionPower;
+    private boolean setFire;
+    private boolean breakBlocks;
 
     public ReignitableRocketPrototype(AstsTrinkets plugin, NamespacedKeys keys) {
         super(plugin, keys, "reignitableRocketPrototype", TextColor.fromHexString("#485D33"),
@@ -85,5 +88,33 @@ public class ReignitableRocketPrototype extends FireworkTrinket {
 
     public void setPluginExplosion(boolean pluginExplosion) {
         this.pluginExplosion = pluginExplosion;
+    }
+
+    //TODO figure a way to deal with multitype trinkets
+    public float getExplosionPower(ItemStack rocket) {
+        PersistentDataContainer container = rocket.getItemMeta().getPersistentDataContainer();
+        return container.getOrDefault(keys.explosionPowerKey, PersistentDataType.FLOAT, explosionPower);
+    }
+
+    public boolean isSetFire(ItemStack rocket) {
+        PersistentDataContainer container = rocket.getItemMeta().getPersistentDataContainer();
+        return container.getOrDefault(keys.setFireKey, PersistentDataType.BYTE, (byte) (setFire ? 1 : 0)) == (byte) 1;
+    }
+
+    public boolean isBreakBlocks(ItemStack rocket) {
+        PersistentDataContainer container = rocket.getItemMeta().getPersistentDataContainer();
+        return container.getOrDefault(keys.breakBlocksKey, PersistentDataType.BYTE, (byte) (breakBlocks ? 1 : 0)) == (byte) 1;
+    }
+
+    public void setExplosionPower(float explosionPower) {
+        this.explosionPower = explosionPower;
+    }
+
+    public void setSetFire(boolean setFire) {
+        this.setFire = setFire;
+    }
+
+    public void setBreakBlocks(boolean breakBlocks) {
+        this.breakBlocks = breakBlocks;
     }
 }

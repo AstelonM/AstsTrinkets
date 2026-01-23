@@ -151,6 +151,10 @@ public class AstsTrinkets extends JavaPlugin {
         reignitableRocketPrototype.setAllowUseAsFirework(configuration.getBoolean(reignitableRocketPrototype.getName() +
                 ".allowUseAsFirework", false));
         reignitableRocketPrototype.setPluginExplosion(pluginExplosion);
+        reignitableRocketPrototype.setExplosionPower((float) configuration.getDouble(reignitableRocketPrototype.getName() +
+                ".explosionPower"));
+        reignitableRocketPrototype.setSetFire(configuration.getBoolean(reignitableRocketPrototype.getName() + ".setFire"));
+        reignitableRocketPrototype.setBreakBlocks(configuration.getBoolean(reignitableRocketPrototype.getName() + ".breakBlocks"));
         ReignitableRocket reignitableRocket = trinketManager.getReignitableRocket();
         double failureChance = configuration.getDouble(reignitableRocket.getName() + ".failureChance", 10.0);
         reignitableRocket.setFailureChance(Utils.ensurePercentage(failureChance, 10.0));

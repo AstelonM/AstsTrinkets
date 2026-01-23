@@ -136,6 +136,12 @@ reignitableRocketPrototype:
   pluginExplosion: false
   # Set to false to prevent the trinket from being used as a regular firework rocket.
   allowUseAsFirework: false
+  # How strong the explosion is. 4 is equivalent to one tnt.
+  explosionPower: 8
+  # Whether the explosion will set fire to blocks.
+  setFire: true
+  # Whether the explosion breaks blocks.
+  breakBlocks: true
 
 # Works the same as the prototype, except it no longer causes explosions. On failure, it is simply consumed.
 reignitableRocket:
