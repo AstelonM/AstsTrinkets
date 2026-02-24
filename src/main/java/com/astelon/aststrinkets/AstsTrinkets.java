@@ -13,10 +13,8 @@ import com.astelon.aststrinkets.trinkets.creature.*;
 import com.astelon.aststrinkets.trinkets.inventory.ArcaneTome;
 import com.astelon.aststrinkets.trinkets.projectile.ExperienceBottle;
 import com.astelon.aststrinkets.trinkets.projectile.MysteryEgg;
-import com.astelon.aststrinkets.trinkets.projectile.arrow.DeathArrow;
-import com.astelon.aststrinkets.trinkets.projectile.arrow.ExplosiveArrow;
-import com.astelon.aststrinkets.trinkets.projectile.arrow.SmitingArrow;
-import com.astelon.aststrinkets.trinkets.projectile.arrow.TrueDeathArrow;
+import com.astelon.aststrinkets.trinkets.projectile.ProjectileTrinket;
+import com.astelon.aststrinkets.trinkets.projectile.arrow.*;
 import com.astelon.aststrinkets.trinkets.projectile.rocket.*;
 import com.astelon.aststrinkets.utils.MaxLevelBehaviour;
 import com.astelon.aststrinkets.utils.NamespacedKeys;
@@ -96,6 +94,13 @@ public class AstsTrinkets extends JavaPlugin {
             if (trinket instanceof CreatureAffectingTrinket creatureAffectingTrinket) {
                 creatureAffectingTrinket.setPetOwnerOnly(configuration.getBoolean(trinket.getName() + ".petOwnerOnly"));
             }
+            if (trinket instanceof ProjectileTrinket projectileTrinket) {
+                projectileTrinket.setDispenserAllowed(configuration.getBoolean(trinket.getName() + ".dispenserAllowed"));
+                if (projectileTrinket instanceof ArrowTrinket arrowTrinket) {
+                    arrowTrinket.setMultishotAllowed(configuration.getBoolean(trinket.getName() + ".multishotAllowed"));
+                    arrowTrinket.setPiercingAllowed(configuration.getBoolean(trinket.getName() + ".piercingAllowed"));
+                }
+            }
             if (trinket instanceof WeatherRocketTrinket weatherRocketTrinket) {
                 weatherRocketTrinket.setMinWeatherDuration(Utils.ensurePositive(configuration.getInt(weatherRocketTrinket.getName() +
                         ".minWeatherDuration"), 600));
@@ -163,14 +168,6 @@ public class AstsTrinkets extends JavaPlugin {
         PerfectedReignitableRocket perfectedReignitableRocket = trinketManager.getPerfectedReignitableRocket();
         perfectedReignitableRocket.setAllowUseAsFirework(configuration.getBoolean(perfectedReignitableRocket.getName() +
                 ".allowUseAsFirework", false));
-        DeathArrow deathArrow = trinketManager.getDeathArrow();
-        deathArrow.setPiercingAllowed(configuration.getBoolean(deathArrow.getName() + ".piercingAllowed"));
-        deathArrow.setMultishotAllowed(configuration.getBoolean(deathArrow.getName() + ".multishotAllowed"));
-        deathArrow.setDispenserAllowed(configuration.getBoolean(deathArrow.getName() + ".dispenserAllowed"));
-        TrueDeathArrow trueDeathArrow = trinketManager.getTrueDeathArrow();
-        trueDeathArrow.setPiercingAllowed(configuration.getBoolean(trueDeathArrow.getName() + ".piercingAllowed"));
-        trueDeathArrow.setMultishotAllowed(configuration.getBoolean(trueDeathArrow.getName() + ".multishotAllowed"));
-        trueDeathArrow.setDispenserAllowed(configuration.getBoolean(trueDeathArrow.getName() + ".dispenserAllowed"));
         Souleater souleater = trinketManager.getSouleater();
         int cooldown = configuration.getInt(souleater.getName() + ".cooldown", 60) * 1000;
         souleater.setCooldown(Utils.ensurePositive(cooldown, 60000));
@@ -180,7 +177,6 @@ public class AstsTrinkets extends JavaPlugin {
         MysteryEgg mysteryEgg = trinketManager.getMysteryEgg();
         List<String> blacklist = configuration.getStringList(mysteryEgg.getName() + ".blacklist");
         mysteryEgg.setAllowedEntities(getBlacklistedTypes(blacklist));
-        mysteryEgg.setDispenserAllowed(configuration.getBoolean(mysteryEgg.getName() + ".dispenserAllowed"));
         Bait bait = trinketManager.getBait();
         double efficiency = Utils.ensurePercentage(configuration.getDouble(bait.getName() + ".efficiency", 50.0),
                 50.0);
@@ -189,20 +185,12 @@ public class AstsTrinkets extends JavaPlugin {
                 10.0);
         bait.setConsumeChance(Utils.normalizeRate(consumeChance));
         ExperienceBottle experienceBottle = trinketManager.getExperienceBottle();
-        experienceBottle.setDispenserAllowed(configuration.getBoolean(experienceBottle.getName() + ".dispenserAllowed"));
         ItemMagnet itemMagnet = trinketManager.getItemMagnet();
         int itemMagnetRange = Utils.ensurePositive(configuration.getInt(itemMagnet.getName() + ".range", 4), 4);
         itemMagnet.setRange(itemMagnetRange);
         Terrarium terrarium = trinketManager.getTerrarium();
         terrarium.setAllowEnderDragonCapture(configuration.getBoolean(terrarium.getName() + ".allowEnderDragonCapture"));
-        SmitingArrow smitingArrow = trinketManager.getSmitingArrow();
-        smitingArrow.setPiercingAllowed(configuration.getBoolean(smitingArrow.getName() + ".piercingAllowed"));
-        smitingArrow.setMultishotAllowed(configuration.getBoolean(smitingArrow.getName() + ".multishotAllowed"));
-        smitingArrow.setDispenserAllowed(configuration.getBoolean(smitingArrow.getName() + ".dispenserAllowed"));
         ExplosiveArrow explosiveArrow = trinketManager.getExplosiveArrow();
-        explosiveArrow.setPiercingAllowed(configuration.getBoolean(explosiveArrow.getName() + ".piercingAllowed"));
-        explosiveArrow.setMultishotAllowed(configuration.getBoolean(explosiveArrow.getName() + ".multishotAllowed"));
-        explosiveArrow.setDispenserAllowed(configuration.getBoolean(explosiveArrow.getName() + ".dispenserAllowed"));
         explosiveArrow.setExplosionPower((float) configuration.getDouble(explosiveArrow.getName() + ".explosionPower"));
         explosiveArrow.setSetFire(configuration.getBoolean(explosiveArrow.getName() + ".setFire"));
         explosiveArrow.setBreakBlocks(configuration.getBoolean(explosiveArrow.getName() + ".breakBlocks"));

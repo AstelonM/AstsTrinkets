@@ -677,3 +677,14 @@ voidGateway:
   minZ: 0
   # The maximum value of the z coordinate.
   maxZ: 0
+
+# An arrow that applies a random effect to the creature hit, like the Mystery Cake.
+mysteryArrow:
+  enabled: true
+  # Whether the arrows can pierce if shot from a crossbow with Piercing enchantment.
+  piercingAllowed: true
+  # Whether the extra arrows created by the Multishot enchantment are also counted as trinkets.
+  # Note: does not apply to arrows shot while in creative mode.
+  multishotAllowed: true
+  # Whether arrows shot by a dispenser count as trinkets. Only works with unowned trinkets.
+  dispenserAllowed: true

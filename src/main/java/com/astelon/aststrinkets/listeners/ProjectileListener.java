@@ -27,6 +27,7 @@ import org.bukkit.event.block.BlockDispenseEvent;
 import org.bukkit.event.entity.*;
 import org.bukkit.inventory.EntityEquipment;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.potion.PotionEffect;
 import org.bukkit.projectiles.BlockProjectileSource;
 import org.bukkit.projectiles.ProjectileSource;
 
@@ -41,6 +42,8 @@ public class ProjectileListener implements Listener {
     private final TrinketManager trinketManager;
     private final MobInfoManager mobInfoManager;
 
+    private final Random random;
+
     private final HashMap<Block, ItemStack> launchedTrinkets;
 
     private final DeathArrow deathArrow;
@@ -51,11 +54,13 @@ public class ProjectileListener implements Listener {
     private final ExperienceBottle experienceBottle;
     private final MysteryFirework mysteryFirework;
     private final HuntingBow huntingBow;
+    private final MysteryArrow mysteryArrow;
 
     public ProjectileListener(AstsTrinkets plugin, TrinketManager trinketManager, MobInfoManager mobInfoManager) {
         this.plugin = plugin;
         this.trinketManager = trinketManager;
         this.mobInfoManager = mobInfoManager;
+        random = new Random();
         launchedTrinkets = new HashMap<>();
         deathArrow = trinketManager.getDeathArrow();
         trueDeathArrow = trinketManager.getTrueDeathArrow();
@@ -65,6 +70,7 @@ public class ProjectileListener implements Listener {
         experienceBottle = trinketManager.getExperienceBottle();
         mysteryFirework = trinketManager.getMysteryFirework();
         huntingBow = trinketManager.getHuntingBow();
+        mysteryArrow = trinketManager.getMysteryArrow();
     }
 
     @EventHandler(ignoreCancelled = true)
@@ -110,6 +116,10 @@ public class ProjectileListener implements Listener {
                     smitingArrow.setProjectileTrinket(arrow, arrowItem);
                 } else if (explosiveArrow.isEnabledTrinket(arrowItem)) {
                     explosiveArrow.setProjectileTrinket(arrow, arrowItem);
+                } else if (mysteryArrow.isEnabledTrinket(arrowItem)) {
+                    mysteryArrow.setProjectileTrinket(arrow, arrowItem);
+                    Color colour = Color.fromRGB(random.nextInt(256), random.nextInt(256), random.nextInt(256));
+                    arrow.setColor(colour);
                 }
             }
         } else if (projectile instanceof Firework firework) {
@@ -136,6 +146,9 @@ public class ProjectileListener implements Listener {
                 livingEntity.setHealth(0);
                 logDeath(deathArrow, shooterEntity, livingEntity);
                 checkAndRemovePiercing(arrow);
+            } else if (mysteryArrow.isEnabledTrinket(arrow)) {
+                PotionEffect effect = mysteryArrow.applyRandomEffect(livingEntity);
+                logMysteryArrow(shooterEntity, livingEntity, effect);
             }
         }
     }
@@ -194,6 +207,17 @@ public class ProjectileListener implements Listener {
         String killedName = getProperName(killed);
         plugin.getLogger().info(killerName + " killed " + killedName + " at " +
                 Utils.locationToString(killed.getLocation()) + " using a " + trinket.getName() +  " trinket.");
+    }
+
+    private void logMysteryArrow(Entity shooter, Entity shot, PotionEffect effect) {
+        String shooterName;
+        if (shooter == null)
+            shooterName = "Dispenser";
+        else
+            shooterName = getProperName(shooter);
+        String shotName = getProperName(shot);
+        plugin.getLogger().info(shooterName + " shot a Mystery Arrow at " + shotName + " at " +
+                Utils.locationToString(shot.getLocation()) + " and applied " + effect.getType().getName() +  ".");
     }
 
     private String getProperName(Entity entity) {
@@ -274,7 +298,7 @@ public class ProjectileListener implements Listener {
         ItemStack itemStack = event.getItem();
         Trinket trinket = trinketManager.getTrinket(itemStack);
         if (trinket instanceof ProjectileTrinket projectileTrinket && projectileTrinket.isDispenserAllowed()) {
-            if (trinket.isEnabled() && trinketManager.getOwner(itemStack) == null){
+            if (trinket.isEnabled() && trinketManager.getOwner(itemStack) == null) {
                 Block block = event.getBlock();
                 launchedTrinkets.put(block, itemStack);
             }

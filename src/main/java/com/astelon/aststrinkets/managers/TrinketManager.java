@@ -11,10 +11,7 @@ import com.astelon.aststrinkets.trinkets.creature.traps.NetherStarTrap;
 import com.astelon.aststrinkets.trinkets.equipable.*;
 import com.astelon.aststrinkets.trinkets.inventory.*;
 import com.astelon.aststrinkets.trinkets.projectile.*;
-import com.astelon.aststrinkets.trinkets.projectile.arrow.DeathArrow;
-import com.astelon.aststrinkets.trinkets.projectile.arrow.ExplosiveArrow;
-import com.astelon.aststrinkets.trinkets.projectile.arrow.SmitingArrow;
-import com.astelon.aststrinkets.trinkets.projectile.arrow.TrueDeathArrow;
+import com.astelon.aststrinkets.trinkets.projectile.arrow.*;
 import com.astelon.aststrinkets.trinkets.projectile.rocket.*;
 import com.astelon.aststrinkets.utils.NamespacedKeys;
 import org.bukkit.NamespacedKey;
@@ -41,6 +38,7 @@ public class TrinketManager {
     private final AstsTrinkets plugin;
     private final MobInfoManager mobInfoManager;
     private final InvisibilityManager invisibilityManager;
+    private final RandomEffectManager randomEffectManager;
     private final NamespacedKeys keys;
 
     private final ArrayList<Trinket> trinkets;
@@ -50,6 +48,7 @@ public class TrinketManager {
         this.plugin = plugin;
         this.mobInfoManager = mobInfoManager;
         this.invisibilityManager = invisibilityManager;
+        randomEffectManager = new RandomEffectManager();
         this.keys = keys;
         trinkets = new ArrayList<>();
         trinketMap = new HashMap<>();
@@ -61,7 +60,7 @@ public class TrinketManager {
         addTrinket(new TrueInvisibilityTunic(plugin, keys));
         addTrinket(new FragileInvisibilityTunic(plugin, keys));
         addTrinket(new ShapeShifter(plugin, keys));
-        addTrinket(new MysteryCake(plugin, keys));
+        addTrinket(new MysteryCake(plugin, keys, randomEffectManager));
         addTrinket(new Spinneret(plugin, keys));
         addTrinket(new MendingPowder(plugin, keys));
         addTrinket(new BindingPowder(plugin, keys));
@@ -138,6 +137,7 @@ public class TrinketManager {
         addTrinket(new IronGolemKit(plugin, keys));
         addTrinket(new Lasso(plugin, keys));
         addTrinket(new VoidGateway(plugin, keys));
+        addTrinket(new MysteryArrow(plugin, keys, randomEffectManager));
     }
 
     private void addTrinket(Trinket trinket) {
@@ -730,5 +730,9 @@ public class TrinketManager {
 
     public VoidGateway getVoidGateway() {
         return (VoidGateway) getTrinketExact("voidGateway");
+    }
+
+    public MysteryArrow getMysteryArrow() {
+        return (MysteryArrow) getTrinketExact("mysteryArrow");
     }
 }
