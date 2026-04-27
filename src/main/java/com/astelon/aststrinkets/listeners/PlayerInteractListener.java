@@ -93,6 +93,7 @@ public class PlayerInteractListener implements Listener {
     private final Treats treats;
     private final MagicBerries magicBerries;
     private final IronGolemBlueprint ironGolemBlueprint;
+    private final ReusableExperienceBottle reusableExperienceBottle;
 
     public PlayerInteractListener(AstsTrinkets plugin, MobInfoManager mobInfoManager, TrinketManager trinketManager) {
         this.plugin = plugin;
@@ -129,6 +130,7 @@ public class PlayerInteractListener implements Listener {
         treats = trinketManager.getTreats();
         magicBerries = trinketManager.getMagicBerries();
         ironGolemBlueprint = trinketManager.getIronGolemBlueprint();
+        reusableExperienceBottle = trinketManager.getReusableExperienceBottle();
     }
 
     @EventHandler
@@ -596,6 +598,23 @@ public class PlayerInteractListener implements Listener {
                             }
                         }
                         cooldowns.put(player, now);
+                    } else if (reusableExperienceBottle.isEnabledTrinket(itemStack)) {
+                        //TODO sort out duplicate when I'll improve trinket usage
+                        if (reusableExperienceBottle.hasExperience(itemStack))
+                            return;
+                        int experience = Utils.getTotalExperience(player);
+                        if (experience == 0) {
+                            player.sendMessage(Component.text("You don't have any experience to store in the bottle.",
+                                    NamedTextColor.YELLOW));
+                            return;
+                        }
+                        ItemStack result = reusableExperienceBottle.fillExperienceBottle(itemStack, experience);
+                        Utils.transformItem(itemStack, result, slot, inventory, player);
+                        player.updateInventory();
+                        player.setTotalExperience(0);
+                        player.setLevel(0);
+                        player.setExp(0);
+                        return;
                     }
                 }
             }

@@ -138,6 +138,7 @@ public class TrinketManager {
         addTrinket(new Lasso(plugin, keys));
         addTrinket(new VoidGateway(plugin, keys));
         addTrinket(new MysteryArrow(plugin, keys, randomEffectManager));
+        addTrinket(new ReusableExperienceBottle(plugin, keys));
     }
 
     private void addTrinket(Trinket trinket) {
@@ -725,7 +726,7 @@ public class TrinketManager {
     }
 
     public Lasso getLasso() {
-        return (Lasso)  getTrinketExact("lasso");
+        return (Lasso) getTrinketExact("lasso");
     }
 
     public VoidGateway getVoidGateway() {
@@ -734,5 +735,9 @@ public class TrinketManager {
 
     public MysteryArrow getMysteryArrow() {
         return (MysteryArrow) getTrinketExact("mysteryArrow");
+    }
+
+    public ReusableExperienceBottle getReusableExperienceBottle() {
+        return (ReusableExperienceBottle) getTrinketExact("reusableExperienceBottle");
     }
 }

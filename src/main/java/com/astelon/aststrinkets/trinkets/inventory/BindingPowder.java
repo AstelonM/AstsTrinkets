@@ -36,6 +36,7 @@ public class BindingPowder extends Trinket {
         return itemStack;
     }
 
+    //TODO turn into a static method or move somewhere else
     public ItemStack bindTrinket(ItemStack itemStack, Trinket trinket, Player player) {
         ItemStack result = itemStack.asOne();
         ItemMeta meta = result.getItemMeta();

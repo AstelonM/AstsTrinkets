@@ -688,3 +688,8 @@ mysteryArrow:
   multishotAllowed: true
   # Whether arrows shot by a dispenser count as trinkets. Only works with unowned trinkets.
   dispenserAllowed: true
+
+# Right click air while sneaking to transfer your experience to this bottle and turn it into a potion that can be drank
+# to gain it back.
+reusableExperienceBottle:
+  enabled: true

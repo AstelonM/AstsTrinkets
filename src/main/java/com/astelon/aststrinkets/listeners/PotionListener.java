@@ -2,16 +2,19 @@ package com.astelon.aststrinkets.listeners;
 
 import com.astelon.aststrinkets.AstsTrinkets;
 import com.astelon.aststrinkets.managers.TrinketManager;
+import com.astelon.aststrinkets.trinkets.ReusableExperienceBottle;
 import com.astelon.aststrinkets.trinkets.Trinket;
 import com.astelon.aststrinkets.trinkets.equipable.AdvancedFlippers;
 import com.astelon.aststrinkets.trinkets.equipable.EffectGivingTrinket;
 import com.astelon.aststrinkets.trinkets.equipable.Flippers;
 import com.astelon.aststrinkets.trinkets.equipable.NightVisionGoggles;
+import com.astelon.aststrinkets.trinkets.inventory.BindingPowder;
 import com.destroystokyo.paper.event.player.PlayerArmorChangeEvent;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityPotionEffectEvent;
+import org.bukkit.event.player.PlayerItemConsumeEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
@@ -24,6 +27,8 @@ public class PotionListener implements Listener {
     private final NightVisionGoggles nightVisionGoggles;
     private final Flippers flippers;
     private final AdvancedFlippers advancedFlippers;
+    private final ReusableExperienceBottle reusableExperienceBottle;
+    private final BindingPowder bindingPowder;
 
     public PotionListener(AstsTrinkets plugin, TrinketManager trinketManager) {
         this.plugin = plugin;
@@ -31,6 +36,8 @@ public class PotionListener implements Listener {
         nightVisionGoggles = trinketManager.getNightVisionGoggles();
         flippers = trinketManager.getFlippers();
         advancedFlippers = trinketManager.getAdvancedFlippers();
+        reusableExperienceBottle = trinketManager.getReusableExperienceBottle();
+        bindingPowder = trinketManager.getBindingPowder();
     }
 
     @EventHandler
@@ -124,6 +131,24 @@ public class PotionListener implements Listener {
         if (trinket instanceof EffectGivingTrinket effectTrinket && effectTrinket.isEnabledTrinket(itemStack) &&
                 trinketManager.isOwnedBy(itemStack, player) && effectTrinket.hasEffects(player)) {
             effectTrinket.removeEffects(player);
+        }
+    }
+
+    @EventHandler(ignoreCancelled = true)
+    public void onPlayerItemConsume(PlayerItemConsumeEvent event) {
+        ItemStack itemStack = event.getItem();
+        Player player = event.getPlayer();
+        if (reusableExperienceBottle.isTrinket(itemStack)) {
+            if (!reusableExperienceBottle.isEnabled() || !trinketManager.isOwnedBy(itemStack, player)) {
+                event.setCancelled(true);
+                return;
+            }
+            int experience = reusableExperienceBottle.getExperience(itemStack);
+            player.giveExp(experience, true);
+            ItemStack result = reusableExperienceBottle.getItemStack();
+            if (trinketManager.getOwner(itemStack) != null)
+                result = bindingPowder.bindTrinket(result, reusableExperienceBottle, player);
+            event.setReplacement(result);
         }
     }
 }
