@@ -693,3 +693,9 @@ mysteryArrow:
 # to gain it back.
 reusableExperienceBottle:
   enabled: true
+
+# A snowball that becomes a random item when thrown.
+mysteryObject:
+  enabled: true
+  # Whether snowballs shot by a dispenser count as trinkets. Only works with unowned trinkets.
+  dispenserAllowed: true

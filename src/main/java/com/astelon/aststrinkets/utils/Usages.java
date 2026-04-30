@@ -114,4 +114,5 @@ public final class Usages {
     public static final String INTERACT_WITH_MULTIPLE_TYPES = "Right click a creature that has multiple types using the trinket.";
     public static final String PLACE = "Place it down.";
     public static final String SHIFT_RIGHT_CLICK_THEN_DRINK = SHIFT_RIGHT_CLICK + " Then drink the result.";
+    public static final String THROW = "Throw it.";
 }

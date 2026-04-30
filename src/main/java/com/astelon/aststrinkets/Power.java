@@ -81,7 +81,8 @@ public enum Power {
     BUILD_IRON_GOLEM("buildIronGolem"),
     LEASH_EVERYTHING("leashEverything"),
     CREATE_RANDOM_GATEWAYS("createRandomGateways"),
-    ABSORB_EXPERIENCE_INTO_BOTTLE("absorbExperienceIntoBottle"),;
+    ABSORB_EXPERIENCE_INTO_BOTTLE("absorbExperienceIntoBottle"),
+    RANDOM_ITEM_WHEN_THROWN("randomItemWhenThrown"),;
 
     private final String powerName;
 

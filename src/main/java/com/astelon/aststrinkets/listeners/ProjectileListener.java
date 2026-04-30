@@ -7,6 +7,7 @@ import com.astelon.aststrinkets.trinkets.HuntingBow;
 import com.astelon.aststrinkets.trinkets.Trinket;
 import com.astelon.aststrinkets.trinkets.projectile.ExperienceBottle;
 import com.astelon.aststrinkets.trinkets.projectile.MysteryEgg;
+import com.astelon.aststrinkets.trinkets.projectile.MysteryObject;
 import com.astelon.aststrinkets.trinkets.projectile.ProjectileTrinket;
 import com.astelon.aststrinkets.trinkets.projectile.arrow.*;
 import com.astelon.aststrinkets.trinkets.projectile.rocket.MysteryFirework;
@@ -55,6 +56,7 @@ public class ProjectileListener implements Listener {
     private final MysteryFirework mysteryFirework;
     private final HuntingBow huntingBow;
     private final MysteryArrow mysteryArrow;
+    private final MysteryObject mysteryObject;
 
     public ProjectileListener(AstsTrinkets plugin, TrinketManager trinketManager, MobInfoManager mobInfoManager) {
         this.plugin = plugin;
@@ -71,6 +73,7 @@ public class ProjectileListener implements Listener {
         mysteryFirework = trinketManager.getMysteryFirework();
         huntingBow = trinketManager.getHuntingBow();
         mysteryArrow = trinketManager.getMysteryArrow();
+        mysteryObject = trinketManager.getMysteryObject();
     }
 
     @EventHandler(ignoreCancelled = true)
@@ -256,6 +259,12 @@ public class ProjectileListener implements Listener {
                 }
                 Projectile projectile = event.getProjectile();
                 experienceBottle.setProjectileTrinket(projectile, itemStack);
+            } else if (mysteryObject.isEnabledTrinket(itemStack)) {
+                Projectile projectile = event.getProjectile();
+                if (projectile instanceof ThrowableProjectile throwable) {
+                    ItemStack result = mysteryObject.getRandomItem();
+                    throwable.setItem(result);
+                } //TODO error message if the trinket is not throwable?
             }
         }
     }
@@ -327,7 +336,13 @@ public class ProjectileListener implements Listener {
         ItemStack itemStack = launchedTrinkets.remove(block);
         Trinket trinket = trinketManager.getTrinket(itemStack);
         if (trinket instanceof ProjectileTrinket projectileTrinket) {
-            //TODO check if it's enabled again in case it somehow gets disabled in the meantime?
+            if (mysteryObject.isEnabledTrinket(itemStack)) {
+                if (projectile instanceof ThrowableProjectile throwable) {
+                    ItemStack result = mysteryObject.getRandomItem();
+                    throwable.setItem(result);
+                }
+                return;
+            }
             projectileTrinket.setProjectileTrinket(projectile, itemStack);
         }
     }

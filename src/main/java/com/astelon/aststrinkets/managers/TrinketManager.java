@@ -139,6 +139,7 @@ public class TrinketManager {
         addTrinket(new VoidGateway(plugin, keys));
         addTrinket(new MysteryArrow(plugin, keys, randomEffectManager));
         addTrinket(new ReusableExperienceBottle(plugin, keys));
+        addTrinket(new MysteryObject(plugin, keys));
     }
 
     private void addTrinket(Trinket trinket) {
@@ -319,10 +320,10 @@ public class TrinketManager {
         return true;
     }
 
-    public boolean isOwnedWithRestrictions(Arrow arrow, Entity entity) {
-        String owner = getOwner(arrow);
+    public boolean isOwnedWithRestrictions(Projectile projectile, Entity entity) {
+        String owner = getOwner(projectile);
         if (owner != null) {
-            if (entity instanceof Player player && !isOwnedBy(arrow, player))
+            if (entity instanceof Player player && !isOwnedBy(projectile, player))
                 return false;
             else
                 return entity instanceof Player;
@@ -739,5 +740,9 @@ public class TrinketManager {
 
     public ReusableExperienceBottle getReusableExperienceBottle() {
         return (ReusableExperienceBottle) getTrinketExact("reusableExperienceBottle");
+    }
+
+    public MysteryObject getMysteryObject() {
+        return (MysteryObject) getTrinketExact("mysteryObject");
     }
 }
