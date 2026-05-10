@@ -4,12 +4,17 @@ import com.astelon.aststrinkets.managers.TrinketManager;
 import com.astelon.aststrinkets.trinkets.*;
 import com.astelon.aststrinkets.trinkets.equipable.*;
 import com.destroystokyo.paper.event.inventory.PrepareResultEvent;
+import org.bukkit.entity.EntityType;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.enchantment.EnchantItemEvent;
+import org.bukkit.event.inventory.CraftItemEvent;
+import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.inventory.GrindstoneInventory;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.PlayerInventory;
 
 public class TrinketLimitationsListener implements Listener {
 
@@ -25,6 +30,7 @@ public class TrinketLimitationsListener implements Listener {
     private final HydraulicBoots hydraulicBoots;
     private final HuntingBow huntingBow;
     private final AdvancedFlippers advancedFlippers;
+    private final ItemMagnet itemMagnet;
 
     public TrinketLimitationsListener(TrinketManager trinketManager) {
         this.trinketManager = trinketManager;
@@ -39,12 +45,29 @@ public class TrinketLimitationsListener implements Listener {
         hydraulicBoots = trinketManager.getHydraulicBoots();
         huntingBow = trinketManager.getHuntingBow();
         advancedFlippers = trinketManager.getAdvancedFlippers();
+        itemMagnet = trinketManager.getItemMagnet();
+    }
+
+    @EventHandler(ignoreCancelled = true)
+    public void onCraftItem(CraftItemEvent event) { //TODO the rest of the noncraftable trinkets
+        ItemStack[] items = event.getInventory().getMatrix();
+        for (ItemStack item: items) {
+            if (itemMagnet.isTrinket(item)) {
+                event.setCancelled(true);
+            }
+        }
     }
 
     @EventHandler
     public void onPrepareResult(PrepareResultEvent event) {
-        if (event.getInventory() instanceof GrindstoneInventory inventory) {
-            ItemStack itemStack = inventory.getResult();
+        Inventory inventory = event.getInventory();
+        for (ItemStack item: inventory.getContents()) {
+            if (item != null && itemMagnet.isTrinket(item)) {
+                event.setResult(null);
+            }
+        }
+        if (inventory instanceof GrindstoneInventory grindstoneInventory) {
+            ItemStack itemStack = grindstoneInventory.getResult();
             if (itemStack != null && trinketManager.isTrinket(itemStack) && !souleater.isTrinket(itemStack) &&
                     !vampiricSword.isTrinket(itemStack) && !nightVisionGoggles.isTrinket(itemStack) && !flippers.isTrinket(itemStack) &&
                     !divingHelmet.isTrinket(itemStack) && !fireproofVest.isTrinket(itemStack) && !hydraulicBoots.isTrinket(itemStack) &&
@@ -71,6 +94,17 @@ public class TrinketLimitationsListener implements Listener {
         ItemStack itemStack = event.getItemInHand();
         if (die.isTrinket(itemStack)) {
             event.setCancelled(true);
+        }
+    }
+
+    @EventHandler(ignoreCancelled = true)
+    public void onPlayerInteractEntity(PlayerInteractEntityEvent event) {
+        if (event.getRightClicked().getType() == EntityType.IRON_GOLEM) {
+            PlayerInventory inventory = event.getPlayer().getInventory();
+            ItemStack itemStack = inventory.getItem(event.getHand());
+            if (itemMagnet.isTrinket(itemStack)) {
+                event.setCancelled(true);
+            }
         }
     }
 }
