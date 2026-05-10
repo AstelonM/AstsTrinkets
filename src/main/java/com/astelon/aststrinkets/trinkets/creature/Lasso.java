@@ -17,8 +17,12 @@ import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 
 import java.util.List;
+import java.util.Set;
 
 public class Lasso extends Trinket {
+
+    private static final Set<EntityType> UNLEASHABLE = Set.of(EntityType.BAT, EntityType.ENDER_DRAGON, EntityType.WITHER,
+            EntityType.SLIME, EntityType.MAGMA_CUBE, EntityType.SHULKER, EntityType.ENDERMAN, EntityType.ENDERMITE);
 
     public Lasso(AstsTrinkets plugin, NamespacedKeys keys) {
         super(plugin, keys, "lasso", Power.LEASH_EVERYTHING, false, Usages.INTERACT_ENTITY);
@@ -37,7 +41,7 @@ public class Lasso extends Trinket {
 
     public boolean lassoEntity(ItemStack lasso, Mob mob, Player player) {
         EntityType type = mob.getType();
-        if (type == EntityType.BAT || type == EntityType.ENDER_DRAGON || type == EntityType.WITHER)
+        if (UNLEASHABLE.contains(type))
             return false;
         if (mob.isLeashed())
             return false;
