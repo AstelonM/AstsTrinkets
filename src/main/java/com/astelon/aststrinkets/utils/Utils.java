@@ -10,32 +10,11 @@ import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Random;
+import java.util.*;
 import java.util.logging.Level;
 import java.util.stream.Collectors;
 
 public final class Utils {
-
-    private static final Color[] BASE_COLORS = new Color[] {
-            Color.fromRGB(16383998), // white
-            Color.fromRGB(10329495), // light gray
-            Color.fromRGB(4673362), // gray
-            Color.fromRGB(1908001), // black
-            Color.fromRGB(8606770), // brown
-            Color.fromRGB(11546150), // red
-            Color.fromRGB(16351261), // orange
-            Color.fromRGB(16701501), // yellow
-            Color.fromRGB(8439583), // lime
-            Color.fromRGB(6192150), // green
-            Color.fromRGB(1481884), // cyan
-            Color.fromRGB(3847130), // light blue
-            Color.fromRGB(3949738), // blue
-            Color.fromRGB(8991416), // purple
-            Color.fromRGB(13061821), // magenta
-            Color.fromRGB(15961002) // pink
-    };
 
     public static final Color PERSONAL_COLOUR = Color.fromRGB(0x263265);
 
@@ -206,7 +185,7 @@ public final class Utils {
     }
 
     public static Color getRandomBaseColour(Random random) {
-        return BASE_COLORS[random.nextInt(BASE_COLORS.length)];
+        return DyeColor.values()[random.nextInt(DyeColor.values().length)].getColor();
     }
 
     public static Color generateRandomColour(Random random) {
