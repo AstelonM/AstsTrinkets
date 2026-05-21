@@ -273,12 +273,22 @@ public class ProjectileListener implements Listener {
     public void onThrownEggHatch(ThrownEggHatchEvent event) {
         Egg egg = event.getEgg();
         if (mysteryEgg.isEnabledTrinket(egg)) {
-            EntityType type = mysteryEgg.getRandomEntityType();
+            ProjectileSource thrower = egg.getShooter();
+            EntityType type = mysteryEgg.getRandomEntityType(egg);
+            if (type == null) {
+                if (thrower instanceof Player player) {
+                    plugin.getLogger().info("Player " + player.getName() + " threw a Mystery Egg at " +
+                            Utils.locationToString(egg.getLocation()) + " but it couldn't choose a type.");
+                } else {
+                    plugin.getLogger().info("Mystery Egg at " +
+                            Utils.locationToString(egg.getLocation()) + " couldn't choose a type.");
+                }
+                return;
+            }
             event.setHatchingType(type);
             event.setHatching(true);
             if (event.getNumHatches() == 0)
                 event.setNumHatches((byte) 1);
-            ProjectileSource thrower = egg.getShooter();
             if (thrower instanceof Player player) {
                 plugin.getLogger().info("Player " + player.getName() + " threw a Mystery Egg at " +
                         Utils.locationToString(egg.getLocation()) + " and it might have hatched " +

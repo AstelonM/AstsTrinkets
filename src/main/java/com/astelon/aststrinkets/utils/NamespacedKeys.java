@@ -62,6 +62,8 @@ public class NamespacedKeys {
     public final NamespacedKey customMaxLevelsKey;
     public final NamespacedKey worldWhitelistKey;
     public final NamespacedKey lassoKey;
+    public final NamespacedKey mobWhitelistKey;
+    public final NamespacedKey mobBlacklistKey;
 
     public NamespacedKeys(AstsTrinkets plugin) {
         this.plugin = plugin;
@@ -113,6 +115,8 @@ public class NamespacedKeys {
         customMaxLevelsKey = new NamespacedKey(plugin, "customMaxLevels");
         worldWhitelistKey = new NamespacedKey(plugin, "worldWhitelist");
         lassoKey = new NamespacedKey(plugin, "hasLasso");
+        mobWhitelistKey = new NamespacedKey(plugin, "mobWhitelist");
+        mobBlacklistKey = new NamespacedKey(plugin, "mobBlacklist");
         initKeyMap();
     }
 
@@ -165,6 +169,8 @@ public class NamespacedKeys {
         keys.put(customMaxLevelsKey.getKey(), new KeyTypePair(customMaxLevelsKey, PersistentDataType.STRING));
         keys.put(worldWhitelistKey.getKey(), new KeyTypePair(worldWhitelistKey, PersistentDataType.STRING));
         keys.put(lassoKey.getKey(), new KeyTypePair(lassoKey, PersistentDataType.BYTE_ARRAY));
+        keys.put(mobWhitelistKey.getKey(), new KeyTypePair(mobWhitelistKey, PersistentDataType.STRING));
+        keys.put(mobBlacklistKey.getKey(), new KeyTypePair(mobBlacklistKey, PersistentDataType.STRING));
         keys = Collections.unmodifiableMap(keys);
     }
 
