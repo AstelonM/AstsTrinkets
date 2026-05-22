@@ -699,3 +699,7 @@ mysteryObject:
   enabled: true
   # Whether snowballs shot by a dispenser count as trinkets. Only works with unowned trinkets.
   dispenserAllowed: true
+
+# Leather leggings that give Jump Boost when worn. The effects are removed when they're taken off.
+frogLegs:
+  enabled: true

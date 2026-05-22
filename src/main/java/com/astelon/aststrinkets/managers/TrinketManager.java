@@ -140,6 +140,7 @@ public class TrinketManager {
         addTrinket(new MysteryArrow(plugin, keys, randomEffectManager));
         addTrinket(new ReusableExperienceBottle(plugin, keys));
         addTrinket(new MysteryObject(plugin, keys));
+        addTrinket(new FrogLegs(plugin, keys));
     }
 
     private void addTrinket(Trinket trinket) {
@@ -744,5 +745,9 @@ public class TrinketManager {
 
     public MysteryObject getMysteryObject() {
         return (MysteryObject) getTrinketExact("mysteryObject");
+    }
+
+    public FrogLegs getFrogLegs() {
+        return (FrogLegs) getTrinketExact("frogLegs");
     }
 }

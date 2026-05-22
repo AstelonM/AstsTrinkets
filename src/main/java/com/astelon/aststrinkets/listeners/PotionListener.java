@@ -4,10 +4,7 @@ import com.astelon.aststrinkets.AstsTrinkets;
 import com.astelon.aststrinkets.managers.TrinketManager;
 import com.astelon.aststrinkets.trinkets.ReusableExperienceBottle;
 import com.astelon.aststrinkets.trinkets.Trinket;
-import com.astelon.aststrinkets.trinkets.equipable.AdvancedFlippers;
-import com.astelon.aststrinkets.trinkets.equipable.EffectGivingTrinket;
-import com.astelon.aststrinkets.trinkets.equipable.Flippers;
-import com.astelon.aststrinkets.trinkets.equipable.NightVisionGoggles;
+import com.astelon.aststrinkets.trinkets.equipable.*;
 import com.astelon.aststrinkets.trinkets.inventory.BindingPowder;
 import com.destroystokyo.paper.event.player.PlayerArmorChangeEvent;
 import org.bukkit.entity.Player;
@@ -29,6 +26,7 @@ public class PotionListener implements Listener {
     private final AdvancedFlippers advancedFlippers;
     private final ReusableExperienceBottle reusableExperienceBottle;
     private final BindingPowder bindingPowder;
+    private final FrogLegs frogLegs;
 
     public PotionListener(AstsTrinkets plugin, TrinketManager trinketManager) {
         this.plugin = plugin;
@@ -38,6 +36,7 @@ public class PotionListener implements Listener {
         advancedFlippers = trinketManager.getAdvancedFlippers();
         reusableExperienceBottle = trinketManager.getReusableExperienceBottle();
         bindingPowder = trinketManager.getBindingPowder();
+        frogLegs = trinketManager.getFrogLegs();
     }
 
     @EventHandler
@@ -68,6 +67,7 @@ public class PotionListener implements Listener {
         checkTrinketOnAdd(event, player, nightVisionGoggles);
         checkTrinketOnAdd(event, player, flippers);
         checkTrinketOnAdd(event, player, advancedFlippers);
+        checkTrinketOnAdd(event, player, frogLegs);
     }
 
     private void checkTrinketOnAdd(EntityPotionEffectEvent event, Player player, EffectGivingTrinket effectGivingTrinket) {
@@ -100,6 +100,7 @@ public class PotionListener implements Listener {
         checkArmourChange(oldItem, newItem, player, nightVisionGoggles);
         checkArmourChange(oldItem, newItem, player, flippers);
         checkArmourChange(oldItem, newItem, player, advancedFlippers);
+        checkArmourChange(oldItem, newItem, player, frogLegs);
     }
 
     private void checkArmourChange(ItemStack oldItem, ItemStack newItem, Player player, EffectGivingTrinket trinket) {

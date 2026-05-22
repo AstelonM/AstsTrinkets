@@ -82,7 +82,8 @@ public enum Power {
     LEASH_EVERYTHING("leashEverything"),
     CREATE_RANDOM_GATEWAYS("createRandomGateways"),
     ABSORB_EXPERIENCE_INTO_BOTTLE("absorbExperienceIntoBottle"),
-    RANDOM_ITEM_WHEN_THROWN("randomItemWhenThrown"),;
+    RANDOM_ITEM_WHEN_THROWN("randomItemWhenThrown"),
+    JUMP_BOOST("jumpBoost"),;
 
     private final String powerName;
 
