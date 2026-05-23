@@ -11,6 +11,7 @@ import com.astelon.aststrinkets.trinkets.block.Terrarium;
 import com.astelon.aststrinkets.trinkets.block.VoidGateway;
 import com.astelon.aststrinkets.trinkets.creature.*;
 import com.astelon.aststrinkets.trinkets.inventory.ArcaneTome;
+import com.astelon.aststrinkets.trinkets.inventory.ResurrectionScroll;
 import com.astelon.aststrinkets.trinkets.projectile.ExperienceBottle;
 import com.astelon.aststrinkets.trinkets.projectile.MysteryEgg;
 import com.astelon.aststrinkets.trinkets.projectile.ProjectileTrinket;
@@ -261,6 +262,9 @@ public class AstsTrinkets extends JavaPlugin {
         voidGateway.setDefaultY(configuration.getInt(voidGateway.getName() + ".defaultY", 64));
         voidGateway.setDefaultZ(configuration.getInt(voidGateway.getName() + ".defaultZ", 0));
         voidGateway.setAllowEntities(configuration.getBoolean(voidGateway.getName() + ".allowEntities", false));
+        ResurrectionScroll resurrectionScroll = trinketManager.getResurrectionScroll();
+        resurrectionScroll.setAllowWithers(configuration.getBoolean(resurrectionScroll.getName() + ".allowWithers"));
+        resurrectionScroll.setAllowEnderDragons(configuration.getBoolean(resurrectionScroll.getName() + ".allowEnderDragons"));
     }
 
     private HashSet<EntityType> getBlacklistedTypes(List<String> blacklist) {

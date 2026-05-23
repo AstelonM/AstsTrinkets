@@ -15,7 +15,6 @@ import com.astelon.aststrinkets.trinkets.projectile.arrow.*;
 import com.astelon.aststrinkets.trinkets.projectile.rocket.*;
 import com.astelon.aststrinkets.utils.NamespacedKeys;
 import org.bukkit.NamespacedKey;
-import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
@@ -141,6 +140,7 @@ public class TrinketManager {
         addTrinket(new ReusableExperienceBottle(plugin, keys));
         addTrinket(new MysteryObject(plugin, keys));
         addTrinket(new FrogLegs(plugin, keys));
+        addTrinket(new ResurrectionScroll(plugin, keys));
     }
 
     private void addTrinket(Trinket trinket) {
@@ -749,5 +749,9 @@ public class TrinketManager {
 
     public FrogLegs getFrogLegs() {
         return (FrogLegs) getTrinketExact("frogLegs");
+    }
+
+    public ResurrectionScroll getResurrectionScroll() {
+        return (ResurrectionScroll) getTrinketExact("resurrectionScroll");
     }
 }

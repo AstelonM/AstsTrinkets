@@ -8,11 +8,16 @@ import com.astelon.aststrinkets.trinkets.inventory.*;
 import com.astelon.aststrinkets.utils.Utils;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
+import org.bukkit.DyeColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
+import org.bukkit.block.ShulkerBox;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Shulker;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -22,6 +27,7 @@ import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryView;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.BlockStateMeta;
 import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.EnchantmentStorageMeta;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -52,6 +58,7 @@ public class InventoryCustomUseListener implements Listener {
     private final ItemMagnet itemMagnet;
     private final CopperOxidationSolution copperOxidationSolution;
     private final ForbiddenTome forbiddenTome;
+    private final ResurrectionScroll resurrectionScroll;
 
     private final Set<InventoryType> allowedInventories = Set.of(InventoryType.CHEST, InventoryType.DISPENSER, InventoryType.DROPPER,
             InventoryType.PLAYER, InventoryType.ENDER_CHEST, InventoryType.HOPPER, InventoryType.SHULKER_BOX, InventoryType.BARREL);
@@ -75,6 +82,7 @@ public class InventoryCustomUseListener implements Listener {
         itemMagnet = trinketManager.getItemMagnet();
         copperOxidationSolution = trinketManager.getCopperOxidationSolution();
         forbiddenTome = trinketManager.getForbiddenTome();
+        resurrectionScroll = trinketManager.getResurrectionScroll();
     }
 
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
@@ -376,6 +384,64 @@ public class InventoryCustomUseListener implements Listener {
                         heldItem.subtract();
                         player.updateInventory();
                         event.setCancelled(true);
+                    } else if (resurrectionScroll.isEnabledTrinket(heldItem)) {
+                        if (clickedItem == null)
+                            return;
+                        Material target = clickedItem.getType();
+                        EntityType result = switch (target) {
+                            case ZOMBIE_HEAD -> EntityType.ZOMBIE;
+                            case SKELETON_SKULL ->  EntityType.SKELETON;
+                            case CREEPER_HEAD ->  EntityType.CREEPER;
+                            case DRAGON_HEAD ->  resurrectionScroll.isAllowEnderDragons() ? EntityType.ENDER_DRAGON : null;
+                            case WITHER_SKELETON_SKULL -> {
+                                if (resurrectionScroll.isAllowWithers() && clickedItem.getAmount() >= 3)
+                                    yield EntityType.WITHER;
+                                yield EntityType.WITHER_SKELETON;
+                            }
+                            default -> {
+                                if (target.name().contains("SHULKER"))
+                                    yield EntityType.SHULKER;
+                                yield null;
+                            }
+                        };
+                        if (result != null) {
+                            Class<? extends Entity> entityClass = result.getEntityClass();
+                            if (entityClass == null) {
+                                plugin.getLogger().warning("Material " + result.name() + " is valid for Resurrection Scroll " +
+                                        "but has no entity type.");
+                                return;
+                            }
+                            World world = player.getWorld();
+                            Location location = player.getLocation();
+                            Entity entity = world.spawn(location, entityClass);
+                            if (!entity.isValid()) {
+                                player.sendMessage(Component.text("The creature could not be resurrected here.", NamedTextColor.RED));
+                                return;
+                            }
+                            if (result == EntityType.WITHER) {
+                                clickedItem.subtract(3);
+                            } else if (result == EntityType.SHULKER) {
+                                BlockStateMeta meta = (BlockStateMeta) clickedItem.getItemMeta();
+                                ShulkerBox shulkerBox = (ShulkerBox) meta.getBlockState();
+                                Inventory inventory = shulkerBox.getInventory();
+                                for (ItemStack shulkerContent : inventory.getContents()) {
+                                    if (shulkerContent != null)
+                                        world.dropItem(location, shulkerContent);
+                                }
+                                world.dropItem(location, new ItemStack(Material.CHEST));
+                                DyeColor colour = shulkerBox.getColor();
+                                Shulker shulker = (Shulker) entity;
+                                shulker.setColor(colour);
+                                clickedItem.subtract();
+                            } else {
+                                clickedItem.subtract();
+                            }
+                            heldItem.subtract();
+                            player.updateInventory();
+                            player.sendMessage(Component.text("The corpse shudders and begins to move!", NamedTextColor.YELLOW));
+                            plugin.getLogger().info("Player " + player.getName() + " used a Scroll of Resurrection on a " +
+                                    target.name() + " and resurrected a " + target.name() + " at " + Utils.serializeCoordsLogging(location));
+                        }
                     }
                 }
             }

@@ -703,3 +703,13 @@ mysteryObject:
 # Leather leggings that give Jump Boost when worn. The effects are removed when they're taken off.
 frogLegs:
   enabled: true
+
+# A magenta banner that can be used to "resurrect" (spawn) creatures from their remains. What counts as remains are the
+# vanilla mob heads and shulker boxes.
+# This trinket requires the "aststrinkets.op" permission to give.
+resurrectionScroll:
+  enabled: true
+  # Whether withers can spawn if the scroll is used on a stack of at least 3 wither skeleton skulls.
+  allowWithers: true
+  # Whether the ender dragon can be resurrected if the scroll is used on a dragon head.
+  allowEnderDragons: false
