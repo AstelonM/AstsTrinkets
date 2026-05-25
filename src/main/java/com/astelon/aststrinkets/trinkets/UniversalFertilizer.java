@@ -48,13 +48,14 @@ public class UniversalFertilizer extends Trinket {
             case CHORUS_PLANT -> Material.CHORUS_FRUIT;
             case SWEET_BERRY_BUSH -> Material.SWEET_BERRIES;
             case CAVE_VINES, CAVE_VINES_PLANT -> Material.GLOW_BERRIES;
+            case BAMBOO_SAPLING -> Material.BAMBOO;
             case GRASS, TALL_GRASS, SEAGRASS, FERN, LARGE_FERN, BROWN_MUSHROOM, RED_MUSHROOM, SMALL_DRIPLEAF, DEAD_BUSH,
                  VINE, KELP, SUGAR_CANE, WHEAT, CACTUS, CRIMSON_FUNGUS, WARPED_FUNGUS, CRIMSON_ROOTS, WARPED_ROOTS, NETHER_SPROUTS,
                  NETHER_WART, WEEPING_VINES, TWISTING_VINES, CHORUS_FLOWER, SEA_PICKLE, LILY_PAD, BAMBOO, MOSS_CARPET,
                  GLOW_LICHEN -> material;
             default -> null;
         };
-        if (result == null && Tag.FLOWERS.isTagged(material)) {
+        if (result == null && (Tag.FLOWERS.isTagged(material) || Tag.SAPLINGS.isTagged(material))) {
             result = material;
         }
         if (result == null)
