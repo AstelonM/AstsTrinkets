@@ -75,6 +75,7 @@ public class AstsTrinkets extends JavaPlugin {
         pluginManager.registerEvents(new PlayerDeathListener(this, trinketManager), this);
         pluginManager.registerEvents(new LeashListener(this, trinketManager), this);
         pluginManager.registerEvents(new TeleportationListener(this, trinketManager), this);
+        pluginManager.registerEvents(new DispenserListener(this, trinketManager), this);
         loadConfig();
         Objects.requireNonNull(getCommand("trinkets")).setExecutor(new TrinketCommand(this, trinketManager));
     }
@@ -265,6 +266,8 @@ public class AstsTrinkets extends JavaPlugin {
         ResurrectionScroll resurrectionScroll = trinketManager.getResurrectionScroll();
         resurrectionScroll.setAllowWithers(configuration.getBoolean(resurrectionScroll.getName() + ".allowWithers"));
         resurrectionScroll.setAllowEnderDragons(configuration.getBoolean(resurrectionScroll.getName() + ".allowEnderDragons"));
+        UniversalFertilizer universalFertilizer = trinketManager.getUniversalFertilizer();
+        universalFertilizer.setDispenserAllowed(configuration.getBoolean(universalFertilizer.getName() + ".dispenserAllowed"));
     }
 
     private HashSet<EntityType> getBlacklistedTypes(List<String> blacklist) {

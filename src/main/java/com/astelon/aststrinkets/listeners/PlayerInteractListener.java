@@ -94,6 +94,7 @@ public class PlayerInteractListener implements Listener {
     private final MagicBerries magicBerries;
     private final IronGolemBlueprint ironGolemBlueprint;
     private final ReusableExperienceBottle reusableExperienceBottle;
+    private final UniversalFertilizer universalFertilizer;
 
     public PlayerInteractListener(AstsTrinkets plugin, MobInfoManager mobInfoManager, TrinketManager trinketManager) {
         this.plugin = plugin;
@@ -131,6 +132,7 @@ public class PlayerInteractListener implements Listener {
         magicBerries = trinketManager.getMagicBerries();
         ironGolemBlueprint = trinketManager.getIronGolemBlueprint();
         reusableExperienceBottle = trinketManager.getReusableExperienceBottle();
+        universalFertilizer = trinketManager.getUniversalFertilizer();
     }
 
     @EventHandler
@@ -645,6 +647,18 @@ public class PlayerInteractListener implements Listener {
                 useSpellbook(handItem, player, placeholders, CommandEvent.INTERACT_BLOCK, slot, block.getLocation());
                 //TODO exclude other trinkets possibly held in the other hand?
                 return;
+            } else if (universalFertilizer.isEnabledTrinket(handItem)) {
+                event.setUseItemInHand(Event.Result.DENY);
+                if (!trinketManager.isOwnedBy(handItem, player))
+                    return;
+                ItemStack result = universalFertilizer.getPlant(block.getType());
+                if (result != null) {
+                    World world = player.getWorld();
+                    Location location = block.getLocation();
+                    world.dropItemNaturally(location, result);
+                    handItem.subtract();
+                    player.updateInventory();
+                }
             }
             // Only checking for OFF_HAND because it is never used for specific interactions (open chests etc.), and it
             // is always called otherwise. It is used for placing blocks from offhand, though, so checking for that as well

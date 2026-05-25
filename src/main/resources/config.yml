@@ -713,3 +713,9 @@ resurrectionScroll:
   allowWithers: true
   # Whether the ender dragon can be resurrected if the scroll is used on a dragon head.
   allowEnderDragons: false
+
+# A cyan dye that duplicates most plants the same way tall flowers are duplicated by bonemeal.
+universalFertilizer:
+  enabled: true
+  # Whether dispensers can use this trinket like bonemeal can. Only works with unowned trinkets.
+  dispenserAllowed: true

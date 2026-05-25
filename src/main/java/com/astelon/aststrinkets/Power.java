@@ -84,7 +84,8 @@ public enum Power {
     ABSORB_EXPERIENCE_INTO_BOTTLE("absorbExperienceIntoBottle"),
     RANDOM_ITEM_WHEN_THROWN("randomItemWhenThrown"),
     JUMP_BOOST("jumpBoost"),
-    RESURRECTION("resurrection"),;
+    RESURRECTION("resurrection"),
+    DUPLICATE_PLANTS("duplicatePlants"),;
 
     private final String powerName;
 

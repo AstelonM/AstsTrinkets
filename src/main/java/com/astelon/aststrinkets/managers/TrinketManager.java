@@ -141,6 +141,7 @@ public class TrinketManager {
         addTrinket(new MysteryObject(plugin, keys));
         addTrinket(new FrogLegs(plugin, keys));
         addTrinket(new ResurrectionScroll(plugin, keys));
+        addTrinket(new UniversalFertilizer(plugin, keys));
     }
 
     private void addTrinket(Trinket trinket) {
@@ -753,5 +754,9 @@ public class TrinketManager {
 
     public ResurrectionScroll getResurrectionScroll() {
         return (ResurrectionScroll) getTrinketExact("resurrectionScroll");
+    }
+
+    public UniversalFertilizer getUniversalFertilizer() {
+        return (UniversalFertilizer) getTrinketExact("universalFertilizer");
     }
 }

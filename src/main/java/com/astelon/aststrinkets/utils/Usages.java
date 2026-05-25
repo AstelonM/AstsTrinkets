@@ -116,4 +116,5 @@ public final class Usages {
     public static final String SHIFT_RIGHT_CLICK_THEN_DRINK = SHIFT_RIGHT_CLICK + " Then drink the result.";
     public static final String THROW = "Throw it.";
     public static final String RESURRECTION_SCROLL = "Use it on a mob head/skull or shulker box like this:<br>" + INVENTORY;
+    public static final String INTERACT_PLANT = "Right click a plant with it.";
 }

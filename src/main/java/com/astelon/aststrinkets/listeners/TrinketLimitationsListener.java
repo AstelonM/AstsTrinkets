@@ -4,9 +4,12 @@ import com.astelon.aststrinkets.managers.TrinketManager;
 import com.astelon.aststrinkets.trinkets.*;
 import com.astelon.aststrinkets.trinkets.equipable.*;
 import com.destroystokyo.paper.event.inventory.PrepareResultEvent;
+import io.papermc.paper.event.entity.EntityDyeEvent;
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.enchantment.EnchantItemEvent;
 import org.bukkit.event.inventory.CraftItemEvent;
@@ -32,6 +35,7 @@ public class TrinketLimitationsListener implements Listener {
     private final AdvancedFlippers advancedFlippers;
     private final ItemMagnet itemMagnet;
     private final FrogLegs frogLegs;
+    private final UniversalFertilizer universalFertilizer;
 
     public TrinketLimitationsListener(TrinketManager trinketManager) {
         this.trinketManager = trinketManager;
@@ -48,6 +52,7 @@ public class TrinketLimitationsListener implements Listener {
         advancedFlippers = trinketManager.getAdvancedFlippers();
         itemMagnet = trinketManager.getItemMagnet();
         frogLegs = trinketManager.getFrogLegs();
+        universalFertilizer = trinketManager.getUniversalFertilizer();
     }
 
     @EventHandler(ignoreCancelled = true)
@@ -102,12 +107,16 @@ public class TrinketLimitationsListener implements Listener {
 
     @EventHandler(ignoreCancelled = true)
     public void onPlayerInteractEntity(PlayerInteractEntityEvent event) {
-        if (event.getRightClicked().getType() == EntityType.IRON_GOLEM) {
-            PlayerInventory inventory = event.getPlayer().getInventory();
-            ItemStack itemStack = inventory.getItem(event.getHand());
+        PlayerInventory inventory = event.getPlayer().getInventory();
+        ItemStack itemStack = inventory.getItem(event.getHand());
+        EntityType type = event.getRightClicked().getType();
+        if (type == EntityType.IRON_GOLEM) {
             if (itemMagnet.isTrinket(itemStack)) {
                 event.setCancelled(true);
             }
+        }
+        if (universalFertilizer.isTrinket(itemStack)) {
+            event.setCancelled(true);
         }
     }
 }
