@@ -16,6 +16,7 @@ import com.astelon.aststrinkets.trinkets.projectile.ExperienceBottle;
 import com.astelon.aststrinkets.trinkets.projectile.MysteryEgg;
 import com.astelon.aststrinkets.trinkets.projectile.ProjectileTrinket;
 import com.astelon.aststrinkets.trinkets.projectile.arrow.*;
+import com.astelon.aststrinkets.trinkets.projectile.potion.LovePotion;
 import com.astelon.aststrinkets.trinkets.projectile.rocket.*;
 import com.astelon.aststrinkets.utils.MaxLevelBehaviour;
 import com.astelon.aststrinkets.utils.NamespacedKeys;
@@ -268,6 +269,8 @@ public class AstsTrinkets extends JavaPlugin {
         resurrectionScroll.setAllowEnderDragons(configuration.getBoolean(resurrectionScroll.getName() + ".allowEnderDragons"));
         UniversalFertilizer universalFertilizer = trinketManager.getUniversalFertilizer();
         universalFertilizer.setDispenserAllowed(configuration.getBoolean(universalFertilizer.getName() + ".dispenserAllowed"));
+        LovePotion lovePotion = trinketManager.getLovePotion();
+        lovePotion.setLoveTime(Utils.ensurePositive(configuration.getInt(lovePotion.getName() + ".loveTime", 600), 600));
     }
 
     private HashSet<EntityType> getBlacklistedTypes(List<String> blacklist) {

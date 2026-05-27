@@ -13,6 +13,7 @@ import com.astelon.aststrinkets.trinkets.inventory.*;
 import com.astelon.aststrinkets.trinkets.projectile.*;
 import com.astelon.aststrinkets.trinkets.projectile.arrow.*;
 import com.astelon.aststrinkets.trinkets.projectile.potion.AgeingPotion;
+import com.astelon.aststrinkets.trinkets.projectile.potion.LovePotion;
 import com.astelon.aststrinkets.trinkets.projectile.rocket.*;
 import com.astelon.aststrinkets.utils.NamespacedKeys;
 import org.bukkit.NamespacedKey;
@@ -144,6 +145,7 @@ public class TrinketManager {
         addTrinket(new ResurrectionScroll(plugin, keys));
         addTrinket(new UniversalFertilizer(plugin, keys));
         addTrinket(new AgeingPotion(plugin, keys));
+        addTrinket(new LovePotion(plugin, keys));
     }
 
     private void addTrinket(Trinket trinket) {
@@ -764,5 +766,9 @@ public class TrinketManager {
 
     public AgeingPotion getAgeingPotion() {
         return (AgeingPotion) getTrinketExact("ageingPotion");
+    }
+
+    public LovePotion getLovePotion() {
+        return (LovePotion) getTrinketExact("lovePotion");
     }
 }

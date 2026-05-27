@@ -85,7 +85,8 @@ public enum Power {
     RANDOM_ITEM_WHEN_THROWN("randomItemWhenThrown"),
     JUMP_BOOST("jumpBoost"),
     RESURRECTION("resurrection"),
-    DUPLICATE_PLANTS("duplicatePlants"),;
+    DUPLICATE_PLANTS("duplicatePlants"),
+    LOVE_MODE("loveMode"),;
 
     private final String powerName;
 

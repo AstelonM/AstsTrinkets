@@ -11,6 +11,7 @@ import com.astelon.aststrinkets.trinkets.projectile.MysteryObject;
 import com.astelon.aststrinkets.trinkets.projectile.ProjectileTrinket;
 import com.astelon.aststrinkets.trinkets.projectile.arrow.*;
 import com.astelon.aststrinkets.trinkets.projectile.potion.AgeingPotion;
+import com.astelon.aststrinkets.trinkets.projectile.potion.LovePotion;
 import com.astelon.aststrinkets.trinkets.projectile.rocket.MysteryFirework;
 import com.astelon.aststrinkets.utils.Utils;
 import com.destroystokyo.paper.event.entity.ProjectileCollideEvent;
@@ -59,6 +60,7 @@ public class ProjectileListener implements Listener {
     private final MysteryArrow mysteryArrow;
     private final MysteryObject mysteryObject;
     private final AgeingPotion ageingPotion;
+    private final LovePotion lovePotion;
 
     public ProjectileListener(AstsTrinkets plugin, TrinketManager trinketManager, MobInfoManager mobInfoManager) {
         this.plugin = plugin;
@@ -77,6 +79,7 @@ public class ProjectileListener implements Listener {
         mysteryArrow = trinketManager.getMysteryArrow();
         mysteryObject = trinketManager.getMysteryObject();
         ageingPotion = trinketManager.getAgeingPotion();
+        lovePotion = trinketManager.getLovePotion();
     }
 
     @EventHandler(ignoreCancelled = true)
@@ -268,6 +271,8 @@ public class ProjectileListener implements Listener {
                 } //TODO error message if the trinket is not throwable?
             } else if (ageingPotion.isEnabledTrinket(itemStack)) {
                 ageingPotion.setProjectileTrinket(projectile, itemStack);
+            } else if (lovePotion.isEnabledTrinket(itemStack)) {
+                lovePotion.setProjectileTrinket(projectile, itemStack);
             }
         }
     }

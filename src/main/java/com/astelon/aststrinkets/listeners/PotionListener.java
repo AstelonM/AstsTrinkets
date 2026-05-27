@@ -8,6 +8,7 @@ import com.astelon.aststrinkets.trinkets.Trinket;
 import com.astelon.aststrinkets.trinkets.equipable.*;
 import com.astelon.aststrinkets.trinkets.inventory.BindingPowder;
 import com.astelon.aststrinkets.trinkets.projectile.potion.AgeingPotion;
+import com.astelon.aststrinkets.trinkets.projectile.potion.LovePotion;
 import com.astelon.aststrinkets.utils.Utils;
 import com.destroystokyo.paper.event.player.PlayerArmorChangeEvent;
 import org.bukkit.entity.*;
@@ -39,6 +40,7 @@ public class PotionListener implements Listener {
     private final BindingPowder bindingPowder;
     private final FrogLegs frogLegs;
     private final AgeingPotion ageingPotion;
+    private final LovePotion lovePotion;
 
     public PotionListener(AstsTrinkets plugin, TrinketManager trinketManager, MobInfoManager mobInfoManager) {
         this.plugin = plugin;
@@ -51,6 +53,7 @@ public class PotionListener implements Listener {
         bindingPowder = trinketManager.getBindingPowder();
         frogLegs = trinketManager.getFrogLegs();
         ageingPotion = trinketManager.getAgeingPotion();
+        lovePotion = trinketManager.getLovePotion();
     }
 
     @EventHandler
@@ -180,18 +183,35 @@ public class PotionListener implements Listener {
                 }
             }
             if (!targets.isEmpty()) {
-                Map<String, Integer> affectedCount = targets.stream()
-                        .collect(Collectors.toMap(mobInfoManager::getTypeAndName, entity -> 1, Integer::sum));
-                String affected = affectedCount.entrySet().stream()
-                        .map(entry -> entry.getValue() + " " + entry.getKey())
-                        .collect(Collectors.joining(", "));
-                ProjectileSource source = potion.getShooter();
-                String sourceName = source instanceof Player player ? "player " + player.getName() :
-                        (source instanceof BlockProjectileSource ? "a dispenser" : mobInfoManager.getTypeAndName((LivingEntity) source));
-                String location = Utils.serializeCoordsLogging(potion.getLocation());
-                plugin.getLogger().info("An ageing potion was thrown by " + sourceName + " landed at " + location + " and affected " +
-                        affected + ".");
+                logSplashPotion(targets, potion, "An ageing potion");
+            }
+        } else if (lovePotion.isEnabledTrinket(potion)) {
+            Collection<LivingEntity> targets = event.getAffectedEntities();
+            for (LivingEntity target : targets) {
+                if (target instanceof Animals animal) {
+                    double intensity = event.getIntensity(animal);
+                    int ticks = (int) (lovePotion.getLoveTime() * intensity);
+                    animal.setLoveModeTicks(ticks);
+                    //TODO EntityEnterLoveModeEvent?
+                }
+            }
+            if (!targets.isEmpty()) {
+                logSplashPotion(targets, potion, "A love potion");
             }
         }
+    }
+
+    private void logSplashPotion(Collection<LivingEntity> targets, ThrownPotion potion, String potionName) {
+        Map<String, Integer> affectedCount = targets.stream()
+                .collect(Collectors.toMap(mobInfoManager::getTypeAndName, entity -> 1, Integer::sum));
+        String affected = affectedCount.entrySet().stream()
+                .map(entry -> entry.getValue() + " " + entry.getKey())
+                .collect(Collectors.joining(", "));
+        ProjectileSource source = potion.getShooter();
+        String sourceName = source instanceof Player player ? "player " + player.getName() :
+                (source instanceof BlockProjectileSource ? "a dispenser" : mobInfoManager.getTypeAndName((LivingEntity) source));
+        String location = Utils.serializeCoordsLogging(potion.getLocation());
+        plugin.getLogger().info(potionName + " thrown by " + sourceName + " landed at " + location + " and affected " +
+                affected + ".");
     }
 }

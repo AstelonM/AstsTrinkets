@@ -726,3 +726,12 @@ ageingPotion:
   enabled: true
   # Whether dispensers can use this trinket. Only works with unowned trinkets.
   dispenserAllowed: true
+
+# A splash awkward potion that makes affected animals enter love mode. The duration scales with the distance from where it lands,
+# the further away, the shorter the time.
+lovePotion:
+  enabled: true
+  # Whether dispensers can use this trinket. Only works with unowned trinkets.
+  dispenserAllowed: true
+  # Number of ticks a creature will enter love mode for. Minecraft default is 600.
+  loveTime: 600
