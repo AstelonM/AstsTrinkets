@@ -4,16 +4,17 @@ import com.astelon.aststrinkets.managers.TrinketManager;
 import com.astelon.aststrinkets.trinkets.*;
 import com.astelon.aststrinkets.trinkets.equipable.*;
 import com.destroystokyo.paper.event.inventory.PrepareResultEvent;
-import io.papermc.paper.event.entity.EntityDyeEvent;
+import org.bukkit.Tag;
+import org.bukkit.block.Block;
 import org.bukkit.entity.EntityType;
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.enchantment.EnchantItemEvent;
 import org.bukkit.event.inventory.CraftItemEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.GrindstoneInventory;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -117,6 +118,19 @@ public class TrinketLimitationsListener implements Listener {
         }
         if (universalFertilizer.isTrinket(itemStack)) {
             event.setCancelled(true);
+        }
+    }
+
+    @EventHandler
+    public void onPlayerInteract(PlayerInteractEvent event) {
+        if (event.getAction() == Action.RIGHT_CLICK_BLOCK) {
+            Block block = event.getClickedBlock();
+            if (block != null && Tag.SIGNS.isTagged(block.getType())) {
+                ItemStack itemStack = event.getItem();
+                if (universalFertilizer.isTrinket(itemStack)) {
+                    event.setCancelled(true);
+                }
+            }
         }
     }
 }
