@@ -29,10 +29,9 @@ public class AgeingPotion extends ProjectileTrinket {
         meta.setBasePotionData(new PotionData(PotionType.AWKWARD));
         meta.setColor(Color.fromRGB(0x00FF00));
         meta.displayName(Component.text("Ageing Potion", TextColor.fromHexString("#00FF00")));
-        meta.lore(List.of(Component.text("A magical elixir that causes"),
-                Component.text("creatures to age."),
-                Component.text("Warning! Overuse is known to cause"),
-                Component.text("loss of childhood.")));
+        meta.lore(List.of(Component.text("A potion that ages creatures."),
+                Component.text("Warning! Overuse is known to"),
+                Component.text("cause loss of childhood.")));
         itemStack.setItemMeta(meta);
         return itemStack;
     }
