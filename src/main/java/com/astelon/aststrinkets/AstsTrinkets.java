@@ -67,7 +67,7 @@ public class AstsTrinkets extends JavaPlugin {
         pluginManager.registerEvents(new SentientAxeListener(this, trinketManager, sentientAxeMessageManager,
                 sentientAxeTaskManager), this);
         pluginManager.registerEvents(new BookListener(this, trinketManager), this);
-        pluginManager.registerEvents(new PotionListener(this, trinketManager), this);
+        pluginManager.registerEvents(new PotionListener(this, trinketManager, mobInfoManager), this);
         pluginManager.registerEvents(new ItemListener(this, trinketManager), this);
         pluginManager.registerEvents(new InventoryRegularUseListener(this, trinketManager), this);
         pluginManager.registerEvents(new VirusListener(this, trinketManager), this);

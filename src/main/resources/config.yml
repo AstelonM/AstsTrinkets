@@ -719,3 +719,10 @@ universalFertilizer:
   enabled: true
   # Whether dispensers can use this trinket like bonemeal can. Only works with unowned trinkets.
   dispenserAllowed: true
+
+# A splash awkward potion that ages baby creatures hit by it. The effect scales with the distance from where it lands,
+# creatures at the center age immediately, while those further away only decrease the time until adulthood.
+ageingPotion:
+  enabled: true
+  # Whether dispensers can use this trinket like bonemeal can. Only works with unowned trinkets.
+  dispenserAllowed: true

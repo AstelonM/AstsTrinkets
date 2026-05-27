@@ -10,6 +10,7 @@ import com.astelon.aststrinkets.trinkets.projectile.MysteryEgg;
 import com.astelon.aststrinkets.trinkets.projectile.MysteryObject;
 import com.astelon.aststrinkets.trinkets.projectile.ProjectileTrinket;
 import com.astelon.aststrinkets.trinkets.projectile.arrow.*;
+import com.astelon.aststrinkets.trinkets.projectile.potion.AgeingPotion;
 import com.astelon.aststrinkets.trinkets.projectile.rocket.MysteryFirework;
 import com.astelon.aststrinkets.utils.Utils;
 import com.destroystokyo.paper.event.entity.ProjectileCollideEvent;
@@ -57,6 +58,7 @@ public class ProjectileListener implements Listener {
     private final HuntingBow huntingBow;
     private final MysteryArrow mysteryArrow;
     private final MysteryObject mysteryObject;
+    private final AgeingPotion ageingPotion;
 
     public ProjectileListener(AstsTrinkets plugin, TrinketManager trinketManager, MobInfoManager mobInfoManager) {
         this.plugin = plugin;
@@ -74,6 +76,7 @@ public class ProjectileListener implements Listener {
         huntingBow = trinketManager.getHuntingBow();
         mysteryArrow = trinketManager.getMysteryArrow();
         mysteryObject = trinketManager.getMysteryObject();
+        ageingPotion = trinketManager.getAgeingPotion();
     }
 
     @EventHandler(ignoreCancelled = true)
@@ -242,9 +245,9 @@ public class ProjectileListener implements Listener {
     public void onPlayerLaunchProjectile(PlayerLaunchProjectileEvent event) {
         ItemStack itemStack = event.getItemStack();
         Player player = event.getPlayer();
+        Projectile projectile = event.getProjectile();
         if (trinketManager.isOwnedBy(itemStack, player.getName())) {
             if (mysteryEgg.isEnabledTrinket(itemStack)) {
-                Projectile projectile = event.getProjectile();
                 mysteryEgg.setProjectileTrinket(projectile, itemStack);
             } else if (experienceBottle.isEnabledTrinket(itemStack)) {
                 long lastUse = experienceBottle.getLastUse(itemStack);
@@ -257,14 +260,14 @@ public class ProjectileListener implements Listener {
                     player.sendMessage(Component.text("The experience stored in this bottle became spoiled.", NamedTextColor.RED));
                     return;
                 }
-                Projectile projectile = event.getProjectile();
                 experienceBottle.setProjectileTrinket(projectile, itemStack);
             } else if (mysteryObject.isEnabledTrinket(itemStack)) {
-                Projectile projectile = event.getProjectile();
                 if (projectile instanceof ThrowableProjectile throwable) {
                     ItemStack result = mysteryObject.getRandomItem();
                     throwable.setItem(result);
                 } //TODO error message if the trinket is not throwable?
+            } else if (ageingPotion.isEnabledTrinket(itemStack)) {
+                ageingPotion.setProjectileTrinket(projectile, itemStack);
             }
         }
     }

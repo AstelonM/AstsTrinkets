@@ -1,42 +1,56 @@
 package com.astelon.aststrinkets.listeners;
 
 import com.astelon.aststrinkets.AstsTrinkets;
+import com.astelon.aststrinkets.managers.MobInfoManager;
 import com.astelon.aststrinkets.managers.TrinketManager;
 import com.astelon.aststrinkets.trinkets.ReusableExperienceBottle;
 import com.astelon.aststrinkets.trinkets.Trinket;
 import com.astelon.aststrinkets.trinkets.equipable.*;
 import com.astelon.aststrinkets.trinkets.inventory.BindingPowder;
+import com.astelon.aststrinkets.trinkets.projectile.potion.AgeingPotion;
+import com.astelon.aststrinkets.utils.Utils;
 import com.destroystokyo.paper.event.player.PlayerArmorChangeEvent;
-import org.bukkit.entity.Player;
+import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityPotionEffectEvent;
+import org.bukkit.event.entity.PotionSplashEvent;
 import org.bukkit.event.player.PlayerItemConsumeEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.projectiles.BlockProjectileSource;
+import org.bukkit.projectiles.ProjectileSource;
+
+import java.util.Collection;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 //TODO merge player join/quit in one listener, rest in their own, maybe
 public class PotionListener implements Listener {
 
     private final AstsTrinkets plugin;
     private final TrinketManager trinketManager;
+    private final MobInfoManager mobInfoManager;
     private final NightVisionGoggles nightVisionGoggles;
     private final Flippers flippers;
     private final AdvancedFlippers advancedFlippers;
     private final ReusableExperienceBottle reusableExperienceBottle;
     private final BindingPowder bindingPowder;
     private final FrogLegs frogLegs;
+    private final AgeingPotion ageingPotion;
 
-    public PotionListener(AstsTrinkets plugin, TrinketManager trinketManager) {
+    public PotionListener(AstsTrinkets plugin, TrinketManager trinketManager, MobInfoManager mobInfoManager) {
         this.plugin = plugin;
         this.trinketManager = trinketManager;
+        this.mobInfoManager = mobInfoManager;
         nightVisionGoggles = trinketManager.getNightVisionGoggles();
         flippers = trinketManager.getFlippers();
         advancedFlippers = trinketManager.getAdvancedFlippers();
         reusableExperienceBottle = trinketManager.getReusableExperienceBottle();
         bindingPowder = trinketManager.getBindingPowder();
         frogLegs = trinketManager.getFrogLegs();
+        ageingPotion = trinketManager.getAgeingPotion();
     }
 
     @EventHandler
@@ -150,6 +164,34 @@ public class PotionListener implements Listener {
             if (trinketManager.getOwner(itemStack) != null)
                 result = bindingPowder.bindTrinket(result, reusableExperienceBottle, player);
             event.setReplacement(result);
+        }
+    }
+
+    @EventHandler(ignoreCancelled = true)
+    public void onPotionSplash(PotionSplashEvent event) {
+        ThrownPotion potion = event.getPotion();
+        if (ageingPotion.isEnabledTrinket(potion)) {
+            Collection<LivingEntity> targets = event.getAffectedEntities();
+            for (LivingEntity target : targets) {
+                if (target instanceof Ageable ageable) {
+                    double intensity = event.getIntensity(ageable);
+                    int ticks = (int) (Utils.TICKS_TO_ADULTHOOD * intensity);
+                    ageable.setAge(ageable.getAge() + ticks);
+                }
+            }
+            if (!targets.isEmpty()) {
+                Map<String, Integer> affectedCount = targets.stream()
+                        .collect(Collectors.toMap(mobInfoManager::getTypeAndName, entity -> 1, Integer::sum));
+                String affected = affectedCount.entrySet().stream()
+                        .map(entry -> entry.getValue() + " " + entry.getKey())
+                        .collect(Collectors.joining(", "));
+                ProjectileSource source = potion.getShooter();
+                String sourceName = source instanceof Player player ? "player " + player.getName() :
+                        (source instanceof BlockProjectileSource ? "a dispenser" : mobInfoManager.getTypeAndName((LivingEntity) source));
+                String location = Utils.serializeCoordsLogging(potion.getLocation());
+                plugin.getLogger().info("An ageing potion was thrown by " + sourceName + " landed at " + location + " and affected " +
+                        affected + ".");
+            }
         }
     }
 }

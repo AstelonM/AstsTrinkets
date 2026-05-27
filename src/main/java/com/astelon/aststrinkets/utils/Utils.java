@@ -25,6 +25,8 @@ public final class Utils {
 
     public static final long DAY_TIME = 0;
 
+    public static final int TICKS_TO_ADULTHOOD = 24000;
+
     private static long lastLog;
 
     public static String serializeCoords(Location location) {
