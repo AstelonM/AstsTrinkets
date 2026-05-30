@@ -735,3 +735,7 @@ lovePotion:
   dispenserAllowed: true
   # Number of ticks a creature will enter love mode for. Minecraft default is 600.
   loveTime: 600
+
+# A fishing rod that tallies in the lore your catches: fish, treasure, mending books, junk and other.
+notebookFishingRod:
+  enabled: true

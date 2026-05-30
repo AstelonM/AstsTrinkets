@@ -64,6 +64,11 @@ public class NamespacedKeys {
     public final NamespacedKey lassoKey;
     public final NamespacedKey mobWhitelistKey;
     public final NamespacedKey mobBlacklistKey;
+    public final NamespacedKey fishTallyKey;
+    public final NamespacedKey treasureTallyKey;
+    public final NamespacedKey mendingTallyKey;
+    public final NamespacedKey junkTallyKey;
+    public final NamespacedKey otherTallyKey;
 
     public NamespacedKeys(AstsTrinkets plugin) {
         this.plugin = plugin;
@@ -117,6 +122,11 @@ public class NamespacedKeys {
         lassoKey = new NamespacedKey(plugin, "hasLasso");
         mobWhitelistKey = new NamespacedKey(plugin, "mobWhitelist");
         mobBlacklistKey = new NamespacedKey(plugin, "mobBlacklist");
+        fishTallyKey = new NamespacedKey(plugin, "fishTally");
+        treasureTallyKey = new NamespacedKey(plugin, "treasureTally");
+        mendingTallyKey = new NamespacedKey(plugin, "mendingTally");
+        junkTallyKey = new NamespacedKey(plugin, "junkTally");
+        otherTallyKey = new NamespacedKey(plugin, "otherTally");
         initKeyMap();
     }
 
@@ -171,6 +181,11 @@ public class NamespacedKeys {
         keys.put(lassoKey.getKey(), new KeyTypePair(lassoKey, PersistentDataType.BYTE_ARRAY));
         keys.put(mobWhitelistKey.getKey(), new KeyTypePair(mobWhitelistKey, PersistentDataType.STRING));
         keys.put(mobBlacklistKey.getKey(), new KeyTypePair(mobBlacklistKey, PersistentDataType.STRING));
+        keys.put(fishTallyKey.getKey(), new KeyTypePair(fishTallyKey, PersistentDataType.INTEGER));
+        keys.put(treasureTallyKey.getKey(), new KeyTypePair(treasureTallyKey, PersistentDataType.INTEGER));
+        keys.put(mendingTallyKey.getKey(), new KeyTypePair(mendingTallyKey, PersistentDataType.INTEGER));
+        keys.put(junkTallyKey.getKey(), new KeyTypePair(junkTallyKey, PersistentDataType.INTEGER));
+        keys.put(otherTallyKey.getKey(), new KeyTypePair(otherTallyKey, PersistentDataType.INTEGER));
         keys = Collections.unmodifiableMap(keys);
     }
 

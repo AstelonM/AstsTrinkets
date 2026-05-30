@@ -146,6 +146,7 @@ public class TrinketManager {
         addTrinket(new UniversalFertilizer(plugin, keys));
         addTrinket(new AgeingPotion(plugin, keys));
         addTrinket(new LovePotion(plugin, keys));
+        addTrinket(new NotebookFishingRod(plugin, keys));
     }
 
     private void addTrinket(Trinket trinket) {
@@ -770,5 +771,9 @@ public class TrinketManager {
 
     public LovePotion getLovePotion() {
         return (LovePotion) getTrinketExact("lovePotion");
+    }
+
+    public NotebookFishingRod getNotebookFishingRod() {
+        return (NotebookFishingRod) getTrinketExact("notebookFishingRod");
     }
 }

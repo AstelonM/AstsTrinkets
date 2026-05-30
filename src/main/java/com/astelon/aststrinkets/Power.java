@@ -86,7 +86,8 @@ public enum Power {
     JUMP_BOOST("jumpBoost"),
     RESURRECTION("resurrection"),
     DUPLICATE_PLANTS("duplicatePlants"),
-    LOVE_MODE("loveMode"),;
+    LOVE_MODE("loveMode"),
+    TALLY_FISHING_CATCHES("tallyFishingCatches"),;
 
     private final String powerName;
 
