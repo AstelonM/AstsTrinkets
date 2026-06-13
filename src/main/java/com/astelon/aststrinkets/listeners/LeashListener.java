@@ -88,21 +88,17 @@ public class LeashListener implements Listener {
     public void onEntityUnleash(EntityUnleashEvent event) {
         if (!(event.getEntity() instanceof Mob entity))
             return;
-        if (event.getReason() != EntityUnleashEvent.UnleashReason.PLAYER_UNLEASH) {
-            if (!event.isDropLeash())
-                lasso.removeLasso(entity);
-        }
+        if (!event.isDropLeash())
+            lasso.removeLasso(entity);
     }
 
     @EventHandler(ignoreCancelled = true)
     public void onPlayerUnleashEntity(PlayerUnleashEntityEvent event) {
         if (!(event.getEntity() instanceof Mob entity))
             return;
-        if (event.getReason() == EntityUnleashEvent.UnleashReason.PLAYER_UNLEASH) {
-            long now = System.currentTimeMillis();
-            if (now - cooldowns.getOrDefault(event.getPlayer(), 0L) <= 1000)
-                event.setCancelled(true);
-        }
+        long now = System.currentTimeMillis();
+        if (now - cooldowns.getOrDefault(event.getPlayer(), 0L) <= 1000)
+            event.setCancelled(true);
         if (!event.isDropLeash())
             lasso.removeLasso(entity);
     }
