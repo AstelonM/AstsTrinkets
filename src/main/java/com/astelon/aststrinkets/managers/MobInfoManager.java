@@ -38,17 +38,6 @@ public class MobInfoManager {
         Component name = entity.customName();
         if (name != null)
             type += " named " + PlainTextComponentSerializer.plainText().serialize(name);
-        if (entity instanceof TropicalFish tropicalFish) {
-            DyeColor bodyColour = tropicalFish.getBodyColor();
-            DyeColor patternColour = tropicalFish.getPatternColor();
-            TropicalFish.Pattern pattern = tropicalFish.getPattern();
-            String colourName;
-            if (bodyColour == patternColour)
-                colourName = capitalize(bodyColour.name());
-            else
-                colourName = capitalize(bodyColour.name()) + "-" + capitalize(patternColour.name());
-            type += " (" + (tropicalFish.isFromBucket() ? "" : "Wild ") + colourName + " " + capitalize(pattern.name()) +")";
-        }
         return type;
     }
 
@@ -305,6 +294,20 @@ public class MobInfoManager {
             colourName = capitalize(bodyColour.name()) + "-" + capitalize(patternColour.name());
         type += colourName + " " + capitalize(pattern.name());
         return List.of(type);
+    }
+
+    public String getTropicalFishNameForLog(TropicalFish tropicalFish) {
+        String type = getTypeAndName(tropicalFish);
+        DyeColor bodyColour = tropicalFish.getBodyColor();
+        DyeColor patternColour = tropicalFish.getPatternColor();
+        TropicalFish.Pattern pattern = tropicalFish.getPattern();
+        String colourName;
+        if (bodyColour == patternColour)
+            colourName = capitalize(bodyColour.name());
+        else
+            colourName = capitalize(bodyColour.name()) + "-" + capitalize(patternColour.name());
+        type += " (" + (tropicalFish.isFromBucket() ? "" : "Wild ") + colourName + " " + capitalize(pattern.name()) +")";
+        return type;
     }
 
     private List<String> getVillagerInfo(Villager villager) {

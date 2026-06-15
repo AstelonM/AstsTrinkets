@@ -450,7 +450,12 @@ public class PlayerInteractListener implements Listener {
         player.updateInventory();
         String mobName = mobInfoManager.getTypeAndName(entity);
         player.sendMessage(Component.text("You caught the " + mobName + " in a crystal trap.", NamedTextColor.GOLD));
-        plugin.getLogger().info(mobName + " trapped in a crystal trap at " +
+        String logName;
+        if (entity instanceof TropicalFish tropicalFish)
+            logName = mobInfoManager.getTropicalFishNameForLog(tropicalFish);
+        else
+            logName = mobInfoManager.getTypeAndName(entity);
+        plugin.getLogger().info(logName + " trapped in a crystal trap at " +
                 Utils.locationToString(entity.getLocation()) + " by player " + player.getName() + ".");
         cooldowns.put(player, now);
     }
