@@ -37,7 +37,18 @@ public class MobInfoManager {
         String type = getMobType(entity);
         Component name = entity.customName();
         if (name != null)
-            return type + " named " + PlainTextComponentSerializer.plainText().serialize(name);
+            type += " named " + PlainTextComponentSerializer.plainText().serialize(name);
+        if (entity instanceof TropicalFish tropicalFish) {
+            DyeColor bodyColour = tropicalFish.getBodyColor();
+            DyeColor patternColour = tropicalFish.getPatternColor();
+            TropicalFish.Pattern pattern = tropicalFish.getPattern();
+            String colourName;
+            if (bodyColour == patternColour)
+                colourName = capitalize(bodyColour.name());
+            else
+                colourName = capitalize(bodyColour.name()) + "-" + capitalize(patternColour.name());
+            type += " (" +colourName + " " + capitalize(pattern.name()) +")";
+        }
         return type;
     }
 
