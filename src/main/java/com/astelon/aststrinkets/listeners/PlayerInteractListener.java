@@ -242,7 +242,12 @@ public class PlayerInteractListener implements Listener {
                 player.updateInventory();
                 String mobName = mobInfoManager.getTypeAndName(entity);
                 player.sendMessage(Component.text("You trapped the " + mobName + " in the terrarium.", NamedTextColor.GOLD));
-                plugin.getLogger().info(mobName + " trapped in a Terrarium at " +
+                String logName;
+                if (entity instanceof TropicalFish tropicalFish)
+                    logName = mobInfoManager.getTropicalFishNameForLog(tropicalFish);
+                else
+                    logName = mobInfoManager.getTypeAndName(entity);
+                plugin.getLogger().info(logName + " trapped in a Terrarium at " +
                         Utils.locationToString(entity.getLocation()) + " by player " + player.getName() + ".");
             } else if (trinketImmunitySponge.isEnabledTrinket(itemStack)) {
                 if (trinketManager.isTrinketImmune(entity)) {
@@ -710,7 +715,12 @@ public class PlayerInteractListener implements Listener {
                     player.updateInventory();
                     String mobName = mobInfoManager.getTypeAndName(entity);
                     player.sendMessage(Component.text("Successfully released the " + mobName + ".", NamedTextColor.GOLD));
-                    plugin.getLogger().info(mobName + " released from a Terrarium at " +
+                    String logName;
+                    if (entity instanceof TropicalFish tropicalFish)
+                        logName = mobInfoManager.getTropicalFishNameForLog(tropicalFish);
+                    else
+                        logName = mobInfoManager.getTypeAndName(entity);
+                    plugin.getLogger().info(logName + " released from a Terrarium at " +
                             Utils.locationToString(entity.getLocation()) + " by player " + player.getName() + ".");
                 }
             }
@@ -893,7 +903,12 @@ public class PlayerInteractListener implements Listener {
         player.updateInventory();
         String mobName = mobInfoManager.getTypeAndName(entity);
         player.sendMessage(Component.text("Successfully released the " + mobName + ".", NamedTextColor.GOLD));
-        plugin.getLogger().info(mobName + " released from a crystal trap at " +
+        String logName;
+        if (entity instanceof TropicalFish tropicalFish)
+            logName = mobInfoManager.getTropicalFishNameForLog(tropicalFish);
+        else
+            logName = mobInfoManager.getTypeAndName(entity);
+        plugin.getLogger().info(logName + " released from a crystal trap at " +
                 Utils.locationToString(entity.getLocation()) + " by player " + player.getName() + ".");
         cooldowns.put(player, now);
     }
