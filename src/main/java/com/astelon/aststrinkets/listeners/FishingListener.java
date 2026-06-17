@@ -49,9 +49,9 @@ public class FishingListener implements Listener {
                 possibleTrinket = mainHandItem;
             if (bait.isEnabledTrinket(possibleTrinket) && trinketManager.isOwnedBy(possibleTrinket, player.getName())) {
                 FishHook hook = event.getHook();
-                hook.setMinWaitTime((int) (hook.getMinWaitTime() * bait.getEfficiency()));
-                hook.setMaxWaitTime((int) (hook.getMaxWaitTime() * bait.getEfficiency()));
-                if (random.nextDouble() < bait.getConsumeChance())
+                hook.setMinWaitTime((int) (hook.getMinWaitTime() * bait.getEfficiency(possibleTrinket)));
+                hook.setMaxWaitTime((int) (hook.getMaxWaitTime() * bait.getEfficiency(possibleTrinket)));
+                if (random.nextDouble() < bait.getConsumeChance(possibleTrinket))
                     possibleTrinket.subtract();
             }
         } else if (event.getState() == PlayerFishEvent.State.CAUGHT_FISH) {

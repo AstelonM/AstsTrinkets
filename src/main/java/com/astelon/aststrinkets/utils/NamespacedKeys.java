@@ -69,6 +69,8 @@ public class NamespacedKeys {
     public final NamespacedKey mendingTallyKey;
     public final NamespacedKey junkTallyKey;
     public final NamespacedKey otherTallyKey;
+    public final NamespacedKey consumeChanceKey;
+    public final NamespacedKey efficiencyKey;
 
     public NamespacedKeys(AstsTrinkets plugin) {
         this.plugin = plugin;
@@ -127,6 +129,8 @@ public class NamespacedKeys {
         mendingTallyKey = new NamespacedKey(plugin, "mendingTally");
         junkTallyKey = new NamespacedKey(plugin, "junkTally");
         otherTallyKey = new NamespacedKey(plugin, "otherTally");
+        consumeChanceKey = new NamespacedKey(plugin, "consumeChance");
+        efficiencyKey = new NamespacedKey(plugin, "efficiency");
         initKeyMap();
     }
 
@@ -186,6 +190,8 @@ public class NamespacedKeys {
         keys.put(mendingTallyKey.getKey(), new KeyTypePair(mendingTallyKey, PersistentDataType.INTEGER));
         keys.put(junkTallyKey.getKey(), new KeyTypePair(junkTallyKey, PersistentDataType.INTEGER));
         keys.put(otherTallyKey.getKey(), new KeyTypePair(otherTallyKey, PersistentDataType.INTEGER));
+        keys.put(consumeChanceKey.getKey(), new KeyTypePair(consumeChanceKey, PersistentDataType.DOUBLE));
+        keys.put(efficiencyKey.getKey(), new KeyTypePair(efficiencyKey, PersistentDataType.DOUBLE));
         keys = Collections.unmodifiableMap(keys);
     }
 

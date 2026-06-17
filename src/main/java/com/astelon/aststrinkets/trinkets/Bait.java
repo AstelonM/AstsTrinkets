@@ -9,6 +9,8 @@ import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.persistence.PersistentDataContainer;
+import org.bukkit.persistence.PersistentDataType;
 
 import java.util.List;
 
@@ -32,16 +34,18 @@ public class Bait extends Trinket {
         return itemStack;
     }
 
-    public double getEfficiency() {
-        return efficiency;
+    public double getEfficiency(ItemStack bait) {
+        PersistentDataContainer container = bait.getItemMeta().getPersistentDataContainer();
+        return container.getOrDefault(keys.efficiencyKey, PersistentDataType.DOUBLE, efficiency);
     }
 
     public void setEfficiency(double efficiency) {
         this.efficiency = 1 - efficiency;
     }
 
-    public double getConsumeChance() {
-        return consumeChance;
+    public double getConsumeChance(ItemStack bait) {
+        PersistentDataContainer container = bait.getItemMeta().getPersistentDataContainer();
+        return container.getOrDefault(keys.consumeChanceKey, PersistentDataType.DOUBLE, consumeChance);
     }
 
     public void setConsumeChance(double consumeChance) {
