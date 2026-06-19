@@ -739,3 +739,7 @@ lovePotion:
 # A fishing rod that tallies in the lore your catches: fish, treasure, mending books, junk and other.
 notebookFishingRod:
   enabled: true
+
+# A bucket that can be filled with water and used to harden up to a stack of concrete powder in your inventory.
+portableConcreteMixer:
+  enabled: true

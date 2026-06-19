@@ -87,7 +87,8 @@ public enum Power {
     RESURRECTION("resurrection"),
     DUPLICATE_PLANTS("duplicatePlants"),
     LOVE_MODE("loveMode"),
-    TALLY_FISHING_CATCHES("tallyFishingCatches"),;
+    TALLY_FISHING_CATCHES("tallyFishingCatches"),
+    HARDEN_CONCRETE_POWDER("hardenConcretePowder"),;
 
     private final String powerName;
 

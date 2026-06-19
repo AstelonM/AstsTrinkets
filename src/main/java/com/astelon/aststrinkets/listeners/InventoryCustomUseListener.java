@@ -59,6 +59,7 @@ public class InventoryCustomUseListener implements Listener {
     private final CopperOxidationSolution copperOxidationSolution;
     private final ForbiddenTome forbiddenTome;
     private final ResurrectionScroll resurrectionScroll;
+    private final PortableConcreteMixer portableConcreteMixer;
 
     private final Set<InventoryType> allowedInventories = Set.of(InventoryType.CHEST, InventoryType.DISPENSER, InventoryType.DROPPER,
             InventoryType.PLAYER, InventoryType.ENDER_CHEST, InventoryType.HOPPER, InventoryType.SHULKER_BOX, InventoryType.BARREL);
@@ -83,6 +84,7 @@ public class InventoryCustomUseListener implements Listener {
         copperOxidationSolution = trinketManager.getCopperOxidationSolution();
         forbiddenTome = trinketManager.getForbiddenTome();
         resurrectionScroll = trinketManager.getResurrectionScroll();
+        portableConcreteMixer = trinketManager.getPortableConcreteMixer();
     }
 
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
@@ -377,6 +379,7 @@ public class InventoryCustomUseListener implements Listener {
                             return;
                         }
                         ItemStack result = copperOxidationSolution.oxidize(clickedItem);
+                        // Not doing anything else with it because only thing changed is the type of the item
                         if (result == null) {
                             player.sendMessage(Component.text("This block cannot be oxidized with this solution.", NamedTextColor.RED));
                             return;
@@ -442,6 +445,27 @@ public class InventoryCustomUseListener implements Listener {
                             plugin.getLogger().info("Player " + player.getName() + " used a Scroll of Resurrection on a " +
                                     target.name() + " and resurrected a " + target.name() + " at " + Utils.serializeCoordsLogging(location));
                         }
+                    } else if (portableConcreteMixer.isEnabledTrinket(heldItem)) {
+                        if (clickedItem == null)
+                            return;
+                        if (trinketManager.isTrinketImmune(clickedItem)) {
+                            player.sendMessage(Component.text("Trinkets cannot be used on this item.", NamedTextColor.RED));
+                            return;
+                        }
+                        if (!portableConcreteMixer.hasWater(heldItem)) {
+                            player.sendMessage(Component.text("You need water in the mixer before using it.", NamedTextColor.RED));
+                            return;
+                        }
+                        ItemStack concrete = portableConcreteMixer.hardenConcretePowder(clickedItem);
+                        // Not doing anything else with it because only thing changed is the type of the item
+                        if (concrete == null) {
+                            player.sendMessage(Component.text("You cannot make concrete with this.", NamedTextColor.RED));
+                            return;
+                        }
+                        ItemStack result = portableConcreteMixer.emptyMixer(heldItem);
+                        Utils.transformCursorItem(heldItem, result, player.getInventory(), player);
+                        player.updateInventory();
+                        event.setCancelled(true);
                     }
                 }
             }

@@ -53,7 +53,7 @@ public class SpoiledEgg extends Trinket {
     public void infect(ItemStack source, ItemStack target) {
         if (Utils.isNothing(target) || isTrinket(target))
             return;
-        keys.transferKeys(source, target);
+        keys.copyKeys(source, target);
     }
 
     public double getInfectivity(ItemStack spoiledEgg) {

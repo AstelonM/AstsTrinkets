@@ -257,7 +257,7 @@ public class NamespacedKeys {
         return true;
     }
 
-    public void transferKeys(ItemStack source, ItemStack destination) {
+    public void copyKeys(ItemStack source, ItemStack destination) {
         ItemMeta sourceMeta = source.getItemMeta();
         if (sourceMeta == null)
             return;
@@ -266,11 +266,11 @@ public class NamespacedKeys {
         if (destinationMeta == null)
             destinationMeta = plugin.getServer().getItemFactory().getItemMeta(destination.getType());
         PersistentDataContainer destinationContainer = destinationMeta.getPersistentDataContainer();
-        transferKeys(sourceContainer, destinationContainer);
+        copyKeys(sourceContainer, destinationContainer);
         destination.setItemMeta(destinationMeta);
     }
 
-    public void transferKeys(PersistentDataContainer source, PersistentDataContainer destination) {
+    public void copyKeys(PersistentDataContainer source, PersistentDataContainer destination) {
         for (KeyTypePair keyTypePair : getKeys()) {
             if (source.has(keyTypePair.key, keyTypePair.type)) {
                 //TODO decide what to do if one of the keys could not be set

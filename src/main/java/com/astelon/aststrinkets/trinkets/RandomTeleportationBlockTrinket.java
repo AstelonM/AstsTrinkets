@@ -6,8 +6,6 @@ import com.astelon.aststrinkets.utils.NamespacedKeys;
 import net.kyori.adventure.text.format.TextColor;
 import org.bukkit.Location;
 import org.bukkit.World;
-import org.bukkit.block.Block;
-import org.bukkit.block.BlockState;
 import org.bukkit.block.TileState;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
@@ -27,7 +25,7 @@ public abstract class RandomTeleportationBlockTrinket extends RandomTeleportatio
     public void transferKeys(ItemStack trinket, TileState block) {
         PersistentDataContainer sourceContainer = trinket.getItemMeta().getPersistentDataContainer();
         PersistentDataContainer destinationContainer = block.getPersistentDataContainer();
-        keys.transferKeys(sourceContainer, destinationContainer);
+        keys.copyKeys(sourceContainer, destinationContainer);
     }
 
     public Location findLocation(TileState trinket, World world) {

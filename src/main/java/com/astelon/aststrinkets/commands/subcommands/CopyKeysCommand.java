@@ -31,7 +31,7 @@ public class CopyKeysCommand extends Subcommand {
             player.sendMessage(Component.text("You need to hold something in both hands.", NamedTextColor.RED));
             return;
         }
-        trinketManager.getNamespacedKeys().transferKeys(mainHandItem, offHandItem);
+        trinketManager.getNamespacedKeys().copyKeys(mainHandItem, offHandItem);
         player.sendMessage(Component.text("Keys copied.", NamedTextColor.GOLD));
     }
 

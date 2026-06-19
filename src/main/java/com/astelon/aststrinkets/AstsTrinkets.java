@@ -77,6 +77,7 @@ public class AstsTrinkets extends JavaPlugin {
         pluginManager.registerEvents(new LeashListener(this, trinketManager), this);
         pluginManager.registerEvents(new TeleportationListener(this, trinketManager), this);
         pluginManager.registerEvents(new DispenserListener(this, trinketManager), this);
+        pluginManager.registerEvents(new BucketListener(this, trinketManager), this);
         loadConfig();
         Objects.requireNonNull(getCommand("trinkets")).setExecutor(new TrinketCommand(this, trinketManager));
     }
