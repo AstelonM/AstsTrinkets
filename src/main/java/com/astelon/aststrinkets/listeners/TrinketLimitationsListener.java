@@ -3,6 +3,9 @@ package com.astelon.aststrinkets.listeners;
 import com.astelon.aststrinkets.managers.TrinketManager;
 import com.astelon.aststrinkets.trinkets.*;
 import com.astelon.aststrinkets.trinkets.equipable.*;
+import com.astelon.aststrinkets.trinkets.inventory.AdamantineStrand;
+import com.astelon.aststrinkets.trinkets.inventory.Homendingdirt;
+import com.astelon.aststrinkets.trinkets.inventory.Homendirt;
 import com.destroystokyo.paper.event.inventory.PrepareResultEvent;
 import org.bukkit.Tag;
 import org.bukkit.block.Block;
@@ -37,6 +40,9 @@ public class TrinketLimitationsListener implements Listener {
     private final ItemMagnet itemMagnet;
     private final FrogLegs frogLegs;
     private final UniversalFertilizer universalFertilizer;
+    private final AdamantineStrand adamantineStrand;
+    private final Homendirt homendirt;
+    private final Homendingdirt homendingdirt;
 
     public TrinketLimitationsListener(TrinketManager trinketManager) {
         this.trinketManager = trinketManager;
@@ -54,6 +60,9 @@ public class TrinketLimitationsListener implements Listener {
         itemMagnet = trinketManager.getItemMagnet();
         frogLegs = trinketManager.getFrogLegs();
         universalFertilizer = trinketManager.getUniversalFertilizer();
+        adamantineStrand = trinketManager.getAdamantineStrand();
+        homendirt = trinketManager.getHomendirt();
+        homendingdirt = trinketManager.getHomendingdirt();
     }
 
     @EventHandler(ignoreCancelled = true)
@@ -101,7 +110,8 @@ public class TrinketLimitationsListener implements Listener {
     @EventHandler(ignoreCancelled = true)
     public void onBlockPlace(BlockPlaceEvent event) {
         ItemStack itemStack = event.getItemInHand();
-        if (die.isTrinket(itemStack)) {
+        if (die.isTrinket(itemStack) || adamantineStrand.isTrinket(itemStack) || homendirt.isTrinket(itemStack) ||
+                homendingdirt.isTrinket(itemStack)) {
             event.setCancelled(true);
         }
     }
