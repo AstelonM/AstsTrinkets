@@ -77,7 +77,10 @@ public class BlockListener implements Listener {
         if (trinketManager.isOwnedBy(placedItem, player.getName())) {
             if (infinityItem.isEnabledTrinket(placedItem)) {
                 //TODO Find a way to place the block without consuming the item and without cancelling the event
-                inventory.setItemInMainHand(placedItem);
+                if (mainHand)
+                    inventory.setItemInMainHand(placedItem);
+                else
+                    inventory.setItemInOffHand(placedItem);
             } else if (shulkerBoxContainmentUnit.isEnabledTrinket(placedItem)) {
                 if (shulkerBoxContainmentUnit.hasShulkerBox(placedItem)) {
                     ItemStack shulkerItem = shulkerBoxContainmentUnit.getContainedShulkerBox(placedItem);
