@@ -339,8 +339,9 @@ public class PlayerInteractListener implements Listener {
                 player.updateInventory();
                 plugin.getLogger().info("Eternal youth cookie used on " + mobInfoManager.getTypeAndName(ageable) + " at " +
                         Utils.locationToString(ageable.getLocation()) + " by player " + player.getName() + ".");
-            } else if (infestedWheat.isEnabledTrinket(itemStack) && entity instanceof Cow cow) {
+            } else if (infestedWheat.isEnabledTrinket(itemStack) && entity.getType() == EntityType.COW) {
                 event.setCancelled(true);
+                Cow cow = (Cow) entity;
                 if (trinketManager.isTrinketImmune(cow)) {
                     player.sendMessage(Component.text("Trinkets cannot be used on this entity.", NamedTextColor.RED));
                     return;
