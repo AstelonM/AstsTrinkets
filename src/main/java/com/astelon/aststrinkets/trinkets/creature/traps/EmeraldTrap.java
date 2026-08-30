@@ -40,6 +40,7 @@ public class EmeraldTrap extends CrystalTrap {
         trappableMobs.add(WaterMob.class);
         trappableMobs.add(Spider.class);
         trappableMobs.add(Silverfish.class);
+        trappableMobs.add(Shulker.class);
         trappableMobs.add(Endermite.class);
         untrappableMobs.add(SkeletonHorse.class);
         untrappableMobs.add(ZombieHorse.class);
