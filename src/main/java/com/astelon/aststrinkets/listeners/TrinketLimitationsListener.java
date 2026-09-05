@@ -43,6 +43,7 @@ public class TrinketLimitationsListener implements Listener {
     private final AdamantineStrand adamantineStrand;
     private final Homendirt homendirt;
     private final Homendingdirt homendingdirt;
+    private final HealingHerb healingHerb;
 
     public TrinketLimitationsListener(TrinketManager trinketManager) {
         this.trinketManager = trinketManager;
@@ -63,6 +64,7 @@ public class TrinketLimitationsListener implements Listener {
         adamantineStrand = trinketManager.getAdamantineStrand();
         homendirt = trinketManager.getHomendirt();
         homendingdirt = trinketManager.getHomendingdirt();
+        healingHerb = trinketManager.getHealingHerb();
     }
 
     @EventHandler(ignoreCancelled = true)
@@ -111,7 +113,7 @@ public class TrinketLimitationsListener implements Listener {
     public void onBlockPlace(BlockPlaceEvent event) {
         ItemStack itemStack = event.getItemInHand();
         if (die.isTrinket(itemStack) || adamantineStrand.isTrinket(itemStack) || homendirt.isTrinket(itemStack) ||
-                homendingdirt.isTrinket(itemStack)) {
+                homendingdirt.isTrinket(itemStack) || healingHerb.isTrinket(itemStack)) { //TODO plantable healing herb?
             event.setCancelled(true);
         }
     }
