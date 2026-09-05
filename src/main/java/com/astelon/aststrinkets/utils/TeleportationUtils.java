@@ -1,9 +1,6 @@
 package com.astelon.aststrinkets.utils;
 
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.World;
-import org.bukkit.WorldBorder;
+import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.data.Waterlogged;
 
@@ -87,7 +84,7 @@ public final class TeleportationUtils {
         Block block = origin.getBlock();
         boolean searchDown = true;
         // If this is air or effectively air, look for the first block below that's valid
-        if (block.isPassable() && !isUnsafe(block)) {
+        if (!isPassableUnsafe(block)) {
             Location firstBelow = findFirstValidBelow(origin);
             if (firstBelow != null)
                 return firstBelow;
@@ -114,41 +111,97 @@ public final class TeleportationUtils {
 
     private static Location findFirstValidBelow(Location origin) {
         World world = origin.getWorld();
+        Block highestLocation = world.getHighestBlockAt(origin, HeightMap.MOTION_BLOCKING);
+        if (origin.getBlockY() > highestLocation.getY()) {
+            Block above = getBlockAbove(highestLocation);
+            if (isValid(above))
+                return above.getLocation();
+            return null;
+        }
         int x = origin.getBlockX();
         int y = origin.getBlockY();
         int z = origin.getBlockZ();
-        Location result = origin;
         for (int changedY = y - 1; changedY > world.getMinHeight(); changedY--) {
             Block below = new Location(world, x, changedY, z).getBlock();
-            if (below.isCollidable())
-                return result;
-            if (isUnsafe(below)) //TODO maybe allow 1 deep water
+            if (isValid(below))
+                return below.getLocation();
+            if (isPassableUnsafe(below)) //TODO maybe allow 1 deep water
                 return null;
-            result = new Location(world, x, changedY, z);
         }
         return null;
     }
 
+    private static boolean isValid(Block block) {
+        return isValid(block.getLocation());
+    }
+
     private static boolean isValid(Location location) {
-        Block below = new Location(location.getWorld(), location.getBlockX(), location.getBlockY() - 1, location.getBlockZ())
-                .getBlock();
-        if (!below.isCollidable()) //TODO check for cacti and other damaging solids?
+        Block below = getBlockBelow(location);
+        if (!below.isCollidable() || isCollidableUnsafe(below))
             return false;
         Block lowerHalf = location.getBlock();
-        if (lowerHalf.isCollidable() || isUnsafe(lowerHalf))
+        if (lowerHalf.isCollidable() || isPassableUnsafe(lowerHalf))
             return false;
         Block upperHalf = new Location(location.getWorld(), location.getBlockX(), location.getBlockY() + 1, location.getBlockZ())
                 .getBlock();
-        return !upperHalf.isCollidable() && !isUnsafe(upperHalf);
+        return !upperHalf.isCollidable() && !isPassableUnsafe(upperHalf);
     }
 
-    public static boolean isUnsafe(Block block) {
-        return block.getType() == Material.FIRE || block.getType() == Material.SOUL_FIRE || isLiquid(block);
+    public static boolean isPassableUnsafe(Block block) {
+        return block.isPassable() && (isLiquid(block) || isFire(block) || isSpiky(block) || isFreezing(block));
     }
 
     public static boolean isLiquid(Block block) {
         return block.isLiquid() ||
                 block.isPassable() && block.getBlockData() instanceof Waterlogged waterlogged && waterlogged.isWaterlogged() ||
                 block.getType() == Material.KELP_PLANT || block.getType() == Material.SEAGRASS || block.getType() == Material.TALL_SEAGRASS;
+    }
+
+    public static boolean isFire(Block block) {
+        return block.getType() == Material.FIRE || block.getType() == Material.SOUL_FIRE;
+    }
+
+    public static boolean isSpiky(Block block) {
+        return block.getType() == Material.SWEET_BERRY_BUSH;
+    }
+
+    public static boolean isFreezing(Block block) {
+        return block.getType() == Material.POWDER_SNOW;
+    }
+
+    public static boolean isCollidableUnsafe(Block block) {
+        return isSolidBurning(block) || isUnsafeSnow(block) || isSolidSpiky(block);
+    }
+
+    public static boolean isSolidBurning(Block block) {
+        return block.getType() == Material.MAGMA_BLOCK || block.getType() == Material.CAMPFIRE || block.getType() == Material.SOUL_CAMPFIRE;
+    }
+
+    public static boolean isUnsafeSnow(Block block) {
+        if (block.getType() == Material.SNOW) {
+            Block below = getBlockBelow(block);
+            return !below.isSolid();
+        }
+        return false;
+    }
+
+    public static boolean isSolidSpiky(Block block) {
+        return block.getType() == Material.CACTUS;
+    }
+
+    public static Block getBlockBelow(Block block) {
+        return new Location(block.getWorld(), block.getX(), block.getY() - 1, block.getZ()).getBlock();
+    }
+
+    public static Block getBlockBelow(Location location) {
+        return new Location(location.getWorld(), location.getBlockX(), location.getBlockY() - 1, location.getBlockZ()).getBlock();
+    }
+
+    public static Block getBlockAbove(Block block) {
+        return new Location(block.getWorld(), block.getX(), block.getY() + 1, block.getZ()).getBlock();
+    }
+
+    public static Block getBlockAbove(Location location) {
+        return new Location(location.getWorld(), location.getBlockX(), location.getBlockY() + 1, location.getBlockZ()).getBlock();
     }
 }
